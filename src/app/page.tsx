@@ -21,6 +21,9 @@ export default function Home() {
             .
           </li>
           <li className="tracking-[-.01em]">
+            New list is created for testing.
+          </li>
+          <li className="tracking-[-.01em]">
             Save and see your changes instantly.
           </li>
         </ol>
