@@ -32,6 +32,8 @@ export default function RootLayout({
           <ul className="flex justify-center items-center gap-5">
             <li>Home</li>
             <li>About</li>
+            <li>Blog</li>
+            <li>Service</li>
             <li>Contact</li>
           </ul>
         </nav>
