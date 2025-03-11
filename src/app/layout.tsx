@@ -34,7 +34,8 @@ export default function RootLayout({
             <li>About</li>
             <li>Blog</li>
             <li>Service</li>
-            <li>Contact</li>
+            <li>dlsdlkds</li>
+            <li>Consdtact</li>
           </ul>
         </nav>
         {children}
