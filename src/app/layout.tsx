@@ -27,6 +27,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <nav className="flex justify-between items-center">
+          <h1>Craving</h1>
+          <ul className="flex justify-center items-center gap-5">
+            <li>Home</li>
+            <li>About</li>
+            <li>Contact</li>
+          </ul>
+        </nav>
         {children}
       </body>
     </html>
