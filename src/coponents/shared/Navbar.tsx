@@ -12,6 +12,7 @@ const Navbar = () => {
                     <Link href="/">Home</Link>
                     <Link href="/about">About</Link>
                     <Link href="/blog">Blog</Link>
+                    <Link href="/contact">Contact</Link>
                 </div>
                 <div className="flex justify-center items-center gap-5">
                     <button>Login</button>
