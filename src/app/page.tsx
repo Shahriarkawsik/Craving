@@ -27,7 +27,7 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
           <li className="tracking-[-.01em]">
-            Test new from branch shahriar
+            Test new from branch shahriar Kabir
           </li>
         </ol>
 
