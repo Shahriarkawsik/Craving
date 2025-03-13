@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 
 const geistSans = Geist({
@@ -31,10 +32,11 @@ export default function RootLayout({
         <header>
           <Navbar />
         </header>
-        <main>
-          {/* className="w-11/12 mx-auto"  /removed by shahriar /*/}
+
+        <main className="w-11/12 mx-auto px-4 md:px-8 min-h-[calc(100vh-68px)]">
           {children}
         </main>
+        <Footer></Footer>
       </body>
     </html>
   );
