@@ -1,4 +1,4 @@
-
+"use client"
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -9,8 +9,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, } from "@/components/ui/avatar";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
+  const pathName = usePathname()
   return (
     <div>
       <header className=" shadow-md py-4">
@@ -26,11 +28,11 @@ const Navbar = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="flex items-center space-x-4">
-                  <NavigationMenuLink href="/">Home</NavigationMenuLink>
-                  <NavigationMenuLink href="/aboutUs">
+                  <NavigationMenuLink href="/" className={`${pathName === '/' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>Home</NavigationMenuLink>
+                  <NavigationMenuLink href="/aboutUs" className={`${pathName === '/aboutUs' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>
                     About Us
                   </NavigationMenuLink>
-                  <NavigationMenuLink href="/contactUs">
+                  <NavigationMenuLink href="/contactUs" className={`${pathName === '/contactUs' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>
                     Contact Us
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -46,7 +48,7 @@ const Navbar = () => {
             </div>
             <div>
               <Button variant="destructive">Login</Button>
-              <Button variant="destructive">Logout</Button>
+              {/* <Button variant="destructive">Logout</Button> */}
             </div>
             <div><IoIosNotificationsOutline size={30}/></div>
           </div>
