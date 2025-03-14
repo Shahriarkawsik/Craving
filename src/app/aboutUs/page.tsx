@@ -32,13 +32,13 @@ const AboutUs = () => {
       id: 4,
       name: "Mahbub Hossen",
       role: "Customer Support Lead",
-      image: "https://i.ibb.co.com/BKQ0RhVf/kabir.jpg",
+      image: "https://i.ibb.co.com/RGGKkkn8/mahbub.png",
     },
     {
       id: 5,
       name: "Gulam Jakaria",
       role: "Marketing & Promotions",
-      image: "https://i.ibb.co.com/BKQ0RhVf/kabir.jpg",
+      image: "https://i.ibb.co.com/fG2TDP7k/jakaria.jpg",
     },
     {
       id: 6,
@@ -92,7 +92,7 @@ const AboutUs = () => {
                   alt={member.name}
                   width={150}
                   height={150}
-                  className="rounded-full mx-auto"
+                  className="rounded-full mx-auto hover:scale-105 transition duration-300"
                 />
                 <h3 className="text-xl font-semibold mt-3">{member.name}</h3>
                 <p className="text-gray-500">{member.role}</p>

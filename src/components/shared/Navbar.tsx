@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 import {
   NavigationMenu,
@@ -7,12 +7,20 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { usePathname } from "next/navigation";
+import { GiHamburgerMenu } from "react-icons/gi";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
-  const pathName = usePathname()
+  const pathName = usePathname();
   return (
     <div>
       <header className=" shadow-md py-4">
@@ -24,15 +32,38 @@ const Navbar = () => {
             </Link>
           </div>
           {/* desktop menu  */}
-          <div>
+          <div className="hidden md:flex">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem className="flex items-center space-x-4">
-                  <NavigationMenuLink href="/" className={`${pathName === '/' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>Home</NavigationMenuLink>
-                  <NavigationMenuLink href="/aboutUs" className={`${pathName === '/aboutUs' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>
+                  <NavigationMenuLink
+                    href="/"
+                    className={`${
+                      pathName === "/"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Home
+                  </NavigationMenuLink>
+                  <NavigationMenuLink
+                    href="/aboutUs"
+                    className={`${
+                      pathName === "/aboutUs"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}
+                  >
                     About Us
                   </NavigationMenuLink>
-                  <NavigationMenuLink href="/contactUs" className={`${pathName === '/contactUs' ? 'font-bold border-b-2 border-pink-500' : 'font-semibold'}`}>
+                  <NavigationMenuLink
+                    href="/contactUs"
+                    className={`${
+                      pathName === "/contactUs"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}
+                  >
                     Contact Us
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -46,11 +77,52 @@ const Navbar = () => {
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
             </div>
-            <div>
+            <div className="hidden md:flex">
               <Button variant="destructive">Login</Button>
               {/* <Button variant="destructive">Logout</Button> */}
             </div>
-            <div><IoIosNotificationsOutline size={30}/></div>
+            <div>
+              <IoIosNotificationsOutline size={25} />
+            </div>
+            {/* responsive mobile and tablet  */}
+            <div className="md:hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <GiHamburgerMenu size={20}/>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <Link href="/" className={`${
+                      pathName === "/"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}>Home</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/aboutUs" className={`${
+                      pathName === "/aboutUs"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}>About Us</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/contactUs" className={`${
+                      pathName === "/contactUs"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}>Contact Us</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link href="/login" className={`${
+                      pathName === "/login"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}>Login</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </nav>
       </header>
