@@ -1,4 +1,5 @@
 import Image from "next/image";
+import aboutImage from "../../assets/about.jpg"
 const AboutUs = () => {
   
   interface TeamMember {
@@ -48,17 +49,19 @@ const AboutUs = () => {
   ];
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
+      {/* banner section  */}
       <div
         className="flex justify-center items-center"
         style={{
-          backgroundImage: "url('/about.jpg')",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${aboutImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           height: "280px",
           width: "100%",
         }}
+        
       >
         <div className="w-3xl mx-auto text-center z-50">
           <h2 className="text-2xl md:text-4xl font-bold text-white">
@@ -71,7 +74,8 @@ const AboutUs = () => {
           </p>
         </div>
       </div>
-      <div className="bg-gray-100 min-h-screen">
+      <div className="w-11/12 mx-auto">
+      <div>
         {/* team member  */}
         <section className="container mx-auto p-6">
           <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
@@ -212,6 +216,7 @@ const AboutUs = () => {
           </section>
         </div>
       </div>
+    </div>
     </div>
   );
 };
