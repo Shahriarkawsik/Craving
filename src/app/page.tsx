@@ -1,7 +1,6 @@
 import Banner from "@/components/homeComponents/banner";
 import Category from "@/components/homeComponents/Category";
 import FeaturedFood from "@/components/homeComponents/FeaturedFood";
-// import TopRestaurant from "@/components/homeComponents/TopRestaurant";
 import TopRestaurant from "./../components/homeComponents/TopRestaurant";
 import Support from "@/components/homeComponents/Support";
 
