@@ -45,7 +45,7 @@ const TopRestaurant = () => {
   ];
 
   return (
-    <section className="w-11/12 mx-auto space-y-7">
+    <section className="w-11/12 mx-auto space-y-7" id="nearby-restaurants">
       <h1 className="text-center text-2xl font-bold">Nearby Restaurants</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {restaurants.map((restaurant, index) => (
