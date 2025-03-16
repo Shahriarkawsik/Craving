@@ -20,6 +20,19 @@ const ContactUs = () => {
         query: "",
     });
 
+    // Handle input change 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    // Handle form submission 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        alert("Form submitted!"); // submission functionality and toast will be added later
+    };
+
+
+
     return (
         <div className="bg-gray-100 min-h-screen">
             {/* Banner section */}
@@ -65,7 +78,45 @@ const ContactUs = () => {
                     </div>
                 </div>
             </div>
-
+            {/* contact form */}
+            <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 w-full max-w-3xl mt-8">
+                <h3 className="text-xl font-semibold mb-4">Send Us a Message</h3>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Your Name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Your Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                    <textarea
+                        name="query"
+                        rows={4}
+                        placeholder="Your Message"
+                        value={formData.query}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        required
+                    ></textarea>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                    >
+                        Submit
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
