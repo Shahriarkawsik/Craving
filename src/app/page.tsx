@@ -6,7 +6,7 @@ import TopRestaurant from './../components/homeComponents/TopRestaurant';
 
 export default function Home() {
   return (
-    <section className="lg:space-y-10 lg:my-10 bg-amber-100">
+    <section className="lg:space-y-10 bg-amber-100">
       {/* Banner section */}
       <Banner />
       {/* Category Section */}
