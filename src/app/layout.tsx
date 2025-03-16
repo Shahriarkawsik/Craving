@@ -33,7 +33,7 @@ export default function RootLayout({
           <Navbar />
         </header>
 
-        <main className="w-11/12 mx-auto px-4 md:px-8 min-h-[calc(100vh-68px)]">
+        <main className="min-h-[calc(100vh-68px)]">
           {children}
         </main>
         <Footer></Footer>

@@ -4,7 +4,7 @@ import contactUsBanner from "@/assets/bannerImg/contactUs-banner.jpg"
 import Image from "next/image";
 import whatsappQR from "@/assets/images/whatsappQR.jpg"
 import { useState } from "react";
-import { IoIosSend } from "react-icons/io";
+
 
 interface FormData {
     name: string;
