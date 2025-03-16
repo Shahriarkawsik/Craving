@@ -119,7 +119,7 @@ const AboutUs = () => {
           {/* team member  */}
           <section className="container mx-auto p-6">
             <SectionHeading
-              subtitle="---From 11:00am to 10:00pm---"
+              subtitle="---From 11:00am to 12:00pm---"
               title="Meet Our Food Delivery Team"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
