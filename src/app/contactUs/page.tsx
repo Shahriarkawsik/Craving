@@ -1,11 +1,25 @@
 import contactUsBanner from "@/assets/bannerImg/contactUs-banner.jpg"
 import Image from "next/image";
 import whatsappQR from "@/assets/images/whatsappQR.jpg"
+import { useState } from "react";
+
+interface FormData {
+    name: string;
+    email: string;
+    query: string;
+}
 
 
 
 
 const ContactUs = () => {
+
+    const [formData, setFormData] = useState<FormData>({
+        name: "",
+        email: "",
+        query: "",
+    });
+
     return (
         <div className="bg-gray-100 min-h-screen">
             {/* Banner section */}
@@ -41,6 +55,7 @@ const ContactUs = () => {
                             <p><strong>📞 Phone:</strong> +123 456 7890</p>
                         </div>
                     </div>
+                    {/* whatsapp qr code */}
                     <div className="flex justify-center">
                         <Image
                             src={whatsappQR}
