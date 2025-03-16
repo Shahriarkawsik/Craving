@@ -1,5 +1,6 @@
 import Image from "next/image";
-import aboutImage from "../../assets/about.jpg"
+import aboutBannerImage from "../../assets/bannerImg/about-banner.jpg"
+import ButtonComponent from "@/components/shared/button/ButtonComponent";
 const AboutUs = () => {
   
   interface TeamMember {
@@ -54,11 +55,11 @@ const AboutUs = () => {
       <div
         className="flex justify-center items-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${aboutImage.src})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height: "280px",
+          height: "350px",
           width: "100%",
         }}
         
@@ -67,6 +68,7 @@ const AboutUs = () => {
           <h2 className="text-2xl md:text-4xl font-bold text-white">
             About Us
           </h2>
+          <ButtonComponent title="About Us"/>
           <p className="mt-2 text-white">
             Enjoy fresh, delicious meals delivered straight to your doorstep
             with ease. We connect you to the best restaurants and home chefs for

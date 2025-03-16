@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "../../assets/logo.png"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -28,7 +30,7 @@ const Navbar = () => {
           {/* logo  */}
           <div>
             <Link href="/" className="text-2xl md:text-3xl font-semibold">
-              Craving
+              <Image src={logo} alt="logo"width={50} height={50}/>
             </Link>
           </div>
           {/* desktop menu  */}
