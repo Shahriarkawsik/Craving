@@ -4,6 +4,7 @@ import contactUsBanner from "@/assets/bannerImg/contactUs-banner.jpg"
 import Image from "next/image";
 import whatsappQR from "@/assets/images/whatsappQR.jpg"
 import { useState } from "react";
+import { IoIosSend } from "react-icons/io";
 
 interface FormData {
     name: string;
@@ -60,12 +61,12 @@ const ContactUs = () => {
             </div>
             <div className="flex items-start">
             {/* contact information */}
-                <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 w-full max-w-1/3">
-                    <div>
+                <div className="p-6 md:p-10 w-full max-w-2/5">
+                    <div className="flex flex-col items-center">
                         <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
-                        <div className="mt-4 space-y-3 text-gray-700">
-                            <p><strong>📍 Address:</strong> 123 Street, City, Country</p>
-                            <p><strong>📧 Email:</strong> contact@example.com</p>
+                        <div className="mt-4 text-gray-700 flex flex-col items-center gap-3">
+                            <p><strong>📍 Address:</strong> 221B Baker street, Dhaka</p>
+                            <p><strong>📧 Email:</strong> support@craving.com</p>
                             <p><strong>📞 Phone:</strong> +123 456 7890</p>
                             <p><strong>📩 Whatsapp:</strong></p>
                             <Image
@@ -79,8 +80,8 @@ const ContactUs = () => {
 
                 </div>
                 {/* contact form */}
-                <div className="bg-white shadow-lg rounded-xl p-6 md:p-10 w-full max-w-2/3">
-                    <h3 className="text-xl font-semibold mb-4">Send Us a Message</h3>
+                <div className="p-6 md:p-10 w-full max-w-3/5">
+                    <h3 className="text-2xl font-bold mb-4">Send Us a Message</h3>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <input
                             type="text"
@@ -113,7 +114,7 @@ const ContactUs = () => {
                             type="submit"
                             className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
                         >
-                            Submit
+                        Send
                         </button>
                     </form>
                 </div>
