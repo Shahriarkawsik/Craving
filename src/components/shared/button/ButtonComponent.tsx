@@ -8,7 +8,7 @@ interface ButtonProps {
 const ButtonComponent: React.FC<ButtonProps> = ({ title }) => {
   return (
     <div>
-      <Button variant="outline" className={`${style.btn} bg-transparent hover:bg-transparent`}>{title}</Button>
+      <Button className={`${style.btn} bg-transparent hover:bg-transparent border`}>{title}</Button>
     </div>
   );
 };
