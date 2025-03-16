@@ -1,3 +1,4 @@
+import ButtonComponent from "../shared/button/ButtonComponent";
 const Banner = () => {
   return (
     <section className="relative w-full h-[75vh] overflow-hidden">
@@ -19,9 +20,10 @@ const Banner = () => {
         <p className="text-lg lg:text-2xl mb-8">
           Taste the best dishes made with love!
         </p>
-        <button className="px-6 py-3 bg-white text-black rounded-md text-lg hover:bg-gray-200 transition">
+        <ButtonComponent title="Explore Now" />;
+        {/* <button className="px-6 py-3 bg-white text-black rounded-md text-lg hover:bg-gray-200 transition">
           Explore Now
-        </button>
+        </button> */}
       </div>
     </section>
   );
