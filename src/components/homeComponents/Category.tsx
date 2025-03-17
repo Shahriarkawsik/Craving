@@ -42,7 +42,7 @@ const Category = () => {
     },
   ];
   return (
-    <section className="w-11/12 mx-auto space-y-5 text-center">
+    <section className="w-11/12 mx-auto  space-y-5 text-center">
       <h1 className=" text-2xl lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
         Food Categories
       </h1>

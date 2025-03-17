@@ -25,12 +25,12 @@ const Navbar = () => {
   const pathName = usePathname();
   return (
     <div>
-      <header className=" shadow-md py-4">
+      <header className=" shadow-md py-2">
         <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
           {/* logo  */}
           <div>
             <Link href="/" className="text-2xl md:text-3xl font-semibold">
-              <Image src={logo} alt="logo"width={50} height={50}/>
+              <Image src={logo} alt="logo" width={70} height={70}/>
             </Link>
           </div>
           {/* desktop menu  */}
@@ -42,7 +42,7 @@ const Navbar = () => {
                     href="/"
                     className={`${
                       pathName === "/"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
@@ -52,7 +52,7 @@ const Navbar = () => {
                     href="/aboutUs"
                     className={`${
                       pathName === "/aboutUs"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
@@ -62,7 +62,7 @@ const Navbar = () => {
                     href="/contactUs"
                     className={`${
                       pathName === "/contactUs"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
