@@ -39,7 +39,7 @@ const FeaturedFood = () => {
               className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
             />
             <p className="text-xl absolute top-3 right-3   ">
-              <MdFavoriteBorder className=" p-1 rounded-full w-8 h-8 bg-white " />
+              <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
             </p>
           </div>
           <div className="space-y-2 mx-2 mb-1 p-2">
@@ -65,7 +65,7 @@ const FeaturedFood = () => {
               className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
             />
             <p className="text-xl absolute top-3 right-3   ">
-              <MdFavoriteBorder className=" p-1 rounded-full w-8 h-8 bg-white " />
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
             </p>
           </div>
           <div className="space-y-2 mx-2 mb-1 p-2">
@@ -91,7 +91,7 @@ const FeaturedFood = () => {
               className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
             />
             <p className="text-xl absolute top-3 right-3   ">
-              <MdFavoriteBorder className=" p-1 rounded-full w-8 h-8 bg-white " />
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
             </p>
           </div>
           <div className="space-y-2 mx-2 mb-1 p-2">
@@ -117,7 +117,7 @@ const FeaturedFood = () => {
               className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
             />
             <p className="text-xl absolute top-3 right-3   ">
-              <MdFavoriteBorder className=" p-1 rounded-full w-8 h-8 bg-white " />
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
             </p>
           </div>
           <div className="space-y-2 mx-2 mb-1 p-2">
