@@ -1,6 +1,9 @@
 import Image from "next/image";
 import foodImg from "../../assets/bannerImg/dish-banner-003.jpg";
 
+import { FaStar } from "react-icons/fa6";
+import { MdFavoriteBorder } from "react-icons/md";
+
 const FeaturedFood = () => {
   // interface featuredFood {
   //   name: string;
@@ -18,79 +21,120 @@ const FeaturedFood = () => {
   //   },
   // ];
   return (
-    <section className="w-11/12 mx-auto text-center space-y-5">
-      <h1 className="text-5xl font-bold text-orange-600 uppercase border-b-5 border-t-5 border-orange-300 p-3 inline-block">
-        Featured Food
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="border space-y-4 rounded-lg shadow-2xl">
-          <Image src={foodImg} alt="" className="rounded-lg" />
-          <div className="space-y-2 mx-2">
-            <h1 className="text-center text-2xl font-bold">Barger</h1>
-            <p>
-              <strong>Description:</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              perspiciatis.
-            </p>
-            <p>
-              <strong>Price:</strong> $100
-            </p>
-            <p>
-              <strong>Rating:</strong> 5
-            </p>
-          </div>
-        </div>
-        <div className="border space-y-4 rounded-lg shadow-2xl">
-          <Image src={foodImg} alt="" className="rounded-lg" />
-          <div className="space-y-2 mx-2">
-            <h1 className="text-center text-2xl font-bold">Barger</h1>
-            <p>
-              <strong>Description:</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              perspiciatis.
-            </p>
-            <p>
-              <strong>Price:</strong> $100
-            </p>
-            <p>
-              <strong>Rating:</strong> 5
+    <section className="w-11/12 mx-auto  space-y-5">
+      <div className="text-center">
+        <h1 className=" text-2xl  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+          Featured Food
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+         
+    
+        {/*  this is a card-1 */}
+        <div className=" rounded-lg shadow-2xl ">
+          <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+            <Image
+              src={foodImg}
+              alt=" burger"
+              className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
+            />
+            <p className="text-xl absolute top-3 right-3   ">
+              <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
             </p>
           </div>
-        </div>
-        <div className="border space-y-4 rounded-lg shadow-2xl">
-          <Image src={foodImg} alt="" className="rounded-lg" />
-          <div className="space-y-2 mx-2">
-            <h1 className="text-center text-2xl font-bold">Barger</h1>
-            <p>
-              <strong>Description:</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              perspiciatis.
-            </p>
-            <p>
-              <strong>Price:</strong> $100
-            </p>
-            <p>
-              <strong>Rating:</strong> 5
-            </p>
+          <div className="space-y-2 mx-2 mb-1 p-2">
+            <div className="flex justify-between items-center ">
+              <h1 className=" text-md lg:text-lg font-semibold">Burger</h1>
+              <p className="flex justify-center gap-1 items-center ">
+                {" "}
+                <span className="text-orange-400">
+                  <FaStar />
+                </span>{" "}
+                4.5 <span className=" text-sm">(200+)</span>
+              </p>
+            </div>
+            <strong>$100</strong>
           </div>
         </div>
-        <div className="border space-y-4 rounded-lg shadow-2xl">
-          <Image src={foodImg} alt="" className="rounded-lg" />
-          <div className="space-y-2 mx-2">
-            <h1 className="text-center text-2xl font-bold">Barger</h1>
-            <p>
-              <strong>Description:</strong>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos,
-              perspiciatis.
-            </p>
-            <p>
-              <strong>Price:</strong> $100
-            </p>
-            <p>
-              <strong>Rating:</strong> 5
+        {/*  this is a card-1 */}
+        <div className=" rounded-lg shadow-2xl ">
+          <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+            <Image
+              src={foodImg}
+              alt=" burger"
+              className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
+            />
+            <p className="text-xl absolute top-3 right-3   ">
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
             </p>
           </div>
+          <div className="space-y-2 mx-2 mb-1 p-2">
+            <div className="flex justify-between items-center ">
+              <h1 className=" text-md lg:text-lg font-semibold">Burger</h1>
+              <p className="flex justify-center gap-1 items-center ">
+                {" "}
+                <span className="text-orange-400">
+                  <FaStar />
+                </span>{" "}
+                4.5 <span className=" text-sm">(200+)</span>
+              </p>
+            </div>
+            <strong>$100</strong>
+          </div>
         </div>
+        {/*  this is a card-1 */}
+        <div className=" rounded-lg shadow-2xl ">
+          <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+            <Image
+              src={foodImg}
+              alt=" burger"
+              className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
+            />
+            <p className="text-xl absolute top-3 right-3   ">
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
+            </p>
+          </div>
+          <div className="space-y-2 mx-2 mb-1 p-2">
+            <div className="flex justify-between items-center ">
+              <h1 className=" text-md lg:text-lg font-semibold">Burger</h1>
+              <p className="flex justify-center gap-1 items-center ">
+                {" "}
+                <span className="text-orange-400">
+                  <FaStar />
+                </span>{" "}
+                4.5 <span className=" text-sm">(200+)</span>
+              </p>
+            </div>
+            <strong>$100</strong>
+          </div>
+        </div>
+        {/*  this is a card-1 */}
+        <div className=" rounded-lg shadow-2xl ">
+          <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+            <Image
+              src={foodImg}
+              alt=" burger"
+              className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
+            />
+            <p className="text-xl absolute top-3 right-3   ">
+              <MdFavoriteBorder className=" p-1 hover:border-1 hover:bg-gray-300 rounded-full w-8 h-8 bg-white " />
+            </p>
+          </div>
+          <div className="space-y-2 mx-2 mb-1 p-2">
+            <div className="flex justify-between items-center ">
+              <h1 className=" text-md lg:text-lg font-semibold">Burger</h1>
+              <p className="flex justify-center gap-1 items-center ">
+                {" "}
+                <span className="text-orange-400">
+                  <FaStar />
+                </span>{" "}
+                4.5 <span className=" text-sm">(200+)</span>
+              </p>
+            </div>
+            <strong>$100</strong>
+          </div>
+        </div>
+        
       </div>
     </section>
   );

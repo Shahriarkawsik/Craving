@@ -10,7 +10,7 @@ const Category = () => {
   const categories: categories[] = [
     {
       name: "Fast Food",
-      image: "https://i.ibb.co.com/6RWPKvdr/fast-food.png",
+      image: "https://i.ibb.co.com/6R6dhfjj/fast-food.png",
     },
     {
       name: "Vegetarian",
@@ -18,7 +18,7 @@ const Category = () => {
     },
     {
       name: "Organic food",
-      image: "https://i.ibb.co.com/PGgQSqjk/organic-food.png",
+      image: "https://i.ibb.co.com/YFW48bv1/diet.png",
     },
     {
       name: "Bakery",
@@ -34,7 +34,7 @@ const Category = () => {
     },
     {
       name: "Sea food",
-      image: "https://i.ibb.co.com/G3sqwTfV/sea-food.png",
+      image: "https://i.ibb.co.com/KjSDtPPb/lobster.png",
     },
     {
       name: "Salad",
@@ -42,11 +42,11 @@ const Category = () => {
     },
   ];
   return (
-    <section className="w-11/12 mx-auto space-y-5 text-center">
-      <h1 className="text-5xl font-bold text-orange-600 uppercase border-t-5 border-b-5 border-orange-300 p-3 inline-block">
+    <section className="w-11/12 mx-auto  space-y-5 text-center">
+      <h1 className=" text-2xl lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
         Food Categories
       </h1>
-      <div className="grid lg:grid-cols-8 gap-4 justify-center items-center">
+      <div className="grid mt-10 lg:grid-cols-8 gap-4  justify-center items-center">
         {categories.map((category, index) => (
           <Link key={index} href={"/"}>
             <div className="border rounded-lg p-4 bg-white shadow-2xl hover:scale-105 hover:transition-all hover:border hover:border-orange-600">
@@ -59,7 +59,7 @@ const Category = () => {
                   alt="a fast food image"
                 />
               </figure>
-              <h1 className="text-black font-bold text-2xl">{category.name}</h1>
+              <h1 className="text-black  ">{category.name}</h1>
             </div>
           </Link>
         ))}

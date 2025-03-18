@@ -15,12 +15,12 @@ const Banner = () => {
       {/* Content on top of the video (Optional) */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full w-full bg-black/50 text-white text-center">
         <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-          Welcome to Craving 🍲
+          Welcome to Craving 
         </h1>
-        <p className="text-lg lg:text-2xl mb-8">
+        <p className="text-lg text-gray-200 lg:text-xl mb-8">
           Taste the best dishes made with love!
         </p>
-        <ButtonComponent title="Explore Now" />;
+        <ButtonComponent title="Explore Now" />
         {/* <button className="px-6 py-3 bg-white text-black rounded-md text-lg hover:bg-gray-200 transition">
           Explore Now
         </button> */}

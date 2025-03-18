@@ -98,7 +98,7 @@ const Navbar = () => {
                     href="/"
                     className={`${
                       pathName === "/"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
@@ -110,7 +110,7 @@ const Navbar = () => {
                     href="/aboutUs"
                     className={`${
                       pathName === "/aboutUs"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
@@ -122,7 +122,7 @@ const Navbar = () => {
                     href="/contactUs"
                     className={`${
                       pathName === "/contactUs"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >
