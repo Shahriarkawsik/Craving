@@ -46,32 +46,39 @@ const TopRestaurant = () => {
 
   return (
     <section className="w-11/12 mx-auto space-y-7">
-      <h1 className="text-center text-2xl font-bold">Nearby Restaurants</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="text-center">
+        <h1 className=" text-2xl  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+          Nearby Restaurants
+        </h1>
+      </div>
+
+      <div className="grid mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {restaurants.map((restaurant, index) => (
           <div
             key={index}
-            className="border space-y-4 rounded-lg shadow-2xl bg-white"
+            className="border space-y-4 overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-103  rounded-lg hover:shadow-2xl "
           >
             <figure>
               <Image
-                className="w-full h-full"
+                className="w-full rounded-lg   rounded-b-none  h-full"
                 src={restaurant.photo}
                 width={250}
                 height={250}
                 alt="this is a noodles platter."
               />
             </figure>
-            <div className="space-y-4 mx-2">
-              <h1 className="text-center text-2xl font-bold">
+            <div className="space-y-3  m-3 pb-2">
+              <h1 className="text-xl font-semibold">
                 {restaurant.name}
               </h1>
-              <p className="flex gap-2">
+            <div>
+            <p className="flex mb-1 gap-2">
                 <FaLocationDot className="text-2xl" /> {restaurant.location}
               </p>
               <p className="flex gap-2">
                 <MdFoodBank className="text-2xl" /> {restaurant.bestFood}
               </p>
+            </div>
             </div>
           </div>
         ))}
