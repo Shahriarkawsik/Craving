@@ -25,7 +25,7 @@ const Navbar = () => {
   const pathName = usePathname();
   return (
     <div>
-      <header className=" shadow-md py-2">
+      <header className=" bg-black text-white shadow-md py-2">
         <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
           {/* logo  */}
           <div>
