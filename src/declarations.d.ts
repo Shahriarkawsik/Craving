@@ -1,4 +1,9 @@
+interface MyJsonType {
+  key: string;
+  value: number;
+}
+
 declare module "*.json" {
-  const value: any;
+  const value: MyJsonType;
   export default value;
 }
