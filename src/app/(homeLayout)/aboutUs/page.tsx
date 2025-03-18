@@ -1,5 +1,5 @@
 import Image from "next/image";
-import aboutBannerImage from "../../assets/bannerImg/about-banner.jpg";
+import aboutBannerImage from "../../../assets/bannerImg/about-banner.jpg";
 import ButtonComponent from "@/components/shared/button/ButtonComponent";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { CiFacebook } from "react-icons/ci";

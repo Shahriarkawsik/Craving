@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Footer from "@/components/shared/Footer";
-import Navbar from "@/components/shared/Navbar";
+import "../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,21 +17,17 @@ export const metadata: Metadata = {
   description: "A food delivery app",
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header>
-          <Navbar />
-        </header>
-        <main className="min-h-[calc(100vh-68px)]">{children}</main>
-        <Footer></Footer>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} cz-shortcut-listen="true">
+
+        <div>{children}</div>
+   
       </body>
     </html>
   );
