@@ -45,12 +45,8 @@ const TopRestaurant = () => {
   ];
 
   return (
-    <section className="w-11/12 mx-auto space-y-7">
-      <div className="text-center">
-        <h1 className=" text-2xl  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
-          Nearby Restaurants
-        </h1>
-      </div>
+    <section className="w-11/12 mx-auto space-y-7" id="nearby-restaurants">
+      <h1 className="text-center text-2xl font-bold">Nearby Restaurants</h1>
 
       <div className="grid mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {restaurants.map((restaurant, index) => (
@@ -68,17 +64,15 @@ const TopRestaurant = () => {
               />
             </figure>
             <div className="space-y-3  m-3 pb-2">
-              <h1 className="text-xl font-semibold">
-                {restaurant.name}
-              </h1>
-            <div>
-            <p className="flex mb-1 gap-2">
-                <FaLocationDot className="text-2xl" /> {restaurant.location}
-              </p>
-              <p className="flex gap-2">
-                <MdFoodBank className="text-2xl" /> {restaurant.bestFood}
-              </p>
-            </div>
+              <h1 className="text-xl font-semibold">{restaurant.name}</h1>
+              <div>
+                <p className="flex mb-1 gap-2">
+                  <FaLocationDot className="text-2xl" /> {restaurant.location}
+                </p>
+                <p className="flex gap-2">
+                  <MdFoodBank className="text-2xl" /> {restaurant.bestFood}
+                </p>
+              </div>
             </div>
           </div>
         ))}
