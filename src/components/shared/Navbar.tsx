@@ -68,6 +68,26 @@ const Navbar = () => {
                   >
                     Contact Us
                   </NavigationMenuLink>
+                  <NavigationMenuLink
+                    href="/addResturant"
+                    className={`${
+                      pathName === "/addResturant"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Add Resturant
+                  </NavigationMenuLink>
+                  <NavigationMenuLink
+                    href="/showResturant"
+                    className={`${
+                      pathName === "/showResturant"
+                        ? "font-bold border-b-2 border-pink-500"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Show Resturant
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
@@ -80,8 +100,12 @@ const Navbar = () => {
               </Avatar>
             </div>
             <div className="hidden md:flex">
-              <Button variant="destructive">Login</Button>
-              {/* <Button variant="destructive">Logout</Button> */}
+              <Button variant="destructive">
+                <Link href="/register">SignUp</Link>
+              </Button>
+              <Button variant="destructive">
+                <Link href="/signIn">SignIn</Link>
+              </Button>
             </div>
             <div>
               <IoIosNotificationsOutline size={25} />
