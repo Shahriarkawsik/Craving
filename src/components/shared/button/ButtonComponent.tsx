@@ -1,7 +1,6 @@
 "use client"; 
 import { Button } from "@/components/ui/button";
 import style from "./Button.module.css";
-
 interface ButtonProps {
   title: string;
   onClick?: () => void;

@@ -1,19 +1,17 @@
 /* button css here  */
 .btn {
     cursor: pointer;
+
     position: relative;
-    padding: 25px 20px;
+    padding: 20px 16px;
     color:white;
-    margin: 10px 0 10px 0;
-    font-size: 24px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    transition: all 0.5s;
+    font-size: 16px;
+    transition: all 0.3s;
   }
   
   .btn::after,
   .btn::before {
-    content: "";
+    content: " ";
     width: 20px;
     height: 20px;
     position: absolute;
@@ -24,20 +22,28 @@
   .btn::after {
     top: -1px;
     left: -1px;
-    border-top: 4px solid #ff8a00;
-    border-left: 4px solid #ff8a00;
+  
+   
+    border-top: 2px solid #ff8a00;
+    border-left: 2px solid #ff8a00;
   }
   
   .btn::before {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 4px solid #ff8a00;
-    border-right: 4px solid #ff8a00;
+    bottom: 0px;
+    right: 0px;
+    
+    border-bottom: 2px solid #ff8a00;
+    border-right: 2px solid #ff8a00;
+  }
+  .btn  {
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
   
   .btn:hover {
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    
   }
   
   .btn:hover::before,
