@@ -81,7 +81,7 @@ const Navbar = () => {
             </Avatar>
           </div>
           <div className="hidden md:flex">
-            <Button variant="destructive">Login</Button>
+            <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >Login</Button>
             {/* <Button variant="destructive">Logout</Button> */}
           </div>
           <div>

@@ -46,7 +46,7 @@ const Category = () => {
       <h1 className=" text-2xl lg:text-4xl my-10 text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
         Food Categories
       </h1>
-      <div className="grid  grid-cols-2 lg:grid-cols-8 gap-4  justify-center items-center">
+      <div className="grid  grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4  justify-center items-center">
         {categories.map((category, index) => (
           <Link key={index} href={"/"}>
             <div className="border rounded-lg p-4 bg-white shadow-2xl hover:scale-105 hover:transition-all hover:border hover:border-orange-600">
