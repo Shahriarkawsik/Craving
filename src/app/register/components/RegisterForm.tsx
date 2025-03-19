@@ -6,7 +6,8 @@ import toast from "react-hot-toast";
 // import SocialLogin from "./SocialLogin";
 import { FormEvent } from "react";
 import registerUser from "@/app/actions/auth/registerUser";
-
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 // ✅ ইউজার রেজিস্ট্রেশনের ডাটা টাইপের জন্য ইন্টারফেস
 interface RegisterData {
     name: string;
@@ -14,10 +15,12 @@ interface RegisterData {
     password: string;
 }
 
-const RegisterForm: React.FC = () => {
-    // const router = useRouter();
 
-    // ✅ handleRegister ফাংশনে টাইপ নির্ধারণ করা হয়েছে
+const RegisterForm: React.FC = () => {
+    const router = useRouter();
+    const {data: session, status} = useSession()
+    console.log(session)
+    
     const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -30,33 +33,22 @@ const RegisterForm: React.FC = () => {
         console.log(userData)
         toast('Creating ...');
 
-
-        const result = await registerUser(userData);
-        console.log(result)
-
         try {
-            const result = await registerUser(userData);
-            if (result.insertedId) {
-                toast.success('Account Create Successfully!')
-                console.log(result)
-            }else if(result === 'Already Have an Account'){
-                toast.error('Already Registered')
-            }else{
-                toast.error('Registration failed Please Try after sometime')
+            const result: { insertedId?: string } | 'Already Have an Account' | null = await registerUser(userData);
+
+            if (result && typeof result === 'object' && 'insertedId' in result) {
+                await signIn('credentials', { email, password, redirect: false });
+                router.push('/')
+                toast.success('Account Created Successfully!');
+                console.log(result);
+            } else if (result === 'Already Have an Account') {
+                toast.error('Already Registered');
+            } else {
+                toast.error('Registration failed. Please try again later.');
             }
         } catch (error) {
-            console.log(error)
+            console.error(error);
         }
-        
-        // if (result.insertedId) {
-        //     const loginResult = await signIn('credentials', { email, password, redirect: false });
-        //     if (loginResult?.ok) {
-        //         toast.success('Register Success!');
-        //         router.push('/');
-        //     }
-        // }
-
-        // console.log(result);
     };
 
     return (
