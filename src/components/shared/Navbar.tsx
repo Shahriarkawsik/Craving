@@ -79,8 +79,12 @@ const Navbar = () => {
             </Avatar>
           </div>
           <div className="hidden md:flex">
-            <Button variant="destructive">Login</Button>
-            {/* <Button variant="destructive">Logout</Button> */}
+            <Link href="/signIn">
+            <Button variant="destructive">SignIn</Button>
+            </Link>
+            <Link href="/register">
+            <Button variant="destructive">SignUp</Button>
+            </Link>
           </div>
           <div>
             <IoIosNotificationsOutline size={25} />

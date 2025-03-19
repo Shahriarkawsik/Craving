@@ -1,23 +1,17 @@
-import loginUser from "@/app/actions/auth/loginUser";
-import dbConnect, { collectionNamesObj } from "@/DB/dbConnect";
+
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import SignInUser from "@/app/action/auth/signInUser";
 
-type Credentials = {
+// Define the shape of the credentials passed into `authorize`
+interface Credentials {
   email: string;
   password: string;
-};
+}
 
-type UserData = {
-  providerAccountId: string;
-  provider: string;
-  email?: string;
-  image?: string;
-  name?: string;
-};
-
+// Define the `authOptions` with proper typing
 export const authOptions: NextAuthOptions = {
+  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -25,44 +19,31 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text", placeholder: "Enter Email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        console.log(credentials)
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
+      async authorize(credentials: Credentials | undefined) {
+        if (!credentials) {
+          return null; // Return null if no credentials are provided
         }
-        // const user = a
-        const user = await loginUser(credentials as Credentials);
+
+        // Call the SignInUser function with the provided email
+        const user = await SignInUser(credentials.email);
+        console.log(user)
+
+        // If no error and we have user data, return it
         if (user) {
-          return user;
-        } else {
-          throw new Error("Invalid email or password");
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || "Anonymous",  // Fallback to "Anonymous" if no name is available
+          };
         }
+
+        // Return null if user data could not be retrieved
+        return null;
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
   ],
-
   pages: {
-    signIn: "/login",
-  },
-
-  callbacks: {
-    async signIn({ user, account }) {
-      if (account) {
-        const { providerAccountId, provider } = account;
-        const { email, image, name } = user;
-        const userCollection = dbConnect(collectionNamesObj.userCollection);
-        const isExistUser = await userCollection.findOne({ providerAccountId });
-        if (!isExistUser) {
-          const userData: UserData = { providerAccountId, provider, email, image, name };
-          await userCollection.insertOne(userData);
-        }
-      }
-      return true;
-    },
+    signIn: "/signin", // Custom sign-in page
   },
 };
 

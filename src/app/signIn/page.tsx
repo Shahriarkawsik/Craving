@@ -2,60 +2,38 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { registerUser } from "../action/auth/allApi";
 import { FormEvent } from "react";
-import { toast } from 'react-toastify';
-import { useState } from "react";
-
-const Register = () => {
-  const [error, setError] = useState<string | null>(null)
-
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+import { signIn } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+const SignIn = () => {
+  const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
 
-      if (!passwordRegex.test(password)) {
-        toast.error("Register failed");
-        setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
-        return;
+    try {
+      const response = await signIn("credentials", { email, password, callbackUrl:'/', redirect:false });
+      if(response?.ok) {
+        router.push('/')
+        form.reset()
+      }else{
+        alert('Authentication failed')
       }
 
-    try {
-      await registerUser({name, email, password});
-      toast.success("User register is successfully", {
-        position: "bottom-right",
-      })
-      form.reset()
     } catch (error) {
-      console.log(error)
-      toast.error("User register is failed")
+      alert(error);
     }
   };
-
   return (
     <div className="w-6/12 mx-auto">
       <h3 className="text-center mb-5 text-2xl md:text-3xl font-semibold">
-        Sign Up
+        sign in your account
       </h3>
       <div className="px-5 lg:px-8 py-6">
         <form onSubmit={handleSubmit}>
-          <div className="w-full mb-3">
-            <label className="text-gray-700" htmlFor="name">
-              Name
-            </label>
-            <Input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              required
-            />
-          </div>
-
           <div className="w-full mb-3">
             <label className="text-gray-700">Email</label>
             <Input
@@ -68,7 +46,6 @@ const Register = () => {
 
           <div className="w-full mb-3">
             <label className="text-gray-700">Password</label>
-            <p className="text-xs text-red-500 mb-2 italic">{error}</p>
             <Input
               type="password"
               name="password"
@@ -79,7 +56,7 @@ const Register = () => {
 
           <div className="mt-6 text-center">
             <Button variant="outline" type="submit">
-              Sign Up
+              Sign In
             </Button>
           </div>
         </form>
@@ -88,4 +65,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignIn;
