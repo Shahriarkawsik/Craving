@@ -1,8 +1,8 @@
-// import RegisterForm from '@/components/RegisterForm'
+
 import React from 'react'
-import RegisterForm from './components/RegisterForm'
-import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
+import RegisterForm from '@/components/registerComponents/RegisterForm';
+import SocialLogin from '@/components/shared/SocialLogin';
 export default function register() {
 
     return (
@@ -14,9 +14,7 @@ export default function register() {
                     <div className="w-full h-px bg-gray-300"></div>
                     <span className="absolute bg-white px-4 text-gray-500">or</span>
                 </div>
-                <button className="flex items-center justify-center w-full p-3 border border-gray-300 rounded-lg hover:bg-gray-100">
-                    <FcGoogle className="text-xl mr-2" /> Sign in with Google
-                </button>
+                <SocialLogin />
                 <p className="text-center text-gray-600 text-sm">Already have an account? <Link href="/login" className="text-green-600 hover:underline">Login</Link></p>
             </div>
         </div>
