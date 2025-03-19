@@ -80,10 +80,10 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex">
             <Link href="/signIn">
-            <Button variant="destructive">Login</Button>
+            <Button variant="destructive">SignIn</Button>
             </Link>
             <Link href="/register">
-            <Button variant="destructive">Logout</Button>
+            <Button variant="destructive">SignUp</Button>
             </Link>
           </div>
           <div>
