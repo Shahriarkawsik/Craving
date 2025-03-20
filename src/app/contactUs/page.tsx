@@ -2,7 +2,9 @@
 
 import contactUsBanner from "@/assets/bannerImg/contactUs-banner.jpg";
 import Image from "next/image";
-import whatsappQR from "@/assets/images/whatsappQR.jpg";
+// import whatsappQR from "@/assets/images/whatsappQR.jpg";
+import rider from "@/assets/images/Untitled design (2).png";
+import owner from "@/assets/images/pexels-thelazyartist-1342609.jpg";
 import { useState } from "react";
 
 interface FormData {
@@ -59,37 +61,60 @@ const ContactUs = () => {
 
       {/* get in touch section  */}
       <div className=" w-11/12 mx-auto py-10">
-        <h3 className="text-4xl font-bold mb-4">Get in Touch</h3>
+        <h3 className="text-4xl font-bold mb-4">
+          Get in <span className="text-amber-500">Touch</span>
+        </h3>
 
-        <div className="flex items-start">
+        <div className="grid lg:grid-cols-2 gap-3">
           {/* contact information */}
 
-          <div className="p-6 md:p-10 w-full max-w-2/5">
-            <div className="flex flex-col items-center">
-              <div className="mt-4 text-gray-700 flex flex-col items-center gap-3">
-                <p>
-                  <strong>📍 Address:</strong> 221B Baker street, Dhaka
-                </p>
-                <p>
-                  <strong>📧 Email:</strong> support@craving.com
-                </p>
-                <p>
-                  <strong>📞 Phone:</strong> +123 456 7890
-                </p>
-                <p>
-                  <strong>📩 Whatsapp:</strong>
-                </p>
+          <div className="py-6 md:py-10  ">
+            <div className="mt-4  text-gray-700 grid grid-cols-2 items-center  gap-4 lg:gap-5">
+              <div className="relative ">
                 <Image
-                  src={whatsappQR}
-                  alt="whatsapp QR code"
-                  className="w-40 h-40 rounded-lg shadow-md"
+                  src={rider}
+                  alt="rider"
+                  className=" h-45 w-45  hover:scale-110 mx-auto rounded-lg bg-gray-100 border-2  border-amber-500 "
                 />
+                <div className="-mt-7   text-white  font-semibold  text-xl flex items-center justify-center ">
+                 <p className=" bg-gray-700    rounded-b-lg px-11 lg:px-12">Be Rider</p>
+                </div>
               </div>
+              <div>
+                <Image
+                  src={owner}
+                  alt="owner"
+                  className="w-45 mx-auto h-45  hover:scale-110 rounded-lg bg-gray-100 border-2  border-amber-500 "
+                />
+                 <div className="-mt-7   text-white font-semibold text-xl flex items-center justify-center ">
+                 <p className="bg-gray-700  rounded-b-lg  px-10">Be Owner</p>
+                </div>
+              </div>
+
+              <p className="py-3 size-5xl pl-3 text-center rounded-lg bg-gray-100 border-2  border-amber-500">
+                📍 Mirpur, Dhaka
+              </p>
+
+              <p className="py-3 pl-3 text-center  rounded-lg bg-gray-100 border-2  border-amber-500">
+                📞+123 456 7890
+              </p>
+
+              <p className="py-3  text-center pl-3 col-span-2 rounded-lg bg-gray-100 border-2  border-amber-500">
+                📧 support@craving.com
+              </p>
+
+              {/* <Image
+                src={whatsappQR}
+                alt="whatsapp QR code"
+                className="w-12 mx-auto h-12 rounded-lg bg-gray-100 border-2  border-amber-500 "
+              /> */}
             </div>
           </div>
           {/* contact form */}
-          <div className="p-6 md:p-10 w-full max-w-3/5">
-            <h3 className="text-2xl font-bold mb-4">Send Us a Message</h3>
+          <div className="p-6 md:p-10  ">
+            <h3 className="text-2xl lg:text-3xl font-bold mb-4">
+              Send us a Message
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <input
                 type="text"
@@ -97,7 +122,7 @@ const ContactUs = () => {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 required
               />
               <input
@@ -106,7 +131,7 @@ const ContactUs = () => {
                 placeholder="Your Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 required
               />
               <textarea
@@ -115,12 +140,12 @@ const ContactUs = () => {
                 placeholder="Your Message"
                 value={formData.query}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                 required
               ></textarea>
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition"
+                className="w-full bg-amber-500 text-white font-semibold py-2 rounded-lg hover:bg-amber-600 transition"
               >
                 Send
               </button>

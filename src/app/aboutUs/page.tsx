@@ -93,7 +93,7 @@ const AboutUs = () => {
       <div
         className="flex justify-center items-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7n), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
