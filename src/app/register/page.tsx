@@ -5,12 +5,15 @@ import { Button } from "@/components/ui/button";
 import { registerUser } from "../action/auth/allApi";
 import { FormEvent } from "react";
 import { toast } from 'react-toastify';
-import { useState } from "react";
+// import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
+  // const [error, setError] = useState<string | null>(null)
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+  // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -19,21 +22,26 @@ const Register = () => {
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
 
-      if (!passwordRegex.test(password)) {
-        toast.error("Register failed");
-        setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
-        return;
-      }
+      // if (!passwordRegex.test(password)) {
+      //   toast.error("Register failed");
+      //   setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
+      //   return;
+      // }
 
     try {
       await registerUser({name, email, password});
       toast.success("User register is successfully", {
-        position: "bottom-right",
+        position: "top-center",
+        autoClose:1000,
       })
       form.reset()
+      router.push('/')
     } catch (error) {
       console.log(error)
-      toast.error("User register is failed")
+      toast.error("User register is failed", {
+        position: "top-center",
+        autoClose:1000,
+      })
     }
   };
 
@@ -68,7 +76,7 @@ const Register = () => {
 
           <div className="w-full mb-3">
             <label className="text-gray-700">Password</label>
-            <p className="text-xs text-red-500 mb-2 italic">{error}</p>
+            {/* <p className="text-xs text-red-500 mb-2 italic">{error}</p> */}
             <Input
               type="password"
               name="password"
