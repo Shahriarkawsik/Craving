@@ -1,12 +1,13 @@
+/* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { FaFacebook, FaLinkedin, FaSquareInstagram } from "react-icons/fa6";
-import { AiFillTikTok } from "react-icons/ai";
+
 
 const Footer = () => {
   return (
-    <footer className=" bg-gradient-to-b from-orange-500 to-gray-700  text-white  w-full  overflow-hidden ">
+    <footer className="  border-t-2 border-gray-200 w-full bg-gray-50  overflow-hidden ">
       <div className="w-11/12 mx-auto space-y-7 my-10  ">
         <Link href="/" className="text-2xl md:text-3xl font-semibold">
           <Image src={logo} alt="logo" width={90} height={90} />

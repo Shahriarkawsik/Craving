@@ -1,6 +1,5 @@
 import Image from "next/image";
-import aboutBannerImage from "../../assets/bannerImg/about-banner.jpg";
-import ButtonComponent from "@/components/shared/button/ButtonComponent";
+import aboutBannerImage from "../../assets/bannerImg/pexels-ella-olsson-572949-1640770.jpg";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
@@ -94,7 +93,7 @@ const AboutUs = () => {
       <div
         className="flex justify-center items-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -102,11 +101,12 @@ const AboutUs = () => {
           width: "100%",
         }}
       >
+        {/* this is a banner  */}
+
         <div className="w-3xl mx-auto text-center z-50">
           <h2 className="text-2xl md:text-4xl font-bold text-white">
             About Us
           </h2>
-          <ButtonComponent title="About Us" />
           <p className="mt-2 text-white">
             Enjoy fresh, delicious meals delivered straight to your doorstep
             with ease. We connect you to the best restaurants and home chefs for
@@ -119,7 +119,7 @@ const AboutUs = () => {
           {/* team member  */}
           <section className="container mx-auto p-6">
             <SectionHeading
-              subtitle="---From 11:00am to 01:00pm---"
+              subtitle="---From 11:00am to 05:00pm---"
               title="Meet Our Food Delivery Team"
             />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
@@ -134,7 +134,7 @@ const AboutUs = () => {
                       alt={member.name}
                       width={150}
                       height={150}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover rounded-lg"
                     />
                     {/* Overlay */}
                     <div className="overlay">

@@ -3,7 +3,7 @@ import React from "react";
 import Lottie from "lottie-react";
 import supportLottie from "../../assets/supportLottie.json";
 import Link from "next/link";
-import ButtonComponent from "../shared/button/ButtonComponent";
+
 // import SectionHeading from "../shared/SectionHeading";
 
 const Support: React.FC = () => {

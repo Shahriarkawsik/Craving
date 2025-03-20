@@ -68,6 +68,17 @@ const Navbar = () => {
                 >
                   Contact Us
                 </NavigationMenuLink>
+                <NavigationMenuLink
+                  href="/profile"
+                  className={`${
+                    pathName === "/profile"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                Profile
+                </NavigationMenuLink>
+
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
