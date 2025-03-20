@@ -12,9 +12,6 @@ interface FormData {
     query: string;
 }
 
-
-
-
 const ContactUs = () => {
 
     const [formData, setFormData] = useState<FormData>({
