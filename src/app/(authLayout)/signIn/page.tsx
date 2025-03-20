@@ -6,6 +6,7 @@ import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import SocialLogin from "@/components/shared/SocialLogin";
 const SignIn = () => {
   const router = useRouter();
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -75,6 +76,7 @@ const SignIn = () => {
                 Sign In
               </Button>
             </div>
+            <SocialLogin></SocialLogin>
           </form>
         </div>
         <div className="relative flex items-center justify-center my-4">
