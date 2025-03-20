@@ -24,6 +24,11 @@ export function AppSidebar() {
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
+                  <Link href="/">
+                    Home
+                  </Link>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
                   <Link href="/dashboard/admin/allResturant">
                     All Resturants
                   </Link>
