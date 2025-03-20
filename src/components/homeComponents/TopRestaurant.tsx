@@ -20,25 +20,25 @@ const TopRestaurant = () => {
     },
     {
       name: "Sea Breeze Café",
-      photo: "https://i.ibb.co.com/1J024rwp/restaurant-Img-001.jpg",
+      photo: "https://i.ibb.co/1J024rwp/restaurant-Img-001.jpg",
       location: "Cox's Bazar, Bangladesh",
       bestFood: "Grilled Lobster with Garlic Butter",
     },
     {
       name: "Urban Bites",
-      photo: "https://i.ibb.co.com/1J024rwp/restaurant-Img-001.jpg",
+      photo: "https://i.ibb.co/1J024rwp/restaurant-Img-001.jpg",
       location: "Gulshan, Dhaka",
       bestFood: "Cheese-stuffed Burgers",
     },
     {
       name: "Green Leaf Vegan",
-      photo: "https://i.ibb.co.com/1J024rwp/restaurant-Img-001.jpg",
+      photo: "https://i.ibb.co/1J024rwp/restaurant-Img-001.jpg",
       location: "Banani, Dhaka",
       bestFood: "Quinoa Avocado Salad",
     },
     {
       name: "Golden Wok",
-      photo: "https://i.ibb.co.com/1J024rwp/restaurant-Img-001.jpg",
+      photo: "https://i.ibb.co/1J024rwp/restaurant-Img-001.jpg",
       location: "Chittagong, Bangladesh",
       bestFood: "Szechuan Chicken Noodles",
     },
@@ -61,6 +61,7 @@ const TopRestaurant = () => {
                 width={250}
                 height={250}
                 alt="this is a noodles platter."
+                unoptimized
               />
             </figure>
             <div className="space-y-3  m-3 pb-2">
