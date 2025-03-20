@@ -17,10 +17,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Admin</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href="/">Home</Link>
-              </SidebarMenuItem>
-              <SidebarGroupLabel>Admin</SidebarGroupLabel>
+              {/* all admin dashboard */}
               <SidebarMenuItem>
                 <Link href="/dashboard/admin/allResturant">All Resturants</Link>
               </SidebarMenuItem>
@@ -38,6 +35,28 @@ export function AppSidebar() {
                   Review Applications
                 </Link>
               </SidebarMenuItem>
+              {/* resturant owner's dashboard  */}
+              <SidebarMenuItem>
+                <Link href="/dashboard/resturantOwner/addFoodItem">
+                  Add Food Item
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/resturantOwner/allFoodItem">
+                  All Food Item
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/resturantOwner/statistics">
+                  Statistics
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/resturantOwner/orderHistory">
+                  Order History
+                </Link>
+              </SidebarMenuItem>
+              {/* riders dashboard  */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
