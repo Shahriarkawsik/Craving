@@ -15,7 +15,6 @@ async function dbConnect(): Promise<Db> {
     await cachedClient.connect();
     console.log("Connected to MongoDB");
   }
-console.log(process.env.DB_NAME, "this is url")
   return cachedClient.db(process.env.DB_NAME as string);
 }
 
