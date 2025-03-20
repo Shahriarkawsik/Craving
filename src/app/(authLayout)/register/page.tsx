@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { registerUser } from "../action/auth/allApi";
+import { registerUser } from "../../action/auth/allApi";
 import { FormEvent } from "react";
 import { toast } from 'react-toastify';
 // import { useState } from "react";
