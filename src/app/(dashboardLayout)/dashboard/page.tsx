@@ -47,6 +47,11 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
+                <Link href="/dashboard/resturantOwner/addResturant">
+                  Add Resturant
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
                 <Link href="/dashboard/resturantOwner/statistics">
                   Statistics
                 </Link>
@@ -57,6 +62,21 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
               {/* riders dashboard  */}
+              <SidebarMenuItem>
+                <Link href="/dashboard/riders/availableOrders">
+                  Available Orders
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/riders/myOrders">
+                  My Orders
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/riders/orderHistory">
+                  Orders History
+                </Link>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
