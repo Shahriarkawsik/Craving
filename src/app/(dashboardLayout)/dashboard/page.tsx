@@ -1,5 +1,3 @@
-import {Home, Inbox, Search, Settings } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -7,33 +5,9 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
-// Menu items.
-const items = [
-  {
-    title: "Home",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Add Resturant",
-    url: "/dashboard/addResturant",
-    icon: Inbox,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-];
+import Link from "next/link";
 
 export function AppSidebar() {
   return (
@@ -43,16 +17,27 @@ export function AppSidebar() {
           <SidebarGroupLabel>Admin</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              <SidebarMenuItem>
+                <Link href="/">Home</Link>
+              </SidebarMenuItem>
+              <SidebarGroupLabel>Admin</SidebarGroupLabel>
+              <SidebarMenuItem>
+                <Link href="/dashboard/admin/allResturant">All Resturants</Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/admin/allRiders">All Riders</Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/admin/statistics">statistics</Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/admin/applications">Applications</Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/dashboard/admin/reviewApplication">
+                  Review Applications
+                </Link>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -60,4 +45,4 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
-export default AppSidebar
+export default AppSidebar;
