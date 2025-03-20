@@ -28,6 +28,7 @@ const Register = () => {
     //   setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
     //   return;
     // }
+    
 
     try {
       await registerUser({ name, email, password });
