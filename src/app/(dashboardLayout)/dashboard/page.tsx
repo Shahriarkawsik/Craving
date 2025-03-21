@@ -73,6 +73,7 @@ export function AppSidebar() {
               </Link>
             </SidebarMenuItem>
           </SidebarGroupContent>
+          
           {/* riders dashboard */}
           <SidebarGroupContent>
             <SidebarMenuItem>
