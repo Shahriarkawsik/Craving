@@ -54,7 +54,7 @@ interface FoodItem {
   created_at: string;
   owner_email: string;
 }
-
+//  get all food specific owner
 export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
@@ -67,4 +67,30 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   // console.log(foodData);
 
   return formattedFoodData;
+};
+
+
+interface CommonPayload {
+  id: string;
+}
+
+export const deleteFood = async (payload: CommonPayload): Promise<void> => {
+  console.log(payload)
+  try {
+      
+      const db = await dbConnect();
+      const foodCollection = db.collection("food");
+
+      const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+
+      console.log(result);
+
+      if (result.deletedCount === 0) {
+          throw new Error("No item found to delete");
+      }
+      
+  } catch (error) {
+      console.error("Error deleting food item:", error);
+      throw error; 
+  }
 };

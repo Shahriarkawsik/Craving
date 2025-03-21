@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table"
 
 
-import { getAllFoodsData } from "@/app/action/auth/allApi";
+import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -33,18 +33,32 @@ export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
   const email = "mhbabu2002@gmail.com";
 
+
+  const fetchData = async () => {
+    try {
+      const data = await getAllFoodsData(email);
+      setFoodData(data);
+    } catch (error) {
+      console.error("Error fetching food data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllFoodsData(email);
-        setFoodData(data);
-      } catch (error) {
-        console.error("Error fetching food data:", error);
-      }
-    };
 
     fetchData();
   }, []);
+
+  const handleDeleteFood = async (id: string): Promise<void> => {
+    try {
+        const result = await deleteFood({ id });
+        console.log(result);
+        fetchData();
+    } catch (error) {
+        console.error("Error deleting food item:", error);
+    }
+};
+
+
   console.log(foodData)
   return (
     <div className="w-11/12 mx-auto mt-6 overflow-x-auto">
@@ -71,7 +85,7 @@ export default function AllFoodItems() {
               <td className="border p-2">${food.price}</td>
               <td className="border p-2 flex flex-col md:flex-row gap-2 justify-center">
                 <button className="bg-blue-500 text-white px-3 py-1 rounded">Edit</button>
-                <button className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                <button onClick={() => handleDeleteFood(food._id)} className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
                 <button className="bg-green-500 text-white px-3 py-1 rounded">Details</button>
               </td>
             </tr>
