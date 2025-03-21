@@ -1,6 +1,7 @@
 "use server";
-
+import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
+import { Collection } from "mongodb";
 
 interface CommonPayload {
   name?: string; 
@@ -36,4 +37,34 @@ export const addResturant = async (payload: CommonPayload): Promise<void> => {
     owner:payload.owner,
     email:payload.email
   })
+};
+
+
+
+interface FoodItem {
+  _id: string;
+  id: string;
+  restaurant_id: string;
+  foodName: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+  created_at: string;
+  owner_email: string;
+}
+
+export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodData = await foodCollection.find({ owner_email: email }).toArray();
+  const formattedFoodData = foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
+  // console.log(foodData);
+
+  return formattedFoodData;
 };
