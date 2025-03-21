@@ -1,8 +1,8 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { FaLinkedin } from "react-icons/fa6";
 // import { Github, Linkedin, Twitter } from "lucide-react";
 
 const Profile = () => {
@@ -24,7 +24,6 @@ const Profile = () => {
       linkedinUrl: " https://www.linkedin.com/in/rakib-rkb",
       fbUrl: " https://www.facebook.com/profile.php?id=100007789877647",
     },
-   
   ];
   // const profile = userProfile[0];
 
@@ -32,9 +31,11 @@ const Profile = () => {
     <div className="">
       <div className="w-11/12 mx-auto ">
         <div>
-          {userProfile.map((profile) => (
-            // eslint-disable-next-line react/jsx-key
-            <Card className="w-full max-w-sm rounded-2xl shadow-lg bg-white dark:bg-gray-900 p-4">
+          {userProfile.map((profile, index) => (
+            <Card
+              key={index}
+              className="w-full max-w-sm rounded-2xl shadow-lg  p-4"
+            >
               <CardHeader className="flex flex-col items-center">
                 <Avatar className="w-24 h-24">
                   <AvatarImage src={profile.imageUrl} alt={profile.name} />
@@ -51,7 +52,7 @@ const Profile = () => {
                 {profile.linkedinUrl && (
                   <Button variant="ghost" size="icon" asChild>
                     <a href={profile.linkedinUrl} target="_blank">
-                      {/* <Linkedin className="w-5 h-5 text-blue-600 dark:text-blue-400" /> */}
+                      <FaLinkedin className="w-5 h-5 text-blue-600" />
                     </a>
                   </Button>
                 )}
