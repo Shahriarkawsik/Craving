@@ -1,6 +1,7 @@
 "use server";
-
+import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
+import { Collection } from "mongodb";
 
 interface CommonPayload {
   name?: string;
@@ -64,4 +65,60 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     is_available: payload.is_available,
     created_at : payload.created_at,
   });
+};
+
+
+
+interface FoodItem {
+  _id: string;
+  id: string;
+  restaurant_id: string;
+  foodName: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+  created_at: string;
+  owner_email: string;
+}
+//  get all food specific owner
+export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodData = await foodCollection.find({ owner_email: email }).toArray();
+  const formattedFoodData = foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
+  // console.log(foodData);
+
+  return formattedFoodData;
+};
+
+
+interface CommonPayload {
+  id: string;
+}
+
+export const deleteFood = async (payload: CommonPayload): Promise<void> => {
+  console.log(payload)
+  try {
+      
+      const db = await dbConnect();
+      const foodCollection = db.collection("food");
+
+      const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+
+      console.log(result);
+
+      if (result.deletedCount === 0) {
+          throw new Error("No item found to delete");
+      }
+      
+  } catch (error) {
+      console.error("Error deleting food item:", error);
+      throw error; 
+  }
 };
