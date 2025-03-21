@@ -1,5 +1,5 @@
 import Image from "next/image";
-import aboutBannerImage from "../../assets/bannerImg/about-banner (2).jpg";
+import aboutBannerImage from "../../assets/bannerImg/aboutBanner1.jpg";
 import missionImg from "../../assets/images/missionImg1.jpg";
 import visionImg from "../../assets/images/vision.jpg";
 import SectionHeading from "@/components/shared/SectionHeading";
@@ -95,7 +95,7 @@ const AboutUs = () => {
       <div
         className="flex justify-center items-center"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7n), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${aboutBannerImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -202,7 +202,7 @@ const AboutUs = () => {
             </section>
             {/* OUR VISION */}
             <section className="mt-10 my-10 flex flex-col-reverse lg:flex-row gap-5">
-            <div className="w-full mb-10 lg:mb-0  max-h-[300px]">
+            <div className="w-full mb-10 lg:mb-0  h-[300px]">
                 <Image
                   src={visionImg}
                 
