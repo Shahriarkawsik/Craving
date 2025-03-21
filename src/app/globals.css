@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 @plugin "tailwindcss-animate";
 :root {
   --background: oklch(1 0 0);
@@ -35,7 +36,7 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
-@theme{
+@theme {
   --color-primaryColor: rgb(132, 183, 80);
 }
 @custom-variant dark (&:is(.dark *));
@@ -118,7 +119,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50; 
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
@@ -149,4 +150,7 @@
   opacity: 1;
   height: 100%;
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> 1f09762360db9a2b6fcc4fd9bca760240b5fd665
