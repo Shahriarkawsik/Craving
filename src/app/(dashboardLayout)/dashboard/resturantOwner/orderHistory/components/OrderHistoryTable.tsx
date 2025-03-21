@@ -2,16 +2,20 @@ import Image from "next/image";
 import imgSrc from "../../../../../../assets/images/whatsappQR.jpg";
 
 interface Order {
-  id: string;
-  delivery_address: string;
+  id: number;
+  user_id: number;
+  restaurant_id: number;
+  rider_id: number;
   total_amount: number;
+  status: "pending" | "preparing" | "in transit" | "delivered" | "cancelled";
+  payment_status: "paid" | "pending" | "failed";
+  delivery_address: string;
+  phone: string;
   created_at: string;
-  status: string;
-  user_name: string;
 }
 
-interface AllOrdersProps {
-  allOrders: Order[];
+interface OrderHistory {
+  orderHistory: Order[];
 }
 
 const statusColors: Record<string, string> = {
@@ -22,7 +26,7 @@ const statusColors: Record<string, string> = {
   cancelled: "bg-red-200 text-red-700",
 };
 
-const OrderHistoryTable: React.FC<AllOrdersProps> = ({ allOrders }) => {
+const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
   return (
     <div className="overflow-auto w-full">
       <table className="table w-full border-collapse border border-gray-300">
@@ -39,7 +43,7 @@ const OrderHistoryTable: React.FC<AllOrdersProps> = ({ allOrders }) => {
         </thead>
 
         <tbody>
-          {allOrders.map((order) => (
+          {orderHistory.map((order) => (
             <tr key={order.id} className="border-b border-gray-200">
               <td className="p-4">
                 <div className="flex items-center gap-2">
@@ -64,7 +68,10 @@ const OrderHistoryTable: React.FC<AllOrdersProps> = ({ allOrders }) => {
               <td className="p-4 whitespace-nowrap">{order.created_at}</td>
 
               <td className="p-4">
-                <select
+                {
+                  order.status === 'delivered' || order.status === 'cancelled' ? <p className={`${order.status === 'delivered' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'} rounded-full px-2 py-1 inline-block capitalize w-24`}>
+                  {order.status}
+                </p> : <select
                   defaultValue={order.status}
                   className={`px-2 py-1 w-24 rounded-full text-sm font-medium ${statusColors[order.status]}`}
                 >
@@ -83,7 +90,8 @@ const OrderHistoryTable: React.FC<AllOrdersProps> = ({ allOrders }) => {
                   <option value="cancelled" className="bg-red-200 text-red-700">
                     Cancelled
                   </option>
-                </select>
+                </select> 
+                }
               </td>
             </tr>
           ))}

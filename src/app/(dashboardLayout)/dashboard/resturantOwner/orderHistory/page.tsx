@@ -1,7 +1,21 @@
 import OrderHistoryTable from "./components/OrderHistoryTable";
 
-const OrderHistory = () => {
-    const allOrders = [
+// Define the type for each order
+interface Order {
+    id: number;
+    user_id: number;
+    restaurant_id: number;
+    rider_id: number;
+    total_amount: number;
+    status: "pending" | "preparing" | "in transit" | "delivered" | "cancelled";
+    payment_status: "paid" | "pending" | "failed";
+    delivery_address: string;
+    phone: string;
+    created_at: string;
+}
+
+const OrderHistory: React.FC = () => {
+    const allOrders: Order[] = [
         {
             id: 1,
             user_id: 324,
@@ -123,35 +137,58 @@ const OrderHistory = () => {
             created_at: "21/03/2025"
         },
     ];
-    
+
+    // seperate based on status
+    const pendingOrders = allOrders.filter(order => order.status === "pending");
+    const preparingOrders = allOrders.filter(order => order.status === "preparing");
+    const inTransitOrders = allOrders.filter(order => order.status === "in transit");
+    const deliveredOrders = allOrders.filter(order => order.status === "delivered");
+    const cancelledOrders = allOrders.filter(order => order.status === "cancelled");
+
+    // Count orders by status
+    const statusCount = allOrders.reduce((acc, order) => {
+        acc[order.status] = (acc[order.status] || 0) + 1;
+        return acc;
+    }, {} as { [key: string]: number });
+
     return (
         <div>
             <section>
                 <h1 className="uppercase text-2xl">Orders History</h1>
-                <p>Hello, Gulam Jakaria. You have 4 pending orders.</p>
+                <p>{`Hello, Gulam Jakaria. You have ${statusCount['pending']} pending orders.`}</p>
             </section>
 
             <section>
                 <div className="tabs tabs-border mt-5">
                     <input type="radio" name="order_history_tab" className="tab" aria-label={`All`} defaultChecked />
                     <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable allOrders={allOrders}></OrderHistoryTable>
+                        <OrderHistoryTable orderHistory={allOrders}></OrderHistoryTable>
                     </div>
 
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Pending ${4}`} />
-                    <div className="tab-content bg-base-100 my-5">Tab content Pending</div>
+                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Pending ${statusCount['pending']}`} />
+                    <div className="tab-content bg-base-100 my-5">
+                        <OrderHistoryTable orderHistory={pendingOrders}></OrderHistoryTable>
+                    </div>
 
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Preparing ${2}`} />
-                    <div className="tab-content bg-base-100 my-5">Tab content Preparing</div>
+                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Preparing ${statusCount['preparing']}`} />
+                    <div className="tab-content bg-base-100 my-5">
+                        <OrderHistoryTable orderHistory={preparingOrders}></OrderHistoryTable>
+                    </div>
 
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`In Transit ${5}`} />
-                    <div className="tab-content bg-base-100 my-5">Tab content In Transit</div>
+                    <input type="radio" name="order_history_tab" className="tab" aria-label={`In Transit ${statusCount['in transit']}`} />
+                    <div className="tab-content bg-base-100 my-5">
+                        <OrderHistoryTable orderHistory={inTransitOrders}></OrderHistoryTable>
+                    </div>
 
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Delivered ${10}`} />
-                    <div className="tab-content bg-base-100 my-5">Tab content Delivered</div>
+                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Delivered ${statusCount['delivered']}`} />
+                    <div className="tab-content bg-base-100 my-5">
+                        <OrderHistoryTable orderHistory={deliveredOrders}></OrderHistoryTable>
+                    </div>
 
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Cancelled ${1}`} />
-                    <div className="tab-content bg-base-100 my-5">Tab content Cancelled</div>
+                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Cancelled ${statusCount['cancelled']}`} />
+                    <div className="tab-content bg-base-100 my-5">
+                        <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
+                    </div>
                 </div>
             </section>
         </div>
