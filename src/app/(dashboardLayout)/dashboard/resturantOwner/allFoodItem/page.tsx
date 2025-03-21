@@ -1,13 +1,5 @@
 "use client";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
 
 
 import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
