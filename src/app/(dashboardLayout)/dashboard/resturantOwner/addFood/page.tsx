@@ -1,7 +1,5 @@
 "use client";
-import Link from "next/link";
 import React from "react";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addFood } from "@/app/action/auth/allApi";
@@ -48,14 +46,6 @@ const AddFood = () => {
       // className="min-h-screen w-full border-2 border-red-500"
     >
       <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
-        {/* Back to home */}
-        <Link href="/" className="flex items-center gap-3 mb-8">
-          <FaArrowLeftLong className="text-lg sm:text-xl" />
-          <p className="font-Rancho text-xl sm:text-2xl lg:text-3xl text-color6">
-            Back to home
-          </p>
-        </Link>
-
         {/* Page Title */}
         <h1 className="text-2xl sm:text-3xl lg:text-5xl leading-tight  font-semibold text-center mb-6">
           Add New Food
