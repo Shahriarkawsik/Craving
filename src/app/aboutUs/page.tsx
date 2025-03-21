@@ -1,5 +1,6 @@
 import Image from "next/image";
-import aboutBannerImage from "../../assets/bannerImg/pexels-ella-olsson-572949-1640770.jpg";
+import aboutBannerImage from "../../assets/bannerImg/about-banner (2).jpg";
+import missionImg from "../../assets/images/missionImg1.jpg";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
@@ -142,9 +143,27 @@ const AboutUs = () => {
                       <p className="text-sm">{member.role}</p>
                       {/* social icons  */}
                       <div className="flex justify-center items-center gap-2 mt-2">
-                        <a href={member.socials.facebook} target="_black" className="text-white hover:text-[#ff8a00]"><CiFacebook size={30}/></a>
-                        <a href={member.socials.facebook} target="_black" className="text-white hover:text-[#ff8a00]"><CiLinkedin size={30}/></a>
-                        <a href={member.socials.facebook} target="_black" className="text-white hover:text-[#ff8a00]"><FaGithub size={30}/></a>
+                        <a
+                          href={member.socials.facebook}
+                          target="_black"
+                          className="text-white hover:text-[#ff8a00]"
+                        >
+                          <CiFacebook size={30} />
+                        </a>
+                        <a
+                          href={member.socials.facebook}
+                          target="_black"
+                          className="text-white hover:text-[#ff8a00]"
+                        >
+                          <CiLinkedin size={30} />
+                        </a>
+                        <a
+                          href={member.socials.facebook}
+                          target="_black"
+                          className="text-white hover:text-[#ff8a00]"
+                        >
+                          <FaGithub size={30} />
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -152,20 +171,35 @@ const AboutUs = () => {
               ))}
             </div>
           </section>
+
           {/* About Content */}
           <div className="max-w-5xl mx-auto p-6">
             {/* Our Mission */}
-            <section className="text-center">
-              <h2 className="text-3xl font-semibold text-gray-800">
-                Our Mission
-              </h2>
-              <p className="text-lg text-gray-600 mt-3">
-                We connect food lovers with the best restaurants and home chefs,
-                ensuring fresh, high-quality meals delivered right to your
-                doorstep.
-              </p>
-            </section>
 
+            <section className=" grid lg:grid-cols-2 gap-5">
+              <div>
+                <h2 className=" text-2xl lg:text-4xl font-semibold text-gray-800">
+                  Our <span className="text-[#ff8a00]">Mission</span>
+                </h2>
+                <p className=" text-gray-600 mt-3 ">
+                  Craving is dedicated to transforming the way you experience
+                  food delivery. Our mission is to bring you a diverse selection
+                  of meals from top restaurants, ensuring speed, freshness, and
+                  quality with every order. We are committed to convenience,
+                  customer satisfaction, and making great food accessible
+                  anytime, anywhere.
+                </p>
+              </div>
+              <div className="w-full  max-h-[300px]">
+                <Image
+                  src={missionImg}
+                
+                  alt="This is our mission"
+                  className="w-full mx-auto h-full object-cover rounded-lg"
+                ></Image>
+              </div>
+            </section>
+           
             {/* Why Choose Us */}
             <section className="mt-10">
               <h2 className="text-3xl font-semibold text-gray-800 text-center">

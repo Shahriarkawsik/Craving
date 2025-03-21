@@ -3,8 +3,8 @@
 import contactUsBanner from "@/assets/bannerImg/contactUs-banner.jpg";
 import Image from "next/image";
 // import whatsappQR from "@/assets/images/whatsappQR.jpg";
-import rider from "@/assets/images/Untitled design (2).png";
-import owner from "@/assets/images/pexels-thelazyartist-1342609.jpg";
+import rider from "@/assets/images/rider.png";
+import owner from "@/assets/images/owner.jpg";
 import { useState } from "react";
 
 interface FormData {
