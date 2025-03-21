@@ -1,6 +1,7 @@
 import Image from "next/image";
 import aboutBannerImage from "../../assets/bannerImg/about-banner (2).jpg";
 import missionImg from "../../assets/images/missionImg1.jpg";
+import visionImg from "../../assets/images/vision.jpg";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
@@ -176,12 +177,12 @@ const AboutUs = () => {
           <div className="max-w-5xl mx-auto p-6">
             {/* Our Mission */}
 
-            <section className=" grid lg:grid-cols-2 gap-5">
-              <div>
+            <section className="mb-10 my-10 flex flex-col lg:flex-row gap-5">
+              <div className="max-w-xl">
                 <h2 className=" text-2xl lg:text-4xl font-semibold text-gray-800">
                   Our <span className="text-[#ff8a00]">Mission</span>
                 </h2>
-                <p className=" text-gray-600 mt-3 ">
+                <p className=" text-gray-600 mt-3 leading-relaxed ">
                   Craving is dedicated to transforming the way you experience
                   food delivery. Our mission is to bring you a diverse selection
                   of meals from top restaurants, ensuring speed, freshness, and
@@ -190,7 +191,7 @@ const AboutUs = () => {
                   anytime, anywhere.
                 </p>
               </div>
-              <div className="w-full  max-h-[300px]">
+              <div className="w-full mb-10  lg:mb-0  max-h-[300px]">
                 <Image
                   src={missionImg}
                 
@@ -199,7 +200,26 @@ const AboutUs = () => {
                 ></Image>
               </div>
             </section>
-           
+            {/* OUR VISION */}
+            <section className="mt-10 my-10 flex flex-col-reverse lg:flex-row gap-5">
+            <div className="w-full mb-10 lg:mb-0  max-h-[300px]">
+                <Image
+                  src={visionImg}
+                
+                  alt="This is our mission"
+                  className="w-full mx-auto h-full object-cover rounded-lg"
+                ></Image>
+              </div>
+              <div className="max-w-xl" >
+                <h2 className=" text-2xl lg:text-4xl font-semibold text-gray-800">
+                  Our <span className="text-[#ff8a00]">Vision</span>
+                </h2>
+                <p className=" text-gray-600 mt-3 space-y-3 leading-relaxed ">
+                Our vision is to become the most trusted and customer-centric food delivery platform, making delicious meals easily accessible to everyone. We aspire to revolutionize the food industry with innovative technology, seamless delivery, and a commitment to quality, ensuring that every meal brings joy and convenience to our customers lives.
+                </p>
+              </div>
+             
+            </section>
             {/* Why Choose Us */}
             <section className="mt-10">
               <h2 className="text-3xl font-semibold text-gray-800 text-center">
