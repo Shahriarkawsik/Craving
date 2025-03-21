@@ -20,9 +20,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const pathName = usePathname();
+  const { data: session, status } = useSession();
+  console.log(session);
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -67,6 +70,16 @@ const Navbar = () => {
                 >
                   Contact Us
                 </NavigationMenuLink>
+                <NavigationMenuLink
+                  href="/dashboard"
+                  className={`${
+                    pathName === "/dashboard"
+                      ? "font-bold border-b-2 border-pink-500"
+                      : "font-semibold"
+                  }`}
+                >
+                  Dashboard
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -79,12 +92,20 @@ const Navbar = () => {
             </Avatar>
           </div>
           <div className="hidden md:flex">
-            <Link href="/signIn">
-            <Button variant="destructive">SignIn</Button>
-            </Link>
-            <Link href="/register">
-            <Button variant="destructive">SignUp</Button>
-            </Link>
+            {status == "authenticated" ? (
+              <Button variant="destructive" onClick={() => signOut()}>
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Link href="/signIn">
+                  <Button variant="destructive">SignIn</Button>
+                </Link>
+                <Link href="/register">
+                  <Button variant="destructive">SignUp</Button>
+                </Link>
+              </>
+            )}
           </div>
           <div>
             <IoIosNotificationsOutline size={25} />

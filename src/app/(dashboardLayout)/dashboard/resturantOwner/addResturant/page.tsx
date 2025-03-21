@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormEvent } from "react";
-import { addResturant } from "../action/auth/allApi";
+import { addResturant } from "../../../../action/auth/allApi";
 
 const AddResturant = () => {
   const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
