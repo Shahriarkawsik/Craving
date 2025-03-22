@@ -102,23 +102,18 @@ interface CommonPayload {
   id: string;
 }
 
-export const deleteFood = async (payload: CommonPayload): Promise<void> => {
-  console.log(payload)
+export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  console.log(payload);
   try {
-      
-      const db = await dbConnect();
-      const foodCollection = db.collection("food");
+    const db = await dbConnect();
+    const foodCollection = db.collection("food");
 
-      const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+    const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
 
-      console.log(result);
-
-      if (result.deletedCount === 0) {
-          throw new Error("No item found to delete");
-      }
-      
+    console.log(result);
+    return result; 
   } catch (error) {
-      console.error("Error deleting food item:", error);
-      throw error; 
+    console.error("Error deleting food item:", error);
+    throw error; 
   }
 };
