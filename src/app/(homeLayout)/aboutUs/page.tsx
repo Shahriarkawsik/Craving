@@ -8,6 +8,7 @@ import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import Lottie from "lottie-react";
+import Marquee from "react-fast-marquee";
 const AboutUs = () => {
   interface TeamMember {
     id: number;
@@ -93,7 +94,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div >
+    <div>
       {/* banner section  */}
       <div
         className="flex justify-center items-center"
@@ -315,44 +316,32 @@ const AboutUs = () => {
               <h2 className="text-3xl font-semibold text-gray-800 text-center">
                 What Our Customers Say
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="p-6 shadow-lg rounded-lg">
-
-              
-                      <div className="flex">
+              <div className=" mt-6">
+              <Marquee pauseOnHover >
+                {teamMembers.map((member, index) => (
+                 
+                  <div className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg" key={index}>
+                    <div className="flex">
                       <Image
-                        className="w-12 h-12 rounded-full mr-4"
-                        src="https://i.ibb.co.com/5xtrS8JD/rakib.jpg"
+                        src={member.image}
                         alt="customer"
+                        width={150}
+                        height={150}
+                        className="w-12 h-12 rounded-full mr-4"
                       />
                       <p className="text-gray-600 italic">
-                        Amazing service! The food was fresh, hot, and delivered on
-                        time. Highly recommended!
+                        Amazing service! The food was fresh, hot, and delivered
+                        on time. Highly recommended!
                       </p>
                     </div>
+
                     <h4 className="text-orange-500 font-semibold mt-2">
-                    - Rakib.
+                      - {member.name}
                     </h4>
+                  </div>
+                ))}
+                </Marquee>
 
-
-                </div>
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                 <div className="flex">
-                 <Image
-                      className="w-12 h-12 rounded-full mr-4"
-                      src="https://i.ibb.co.com/RGGKkkn8/mahbub.png"
-                      alt="customer"
-                    />
-
-                 <p className="text-gray-600 italic">
-                    Best food delivery experience! The app is super easy to use
-                    and the food is always great!
-                  </p>
-                 </div>
-                  <h4 className="text-orange-500 font-semibold mt-2">
-                    - John D.
-                  </h4>
-                </div>
               </div>
             </section>
           </div>
