@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
 import restaurantLogo from "@/assets/categoryImg/fast-food.png"
+import Image from "next/image";
 
 
 
@@ -39,11 +40,7 @@ const RestaurantOwner = () => {
         <div className="p-6">
             <Card className="p-4 shadow-lg">
                 <div className="flex items-center space-x-4">
-                    <img
-                        src={restaurantLogo}
-                        alt="Restaurant Logo"
-                        className="w-16 h-16 rounded-full"
-                    />
+                    <Image src={restaurantLogo} alt="Restaurant Logo" className="w-16 h-16 rounded-full" />
                     <div>
                         <h2 className="text-2xl font-bold">Delicious Bites</h2>
                         <p className="text-gray-500">123 Main Street, Food Town</p>
