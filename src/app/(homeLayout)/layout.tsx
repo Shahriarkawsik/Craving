@@ -36,7 +36,7 @@ export default function RootLayout({
             <Navbar />
           </header>
           <main className="min-h-[calc(100vh-68px)]">{children}</main>
-          <ToastContainer />
+          <ToastContainer position="top-center" autoClose={2000} />
           <Footer></Footer>
         </NextAuthProvider>
       </body>

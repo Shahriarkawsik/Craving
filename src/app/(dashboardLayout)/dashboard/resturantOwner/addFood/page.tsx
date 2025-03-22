@@ -1,27 +1,40 @@
 "use client";
-import Link from "next/link";
 import React from "react";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { addFood } from "@/app/action/auth/allApi";
+import { toast } from "react-toastify";
 
 const AddFood = () => {
   type Inputs = {
+    // restaurant_id: string;
     foodName: string;
     description: string;
     price: number;
     category: string;
-    image: string;
+    foodImage: string;
     is_available: boolean;
     created_at: Date;
   };
+
+  // src/app/dashboard/resturantOwner/addFood
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
-  
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const allData = { ...data, created_at: new Date(), is_available: true };
+    try {
+      await addFood(allData);
+      toast.success("Food Added Successfully!");
+      reset();
+    } catch (error) {
+      toast.error("Something went wrong!" + error);
+    }
+  };
 
   return (
     <section
@@ -30,17 +43,9 @@ const AddFood = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="min-h-screen"
+      // className="min-h-screen w-full border-2 border-red-500"
     >
-      <div className="w-11/12 lg:w-9/12 mx-auto font-Poppins py-8 sm:py-12">
-        {/* Back to home */}
-        <Link href="/" className="flex items-center gap-3 mb-8">
-          <FaArrowLeftLong className="text-lg sm:text-xl" />
-          <p className="font-Rancho text-xl sm:text-2xl lg:text-3xl text-color6">
-            Back to home
-          </p>
-        </Link>
-
+      <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
         {/* Page Title */}
         <h1 className="text-2xl sm:text-3xl lg:text-5xl leading-tight  font-semibold text-center mb-6">
           Add New Food
@@ -135,10 +140,10 @@ const AddFood = () => {
                 type="url"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
-                {...register("image", { required: true })}
+                {...register("foodImage", { required: true })}
                 required
               />
-              {errors.image && (
+              {errors.foodImage && (
                 <span className="text-red-600 text-sm">
                   Food Image URL is required
                 </span>
@@ -147,8 +152,8 @@ const AddFood = () => {
 
             <input
               type="submit"
-              value={"Add Task"}
-              className="bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
+              value={"Add Food"}
+              className="bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
             />
           </form>
         </div>
