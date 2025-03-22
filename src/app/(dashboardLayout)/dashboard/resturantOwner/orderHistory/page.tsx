@@ -1,4 +1,5 @@
 import OrderHistoryTable from "./components/OrderHistoryTable";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Define the type for each order
 interface Order {
@@ -152,44 +153,42 @@ const OrderHistory: React.FC = () => {
     }, {} as { [key: string]: number });
 
     return (
-        <div>
+        <div className="px-5">
             <section>
                 <h1 className="uppercase text-2xl">Orders History</h1>
                 <p>{`Hello, Gulam Jakaria. You have ${statusCount['pending']} pending orders.`}</p>
             </section>
 
-            <section>
-                <div className="tabs tabs-border mt-5">
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`All`} defaultChecked />
-                    <div className="tab-content bg-base-100 my-5">
+            {/* tabs */}
+            <section className="my-5">
+                <Tabs defaultValue="all" className="w-full">
+                    <TabsList className="mb-5">
+                        <TabsTrigger value="all">All</TabsTrigger>
+                        <TabsTrigger value="pending">{`Pending ${statusCount['pending']}`}</TabsTrigger>
+                        <TabsTrigger value="preparing">{`Preparing ${statusCount['preparing']}`}</TabsTrigger>
+                        <TabsTrigger value="in transit">{`In Transit ${statusCount['in transit']}`}</TabsTrigger>
+                        <TabsTrigger value="delivered">{`Delivered ${statusCount['delivered']}`}</TabsTrigger>
+                        <TabsTrigger value="cancelled">{`Cancelled ${statusCount['cancelled']}`}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="all">
                         <OrderHistoryTable orderHistory={allOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Pending ${statusCount['pending']}`} />
-                    <div className="tab-content bg-base-100 my-5">
+                    </TabsContent>
+                    <TabsContent value="pending">
                         <OrderHistoryTable orderHistory={pendingOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Preparing ${statusCount['preparing']}`} />
-                    <div className="tab-content bg-base-100 my-5">
+                    </TabsContent>
+                    <TabsContent value="preparing">
                         <OrderHistoryTable orderHistory={preparingOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`In Transit ${statusCount['in transit']}`} />
-                    <div className="tab-content bg-base-100 my-5">
+                    </TabsContent>
+                    <TabsContent value="in transit">
                         <OrderHistoryTable orderHistory={inTransitOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Delivered ${statusCount['delivered']}`} />
-                    <div className="tab-content bg-base-100 my-5">
+                    </TabsContent>
+                    <TabsContent value="delivered">
                         <OrderHistoryTable orderHistory={deliveredOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Cancelled ${statusCount['cancelled']}`} />
-                    <div className="tab-content bg-base-100 my-5">
+                    </TabsContent>
+                    <TabsContent value="cancelled">
                         <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
-                    </div>
-                </div>
+                    </TabsContent>
+                </Tabs>
             </section>
         </div>
     );
