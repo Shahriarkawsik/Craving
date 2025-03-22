@@ -10,23 +10,23 @@ interface ResturantType {
     email: string;
 }
 
-const Services = async () => {
+const ShowRestaurant = async () => {
     // Get the database instance
     const db = await dbConnect();
 
     // Get the collection
-    const servicesCollection: Collection<ResturantType> = db.collection("resturant");
+    const restaurantCollection: Collection<ResturantType> = db.collection("resturant");
 
     // Fetch data from MongoDB
-    const data: ResturantType[] = await servicesCollection.find({}).toArray();
+    const data: ResturantType[] = await restaurantCollection.find({}).toArray();
 
     return (
         <div>
             <h1 className="text-center">Resturant</h1>
             <ul>
-                {data.map((resturn) => (
-                    <div key={resturn._id}>
-                        <h1 className="text-center">{resturn.title}</h1>
+                {data.map((restaurant) => (
+                    <div key={restaurant._id}>
+                        <h1 className="text-center">{restaurant.title}</h1>
                     </div>
                 ))}
             </ul>
@@ -34,6 +34,6 @@ const Services = async () => {
     );
 };
 
-export default Services;
+export default ShowRestaurant;
 
 
