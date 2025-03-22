@@ -2,7 +2,7 @@
 
 const page = () => {
 
-    const weeklySalesData = [
+    const weeklySales = [
         { day: "Mon", sales: 1200 },
         { day: "Tue", sales: 900 },
         { day: "Wed", sales: 1500 },
@@ -12,7 +12,7 @@ const page = () => {
         { day: "Sun", sales: 2000 },
     ];
 
-    const foodCategoryData = [
+    const foodCategory = [
         { name: "Burgers", value: 10 },
         { name: "Pizzas", value: 5 },
         { name: "Drinks", value: 7 },
