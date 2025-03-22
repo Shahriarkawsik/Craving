@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import Link from "next/link";
 
 
 interface FoodItem {
@@ -36,7 +37,7 @@ export default function AllFoodItems() {
   const email = "mhbabu2002@gmail.com";
 
   const fetchData = async () => {
-    
+
     try {
       const data = await getAllFoodsData(email);
       setFoodData(data);
@@ -64,61 +65,63 @@ export default function AllFoodItems() {
   };
 
   return (
-    
+
 
     <div className="w-11/12 mx-auto overflow-x-auto">
-  <Table className="min-w-[700px] border border-gray-300 rounded-lg">
-    <TableCaption>A list of your recent invoices.</TableCaption>
-    <TableHeader className="bg-gray-100">
-      <TableRow>
-        <TableHead className="w-[10%] text-center">s/n</TableHead>
-        <TableHead className="w-[15%] text-left">Image</TableHead>
-        <TableHead className="w-[20%] text-left">Name</TableHead>
-        <TableHead className="w-[15%] text-left">Category</TableHead>
-        <TableHead className="w-[15%] text-left">Price</TableHead>
-        <TableHead className="w-[25%] text-left">Actions</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {foodData.map((food, index) => (
-        <TableRow key={food.foodName} className="border-t">
-          <TableCell className="text-center font-medium">{index + 1}</TableCell>
-          <TableCell className=" text-center">
-            <Image
-              src={food.image}
-              width={50}
-              height={50}
-              alt="Food Image"
-              className="w-12 h-12 object-cover rounded-md"
-            />
-          </TableCell>
-          <TableCell className=" text-left">{food.foodName}</TableCell>
-          <TableCell className=" text-left">{food.category}</TableCell>
-          <TableCell className=" text-left">${food.price}</TableCell>
-          <TableCell className=" flex gap-2 justify-left items-center">
-            <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
-              Edit
-            </button>
-            <button
-              onClick={() => handleDeleteFood(food._id)}
-              className="bg-red-500 text-white px-3 py-1 rounded-md flex items-center justify-center transition hover:bg-red-600"
-              disabled={loadingId === food._id}
-            >
-              {loadingId === food._id ? (
-                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
-              ) : (
-                "Delete"
-              )}
-            </button>
-            <button className="bg-green-500 text-white px-3 py-1 rounded-md transition hover:bg-green-600">
-              Details
-            </button>
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-</div>
+      <Table className="min-w-[700px] border border-gray-300 rounded-lg">
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader className="bg-gray-100">
+          <TableRow>
+            <TableHead className="w-[10%] text-center">s/n</TableHead>
+            <TableHead className="w-[15%] text-left">Image</TableHead>
+            <TableHead className="w-[20%] text-left">Name</TableHead>
+            <TableHead className="w-[15%] text-left">Category</TableHead>
+            <TableHead className="w-[15%] text-left">Price</TableHead>
+            <TableHead className="w-[25%] text-left">Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {foodData.map((food, index) => (
+            <TableRow key={food.foodName} className="border-t">
+              <TableCell className="text-center font-medium">{index + 1}</TableCell>
+              <TableCell className=" text-center">
+                <Image
+                  src={food.image}
+                  width={50}
+                  height={50}
+                  alt="Food Image"
+                  className="w-12 h-12 object-cover rounded-md"
+                />
+              </TableCell>
+              <TableCell className=" text-left">{food.foodName}</TableCell>
+              <TableCell className=" text-left">{food.category}</TableCell>
+              <TableCell className=" text-left">${food.price}</TableCell>
+              <TableCell className=" flex gap-2 justify-left items-center">
+                <Link href={`/dashboard/resturantOwner/updateFood/${food._id}`}>
+                  <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
+                    Edit
+                  </button>
+                </Link>
+                <button
+                  onClick={() => handleDeleteFood(food._id)}
+                  className="bg-red-500 text-white px-3 py-1 rounded-md flex items-center justify-center transition hover:bg-red-600"
+                  disabled={loadingId === food._id}
+                >
+                  {loadingId === food._id ? (
+                    <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                  ) : (
+                    "Delete"
+                  )}
+                </button>
+                <button className="bg-green-500 text-white px-3 py-1 rounded-md transition hover:bg-green-600">
+                  Details
+                </button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
 
 
     // <div className="w-11/12 mx-auto mt-6 overflow-x-auto">

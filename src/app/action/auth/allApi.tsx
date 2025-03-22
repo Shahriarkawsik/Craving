@@ -97,11 +97,10 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   return formattedFoodData;
 };
 
-
 interface CommonPayload {
   id: string;
 }
-
+// Delete specific food
 export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged: boolean; deletedCount: number }> => {
   console.log(payload);
   try {
@@ -116,4 +115,30 @@ export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged
     console.error("Error deleting food item:", error);
     throw error; 
   }
+};
+
+
+export const updateFood = async (payload: CommonPayload): Promise<any> => {
+  console.log(payload);
+
+  // connect to the database and get the food collection
+  const foodCollection = await dbConnect().then((db) => db.collection("food"));
+
+  // update the existing food item based on its ID
+  const result = await foodCollection.updateOne(
+    { _id: new ObjectId(payload.id) }, // filter by ID
+    {
+      $set: {
+        foodName: payload.foodName,
+        description: payload.description,
+        price: payload.price,
+        category: payload.category,
+        foodImage: payload.foodImage,
+      },
+    },
+    { upsert: false } 
+  );
+
+  console.log(result);
+  return result; 
 };
