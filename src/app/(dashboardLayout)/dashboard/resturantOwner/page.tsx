@@ -1,7 +1,9 @@
+"use client"
 import { Card } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
 import restaurantLogo from "@/assets/categoryImg/fast-food.png"
 import Image from "next/image";
+import { FC } from "react";
 
 
 
@@ -16,7 +18,7 @@ interface FoodCategoryData {
 }
 
 
-const RestaurantOwner = () => {
+const RestaurantOwner: FC = () => {
 
     const weeklySales: SalesData[] = [
         { day: "Mon", sales: 1200 },
@@ -37,7 +39,7 @@ const RestaurantOwner = () => {
 
 
     return (
-        <div className="p-6">
+        <div className="p-6 mx-auto">
             <Card className="p-4 shadow-lg">
                 <div className="flex items-center space-x-4">
                     <Image src={restaurantLogo} alt="Restaurant Logo" className="w-16 h-16 rounded-full" />
