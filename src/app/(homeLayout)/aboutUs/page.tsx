@@ -9,6 +9,10 @@ import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import Lottie from "lottie-react";
 import Marquee from "react-fast-marquee";
+import AOS from "aos";
+import "aos/dist/aos.css"; 
+
+
 const AboutUs = () => {
   interface TeamMember {
     id: number;
@@ -92,6 +96,8 @@ const AboutUs = () => {
       },
     },
   ];
+
+  AOS.init();
 
   return (
     <div>
@@ -236,7 +242,7 @@ const AboutUs = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className=" mt-6 space-y-4">
-                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                  <div data-aos="fade-up" data-aos-durations="1000" className="p-6 bg-white shadow-lg rounded-lg">
                     <h3 className="text-xl font-semibold text-orange-500">
                       Fast & Reliable Delivery
                     </h3>
@@ -244,7 +250,7 @@ const AboutUs = () => {
                       Get your favorite meals delivered in record time.
                     </p>
                   </div>
-                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                  <div data-aos="fade-up" data-aos-durations="1300" className="p-6 bg-white shadow-lg rounded-lg">
                     <h3 className="text-xl font-semibold text-orange-500">
                       Fresh & Quality Ingredients
                     </h3>
@@ -252,7 +258,7 @@ const AboutUs = () => {
                       We ensure the highest quality food from trusted sources.
                     </p>
                   </div>
-                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                  <div data-aos="fade-up" data-aos-durations="1700" className="p-6 bg-white shadow-lg rounded-lg">
                     <h3 className="text-xl font-semibold text-orange-500">
                       Wide Variety of Cuisines
                     </h3>
@@ -260,7 +266,7 @@ const AboutUs = () => {
                       Enjoy a diverse menu from top restaurants & home chefs.
                     </p>
                   </div>
-                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                  <div data-aos="fade-up" data-aos-durations="2000" className="p-6 bg-white shadow-lg rounded-lg">
                     <h3 className="text-xl font-semibold text-orange-500">
                       Easy & Secure Payment
                     </h3>
