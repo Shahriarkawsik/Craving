@@ -1,11 +1,13 @@
+"use client";
 import Image from "next/image";
-import aboutBannerImage from "../../assets/bannerImg/aboutBanner1.jpg";
-import missionImg from "../../assets/images/missionImg1.jpg";
-import visionImg from "../../assets/images/vision.jpg";
-import SectionHeading from "@/components/shared/SectionHeading";
+import missionImg from "@/assets/images/missionImg1.jpg";
+import visionImg from "@/assets/images/vision.jpg";
+import aboutBannerImage from "../../../assets/bannerImg/aboutBanner1.jpg";
+import whyLottie from "@/assets/why.json";
 import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
+import Lottie from "lottie-react";
 const AboutUs = () => {
   interface TeamMember {
     id: number;
@@ -75,6 +77,7 @@ const AboutUs = () => {
         github: "https://github.com/Jakaria030",
       },
     },
+
     {
       id: 6,
       name: "Shahidul Islam",
@@ -90,7 +93,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div >
       {/* banner section  */}
       <div
         className="flex justify-center items-center"
@@ -120,10 +123,12 @@ const AboutUs = () => {
         <div>
           {/* team member  */}
           <section className="container mx-auto p-6">
-            <SectionHeading
-              subtitle="---From 11:00am to 05:00pm---"
-              title="Meet Our Food Delivery Team"
-            />
+            <div className="text-center my-10 ">
+              <p>---From 11:00am to 05:00pm---</p>
+              <h1 className=" text-2xl  mt-3 lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+                Meet Our Food Delivery Team
+              </h1>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {teamMembers.map((member) => (
                 <div
@@ -194,7 +199,6 @@ const AboutUs = () => {
               <div className="w-full mb-10  lg:mb-0  max-h-[300px]">
                 <Image
                   src={missionImg}
-                
                   alt="This is our mission"
                   className="w-full mx-auto h-full object-cover rounded-lg"
                 ></Image>
@@ -202,67 +206,79 @@ const AboutUs = () => {
             </section>
             {/* OUR VISION */}
             <section className="mt-10 my-10 flex flex-col-reverse lg:flex-row gap-5">
-            <div className="w-full mb-10 lg:mb-0  h-[300px]">
+              <div className="w-full mb-10 lg:mb-0  h-[300px]">
                 <Image
                   src={visionImg}
-                
                   alt="This is our mission"
                   className="w-full mx-auto h-full object-cover rounded-lg"
                 ></Image>
               </div>
-              <div className="max-w-xl" >
+              <div className="max-w-xl">
                 <h2 className=" text-2xl lg:text-4xl font-semibold text-gray-800">
                   Our <span className="text-[#ff8a00]">Vision</span>
                 </h2>
                 <p className=" text-gray-600 mt-3 space-y-3 leading-relaxed ">
-                Our vision is to become the most trusted and customer-centric food delivery platform, making delicious meals easily accessible to everyone. We aspire to revolutionize the food industry with innovative technology, seamless delivery, and a commitment to quality, ensuring that every meal brings joy and convenience to our customers lives.
+                  Our vision is to become the most trusted and customer-centric
+                  food delivery platform, making delicious meals easily
+                  accessible to everyone. We aspire to revolutionize the food
+                  industry with innovative technology, seamless delivery, and a
+                  commitment to quality, ensuring that every meal brings joy and
+                  convenience to our customers lives.
                 </p>
               </div>
-             
             </section>
             {/* Why Choose Us */}
             <section className="mt-10">
-              <h2 className="text-3xl font-semibold text-gray-800 text-center">
-                Why Choose Us?
+              <h2 className=" m-10 text-2xl text-center lg:text-4xl font-semibold text-gray-800">
+                Why Choose <span className="text-orange-600 ">Us</span>?
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <h3 className="text-xl font-semibold text-orange-500">
-                    Fast & Reliable Delivery
-                  </h3>
-                  <p className="text-gray-600">
-                    Get your favorite meals delivered in record time.
-                  </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className=" mt-6 space-y-4">
+                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                    <h3 className="text-xl font-semibold text-orange-500">
+                      Fast & Reliable Delivery
+                    </h3>
+                    <p className="text-gray-600">
+                      Get your favorite meals delivered in record time.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                    <h3 className="text-xl font-semibold text-orange-500">
+                      Fresh & Quality Ingredients
+                    </h3>
+                    <p className="text-gray-600">
+                      We ensure the highest quality food from trusted sources.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                    <h3 className="text-xl font-semibold text-orange-500">
+                      Wide Variety of Cuisines
+                    </h3>
+                    <p className="text-gray-600">
+                      Enjoy a diverse menu from top restaurants & home chefs.
+                    </p>
+                  </div>
+                  <div className="p-6 bg-white shadow-lg rounded-lg">
+                    <h3 className="text-xl font-semibold text-orange-500">
+                      Easy & Secure Payment
+                    </h3>
+                    <p className="text-gray-600">
+                      Multiple payment options for a seamless experience.
+                    </p>
+                  </div>
                 </div>
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <h3 className="text-xl font-semibold text-orange-500">
-                    Fresh & Quality Ingredients
-                  </h3>
-                  <p className="text-gray-600">
-                    We ensure the highest quality food from trusted sources.
-                  </p>
-                </div>
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <h3 className="text-xl font-semibold text-orange-500">
-                    Wide Variety of Cuisines
-                  </h3>
-                  <p className="text-gray-600">
-                    Enjoy a diverse menu from top restaurants & home chefs.
-                  </p>
-                </div>
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <h3 className="text-xl font-semibold text-orange-500">
-                    Easy & Secure Payment
-                  </h3>
-                  <p className="text-gray-600">
-                    Multiple payment options for a seamless experience.
-                  </p>
+
+                {/* animation  */}
+                <div>
+                  <Lottie height={100} animationData={whyLottie} loop={true} />
                 </div>
               </div>
             </section>
 
             {/* How It Works */}
-            <section className="mt-12 text-center">
+
+            {/* <section className="mt-12 text-center">
               <h2 className="text-3xl font-semibold text-gray-800">
                 How It Works?
               </h2>
@@ -292,7 +308,7 @@ const AboutUs = () => {
                   </p>
                 </div>
               </div>
-            </section>
+            </section> */}
 
             {/* Testimonials (Optional) */}
             <section className="mt-12">
@@ -300,20 +316,39 @@ const AboutUs = () => {
                 What Our Customers Say
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <p className="text-gray-600 italic">
-                    Amazing service! The food was fresh, hot, and delivered on
-                    time. Highly recommended!
-                  </p>
-                  <h4 className="text-orange-500 font-semibold mt-2">
-                    - Sarah M.
-                  </h4>
+                <div className="p-6 shadow-lg rounded-lg">
+
+              
+                      <div className="flex">
+                      <Image
+                        className="w-12 h-12 rounded-full mr-4"
+                        src="https://i.ibb.co.com/5xtrS8JD/rakib.jpg"
+                        alt="customer"
+                      />
+                      <p className="text-gray-600 italic">
+                        Amazing service! The food was fresh, hot, and delivered on
+                        time. Highly recommended!
+                      </p>
+                    </div>
+                    <h4 className="text-orange-500 font-semibold mt-2">
+                    - Rakib.
+                    </h4>
+
+
                 </div>
                 <div className="p-6 bg-white shadow-lg rounded-lg">
-                  <p className="text-gray-600 italic">
+                 <div className="flex">
+                 <Image
+                      className="w-12 h-12 rounded-full mr-4"
+                      src="https://i.ibb.co.com/RGGKkkn8/mahbub.png"
+                      alt="customer"
+                    />
+
+                 <p className="text-gray-600 italic">
                     Best food delivery experience! The app is super easy to use
                     and the food is always great!
                   </p>
+                 </div>
                   <h4 className="text-orange-500 font-semibold mt-2">
                     - John D.
                   </h4>

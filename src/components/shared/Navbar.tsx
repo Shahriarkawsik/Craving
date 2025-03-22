@@ -20,11 +20,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const pathName = usePathname();
+  const { data: session, status } = useSession();
+  console.log(session);
   return (
-
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
         {/* logo  */}
@@ -76,15 +78,23 @@ const Navbar = () => {
                       : "font-semibold"
                   }`}
                 >
-                Profile
+                  Profile
                 </NavigationMenuLink>
-
+                <NavigationMenuLink
+                  href="/dashboard"
+                  className={`${
+                    pathName === "/dashboard"
+                      ? "font-bold border-b-2 border-pink-500"
+                      : "font-semibold"
+                  }`}
+                >
+                  Dashboard
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
         <div className="flex items-center gap-3">
-
           <div>
             <Avatar>
               {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
@@ -92,8 +102,23 @@ const Navbar = () => {
             </Avatar>
           </div>
           <div className="hidden md:flex">
-            <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >Login</Button>
+           
             {/* <Button variant="destructive">Logout</Button> */}
+
+            {status == "authenticated" ? (
+              <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" variant="destructive" onClick={() => signOut()}>
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Link href="/signIn">
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignIn</Button>
+                </Link>
+                <Link href="/register">
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignUp</Button>
+                </Link>
+              </>
+            )}
           </div>
           <div>
             <IoIosNotificationsOutline size={25} />

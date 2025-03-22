@@ -32,8 +32,9 @@ const Support: React.FC = () => {
         </div>
 
         {/* Lottie animation */}
-        <div className="">
-          <Lottie
+        <div >
+          <Lottie 
+     
             animationData={supportLottie}
             loop={true}
            
