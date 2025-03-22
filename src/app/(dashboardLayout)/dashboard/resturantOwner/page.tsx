@@ -3,9 +3,21 @@ import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YA
 import restaurantLogo from "@/assets/categoryImg/fast-food.png"
 
 
+
+interface SalesData {
+    day: string;
+    sales: number;
+}
+
+interface FoodCategoryData {
+    name: string;
+    value: number;
+}
+
+
 const RestaurantOwner = () => {
 
-    const weeklySales = [
+    const weeklySales: SalesData[] = [
         { day: "Mon", sales: 1200 },
         { day: "Tue", sales: 900 },
         { day: "Wed", sales: 1500 },
@@ -15,7 +27,7 @@ const RestaurantOwner = () => {
         { day: "Sun", sales: 2000 },
     ];
 
-    const foodCategory = [
+    const foodCategory: FoodCategoryData[] = [
         { name: "Burgers", value: 10 },
         { name: "Pizzas", value: 5 },
         { name: "Drinks", value: 7 },
