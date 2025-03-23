@@ -9,7 +9,7 @@ const Banner = () => {
   };
   return (
     <section className="relative w-full h-[75vh] overflow-hidden">
-      {/* Background Video */}
+      {/* Background Video
       <video
         src="/foodBanner.mp4" // Put the video inside the public folder
         autoPlay
@@ -17,7 +17,7 @@ const Banner = () => {
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover"
-      />
+      /> */}
 
       {/* Content on top of the video (Optional) */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full w-full bg-black/50 text-white text-center">
