@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 const AddFood = () => {
   type Inputs = {
     // restaurant_id: string;
+    id: string;
     foodName: string;
     description: string;
     price: number;

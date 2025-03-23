@@ -12,6 +12,7 @@ interface CommonPayload {
   owner?: string;
   /*Add Food*/
   // restaurant_id: string;
+  id: string;
   foodName?: string;
   description?: string;
   price?: number;
@@ -59,15 +60,13 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
   await foodCollection.insertOne({
     foodName: payload.foodName,
     description: payload.description,
-    price : payload.price,
+    price: payload.price,
     category: payload.category,
     foodImage: payload.foodImage,
     is_available: payload.is_available,
-    created_at : payload.created_at,
+    created_at: payload.created_at,
   });
 };
-
-
 
 interface FoodItem {
   _id: string;
@@ -97,28 +96,27 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   return formattedFoodData;
 };
 
-
-interface CommonPayload {
-  id: string;
-}
+// interface CommonPayload {
+//   id: string;
+// }
 
 export const deleteFood = async (payload: CommonPayload): Promise<void> => {
-  console.log(payload)
+  console.log(payload);
   try {
-      
-      const db = await dbConnect();
-      const foodCollection = db.collection("food");
+    const db = await dbConnect();
+    const foodCollection = db.collection("food");
 
-      const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+    const result = await foodCollection.deleteOne({
+      _id: new ObjectId(payload.id),
+    });
 
-      console.log(result);
+    console.log(result);
 
-      if (result.deletedCount === 0) {
-          throw new Error("No item found to delete");
-      }
-      
+    if (result.deletedCount === 0) {
+      throw new Error("No item found to delete");
+    }
   } catch (error) {
-      console.error("Error deleting food item:", error);
-      throw error; 
+    console.error("Error deleting food item:", error);
+    throw error;
   }
 };
