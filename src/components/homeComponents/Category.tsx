@@ -59,7 +59,7 @@ const Category = () => {
                   alt="a fast food image"
                 />
               </figure>
-              <h1 className="text-black  ">{category.name}</h1>
+              <p className="text-sm  ">{category.name}</p>
             </div>
           </Link>
         ))}
