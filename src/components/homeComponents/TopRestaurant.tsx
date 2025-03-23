@@ -45,10 +45,14 @@ const TopRestaurant = () => {
   ];
 
   return (
-    <section className="w-11/12 mx-auto space-y-7" id="nearby-restaurants">
-      <h1 className="text-center text-2xl font-bold">Nearby Restaurants</h1>
-
-      <div className="grid mt-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="w-11/12 mx-auto " id="nearby-restaurants">
+    
+      <div className="text-center">
+        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        Near by Restaurants
+        </h1>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {restaurants.map((restaurant, index) => (
           <div
             key={index}

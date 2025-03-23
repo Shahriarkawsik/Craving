@@ -11,7 +11,9 @@ interface Credentials {
 // console.log(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET);
 // Ensure environment variables exist before proceeding
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
-  throw new Error("Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in environment variables");
+  throw new Error(
+    "Missing GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET in environment variables"
+  );
 }
 // Define the `authOptions` with proper typing
 export const authOptions: NextAuthOptions = {
@@ -52,7 +54,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/signin", // Custom sign-in page
   },
-  
 };
 
 const handler = NextAuth(authOptions);

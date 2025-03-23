@@ -18,7 +18,6 @@ const AddFood = () => {
     created_at: Date;
   };
 
-  // src/app/dashboard/resturantOwner/addFood
   const {
     register,
     handleSubmit,
