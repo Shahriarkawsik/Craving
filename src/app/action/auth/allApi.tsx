@@ -97,28 +97,48 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   return formattedFoodData;
 };
 
-
 interface CommonPayload {
   id: string;
 }
-
-export const deleteFood = async (payload: CommonPayload): Promise<void> => {
-  console.log(payload)
+// Delete specific food
+export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  console.log(payload);
   try {
-      
-      const db = await dbConnect();
-      const foodCollection = db.collection("food");
+    const db = await dbConnect();
+    const foodCollection = db.collection("food");
 
-      const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+    const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
 
-      console.log(result);
-
-      if (result.deletedCount === 0) {
-          throw new Error("No item found to delete");
-      }
-      
+    console.log(result);
+    return result; 
   } catch (error) {
-      console.error("Error deleting food item:", error);
-      throw error; 
+    console.error("Error deleting food item:", error);
+    throw error; 
   }
+};
+
+
+export const updateFood = async (payload: CommonPayload): Promise<any> => {
+  console.log(payload);
+
+  // connect to the database and get the food collection
+  const foodCollection = await dbConnect().then((db) => db.collection("food"));
+
+  // update the existing food item based on its ID
+  const result = await foodCollection.updateOne(
+    { _id: new ObjectId(payload.id) }, // filter by ID
+    {
+      $set: {
+        foodName: payload.foodName,
+        description: payload.description,
+        price: payload.price,
+        category: payload.category,
+        foodImage: payload.foodImage,
+      },
+    },
+    { upsert: false } 
+  );
+
+  console.log(result);
+  return result; 
 };
