@@ -15,6 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 
 interface FoodItem {
@@ -51,17 +52,38 @@ export default function AllFoodItems() {
   }, []);
 
   const handleDeleteFood = async (id: string): Promise<void> => {
-    try {
-      setLoadingId(id); // যেই item delete হচ্ছে তার id সেট করলাম
-      const result = await deleteFood({ id });
-      if (result.deletedCount > 0) {
-        fetchData();
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+
+        try {
+          setLoadingId(id); // যেই item delete হচ্ছে তার id সেট করলাম
+          const result = await deleteFood({ id });
+          if (result.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+            fetchData();
+          }
+        } catch (error) {
+          console.error("Error deleting food item:", error);
+        } finally {
+          setLoadingId(null);
+        }
+
       }
-    } catch (error) {
-      console.error("Error deleting food item:", error);
-    } finally {
-      setLoadingId(null);
-    }
+    });
+
   };
 
   return (
@@ -97,7 +119,7 @@ export default function AllFoodItems() {
               <TableCell className=" text-left">{food.category}</TableCell>
               <TableCell className=" text-left">${food.price}</TableCell>
               <TableCell className=" flex gap-2 justify-left items-center">
-                <Link href={`/dashboard/resturantOwner/updateFood/${food._id}`}>
+                <Link href={`/dashboard/resturantOwner/allFoodItem/${food._id}`}>
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
                     Edit
                   </button>

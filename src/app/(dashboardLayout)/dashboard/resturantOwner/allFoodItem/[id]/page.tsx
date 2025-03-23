@@ -1,52 +1,74 @@
 "use client";
-import React from "react";
-import BGImg from "@/assets/addFoodBG.png";
+import { useParams } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { addFood } from "@/app/action/auth/allApi";
 import { toast } from "react-toastify";
 import { updateFood } from "@/app/action/auth/allApi";
+import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-const UpdateFood = (payload) => {
-    // console.log(payload)
-  type Inputs = {
-    // restaurant_id: string;
-    foodName: string;
-    description: string;
-    price: number;
-    category: string;
-    foodImage: string;
-    is_available: boolean;
-    created_at: Date;
-  };
+// Form এর ইনপুট টাইপ ডিফাইন করা
+interface Inputs {
+  foodName: string;
+  description: string;
+  price: number;
+  category: string;
+  foodImage: string;
+  is_available: boolean;
+  created_at: Date;
+}
 
-  // src/app/dashboard/resturantOwner/addFood
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>();
+export default function UpdateFood() {
+  const { id } = useParams<{ id: string }>(); // URL থেকে ডাইনামিক ID নিচ্ছি
+
+  console.log("Food ID:", id);
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
+
+
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const allData = { ...data };
-    console.log(allData)
-    try {
-      await updateFood(allData);
-      toast.success("Food Added Successfully!");
-      reset();
-    } catch (error) {
-      toast.error("Something went wrong!" + error);
+    if (!id) {
+      toast.error("Food ID is missing!");
+      return;
     }
+
+    const allData = { ...data, id };
+
+    Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Update it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const result = await updateFood(allData);
+          console.log(result)
+          if (result.modifiedCount > 0) {
+            Swal.fire({
+              title: "Update Successfully!",
+              text: "Your Food has been Updated.",
+              icon: "success"
+            });
+            reset();
+          }
+        } catch (error) {
+          toast.error("Something went wrong! " + error);
+        }
+      }
+    });
   };
 
   return (
     <section
-      style={{
-        backgroundImage: `url(${BGImg.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-      // className="min-h-screen w-full border-2 border-red-500"
+    // style={{
+    //   backgroundImage: url(${ BGImg.src }),
+    //   backgroundSize: "cover",
+    //   backgroundPosition: "center",
+    // }}
+    // className="min-h-screen w-full border-2 border-red-500"
     >
       <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
         {/* Page Title */}
@@ -163,6 +185,4 @@ const UpdateFood = (payload) => {
       </div>
     </section>
   );
-};
-
-export default UpdateFood;
+}
