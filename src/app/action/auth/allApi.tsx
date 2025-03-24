@@ -26,6 +26,14 @@ interface CommonPayload {
   riderNumber: number;
   riderAddress: string;
   vehicleType: string;
+  // Be Owner
+  restaurantOwnerEmail: string;
+  restaurantName: string;
+  restaurantEmail: string;
+  restaurantNumber: number;
+  restaurantDescription: string;
+  restaurantAddress: string;
+  ownerNIDPhoto: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -73,6 +81,25 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
+/* Be Resturant Owner */
+export const addResturantOwner = async (
+  payload: CommonPayload
+): Promise<void> => {
+  // connect to the database and create add resturant owner collection
+  const resturantOwnerCollection = await dbConnect().then((db) =>
+    db.collection("beResturantOwner")
+  );
+  await resturantOwnerCollection.insertOne({
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantName: payload.restaurantName,
+    restaurantEmail: payload.restaurantEmail,
+    restaurantNumber: payload.restaurantNumber,
+    restaurantDescription: payload.restaurantDescription,
+    restaurantAddress: payload.restaurantAddress,
+    ownerNIDPhoto: payload.ownerNIDPhoto,
+    created_at: payload.created_at,
+  });
+};
 
 /* Be Rider */
 export const addRider = async (payload: CommonPayload): Promise<void> => {
@@ -116,7 +143,7 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   }));
   return formattedFoodData;
 };
-
+// Delete restaurant owner added food
 export const deleteFood = async (payload: CommonPayload): Promise<void> => {
   console.log(payload);
   try {

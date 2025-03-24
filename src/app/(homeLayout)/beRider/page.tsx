@@ -30,9 +30,9 @@ const BeRider = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const allData = { ...data, created_at: new Date() };
+    const beRider = { ...data, created_at: new Date() };
     try {
-      await addRider(allData);
+      await addRider(beRider);
       toast.success("Rider Added Successfully!");
       reset();
     } catch (error) {
@@ -90,22 +90,6 @@ const BeRider = () => {
                 </span>
               )}
             </div>
-            {/* Rider Email */}
-            {/* <div className="space-y-3">
-              <Label className="font-semibold">Rider Email*</Label>
-              <Input
-                type="email"
-                id="restaurant_email"
-                placeholder="Type your email"
-                {...register("riderEmail", { required: true })}
-                required
-              />
-              {errors.riderEmail && (
-                <span className="text-red-600 text-sm">
-                  Rider email is required
-                </span>
-              )}
-            </div> */}
             {/* Rider Number */}
             <div className="space-y-3">
               <Label className="font-semibold">Rider Number*</Label>
@@ -179,24 +163,6 @@ const BeRider = () => {
                 </span>
               )}
             </div>
-            {/* Rider Owner NID photo */}
-            {/* <div className="space-y-3">
-              <Label className="font-semibold">NID Photo*</Label>
-              <Input
-                type="file"
-                id="rider_address"
-                className="border-none"
-                // placeholder="rider_address"
-                {...register("nidPhoto", { required: true })}
-                required
-              />
-              {errors.nidPhoto && (
-                <span className="text-red-600 text-sm">
-                  NID photo is required
-                </span>
-              )}
-            </div> */}
-
             {/* Rider Description */}
             <div className="space-y-3 col-span-2">
               <Label className="font-semibold">Description*</Label>
