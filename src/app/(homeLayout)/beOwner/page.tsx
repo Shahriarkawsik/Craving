@@ -46,7 +46,7 @@ const BeOwner = () => {
               <Label className="font-semibold">Email</Label>
               <Input
                 readOnly
-                value={"Rider"}
+                value={"restaurantowner@gmail.com"}
                 type="email"
                 id="email"
                 placeholder="Type your email"

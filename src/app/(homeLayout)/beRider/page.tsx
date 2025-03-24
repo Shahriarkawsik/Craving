@@ -3,31 +3,34 @@ import React from "react";
 import BGImg from "@/assets/bgImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-
-// import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const BeRider = () => {
-  // type Inputs = {
-  //   // restaurant_id: string;
-  //   id: string;
-  //   foodName: string;
-  //   description: string;
-  //   price: number;
-  //   category: string;
-  //   foodImage: string;
-  //   is_available: boolean;
-  //   created_at: Date;
-  // };
+  type Inputs = {
+    // restaurant_id: string;
+    id: string;
+    riderEmail: string;
+    riderName: string;
+    riderNumber: number;
+    riderAddress: string;
+    description: string;
+    vehicleType: string;
+    created_at: Date;
+  };
 
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   reset,
-  //   formState: { errors },
-  // } = useForm<Inputs>();
-  // const onSubmit: SubmitHandler<Inputs> = (data) => {
-  //   console.log(data);
-  // };
+  const {
+    register,
+    handleSubmit,
+    control,
+    // reset,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    const allData = { ...data, created_at: new Date() };
+    console.log(allData);
+  };
   return (
     <section
       className="bg-cover bg-center min-h-screen"
@@ -43,70 +46,171 @@ const BeRider = () => {
           <form
             className="grid grid-cols-1 lg:grid-cols-2 gap-4"
             action=""
-            // onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit)}
           >
-            {/* Restaurant Owner Email */}
+            {/* Rider Email */}
             <div className="space-y-3">
-              <Label className="font-semibold">Email</Label>
+              <Label className="font-semibold">Rider Email</Label>
               <Input
                 readOnly
-                value={"Rider"}
+                value={"rider@gmail.com"}
                 type="email"
                 id="email"
                 placeholder="Type your email"
+                {...register("riderEmail", { required: true })}
+                required
               />
+              {errors.riderEmail && (
+                <span className="text-red-600 text-sm">
+                  Rider email is required
+                </span>
+              )}
             </div>
-            {/* Restaurant Name */}
+            {/* Rider Name */}
             <div className="space-y-3">
-              <Label className="font-semibold">Restaurant Name*</Label>
-              <Input type="text" id="name" placeholder="Type restaurant name" />
+              <Label className="font-semibold">Rider Name*</Label>
+              <Input
+                type="text"
+                id="name"
+                placeholder="Type your name"
+                {...register("riderName", { required: true })}
+                required
+              />
+              {errors.riderName && (
+                <span className="text-red-600 text-sm">
+                  Rider Name is required
+                </span>
+              )}
             </div>
-            {/* Restaurant Email */}
-            <div className="space-y-3">
-              <Label className="font-semibold">Restaurant Email*</Label>
+            {/* Rider Email */}
+            {/* <div className="space-y-3">
+              <Label className="font-semibold">Rider Email*</Label>
               <Input
                 type="email"
                 id="restaurant_email"
-                placeholder="Type restaurant email"
+                placeholder="Type your email"
+                {...register("riderEmail", { required: true })}
+                required
               />
-            </div>
-            {/* Restaurant Number */}
+              {errors.riderEmail && (
+                <span className="text-red-600 text-sm">
+                  Rider email is required
+                </span>
+              )}
+            </div> */}
+            {/* Rider Number */}
             <div className="space-y-3">
-              <Label className="font-semibold">Restaurant Number*</Label>
+              <Label className="font-semibold">Rider Number*</Label>
               <Input
-                type="number"
-                id="restaurant_number"
+                type="text"
+                
+                id="rider_number"
                 placeholder="+880 1234 567890"
+                {...register("riderNumber", {
+                  required: "Rider number is required",
+                  pattern: {
+                    value: /^\d{11,}$/,
+                    message: "Rider number must be at least 11 digits",
+                  },
+                })}
               />
+              {errors.riderNumber && (
+                <span className="text-red-600 text-sm">
+                  {errors.riderNumber.message}
+                </span>
+              )}
             </div>
-            {/* Restaurant Description */}
+
+            {/* Rider Address */}
             <div className="space-y-3">
-              <Label className="font-semibold">Description*</Label>
+              <Label className="font-semibold">Rider Address*</Label>
               <Input
                 type="text"
-                id="description"
-                placeholder="Type restaurant description"
+                id="rider_address"
+                placeholder="Type Rider address"
+                {...register("riderAddress", { required: true })}
+                required
               />
+              {errors.riderAddress && (
+                <span className="text-red-600 text-sm">
+                  Rider address is required
+                </span>
+              )}
             </div>
-            {/* Restaurant Address */}
+            {/* Vehicle Type */}
             <div className="space-y-3">
-              <Label className="font-semibold">Restaurant Address*</Label>
-              <Input
-                type="text"
-                id="restaurant_address"
-                placeholder="Type restaurant address"
+              <Label className="font-semibold">Vehicle Type*</Label>
+              <Controller
+                name="vehicleType"
+                control={control}
+                defaultValue="cycle"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    className="flex gap-3"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="none" id="r1" />
+                      <Label>None</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="cycle" id="r2" />
+                      <Label>Cycle</Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="bike" id="r3" />
+                      <Label>Bike</Label>
+                    </div>
+                  </RadioGroup>
+                )}
               />
+              {errors.vehicleType && (
+                <span className="text-red-600 text-sm">
+                  Vehicle type is required
+                </span>
+              )}
             </div>
-            {/* Restaurant Owner NID photo */}
-            <div className="space-y-3">
+            {/* Rider Owner NID photo */}
+            {/* <div className="space-y-3">
               <Label className="font-semibold">NID Photo*</Label>
               <Input
                 type="file"
-                id="restaurant_address"
+                id="rider_address"
                 className="border-none"
-                // placeholder="restaurant_address"
+                // placeholder="rider_address"
+                {...register("nidPhoto", { required: true })}
+                required
               />
+              {errors.nidPhoto && (
+                <span className="text-red-600 text-sm">
+                  NID photo is required
+                </span>
+              )}
+            </div> */}
+
+            {/* Rider Description */}
+            <div className="space-y-3 col-span-2">
+              <Label className="font-semibold">Description*</Label>
+              <Textarea
+                style={{ resize: "none" }}
+                id="description"
+                placeholder="Type Rider description"
+                {...register("description", { required: true })}
+                required
+              />
+              {errors.description && (
+                <span className="text-red-600 text-sm">
+                  Food Name is required
+                </span>
+              )}
             </div>
+            <input
+              type="submit"
+              value={"Submit"}
+              className="bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
+            />
           </form>
         </div>
       </div>
