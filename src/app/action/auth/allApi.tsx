@@ -12,6 +12,7 @@ interface CommonPayload {
   owner?: string;
   /*Add Food*/
   // restaurant_id: string;
+  id: string;
   foodName?: string;
   description?: string;
   price?: number;
@@ -19,6 +20,22 @@ interface CommonPayload {
   foodImage?: string;
   is_available?: boolean;
   created_at?: Date;
+  // Be Rider
+  riderEmail?: string;
+  riderName?: string;
+  riderNumber?: number;
+  riderAddress?: string;
+  vehicleType?: string;
+  // Be Owner
+  restaurantOwnerEmail?: string;
+  restaurantName?: string;
+  restaurantEmail?: string;
+  restaurantNumber?: number;
+  restaurantDescription?: string;
+  restaurantAddress?: string;
+  ownerNIDPhoto?: string;
+  // food available or not
+  isAvailable?: boolean;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -64,10 +81,44 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     foodImage: payload.foodImage,
     is_available: payload.is_available,
     created_at: payload.created_at,
+
   });
 };
-
-
+/* Be Resturant Owner */
+export const addResturantOwner = async (
+  payload: CommonPayload
+): Promise<void> => {
+  // connect to the database and create add resturant owner collection
+  const resturantOwnerCollection = await dbConnect().then((db) =>
+    db.collection("beResturantOwner")
+  );
+  await resturantOwnerCollection.insertOne({
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantName: payload.restaurantName,
+    restaurantEmail: payload.restaurantEmail,
+    restaurantNumber: payload.restaurantNumber,
+    restaurantDescription: payload.restaurantDescription,
+    restaurantAddress: payload.restaurantAddress,
+    ownerNIDPhoto: payload.ownerNIDPhoto,
+    created_at: payload.created_at,
+  });
+};
+/* Be Rider */
+export const addRider = async (payload: CommonPayload): Promise<void> => {
+  // connect to the database and create add rider collection
+  const riderCollection = await dbConnect().then((db) =>
+    db.collection("beRider")
+  );
+  await riderCollection.insertOne({
+    riderEmail: payload.riderEmail,
+    riderName: payload.riderName,
+    riderNumber: payload.riderNumber,
+    riderAddress: payload.riderAddress,
+    description: payload.description,
+    vehicleType: payload.vehicleType,
+    created_at: payload.created_at,
+  });
+};
 
 interface FoodItem {
   _id: string;
@@ -92,41 +143,49 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
     ...food,
     _id: (food._id as unknown as ObjectId).toString(),
   }));
-  // console.log(foodData);
-
   return formattedFoodData;
 };
 
-interface CommonPayload {
-  id: string;
-}
 // Delete specific food
-export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged: boolean; deletedCount: number }> => {
-  console.log(payload);
+export const deleteFood = async (
+  payload: CommonPayload
+): Promise<{ acknowledged: boolean; deletedCount: number }> => {
   try {
     const db = await dbConnect();
     const foodCollection = db.collection("food");
 
-    const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+    const result = await foodCollection.deleteOne({
+      _id: new ObjectId(payload.id),
+    });
 
-    console.log(result);
-    return result;
+
+    if (result.deletedCount === 0) {
+      throw new Error("No item found to delete");
+    }
+
+    return {
+      acknowledged: result.acknowledged,
+      deletedCount: result.deletedCount,
+    };
   } catch (error) {
     console.error("Error deleting food item:", error);
     throw error;
   }
 };
 
-// Update specific food
-export const updateFood = async (payload: CommonPayload): Promise<any> => {
-  console.log(payload);
 
-  // connect to the database and get the food collection
-  const foodCollection = await dbConnect().then((db) => db.collection("food"));
+export const updateFood = async (
+  payload: CommonPayload
+): Promise<{
+  acknowledged: boolean;
+  matchedCount: number;
+  modifiedCount: number;
+}> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
 
-  // update the existing food item based on its ID
   const result = await foodCollection.updateOne(
-    { _id: new ObjectId(payload.id) }, // filter by ID
+    { _id: new ObjectId(payload.id) },
     {
       $set: {
         foodName: payload.foodName,
@@ -143,10 +202,7 @@ export const updateFood = async (payload: CommonPayload): Promise<any> => {
   return result;
 };
 
-interface CommonPayload {
-  isAvailable: boolean;
-  id: string;
-}
+
 export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknown> => {
   console.log(payload);
 
@@ -166,5 +222,7 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
   console.log(result);
   return result; 
 
-  // return Promise.resolve(payload); // Simulating an API response
 };
+
+
+

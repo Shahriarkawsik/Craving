@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 const AddFood = () => {
   type Inputs = {
     // restaurant_id: string;
+    id: string;
     foodName: string;
     description: string;
     price: number;
@@ -17,7 +18,6 @@ const AddFood = () => {
     created_at: Date;
   };
 
-  // src/app/dashboard/resturantOwner/addFood
   const {
     register,
     handleSubmit,
