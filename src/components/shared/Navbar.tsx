@@ -24,16 +24,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const pathName = usePathname();
-<<<<<<< HEAD
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
   console.log(data, "all data")
   console.log(data?.user?.image, "=====================================");
-  console.log(data?.user?.email)
-=======
-  const { data: session, status } = useSession();
-  // console.log(session);
->>>>>>> ec9c2fe7b75b62baf4c5dc210d72842f0b3efaa8
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
