@@ -59,11 +59,11 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
   await foodCollection.insertOne({
     foodName: payload.foodName,
     description: payload.description,
-    price : payload.price,
+    price: payload.price,
     category: payload.category,
     foodImage: payload.foodImage,
     is_available: payload.is_available,
-    created_at : payload.created_at,
+    created_at: payload.created_at,
   });
 };
 
@@ -110,14 +110,14 @@ export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged
     const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
 
     console.log(result);
-    return result; 
+    return result;
   } catch (error) {
     console.error("Error deleting food item:", error);
-    throw error; 
+    throw error;
   }
 };
 
-
+// Update specific food
 export const updateFood = async (payload: CommonPayload): Promise<any> => {
   console.log(payload);
 
@@ -136,9 +136,35 @@ export const updateFood = async (payload: CommonPayload): Promise<any> => {
         foodImage: payload.foodImage,
       },
     },
-    { upsert: false } 
+    { upsert: false }
+  );
+
+  console.log(result);
+  return result;
+};
+
+interface CommonPayload {
+  isAvailable: boolean;
+  id: string;
+}
+export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknown> => {
+  console.log(payload);
+
+  // connect to the database and get the food collection
+  const foodCollection = await dbConnect().then((db) => db.collection("food"));
+
+  // update the existing food item based on its ID
+  const result = await foodCollection.updateOne(
+    { _id: new ObjectId(payload.id) }, // filter by ID
+    {
+      $set: {
+        is_available: payload.isAvailable,
+      },
+    },
   );
 
   console.log(result);
   return result; 
+
+  // return Promise.resolve(payload); // Simulating an API response
 };
