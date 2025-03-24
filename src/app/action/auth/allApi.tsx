@@ -12,7 +12,7 @@ interface CommonPayload {
   owner?: string;
   /*Add Food*/
   // restaurant_id: string;
-  id: string;
+  id?: string;
   foodName?: string;
   description?: string;
   price?: number;
@@ -35,7 +35,7 @@ interface CommonPayload {
   restaurantAddress?: string;
   ownerNIDPhoto?: string;
   // food available or not
-  isAvailable?: boolean;
+  isAvailable: boolean
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -121,9 +121,9 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
 };
 
 interface FoodItem {
-  _id: string;
-  id: string;
-  restaurant_id: string;
+  _id?: string;
+  id?: string;
+  restaurant_id?: string;
   foodName: string;
   description: string;
   price: number;
@@ -162,7 +162,6 @@ export const deleteFood = async (
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
     }
-
     return {
       acknowledged: result.acknowledged,
       deletedCount: result.deletedCount,
@@ -197,9 +196,11 @@ export const updateFood = async (
     },
     { upsert: false }
   );
-
-  console.log(result);
-  return result;
+  return {
+    acknowledged: result.acknowledged,
+    matchedCount: result.matchedCount,
+    modifiedCount: result.modifiedCount,
+  };
 };
 
 
@@ -222,7 +223,7 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
   console.log(result);
   return result; 
 
-};
 
+};
 
 
