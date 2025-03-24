@@ -100,7 +100,6 @@ export const addResturantOwner = async (
     created_at: payload.created_at,
   });
 };
-
 /* Be Rider */
 export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
