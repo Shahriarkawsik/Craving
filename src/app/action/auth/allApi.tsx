@@ -12,7 +12,7 @@ interface CommonPayload {
   owner?: string;
   /*Add Food*/
   // restaurant_id: string;
-  id: string;
+  id?: string;
   foodName?: string;
   description?: string;
   price?: number;
@@ -21,19 +21,19 @@ interface CommonPayload {
   is_available?: boolean;
   created_at?: Date;
   // Be Rider
-  riderEmail: string;
-  riderName: string;
-  riderNumber: number;
-  riderAddress: string;
-  vehicleType: string;
+  riderEmail?: string;
+  riderName?: string;
+  riderNumber?: number;
+  riderAddress?: string;
+  vehicleType?: string;
   // Be Owner
-  restaurantOwnerEmail: string;
-  restaurantName: string;
-  restaurantEmail: string;
-  restaurantNumber: number;
-  restaurantDescription: string;
-  restaurantAddress: string;
-  ownerNIDPhoto: string;
+  restaurantOwnerEmail?: string;
+  restaurantName?: string;
+  restaurantEmail?: string;
+  restaurantNumber?: number;
+  restaurantDescription?: string;
+  restaurantAddress?: string;
+  ownerNIDPhoto?: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
