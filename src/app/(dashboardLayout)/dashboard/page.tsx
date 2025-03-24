@@ -27,7 +27,7 @@ export function AppSidebar() {
                 <Link href="/">Home</Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/dashboard/admin/allResturant">All Resturants</Link>
+                <Link href="/dashboard/admin/allResturant">All Restaurants</Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/admin/allRiders">All Riders</Link>
