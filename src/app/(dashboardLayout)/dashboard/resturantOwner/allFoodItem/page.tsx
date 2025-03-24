@@ -3,7 +3,7 @@
 import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Copy } from "lucide-react"
+
 
 // import { Input } from "@/components/ui/input"
 // import { Label } from "@/components/ui/label"
@@ -68,7 +68,10 @@ export default function AllFoodItems() {
 
         try {
           setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
-          const result = await deleteFood({ id });
+          const result = await deleteFood({
+            id,
+            isAvailable: false
+          });
           if (result.deletedCount > 0) {
             Swal.fire({
               title: "Deleted!",

@@ -1,5 +1,5 @@
 import { Switch } from "@/components/ui/switch";
-import React, { useEffect, useState } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { foodAvailableOrNot } from "@/app/action/auth/allApi";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ interface AvailableOrNotProps {
 interface ApiResponse {
   acknowledged: boolean;
   modifiedCount: number;
-  upsertedId: null | string;
+  upsertedId: string | null;
   upsertedCount: number;
   matchedCount: number;
 }
@@ -23,20 +23,25 @@ interface ApiResponse {
 export default function AvailableOrNot({ food }: AvailableOrNotProps): JSX.Element {
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
 
-  console.log(isAvailable);
-
   useEffect(() => {
     setIsAvailable(food.is_available);
   }, [food.is_available]);
 
   const handleToggle = async (id: string) => {
-    console.log(id);
+    // console.log(id);
     const newAvailability = !isAvailable;
     setIsAvailable(newAvailability);
-    const result: ApiResponse = await foodAvailableOrNot({ isAvailable: newAvailability, id });
-    if(result.modifiedCount > 0){
+    const result = await foodAvailableOrNot({ isAvailable: newAvailability, id }) as ApiResponse;
+    if(result?.modifiedCount > 0){
       console.log(result)
-      toast.success(`${food.foodName} is available now`)
+      if(isAvailable === true){
+        console.log(isAvailable)
+        toast.error(`${food.foodName} is not available now`)
+        
+      }else{
+        console.log(isAvailable)
+        toast.success(`${food.foodName} is available now`)
+      }
     }
   };
 
