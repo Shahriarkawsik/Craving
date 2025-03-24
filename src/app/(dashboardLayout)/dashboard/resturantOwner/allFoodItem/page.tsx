@@ -19,8 +19,7 @@ import {
 import Link from "next/link";
 import Swal from "sweetalert2";
 import FoodDetailsModal from "./components/FoodDetailsModal";
-
-
+import AvailableOrNot from "./components/AvailableOrNot";
 
 interface FoodItem {
   _id: string;
@@ -38,11 +37,10 @@ interface FoodItem {
 
 export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
-  const [loading, setLoading] = useState<string | null>(null); // লোডিং state
+  const [loading, setLoading] = useState<string | null>(null);
   const email = "mhbabu2002@gmail.com";
 
   const fetchData = async () => {
-
     try {
       const data = await getAllFoodsData(email);
       setFoodData(data);
@@ -84,13 +82,11 @@ export default function AllFoodItems() {
         } finally {
           setLoading(null);
         }
-
       }
     });
   };
 
   return (
-
 
     <div className="w-11/12 mx-auto overflow-x-auto">
       <Table className="min-w-[700px] border border-gray-300 rounded-lg">
@@ -103,6 +99,7 @@ export default function AllFoodItems() {
             <TableHead className="w-[15%] text-left">Category</TableHead>
             <TableHead className="w-[15%] text-left">Price</TableHead>
             <TableHead className="w-[25%] text-left">Actions</TableHead>
+            <TableHead className="w-[25%] text-left">Available or Not</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -126,6 +123,7 @@ export default function AllFoodItems() {
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
                     Edit
                   </button>
+                  
                 </Link>
                 <button
                   onClick={() => handleDeleteFood(food._id)}
@@ -138,9 +136,13 @@ export default function AllFoodItems() {
                     "Delete"
                   )}
                 </button>
-                <button className="">
+                <div className="">
                   <FoodDetailsModal food={food}/>
-                </button>
+                </div>
+              </TableCell>
+
+              <TableCell>
+                <AvailableOrNot food={food}/>
               </TableCell>
             </TableRow>
           ))}
