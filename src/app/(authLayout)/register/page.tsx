@@ -36,8 +36,7 @@ const Register = () => {
         position: "top-center",
         autoClose: 1000,
       });
-      // form.reset();
-      // router.push("/");
+      form.reset();
 
       if (email && password) {
         const loginResponse = await signIn("credentials", {
