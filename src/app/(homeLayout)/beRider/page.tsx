@@ -6,6 +6,8 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { addRider } from "@/app/action/auth/allApi";
+import { toast } from "react-toastify";
 
 const BeRider = () => {
   type Inputs = {
@@ -24,12 +26,18 @@ const BeRider = () => {
     register,
     handleSubmit,
     control,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const allData = { ...data, created_at: new Date() };
-    console.log(allData);
+    try {
+      await addRider(allData);
+      toast.success("Rider Added Successfully!");
+      reset();
+    } catch (error) {
+      toast.error("Something went wrong!" + error);
+    }
   };
   return (
     <section
@@ -103,7 +111,6 @@ const BeRider = () => {
               <Label className="font-semibold">Rider Number*</Label>
               <Input
                 type="text"
-                
                 id="rider_number"
                 placeholder="+880 1234 567890"
                 {...register("riderNumber", {

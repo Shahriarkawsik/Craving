@@ -20,6 +20,12 @@ interface CommonPayload {
   foodImage?: string;
   is_available?: boolean;
   created_at?: Date;
+  // Be Rider
+  riderEmail: string;
+  riderName: string;
+  riderNumber: number;
+  riderAddress: string;
+  vehicleType: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -68,6 +74,23 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
+/* Be Rider */
+export const addRider = async (payload: CommonPayload): Promise<void> => {
+  // connect to the database and create add rider collection
+  const riderCollection = await dbConnect().then((db) =>
+    db.collection("beRider")
+  );
+  await riderCollection.insertOne({
+    riderEmail: payload.riderEmail,
+    riderName: payload.riderName,
+    riderNumber: payload.riderNumber,
+    riderAddress: payload.riderAddress,
+    description: payload.description,
+    vehicleType: payload.vehicleType,
+    created_at: payload.created_at,
+  });
+};
+
 interface FoodItem {
   _id: string;
   id: string;
@@ -91,14 +114,8 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
     ...food,
     _id: (food._id as unknown as ObjectId).toString(),
   }));
-  // console.log(foodData);
-
   return formattedFoodData;
 };
-
-// interface CommonPayload {
-//   id: string;
-// }
 
 export const deleteFood = async (payload: CommonPayload): Promise<void> => {
   console.log(payload);
@@ -109,8 +126,6 @@ export const deleteFood = async (payload: CommonPayload): Promise<void> => {
     const result = await foodCollection.deleteOne({
       _id: new ObjectId(payload.id),
     });
-
-    console.log(result);
 
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
