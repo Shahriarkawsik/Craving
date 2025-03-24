@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "tailwindcss-animate";
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
@@ -35,7 +36,7 @@
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
 }
-@theme{
+@theme {
   --color-primaryColor: rgb(132, 183, 80);
 }
 @custom-variant dark (&:is(.dark *));
@@ -118,13 +119,12 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50; 
+    @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
   }
 }
-
 
 /* Overlay in About Us page */
 .overlay {
@@ -150,6 +150,3 @@
   opacity: 1;
   height: 100%;
 }
-
-
-
