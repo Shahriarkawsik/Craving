@@ -47,7 +47,7 @@ const Navbar = () => {
                   href="/"
                   className={`${
                     pathName === "/"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -57,7 +57,7 @@ const Navbar = () => {
                   href="/aboutUs"
                   className={`${
                     pathName === "/aboutUs"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -67,11 +67,21 @@ const Navbar = () => {
                   href="/contactUs"
                   className={`${
                     pathName === "/contactUs"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
                   Contact Us
+                </NavigationMenuLink>
+                <NavigationMenuLink
+                  href="/profile"
+                  className={`${
+                    pathName === "/profile"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Profile
                 </NavigationMenuLink>
                 <NavigationMenuLink
                   href="/dashboard"
@@ -97,17 +107,20 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
+           
+            {/* <Button variant="destructive">Logout</Button> */}
+
             {status == "authenticated" ? (
-              <Button variant="destructive" onClick={() => signOut()}>
+              <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" variant="destructive" onClick={() => signOut()}>
                 Logout
               </Button>
             ) : (
               <>
                 <Link href="/signIn">
-                  <Button variant="destructive">SignIn</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignIn</Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="destructive">SignUp</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignUp</Button>
                 </Link>
               </>
             )}
@@ -164,7 +177,7 @@ const Navbar = () => {
                     href="/login"
                     className={`${
                       pathName === "/login"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >

@@ -1,6 +1,7 @@
 "use server";
-
+import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
+import { Collection } from "mongodb";
 
 interface CommonPayload {
   name?: string;
@@ -64,4 +65,80 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     is_available: payload.is_available,
     created_at : payload.created_at,
   });
+};
+
+
+
+interface FoodItem {
+  _id: string;
+  id: string;
+  restaurant_id: string;
+  foodName: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+  created_at: string;
+  owner_email: string;
+}
+//  get all food specific owner
+export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodData = await foodCollection.find({ owner_email: email }).toArray();
+  const formattedFoodData = foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
+  // console.log(foodData);
+
+  return formattedFoodData;
+};
+
+interface CommonPayload {
+  id: string;
+}
+// Delete specific food
+export const deleteFood = async (payload: CommonPayload): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  console.log(payload);
+  try {
+    const db = await dbConnect();
+    const foodCollection = db.collection("food");
+
+    const result = await foodCollection.deleteOne({ _id: new ObjectId(payload.id) });
+
+    console.log(result);
+    return result; 
+  } catch (error) {
+    console.error("Error deleting food item:", error);
+    throw error; 
+  }
+};
+
+
+export const updateFood = async (payload: CommonPayload): Promise<any> => {
+  console.log(payload);
+
+  // connect to the database and get the food collection
+  const foodCollection = await dbConnect().then((db) => db.collection("food"));
+
+  // update the existing food item based on its ID
+  const result = await foodCollection.updateOne(
+    { _id: new ObjectId(payload.id) }, // filter by ID
+    {
+      $set: {
+        foodName: payload.foodName,
+        description: payload.description,
+        price: payload.price,
+        category: payload.category,
+        foodImage: payload.foodImage,
+      },
+    },
+    { upsert: false } 
+  );
+
+  console.log(result);
+  return result; 
 };

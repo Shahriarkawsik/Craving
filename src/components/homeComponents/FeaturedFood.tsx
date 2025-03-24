@@ -23,11 +23,11 @@ const FeaturedFood = () => {
   return (
     <section className="w-11/12 mx-auto  space-y-5">
       <div className="text-center">
-        <h1 className=" text-2xl  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
           Featured Food
         </h1>
       </div>
-      <div className="grid grid-cols-1 mt-10 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-4">
          
     
         {/*  this is a card-1 */}
