@@ -48,9 +48,7 @@ export function AppSidebar() {
           {/* resturant owner's dashboard */}
           <SidebarGroupContent>
             <SidebarMenuItem>
-              <Link href="/dashboard/resturantOwner/addFood">
-                Add Food
-              </Link>
+              <Link href="/dashboard/resturantOwner/addFood">Add Food</Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/allFoodItem">
@@ -73,7 +71,7 @@ export function AppSidebar() {
               </Link>
             </SidebarMenuItem>
           </SidebarGroupContent>
-          
+
           {/* riders dashboard */}
           <SidebarGroupContent>
             <SidebarMenuItem>
