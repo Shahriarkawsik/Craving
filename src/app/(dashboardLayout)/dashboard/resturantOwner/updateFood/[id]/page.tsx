@@ -3,10 +3,9 @@ import { useParams } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 import { updateFood } from "@/app/action/auth/allApi";
-import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-// Form এর ইনপুট টাইপ ডিফাইন করা
+
 interface Inputs {
   foodName: string;
   description: string;
@@ -18,7 +17,7 @@ interface Inputs {
 }
 
 export default function UpdateFood() {
-  const { id } = useParams<{ id: string }>(); // URL থেকে ডাইনামিক ID নিচ্ছি
+  const { id } = useParams<{ id: string }>(); 
 
   console.log("Food ID:", id);
 
@@ -177,7 +176,7 @@ export default function UpdateFood() {
 
             <input
               type="submit"
-              value={"Add Food"}
+              value={"Update Food"}
               className="bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
             />
           </form>

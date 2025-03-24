@@ -34,6 +34,8 @@ interface CommonPayload {
   restaurantDescription?: string;
   restaurantAddress?: string;
   ownerNIDPhoto?: string;
+  // food available or not
+  isAvailable: boolean
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -79,6 +81,7 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     foodImage: payload.foodImage,
     is_available: payload.is_available,
     created_at: payload.created_at,
+
   });
 };
 /* Be Resturant Owner */
@@ -155,6 +158,7 @@ export const deleteFood = async (
       _id: new ObjectId(payload.id),
     });
 
+
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
     }
@@ -168,6 +172,7 @@ export const deleteFood = async (
   }
 };
 
+
 export const updateFood = async (
   payload: CommonPayload
 ): Promise<{
@@ -177,6 +182,7 @@ export const updateFood = async (
 }> => {
   const db = await dbConnect();
   const foodCollection = db.collection("food");
+
   const result = await foodCollection.updateOne(
     { _id: new ObjectId(payload.id) },
     {
@@ -197,10 +203,7 @@ export const updateFood = async (
   };
 };
 
-interface CommonPayload {
-  isAvailable: boolean;
-  id: string;
-}
+
 export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknown> => {
   console.log(payload);
 
@@ -220,5 +223,7 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
   console.log(result);
   return result; 
 
-  // return Promise.resolve(payload); // Simulating an API response
+
 };
+
+
