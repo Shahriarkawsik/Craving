@@ -142,9 +142,11 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   }));
   return formattedFoodData;
 };
-// Delete restaurant owner added food
-export const deleteFood = async (payload: CommonPayload): Promise<void> => {
-  console.log(payload);
+
+// Delete specific food
+export const deleteFood = async (
+  payload: CommonPayload
+): Promise<{ acknowledged: boolean; deletedCount: number }> => {
   try {
     const db = await dbConnect();
     const foodCollection = db.collection("food");
@@ -156,8 +158,65 @@ export const deleteFood = async (payload: CommonPayload): Promise<void> => {
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
     }
+
+    return {
+      acknowledged: result.acknowledged,
+      deletedCount: result.deletedCount,
+    };
   } catch (error) {
     console.error("Error deleting food item:", error);
     throw error;
   }
+};
+
+/* Update specific food */
+// export const updateFood = async (payload: CommonPayload): Promise<any> => {
+//   // connect to the database and get the food collection
+//   const foodCollection = await dbConnect().then((db) => db.collection("food"));
+
+//   // update the existing food item based on its ID
+//   const result = await foodCollection.updateOne(
+//     { _id: new ObjectId(payload.id) }, // filter by ID
+//     {
+//       $set: {
+//         foodName: payload.foodName,
+//         description: payload.description,
+//         price: payload.price,
+//         category: payload.category,
+//         foodImage: payload.foodImage,
+//       },
+//     },
+//     { upsert: false }
+//   );
+//   return result;
+// };
+export const updateFood = async (
+  payload: CommonPayload
+): Promise<{
+  acknowledged: boolean;
+  matchedCount: number;
+  modifiedCount: number;
+}> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const result = await foodCollection.updateOne(
+    { _id: new ObjectId(payload.id) },
+    {
+      $set: {
+        foodName: payload.foodName,
+        description: payload.description,
+        price: payload.price,
+        category: payload.category,
+        foodImage: payload.foodImage,
+      },
+    },
+    { upsert: false }
+  );
+
+  return {
+    acknowledged: result.acknowledged,
+    matchedCount: result.matchedCount,
+    modifiedCount: result.modifiedCount,
+  };
 };
