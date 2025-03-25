@@ -9,11 +9,11 @@ import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import Lottie from "lottie-react";
 import Marquee from "react-fast-marquee";
+import { useEffect } from "react";
 import AOS from "aos";
-import "aos/dist/aos.css"; 
+import "aos/dist/aos.css";
 
-
-const AboutUs = () => {
+const AboutUs: React.FC = () => {
   interface TeamMember {
     id: number;
     name: string;
@@ -97,7 +97,12 @@ const AboutUs = () => {
     },
   ];
 
-  AOS.init();
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Default duration for all animations
+      once: true, // Animation runs once
+    });
+  }, []);
 
   return (
     <div>
@@ -242,7 +247,10 @@ const AboutUs = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className=" mt-6 space-y-4">
-                  <div data-aos="fade-up" data-aos-durations="1000" className="p-6 bg-white shadow-lg rounded-lg">
+                  <div
+                    data-aos="fade-up"
+                    className="p-6 bg-white shadow-lg rounded-lg"
+                  >
                     <h3 className="text-xl font-semibold text-orange-500">
                       Fast & Reliable Delivery
                     </h3>
@@ -250,7 +258,11 @@ const AboutUs = () => {
                       Get your favorite meals delivered in record time.
                     </p>
                   </div>
-                  <div data-aos="fade-up" data-aos-durations="1300" className="p-6 bg-white shadow-lg rounded-lg">
+                  <div
+                    data-aos="fade-up"
+                    data-aos-duration="1000"
+                    className="p-6 bg-white shadow-lg rounded-lg"
+                  >
                     <h3 className="text-xl font-semibold text-orange-500">
                       Fresh & Quality Ingredients
                     </h3>
@@ -258,7 +270,11 @@ const AboutUs = () => {
                       We ensure the highest quality food from trusted sources.
                     </p>
                   </div>
-                  <div data-aos="fade-up" data-aos-durations="1700" className="p-6 bg-white shadow-lg rounded-lg">
+                  <div
+                    data-aos="fade-up"
+                    data-aos-duration="2000"
+                    className="p-6 bg-white shadow-lg rounded-lg"
+                  >
                     <h3 className="text-xl font-semibold text-orange-500">
                       Wide Variety of Cuisines
                     </h3>
@@ -266,7 +282,11 @@ const AboutUs = () => {
                       Enjoy a diverse menu from top restaurants & home chefs.
                     </p>
                   </div>
-                  <div data-aos="fade-up" data-aos-durations="2000" className="p-6 bg-white shadow-lg rounded-lg">
+                  <div
+                    data-aos="fade-up"
+                    data-aos-duration="3000"
+                    className="p-6 bg-white shadow-lg rounded-lg"
+                  >
                     <h3 className="text-xl font-semibold text-orange-500">
                       Easy & Secure Payment
                     </h3>
@@ -323,31 +343,32 @@ const AboutUs = () => {
                 What Our Customers Say
               </h2>
               <div className=" mt-6">
-              <Marquee pauseOnHover >
-                {teamMembers.map((member, index) => (
-                 
-                  <div className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg" key={index}>
-                    <div className="flex">
-                      <Image
-                        src={member.image}
-                        alt="customer"
-                        width={150}
-                        height={150}
-                        className="w-12 h-12 rounded-full mr-4"
-                      />
-                      <p className="text-gray-600 italic">
-                        Amazing service! The food was fresh, hot, and delivered
-                        on time. Highly recommended!
-                      </p>
+                <Marquee pauseOnHover>
+                  {teamMembers.map((member, index) => (
+                    <div
+                      className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg"
+                      key={index}
+                    >
+                      <div className="flex">
+                        <Image
+                          src={member.image}
+                          alt="customer"
+                          width={150}
+                          height={150}
+                          className="w-12 h-12 rounded-full mr-4"
+                        />
+                        <p className="text-gray-600 italic">
+                          Amazing service! The food was fresh, hot, and
+                          delivered on time. Highly recommended!
+                        </p>
+                      </div>
+
+                      <h4 className="text-orange-500 font-semibold mt-2">
+                        - {member.name}
+                      </h4>
                     </div>
-
-                    <h4 className="text-orange-500 font-semibold mt-2">
-                      - {member.name}
-                    </h4>
-                  </div>
-                ))}
+                  ))}
                 </Marquee>
-
               </div>
             </section>
           </div>
