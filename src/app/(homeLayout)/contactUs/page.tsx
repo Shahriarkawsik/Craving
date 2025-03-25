@@ -6,6 +6,7 @@ import Image from "next/image";
 import rider from "@/assets/images/rider.png";
 import owner from "@/assets/images/owner.jpg";
 import { useState } from "react";
+import Link from "next/link";
 
 interface FormData {
   name: string;
@@ -70,26 +71,32 @@ const ContactUs = () => {
 
           <div className="py-6 md:py-10  ">
             <div className="mt-4  text-gray-700 grid grid-cols-2 items-center  gap-4 lg:gap-5">
-              <div className="relative ">
-                <Image
-                  src={rider}
-                  alt="rider"
-                  className=" h-45 w-45  hover:scale-110 mx-auto rounded-lg bg-gray-100 border-2  border-amber-500 "
-                />
-                <div className="-mt-7   text-white  font-semibold  text-xl flex items-center justify-center ">
-                 <p className=" bg-gray-700    rounded-b-lg px-11 lg:px-12">Be Rider</p>
+              <Link href="/beRider">
+                <div className="relative ">
+                  <Image
+                    src={rider}
+                    alt="rider"
+                    className=" h-45 w-45  hover:scale-110 mx-auto rounded-lg bg-gray-100 border-2  border-amber-500 "
+                  />
+                  <div className="-mt-7   text-white  font-semibold  text-xl flex items-center justify-center ">
+                    <p className=" bg-gray-700    rounded-b-lg px-11 lg:px-12">
+                      Be Rider
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <Image
-                  src={owner}
-                  alt="owner"
-                  className="w-45 mx-auto h-45  hover:scale-110 rounded-lg bg-gray-100 border-2  border-amber-500 "
-                />
-                 <div className="-mt-7   text-white font-semibold text-xl flex items-center justify-center ">
-                 <p className="bg-gray-700  rounded-b-lg  px-10">Be Owner</p>
+              </Link>
+              <Link href="/beOwner">
+                <div>
+                  <Image
+                    src={owner}
+                    alt="owner"
+                    className="w-45 mx-auto h-45  hover:scale-110 rounded-lg bg-gray-100 border-2  border-amber-500 "
+                  />
+                  <div className="-mt-7   text-white font-semibold text-xl flex items-center justify-center ">
+                    <p className="bg-gray-700  rounded-b-lg  px-10">Be Owner</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
 
               <p className="py-3 size-5xl pl-3 text-center rounded-lg bg-gray-100 border-2  border-amber-500">
                 📍 Mirpur, Dhaka
