@@ -163,6 +163,17 @@ export function AppSidebar() {
           {/* riders dashboard */}
           <SidebarGroupContent className="">
             <SidebarMenu>
+              <Link href="/dashboard/riders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Riders Profile
+                </SidebarMenuItem>
+              </Link>
               <Link href="/dashboard/riders/availableOrders">
                 <SidebarMenuItem
                   className={`${
