@@ -37,165 +37,164 @@ export function AppSidebar() {
           {/* all admin dashboard */}
           <SidebarGroupContent className="mt-2">
             <SidebarMenu className="">
-              <SidebarMenuItem
-                className={`${
-                  pathName === "/dashboard/admin/allResturant"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-              >
-                <Link href="/dashboard/admin/allResturant">All Resturant</Link>
-              </SidebarMenuItem>
+              <Link href="/dashboard/admin/allResturant">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/allResturant"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  All Resturant
+                </SidebarMenuItem>
+              </Link>
 
-              <SidebarMenuItem
-                className={`${
-                  pathName === "/dashboard/admin/allRiders"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-              >
-                <Link href="/dashboard/admin/allRiders">All Riders</Link>
-              </SidebarMenuItem>
+              <Link href="/dashboard/admin/allRiders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/allRiders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  All Riders
+                </SidebarMenuItem>
+              </Link>
 
-              <SidebarMenuItem
-                className={`${
-                  pathName === "/dashboard/admin/statistics"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-              >
-                <Link href="/dashboard/admin/statistics">Statistics</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem
-                className={`${
-                  pathName === "/dashboard/admin/applications"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-              >
-                <Link href="/dashboard/admin/applications">Applications</Link>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/admin/reviewApplication"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/admin/reviewApplication"
-             
+              <Link href="/dashboard/admin/statistics">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/statistics"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Statistics
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/admin/applications">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/applications"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Applications
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/admin/reviewApplication">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/reviewApplication"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Review Applications
-                </Link>
-              </SidebarMenuItem>
+                </SidebarMenuItem>
+              </Link>
             </SidebarMenu>
           </SidebarGroupContent>
 
           {/* resturant owner's dashboard */}
           <SidebarGroupContent className="my-10">
             <SidebarMenu>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/resturantOwner/addFood"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/resturantOwner/addFood"
-                 
+              <Link href="/dashboard/resturantOwner/addFood">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/addFood"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Add Food
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/resturantOwner/allFoodItem"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/resturantOwner/allFoodItem"
-                  
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/resturantOwner/allFoodItem">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/allFoodItem"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   All Food Item
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/resturantOwner/addResturant"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/resturantOwner/addResturant"
-                 
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/resturantOwner/addResturant">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/addResturant"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Add Resturant
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/resturantOwner/statistics"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/resturantOwner/statistics"
-                  
+                </SidebarMenuItem>
+              </Link>
+
+              <Link href="/dashboard/resturantOwner/statistics">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/statistics"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Statistics
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/resturantOwner/orderHistory"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/resturantOwner/orderHistory"
-                 
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/resturantOwner/orderHistory">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/orderHistory"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Order History
-                </Link>
-              </SidebarMenuItem>
+                </SidebarMenuItem>
+              </Link>
             </SidebarMenu>
           </SidebarGroupContent>
 
           {/* riders dashboard */}
           <SidebarGroupContent className="">
             <SidebarMenu>
-              <SidebarMenuItem   className={`${
-                  pathName ==="/dashboard/riders/availableOrders"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/riders/availableOrders"
-                 
+              <Link href="/dashboard/riders/availableOrders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/availableOrders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Available Orders
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/riders/myOrders"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/riders/myOrders"
-                  
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/riders/myOrders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/myOrders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   My Orders
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem   className={`${
-                  pathName === "/dashboard/riders/orderHistory"
-                    ? " font-semibold shadow-md shadow-gray-300"
-                    : "font-normal"
-                } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}>
-                <Link
-                  href="/dashboard/riders/orderHistory"
-                
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/riders/orderHistory">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/orderHistory"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Orders History
-                </Link>
-              </SidebarMenuItem>
+                </SidebarMenuItem>
+              </Link>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
