@@ -35,7 +35,7 @@ interface CommonPayload {
   restaurantAddress?: string;
   ownerNIDPhoto?: string;
   // food available or not
-  isAvailable: boolean
+  isAvailable?: boolean
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -120,7 +120,7 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-interface FoodItem {
+export interface FoodItem {
   _id?: string;
   id?: string;
   restaurant_id?: string;

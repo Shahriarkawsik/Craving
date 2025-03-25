@@ -31,7 +31,7 @@ const Register = () => {
     // }
 
     try {
-      await registerUser({ name, email, password });
+      await registerUser({ name, email, password,isAvailable: true });
       toast.success("User register is successfully", {
         position: "top-center",
         autoClose: 1000,

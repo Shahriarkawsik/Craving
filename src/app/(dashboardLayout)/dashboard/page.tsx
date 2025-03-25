@@ -52,11 +52,11 @@ export function AppSidebar() {
                 Add Food
               </Link>
             </SidebarMenuItem>
-            <SidebarMenuItem>
+            {/* <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/allFoodItem">
                 All Food Item
               </Link>
-            </SidebarMenuItem>
+            </SidebarMenuItem> */}
             <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/addResturant">
                 Add Resturant
