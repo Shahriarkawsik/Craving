@@ -100,6 +100,17 @@ export function AppSidebar() {
           {/* resturant owner's dashboard */}
           <SidebarGroupContent className="my-10">
             <SidebarMenu>
+              <Link href="/dashboard/resturantOwner">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Restaurant Profile
+                </SidebarMenuItem>
+              </Link>
               <Link href="/dashboard/resturantOwner/addFood">
                 <SidebarMenuItem
                   className={`${
@@ -134,17 +145,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               </Link>
 
-              <Link href="/dashboard/resturantOwner/statistics">
-                <SidebarMenuItem
-                  className={`${
-                    pathName === "/dashboard/resturantOwner/statistics"
-                      ? " font-semibold shadow-md shadow-gray-300"
-                      : "font-normal"
-                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                >
-                  Statistics
-                </SidebarMenuItem>
-              </Link>
+
               <Link href="/dashboard/resturantOwner/orderHistory">
                 <SidebarMenuItem
                   className={`${
@@ -162,6 +163,17 @@ export function AppSidebar() {
           {/* riders dashboard */}
           <SidebarGroupContent className="">
             <SidebarMenu>
+              <Link href="/dashboard/riders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Riders Profile
+                </SidebarMenuItem>
+              </Link>
               <Link href="/dashboard/riders/availableOrders">
                 <SidebarMenuItem
                   className={`${

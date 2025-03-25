@@ -141,7 +141,7 @@ export default function UpdateFood() {
                 Category*
               </label>
               <input
-                type="number"
+                type="text"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
                 {...register("category", { required: true })}
