@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormEvent } from "react";
 import { addResturant } from "../../../../action/auth/allApi";
+import { toast } from "react-toastify";
 
 const AddResturant = () => {
   const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
@@ -13,7 +14,8 @@ const AddResturant = () => {
       const owner = (form.elements.namedItem("owner") as HTMLInputElement).value;
       const email = (form.elements.namedItem("email") as HTMLInputElement)
         .value;
-        addResturant({title, location, owner, email})
+        const result = await addResturant({title, location, owner, email})
+        toast.success('Restaurant Added Successfully')
     };
   return (
     <div className="w-8/12 mx-auto">

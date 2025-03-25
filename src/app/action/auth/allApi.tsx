@@ -158,7 +158,6 @@ export const deleteFood = async (
       _id: new ObjectId(payload.id),
     });
 
-
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
     }
@@ -171,7 +170,6 @@ export const deleteFood = async (
     throw error;
   }
 };
-
 
 export const updateFood = async (
   payload: CommonPayload
@@ -206,7 +204,6 @@ export const updateFood = async (
 
 export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknown> => {
   console.log(payload);
-
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -222,8 +219,25 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
 
   console.log(result);
   return result; 
-
-
 };
 
 
+// Define the type for a FoodItem
+interface FoodItem {
+  name: string;
+  description: string;
+  image: string;
+  // Add other properties if required
+}
+
+export const getAllFoods = async (): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodData = await foodCollection.find().toArray();
+  const formattedFoodData = foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
+  return formattedFoodData;
+};

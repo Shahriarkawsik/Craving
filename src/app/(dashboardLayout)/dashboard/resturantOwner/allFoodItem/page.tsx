@@ -3,10 +3,6 @@
 import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
-
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 import {
   Table,
   TableBody,
@@ -15,7 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import FoodDetailsModal from "./components/FoodDetailsModal";
@@ -35,14 +31,19 @@ interface FoodItem {
   owner_email: string;
 }
 
+// Delete API response 
+interface DeleteResponse {
+  deletedCount: number;
+}
+
 export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
   const [loading, setLoading] = useState<string | null>(null);
   const email = "mhbabu2002@gmail.com";
 
-  const fetchData = async () => {
+  const fetchData = async (): Promise<void> => {
     try {
-      const data = await getAllFoodsData(email);
+      const data = await getAllFoodsData(email) as FoodItem[];
       setFoodData(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -54,7 +55,6 @@ export default function AllFoodItems() {
   }, []);
 
   const handleDeleteFood = async (id: string): Promise<void> => {
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -62,21 +62,18 @@ export default function AllFoodItems() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then(async(result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-
         try {
-          setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
-          const result = await deleteFood({
-            id,
-            isAvailable: false
-          });
-          if (result.deletedCount > 0) {
+          setLoading(id);
+          const response: DeleteResponse = await deleteFood({ id, isAvailable: false });
+
+          if (response.deletedCount > 0) {
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
-              icon: "success"
+              icon: "success",
             });
             fetchData();
           }
@@ -90,7 +87,6 @@ export default function AllFoodItems() {
   };
 
   return (
-
     <div className="w-11/12 mx-auto overflow-x-auto">
       <Table className="min-w-[700px] border border-gray-300 rounded-lg">
         <TableCaption>A list of your recent invoices.</TableCaption>
@@ -107,9 +103,9 @@ export default function AllFoodItems() {
         </TableHeader>
         <TableBody>
           {foodData.map((food, index) => (
-            <TableRow key={food.foodName} className="border-t">
+            <TableRow key={food._id} className="border-t">
               <TableCell className="text-center font-medium">{index + 1}</TableCell>
-              <TableCell className=" text-center">
+              <TableCell className="text-center">
                 <Image
                   src={food.image}
                   width={50}
@@ -118,15 +114,14 @@ export default function AllFoodItems() {
                   className="w-12 h-12 object-cover rounded-md"
                 />
               </TableCell>
-              <TableCell className=" text-left">{food.foodName}</TableCell>
-              <TableCell className=" text-left">{food.category}</TableCell>
-              <TableCell className=" text-left">${food.price}</TableCell>
-              <TableCell className=" flex gap-2 justify-left items-center">
+              <TableCell className="text-left">{food.foodName}</TableCell>
+              <TableCell className="text-left">{food.category}</TableCell>
+              <TableCell className="text-left">${food.price}</TableCell>
+              <TableCell className="flex gap-2 justify-left items-center">
                 <Link href={`/dashboard/resturantOwner/updateFood/${food._id}`}>
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
                     Edit
                   </button>
-                  
                 </Link>
                 <button
                   onClick={() => handleDeleteFood(food._id)}
@@ -139,20 +134,17 @@ export default function AllFoodItems() {
                     "Delete"
                   )}
                 </button>
-                <div className="">
-                  <FoodDetailsModal food={food}/>
+                <div>
+                  <FoodDetailsModal food={food} />
                 </div>
               </TableCell>
-
               <TableCell>
-                <AvailableOrNot food={food}/>
+                <AvailableOrNot food={food} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-
-      
     </div>
   );
 }
