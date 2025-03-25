@@ -65,11 +65,6 @@ export function AppSidebar() {
               </Link>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <Link href="/dashboard/resturantOwner/statistics">
-                Statistics
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/orderHistory">
                 Order History
               </Link>
