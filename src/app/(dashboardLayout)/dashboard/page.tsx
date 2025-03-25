@@ -1,3 +1,4 @@
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -7,88 +8,195 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import logo from "@/assets/logo.png";
 
 export function AppSidebar() {
-  const role = "Admin";
+  const pathName = usePathname();
+  // const role = "Admin";
   return (
-    <Sidebar>
+    <Sidebar className="">
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>
-            <small className="text-xl font-semibold bg-green-500 text-white px-3 rounded-xl mb-2">
-              {role}
-            </small>
+        <SidebarGroup className="mt-2 mb-10">
+          <SidebarGroupLabel className="text-center border-b-2  py-7 flex justify-center">
+            <Link href="/" className=" pb-2 ">
+              <Image
+                className="mx-auto "
+                src={logo}
+                alt="logo"
+                width={70}
+                height={70}
+              />
+            </Link>
+            {/* <small className="text-xl font-semibold bg-green-500 text-white px-2  rounded-xl mb-2">
+            {role}
+            </small> */}
           </SidebarGroupLabel>
           {/* all admin dashboard */}
-          <SidebarGroupContent className="list-none bg-amber-100">
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href="/">Home</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/admin/allResturant">All Restaurants</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/admin/allRiders">All Riders</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/admin/applications">Applications</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/admin/reviewApplication">
+          <SidebarGroupContent className="mt-2">
+            <SidebarMenu className="">
+              <Link href="/dashboard/admin/allResturant">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/allResturant"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  All Resturant
+                </SidebarMenuItem>
+              </Link>
+
+              <Link href="/dashboard/admin/allRiders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/allRiders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  All Riders
+                </SidebarMenuItem>
+              </Link>
+
+              <Link href="/dashboard/admin/statistics">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/statistics"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Statistics
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/admin/applications">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/applications"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Applications
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/admin/reviewApplication">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/admin/reviewApplication"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
                   Review Applications
-                </Link>
-              </SidebarMenuItem>
+                </SidebarMenuItem>
+              </Link>
             </SidebarMenu>
           </SidebarGroupContent>
+
           {/* resturant owner's dashboard */}
-          <SidebarGroupContent className="list-none bg-teal-100">
-            <SidebarMenuItem>
+          <SidebarGroupContent className="my-10">
+            <SidebarMenu>
               <Link href="/dashboard/resturantOwner">
-                Restaurant Profile
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Restaurant Profile
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/addFood">
-                Add Food
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/addFood"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Add Food
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/allFoodItem">
-                All Food Item
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/allFoodItem"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  All Food Item
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/addResturant">
-                Add Resturant
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/addResturant"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Add Resturant
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
+
+
               <Link href="/dashboard/resturantOwner/orderHistory">
-                Order History
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/resturantOwner/orderHistory"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Order History
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarGroupContent>
-          
+
           {/* riders dashboard */}
-          <SidebarGroupContent className="list-none bg-violet-100">
-            <SidebarMenuItem>
-              <Link href="/dashboard/riders">
-                Rider's Profile
-              </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
+          <SidebarGroupContent className="">
+            <SidebarMenu>
               <Link href="/dashboard/riders/availableOrders">
-                Available Orders
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/availableOrders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Available Orders
+                </SidebarMenuItem>
               </Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/dashboard/riders/myOrders">My Orders</Link>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <Link href="/dashboard/riders/orderHistory">Orders History</Link>
-            </SidebarMenuItem>
+              <Link href="/dashboard/riders/myOrders">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/myOrders"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  My Orders
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/riders/orderHistory">
+                <SidebarMenuItem
+                  className={`${
+                    pathName === "/dashboard/riders/orderHistory"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Orders History
+                </SidebarMenuItem>
+              </Link>
+            </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>

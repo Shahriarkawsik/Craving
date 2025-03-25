@@ -86,7 +86,7 @@ const Navbar = () => {
                   href="/dashboard"
                   className={`${
                     pathName === "/dashboard"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
