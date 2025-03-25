@@ -1,27 +1,29 @@
+"use client"
 import { Card, CardContent } from '@/components/ui/card';
 import { FC } from 'react';
-import restaurantLogo from "@/assets/categoryImg/fast-food.png"
+import restaurantLogo from "@/assets/images/rider.png"
 import Image from "next/image";
-// import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from "recharts";
+
+
+interface EarningData {
+    day: string;
+    earnings: number;
+}
+
 
 const RidersProfile: FC = () => {
 
-    // const weeklyEarnings: earningData[] = [
-    //     { day: "Mon", earnings: 220 },
-    //     { day: "Tue", earnings: 318 },
-    //     { day: "Wed", earnings: 309 },
-    //     { day: "Thu", earnings: 500 },
-    //     { day: "Fri", earnings: 511 },
-    //     { day: "Sat", earnings: 490 },
-    //     { day: "Sun", earnings: 350 },
-    // ];
+    const weeklyEarnings: EarningData[] = [
+        { day: "Mon", earnings: 220 },
+        { day: "Tue", earnings: 318 },
+        { day: "Wed", earnings: 309 },
+        { day: "Thu", earnings: 500 },
+        { day: "Fri", earnings: 511 },
+        { day: "Sat", earnings: 490 },
+        { day: "Sun", earnings: 350 },
+    ];
 
-    // const foodCategory: FoodCategoryData[] = [
-    //     { name: "Burgers", value: 10 },
-    //     { name: "Pizzas", value: 5 },
-    //     { name: "Drinks", value: 7 },
-    //     { name: "Desserts", value: 8 },
-    // ];
 
     return (
         <div className="p-6 mx-auto">
@@ -68,29 +70,20 @@ const RidersProfile: FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 {/* bar chart */}
-                {/* <Card className="p-4 border border-blue-300">
+                <Card className="p-4 border border-blue-300">
                     <CardContent>
                         <h3 className="text-xl font-semibold text-center mb-4">Weekly Earnings</h3>
-                        <BarChart width={400} height={250} data={weeklySales}>
+                        <BarChart width={400} height={250} data={weeklyEarnings}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="day" />
                             <YAxis />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="sales" fill="#8884d8" />
+                            <Bar dataKey="earnings" fill="#8884d8" />
                         </BarChart>
                     </CardContent>
-                </Card> */}
-                {/* pie chart */}
-                {/* <Card className="p-4 border border-green-300">
-                    <CardContent>
-                        <h3 className="text-xl font-semibold text-center mb-4">Food Categories</h3>
-                        <PieChart width={400} height={250}>
-                            <Pie data={foodCategory} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#82ca9d" label />
-                            <Tooltip />
-                        </PieChart>
-                    </CardContent>
-                </Card> */}
+                </Card>
+               
             </div>
         </div>
     );
