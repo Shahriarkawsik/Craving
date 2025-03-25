@@ -21,7 +21,7 @@ export function AppSidebar() {
             </small>
           </SidebarGroupLabel>
           {/* all admin dashboard */}
-          <SidebarGroupContent>
+          <SidebarGroupContent className="list-none bg-amber-100">
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/">Home</Link>
@@ -31,9 +31,6 @@ export function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/admin/allRiders">All Riders</Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/dashboard/admin/statistics">statistics</Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/dashboard/admin/applications">Applications</Link>
@@ -46,7 +43,12 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
           {/* resturant owner's dashboard */}
-          <SidebarGroupContent>
+          <SidebarGroupContent className="list-none bg-teal-100">
+            <SidebarMenuItem>
+              <Link href="/dashboard/resturantOwner">
+                Restaurant Profile
+              </Link>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/addFood">
                 Add Food
@@ -75,7 +77,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
           
           {/* riders dashboard */}
-          <SidebarGroupContent>
+          <SidebarGroupContent className="list-none bg-violet-100">
+            <SidebarMenuItem>
+              <Link href="/dashboard/riders">
+                Rider's Profile
+              </Link>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <Link href="/dashboard/riders/availableOrders">
                 Available Orders

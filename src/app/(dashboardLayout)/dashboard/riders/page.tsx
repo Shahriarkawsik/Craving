@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { FC } from 'react';
 import restaurantLogo from "@/assets/categoryImg/fast-food.png"
 import Image from "next/image";
-import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
+// import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
 
 const RidersProfile: FC = () => {
 
