@@ -5,6 +5,24 @@ import Image from "next/image";
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
 
 const RidersProfile: FC = () => {
+
+    // const weeklyEarnings: earningData[] = [
+    //     { day: "Mon", earnings: 220 },
+    //     { day: "Tue", earnings: 318 },
+    //     { day: "Wed", earnings: 309 },
+    //     { day: "Thu", earnings: 500 },
+    //     { day: "Fri", earnings: 511 },
+    //     { day: "Sat", earnings: 490 },
+    //     { day: "Sun", earnings: 350 },
+    // ];
+
+    // const foodCategory: FoodCategoryData[] = [
+    //     { name: "Burgers", value: 10 },
+    //     { name: "Pizzas", value: 5 },
+    //     { name: "Drinks", value: 7 },
+    //     { name: "Desserts", value: 8 },
+    // ];
+
     return (
         <div className="p-6 mx-auto">
             {/* restaurant information */}
@@ -50,7 +68,7 @@ const RidersProfile: FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 {/* bar chart */}
-                <Card className="p-4 border border-blue-300">
+                {/* <Card className="p-4 border border-blue-300">
                     <CardContent>
                         <h3 className="text-xl font-semibold text-center mb-4">Weekly Earnings</h3>
                         <BarChart width={400} height={250} data={weeklySales}>
@@ -62,9 +80,9 @@ const RidersProfile: FC = () => {
                             <Bar dataKey="sales" fill="#8884d8" />
                         </BarChart>
                     </CardContent>
-                </Card>
+                </Card> */}
                 {/* pie chart */}
-                <Card className="p-4 border border-green-300">
+                {/* <Card className="p-4 border border-green-300">
                     <CardContent>
                         <h3 className="text-xl font-semibold text-center mb-4">Food Categories</h3>
                         <PieChart width={400} height={250}>
@@ -72,7 +90,7 @@ const RidersProfile: FC = () => {
                             <Tooltip />
                         </PieChart>
                     </CardContent>
-                </Card>
+                </Card> */}
             </div>
         </div>
     );
