@@ -218,7 +218,7 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
   );
 
   console.log(result);
-  return result; 
+  return result;
 };
 
 
@@ -230,14 +230,22 @@ interface FoodItem {
   // Add other properties if required
 }
 
-export const getAllFoods = async (): Promise<FoodItem[]> => {
+export const getAllFoods = async (searchQuery?: string): Promise<FoodItem[]> => {
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
 
-  const foodData = await foodCollection.find().toArray();
-  const formattedFoodData = foodData.map((food) => ({
+  let filter = {};
+
+  if (searchQuery) {
+    filter = {
+      foodName: { $regex: searchQuery, $options: "i" }, // Case-insensitive search
+    };
+  }
+
+  const foodData = await foodCollection.find(filter).toArray();
+
+  return foodData.map((food) => ({
     ...food,
     _id: (food._id as unknown as ObjectId).toString(),
   }));
-  return formattedFoodData;
 };

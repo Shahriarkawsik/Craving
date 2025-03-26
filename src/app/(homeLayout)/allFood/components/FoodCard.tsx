@@ -27,7 +27,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         {/* Uncomment and replace image src if you have an image field */}
         {/* <img src={food.image} alt={food.name} className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110" /> */}
         <div className="p-6">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-2">{food.name}</h3>
+          <h3 className="text-2xl font-semibold text-gray-800 mb-2">{food.foodName}</h3>
           <p className="text-sm text-gray-600 mb-4">{food.description}</p>
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
             View More
