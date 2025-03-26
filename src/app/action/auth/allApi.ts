@@ -5,6 +5,8 @@ import { Collection } from "mongodb";
 
 interface CommonPayload {
   name?: string;
+  image?: string,
+  role?: string,
   email?: string;
   password?: string;
   title?: string;
@@ -35,7 +37,7 @@ interface CommonPayload {
   restaurantAddress?: string;
   ownerNIDPhoto?: string;
   // food available or not
-  isAvailable: boolean
+  isAvailable?: boolean
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -51,8 +53,10 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   }
   await userCollection.insertOne({
     name: payload.name,
+    image:payload.image,
     email: payload.email,
     password: payload.password,
+    role:payload.role,
   });
 };
 

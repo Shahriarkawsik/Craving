@@ -20,9 +20,12 @@ const Register = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const image = (form.elements.namedItem("image") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
+      const userData = { name, image, email, password, role: "User" };
+      console.log(userData)
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");
@@ -31,7 +34,7 @@ const Register = () => {
     // }
 
     try {
-      await registerUser({ name, email, password });
+      await registerUser({ name, image, email, password, role: "User" });
       toast.success("User register is successfully", {
         position: "top-center",
         autoClose: 1000,
@@ -41,8 +44,10 @@ const Register = () => {
       if (email && password) {
         const loginResponse = await signIn("credentials", {
           name,
+          image,
           email,
           password,
+          role: "User",
           redirect: false,
         });
         
@@ -68,7 +73,7 @@ const Register = () => {
         <div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-gray-700" htmlFor="name">
+              <label className="text-gray-700">
                 Name
               </label>
               <Input
@@ -80,7 +85,7 @@ const Register = () => {
               />
             </div>
             <div>
-              <label className="text-gray-700" htmlFor="name">
+              <label className="text-gray-700">
                 Image
               </label>
               <Input
