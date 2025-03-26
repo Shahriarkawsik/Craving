@@ -45,7 +45,7 @@ const Register = () => {
           password,
           redirect: false,
         });
-        
+
         if (loginResponse?.ok) {
           router.push("/");
         }
