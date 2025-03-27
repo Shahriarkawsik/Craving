@@ -1,9 +1,8 @@
 "use client";
 
-import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
+import { deleteFood, FoodItem, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
 
 // import { Input } from "@/components/ui/input"
 // import { Label } from "@/components/ui/label"
@@ -15,25 +14,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import FoodDetailsModal from "./components/FoodDetailsModal";
 import AvailableOrNot from "./components/AvailableOrNot";
 
-interface FoodItem {
-  _id: string;
-  id: string;
-  restaurant_id: string;
-  foodName: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
-}
+// interface CommonPayload {
+//   _id: string;
+//   id: string;
+//   restaurant_id: string;
+//   foodName: string;
+//   description: string;
+//   price: number;
+//   category: string;
+//   image: string;
+//   is_available: boolean;
+//   created_at: string;
+//   owner_email: string;
+// }
 
 export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
@@ -54,7 +53,6 @@ export default function AllFoodItems() {
   }, []);
 
   const handleDeleteFood = async (id: string): Promise<void> => {
-
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -62,21 +60,20 @@ export default function AllFoodItems() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
-    }).then(async(result) => {
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
       if (result.isConfirmed) {
-
         try {
           setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
           const result = await deleteFood({
             id,
-            isAvailable: false
+            isAvailable: false,
           });
           if (result.deletedCount > 0) {
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
-              icon: "success"
+              icon: "success",
             });
             fetchData();
           }
@@ -90,7 +87,6 @@ export default function AllFoodItems() {
   };
 
   return (
-
     <div className="w-11/12 mx-auto overflow-x-auto">
       <Table className="min-w-[700px] border border-gray-300 rounded-lg">
         <TableCaption>A list of your recent invoices.</TableCaption>
@@ -102,13 +98,17 @@ export default function AllFoodItems() {
             <TableHead className="w-[15%] text-left">Category</TableHead>
             <TableHead className="w-[15%] text-left">Price</TableHead>
             <TableHead className="w-[25%] text-left">Actions</TableHead>
-            <TableHead className="w-[25%] text-left">Available or Not</TableHead>
+            <TableHead className="w-[25%] text-left">
+              Available or Not
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {foodData.map((food, index) => (
             <TableRow key={food.foodName} className="border-t">
-              <TableCell className="text-center font-medium">{index + 1}</TableCell>
+              <TableCell className="text-center font-medium">
+                {index + 1}
+              </TableCell>
               <TableCell className=" text-center">
                 <Image
                   src={food.image}
@@ -126,7 +126,6 @@ export default function AllFoodItems() {
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
                     Edit
                   </button>
-                  
                 </Link>
                 <button
                   onClick={() => handleDeleteFood(food._id)}
@@ -140,19 +139,17 @@ export default function AllFoodItems() {
                   )}
                 </button>
                 <div className="">
-                  <FoodDetailsModal food={food}/>
+                  <FoodDetailsModal food={food} />
                 </div>
               </TableCell>
 
               <TableCell>
-                <AvailableOrNot food={food}/>
+                <AvailableOrNot food={food} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-
-      
     </div>
   );
 }
