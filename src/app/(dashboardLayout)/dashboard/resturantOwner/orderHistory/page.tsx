@@ -1,8 +1,7 @@
 import OrderHistoryTable from "./components/OrderHistoryTable";
-<<<<<<< HEAD
-=======
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
->>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
+
 
 // Define the type for each order
 interface Order {
@@ -156,50 +155,14 @@ const OrderHistory: React.FC = () => {
     }, {} as { [key: string]: number });
 
     return (
-<<<<<<< HEAD
-        <div>
-=======
+
         <div className="px-5">
->>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
+
             <section>
                 <h1 className="uppercase text-2xl">Orders History</h1>
                 <p>{`Hello, Gulam Jakaria. You have ${statusCount['pending']} pending orders.`}</p>
             </section>
 
-<<<<<<< HEAD
-            <section>
-                <div className="tabs tabs-border mt-5">
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`All`} defaultChecked />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={allOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Pending ${statusCount['pending']}`} />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={pendingOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Preparing ${statusCount['preparing']}`} />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={preparingOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`In Transit ${statusCount['in transit']}`} />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={inTransitOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Delivered ${statusCount['delivered']}`} />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={deliveredOrders}></OrderHistoryTable>
-                    </div>
-
-                    <input type="radio" name="order_history_tab" className="tab" aria-label={`Cancelled ${statusCount['cancelled']}`} />
-                    <div className="tab-content bg-base-100 my-5">
-                        <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
-                    </div>
-                </div>
-=======
             {/* tabs */}
             <section className="my-5">
                 <Tabs defaultValue="all" className="w-full">
@@ -230,7 +193,6 @@ const OrderHistory: React.FC = () => {
                         <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
                     </TabsContent>
                 </Tabs>
->>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
             </section>
         </div>
     );
