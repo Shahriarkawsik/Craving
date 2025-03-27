@@ -77,9 +77,6 @@ const SignIn = () => {
               </Button>
             </div>
             <SocialLogin></SocialLogin>
-            <button onClick={
-              ()=> signIn()
-            }>login login</button>
           </form>
         </div>
         <div className="relative flex items-center justify-center my-4">

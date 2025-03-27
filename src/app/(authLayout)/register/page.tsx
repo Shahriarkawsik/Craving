@@ -43,8 +43,10 @@ const Register = () => {
       if (email && password) {
         const loginResponse = await signIn("credentials", userData);
         
+        router.push("/");
+        
         if (loginResponse?.ok) {
-          router.push("/");
+          // router.push("/");
         }
       }
     } catch (error) {
