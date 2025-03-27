@@ -25,7 +25,6 @@ const Register = () => {
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
       const userData = { name, image, email, password, role: "User" };
-      console.log(userData)
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");
@@ -34,7 +33,7 @@ const Register = () => {
     // }
 
     try {
-      await registerUser({ name, image, email, password, role: "User" });
+      await registerUser(userData);
       toast.success("User register is successfully", {
         position: "top-center",
         autoClose: 1000,
@@ -42,14 +41,7 @@ const Register = () => {
       form.reset();
 
       if (email && password) {
-        const loginResponse = await signIn("credentials", {
-          name,
-          image,
-          email,
-          password,
-          role: "User",
-          redirect: false,
-        });
+        const loginResponse = await signIn("credentials", userData);
         
         if (loginResponse?.ok) {
           router.push("/");
