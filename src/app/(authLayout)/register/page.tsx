@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 // import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
@@ -28,7 +29,6 @@ const Register = () => {
     //   setError("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
     //   return;
     // }
-    
 
     try {
       await registerUser({ name, email, password });
@@ -37,7 +37,19 @@ const Register = () => {
         autoClose: 1000,
       });
       form.reset();
-      router.push("/");
+
+      if (email && password) {
+        const loginResponse = await signIn("credentials", {
+          name,
+          email,
+          password,
+          redirect: false,
+        });
+
+        if (loginResponse?.ok) {
+          router.push("/");
+        }
+      }
     } catch (error) {
       console.log(error);
       toast.error("Already have an account", {
@@ -63,6 +75,18 @@ const Register = () => {
                 type="text"
                 name="name"
                 placeholder="Enter your name"
+                required
+                className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+            <div>
+              <label className="text-gray-700" htmlFor="name">
+                Image
+              </label>
+              <Input
+                type="text"
+                name="image"
+                placeholder="Enter your Image"
                 required
                 className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               />

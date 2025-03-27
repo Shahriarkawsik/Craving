@@ -9,7 +9,6 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -21,11 +20,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const pathName = usePathname();
-  const { data: session, status } = useSession();
-  console.log(session);
+  // const { data: session, status } = useSession();
+  const { data, status } = useSession();
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -44,7 +44,7 @@ const Navbar = () => {
                   href="/"
                   className={`${
                     pathName === "/"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -54,7 +54,7 @@ const Navbar = () => {
                   href="/aboutUs"
                   className={`${
                     pathName === "/aboutUs"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -64,17 +64,27 @@ const Navbar = () => {
                   href="/contactUs"
                   className={`${
                     pathName === "/contactUs"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
                   Contact Us
                 </NavigationMenuLink>
                 <NavigationMenuLink
+                  href="/profile"
+                  className={`${
+                    pathName === "/profile"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Profile
+                </NavigationMenuLink>
+                <NavigationMenuLink
                   href="/dashboard"
                   className={`${
                     pathName === "/dashboard"
-                      ? "font-bold border-b-2 border-pink-500"
+                      ? "font-bold border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -85,24 +95,36 @@ const Navbar = () => {
           </NavigationMenu>
         </div>
         <div className="flex items-center gap-3">
-          <div>
-            <Avatar>
-              {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-          </div>
+          {data && (
+            <div>
+              <Avatar>
+                <AvatarImage src={data?.user?.image as string | undefined} />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </div>
+          )}
           <div className="hidden md:flex">
+            {/* <Button variant="destructive">Logout</Button> */}
+
             {status == "authenticated" ? (
-              <Button variant="destructive" onClick={() => signOut()}>
+              <Button
+                className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
+                variant="destructive"
+                onClick={() => signOut()}
+              >
                 Logout
               </Button>
             ) : (
               <>
                 <Link href="/signIn">
-                  <Button variant="destructive">SignIn</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignIn
+                  </Button>
                 </Link>
                 <Link href="/register">
-                  <Button variant="destructive">SignUp</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignUp
+                  </Button>
                 </Link>
               </>
             )}
@@ -159,7 +181,7 @@ const Navbar = () => {
                     href="/login"
                     className={`${
                       pathName === "/login"
-                        ? "font-bold border-b-2 border-pink-500"
+                        ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
                     }`}
                   >

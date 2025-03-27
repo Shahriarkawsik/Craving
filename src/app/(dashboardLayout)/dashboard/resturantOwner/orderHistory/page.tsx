@@ -1,4 +1,8 @@
 import OrderHistoryTable from "./components/OrderHistoryTable";
+<<<<<<< HEAD
+=======
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+>>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
 
 // Define the type for each order
 interface Order {
@@ -152,12 +156,17 @@ const OrderHistory: React.FC = () => {
     }, {} as { [key: string]: number });
 
     return (
+<<<<<<< HEAD
         <div>
+=======
+        <div className="px-5">
+>>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
             <section>
                 <h1 className="uppercase text-2xl">Orders History</h1>
                 <p>{`Hello, Gulam Jakaria. You have ${statusCount['pending']} pending orders.`}</p>
             </section>
 
+<<<<<<< HEAD
             <section>
                 <div className="tabs tabs-border mt-5">
                     <input type="radio" name="order_history_tab" className="tab" aria-label={`All`} defaultChecked />
@@ -190,6 +199,38 @@ const OrderHistory: React.FC = () => {
                         <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
                     </div>
                 </div>
+=======
+            {/* tabs */}
+            <section className="my-5">
+                <Tabs defaultValue="all" className="w-full">
+                    <TabsList className="mb-5">
+                        <TabsTrigger value="all">All</TabsTrigger>
+                        <TabsTrigger value="pending">{`Pending ${statusCount['pending']}`}</TabsTrigger>
+                        <TabsTrigger value="preparing">{`Preparing ${statusCount['preparing']}`}</TabsTrigger>
+                        <TabsTrigger value="in transit">{`In Transit ${statusCount['in transit']}`}</TabsTrigger>
+                        <TabsTrigger value="delivered">{`Delivered ${statusCount['delivered']}`}</TabsTrigger>
+                        <TabsTrigger value="cancelled">{`Cancelled ${statusCount['cancelled']}`}</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="all">
+                        <OrderHistoryTable orderHistory={allOrders}></OrderHistoryTable>
+                    </TabsContent>
+                    <TabsContent value="pending">
+                        <OrderHistoryTable orderHistory={pendingOrders}></OrderHistoryTable>
+                    </TabsContent>
+                    <TabsContent value="preparing">
+                        <OrderHistoryTable orderHistory={preparingOrders}></OrderHistoryTable>
+                    </TabsContent>
+                    <TabsContent value="in transit">
+                        <OrderHistoryTable orderHistory={inTransitOrders}></OrderHistoryTable>
+                    </TabsContent>
+                    <TabsContent value="delivered">
+                        <OrderHistoryTable orderHistory={deliveredOrders}></OrderHistoryTable>
+                    </TabsContent>
+                    <TabsContent value="cancelled">
+                        <OrderHistoryTable orderHistory={cancelledOrders}></OrderHistoryTable>
+                    </TabsContent>
+                </Tabs>
+>>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
             </section>
         </div>
     );
