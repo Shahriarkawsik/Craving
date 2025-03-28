@@ -208,7 +208,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           email: user.email,
           role: user.role,
-          image: user.image || null, // Default fallback
+          image: user.image || null,
         };
       },
     }),
