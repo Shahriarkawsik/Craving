@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 
-interface CommonPayload {
+export interface CommonPayload {
   name?: string;
   email?: string;
   password?: string;
@@ -27,6 +27,7 @@ interface CommonPayload {
   riderAddress?: string;
   vehicleType?: string;
   // Be Owner
+  _id?: string | undefined; // get from the database after fetch.
   restaurantOwnerEmail?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -35,7 +36,7 @@ interface CommonPayload {
   restaurantAddress?: string;
   ownerNIDPhoto?: string;
   // food available or not
-  isAvailable?: boolean
+  isAvailable?: boolean;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -81,7 +82,6 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     foodImage: payload.foodImage,
     is_available: payload.is_available,
     created_at: payload.created_at,
-
   });
 };
 /* Be Resturant Owner */
@@ -103,7 +103,7 @@ export const addResturantOwner = async (
     created_at: payload.created_at,
   });
 };
-/* Be Rider */
+/*create Be Rider */
 export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
   const riderCollection = await dbConnect().then((db) =>
@@ -120,8 +120,21 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-interface FoodItem {
-  _id?: string;
+/* Get all rider request */
+export const getAllRider = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+    const riderData = await riderCollection.find({}).toArray();
+    return riderData;
+  } catch (error) {
+    console.error("Error fetching riders:", error);
+    throw new Error("Failed to fetch rider data");
+  }
+};
+
+export interface FoodItem {
+  _id: string ;
   id?: string;
   restaurant_id?: string;
   foodName: string;
@@ -158,7 +171,6 @@ export const deleteFood = async (
       _id: new ObjectId(payload.id),
     });
 
-
     if (result.deletedCount === 0) {
       throw new Error("No item found to delete");
     }
@@ -171,7 +183,6 @@ export const deleteFood = async (
     throw error;
   }
 };
-
 
 export const updateFood = async (
   payload: CommonPayload
@@ -203,8 +214,9 @@ export const updateFood = async (
   };
 };
 
-
-export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknown> => {
+export const foodAvailableOrNot = async (
+  payload: CommonPayload
+): Promise<unknown> => {
   console.log(payload);
 
   // connect to the database and get the food collection
@@ -217,13 +229,9 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
       $set: {
         is_available: payload.isAvailable,
       },
-    },
+    }
   );
 
   console.log(result);
-  return result; 
-
-
+  return result;
 };
-
-
