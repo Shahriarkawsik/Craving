@@ -83,13 +83,6 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      // যদি `url` ফুল URL না হয়, তাহলে `baseUrl` যোগ করো
-      if (url.startsWith("/")) {
-        return `${baseUrl}${url}`;
-      }
-      return url;
-    }
   },
 
   pages: {

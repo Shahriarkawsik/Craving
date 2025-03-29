@@ -6,12 +6,14 @@ import { registerUser } from "../../action/auth/allApi";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
 // import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/"
   // const [error, setError] = useState<string | null>(null)
 
   // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
@@ -43,10 +45,10 @@ const Register = () => {
       if (email && password) {
         const loginResponse = await signIn("credentials", userData);
         
-        router.push("/");
+        // router.push("/");
         
         if (loginResponse?.ok) {
-          // router.push("/");
+          router.push(callbackUrl);
         }
       }
     } catch (error) {
