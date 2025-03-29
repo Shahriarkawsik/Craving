@@ -1,10 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import allFoodBannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { getAllFoods } from "@/app/action/auth/allApi";
 import FoodCard from "./components/FoodCard";
 import { Search } from "lucide-react";
 import { debounce } from "lodash";
+import * as React from "react"
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface FoodItem {
   _id: string;
@@ -23,28 +34,44 @@ export default function AllFoodsPage() {
   const [foods, setFoods] = useState<FoodItem[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
+  const [foodCategory, setFoodCategory] = useState<string>('')
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async (query = ""): Promise<void> => {
+  const fetchData = async (query = "", category = ""): Promise<void> => {
     try {
-      setIsLoading(true); // ✅ Loading শুরু
-      const data = await getAllFoods(query) as FoodItem[]; // Backend থেকে ডাটা আনছে
+      setIsLoading(true);
+      const data = await getAllFoods(query, category) as FoodItem[]; // ✅ এখন `query` এবং `category` দুইটাই পাঠাচ্ছে
       setFoods(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
     } finally {
-      setIsLoading(false); // ✅ Data আসার পর Loading বন্ধ
+      setIsLoading(false);
     }
   };
-
+  
+  
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
-    fetchData(query);
-  }, 500); // 500ms Delay (Debounce)
+    fetchData(query, foodCategory); // ✅ এখন search করলে category ও থাকবে
+  }, 500);
+  
+
+
+  
+  
+
+  const handleCategory = debounce((category: string) => {
+    setFoodCategory(category);
+    fetchData(searchQuery, category); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+  }, 500);
+  
+
+  console.log(foodCategory)
+
 
   return (
     <div>
@@ -79,6 +106,28 @@ export default function AllFoodsPage() {
       </div>
 
       <div className="w-11/12 mx-auto">
+        <div>
+          <Select onValueChange={(value) => handleCategory(value)}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Select Food Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                <SelectItem value="All Food">All Food</SelectItem>
+                <SelectItem value="Fast Food">Fast Food</SelectItem>
+                <SelectItem value="Vegetarian">Vegetarian</SelectItem>
+                <SelectItem value="Organic Food">Organic Food</SelectItem>
+                <SelectItem value="Bakery">Bakery</SelectItem>
+                <SelectItem value="Chinese">Chinese</SelectItem>
+                <SelectItem value="Desert">Desert</SelectItem>
+                <SelectItem value="Sea Food">Sea Food</SelectItem>
+                <SelectItem value="Salad">Salad</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+        </div>
         {/* Search Input */}
         <div className="relative w-full max-w-sm mb-6 mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />

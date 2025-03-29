@@ -230,16 +230,24 @@ interface FoodItem {
   // Add other properties if required
 }
 
-export const getAllFoods = async (searchQuery?: string): Promise<FoodItem[]> => {
+//ALl Food search and sort
+export const getAllFoods = async (query?: string, category?: string): Promise<FoodItem[]> => {
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
+  console.log(category)
+  let filter: Record<string, unknown> = {}; ; // ডায়নামিক ফিল্টার অবজেক্ট  
 
-  let filter = {};
 
-  if (searchQuery) {
-    filter = {
-      foodName: { $regex: searchQuery, $options: "i" }, // Case-insensitive search
-    };
+  if(category === 'All Food'){
+    filter = {}
+  }
+
+  if (category && category !== 'All Food') {
+    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+  }
+
+  if (query) {
+    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
   }
 
   const foodData = await foodCollection.find(filter).toArray();
@@ -249,3 +257,4 @@ export const getAllFoods = async (searchQuery?: string): Promise<FoodItem[]> => 
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
+
