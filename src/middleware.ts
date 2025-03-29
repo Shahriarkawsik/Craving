@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export const middleware = async (req: NextRequest) => {
     const token = await getToken({req})
     // if(token) console.log("from middleware token", token)
-    const isTokenOk = Boolean(token)
+    // const isTokenOk = Boolean(token)
     const isAdminUser = token?.role === "User"
     const isAdminSpecificRoute = req.nextUrl.pathname.startsWith("/dashboard")
     if(isAdminSpecificRoute && !isAdminUser){

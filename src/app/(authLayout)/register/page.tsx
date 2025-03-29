@@ -40,12 +40,13 @@ const Register = () => {
         position: "top-center",
         autoClose: 1000,
       });
-      form.reset();
 
       if (email && password) {
-        const loginResponse = await signIn("credentials", userData);
-        
-        // router.push("/");
+        const loginResponse = await signIn("credentials", {
+          email,
+          password,
+          redirect:false,
+        });
         
         if (loginResponse?.ok) {
           router.push(callbackUrl);
