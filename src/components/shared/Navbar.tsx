@@ -27,7 +27,6 @@ const Navbar = () => {
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
   console.log(data, "all data")
-  console.log(data?.user?.image, "=====================================");
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">

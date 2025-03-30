@@ -26,7 +26,7 @@ const Register = () => {
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
-      const userData = { name, image, email, password, role: "User" };
+      const userData = { name, image, email, password, role: "User", status: "Active", phone:0, address: "null", created_at: new Date() };
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");

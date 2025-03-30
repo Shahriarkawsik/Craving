@@ -12,6 +12,9 @@ interface CommonPayload {
   title?: string;
   location?: string;
   owner?: string;
+  phone?:number;
+  status?:string;
+  address?:string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;

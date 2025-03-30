@@ -1,24 +1,33 @@
-"use-client"
+"use client";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 const SocialLogin = () => {
-    const router = useRouter()
-    const handleSocialLogin = async(providerName: string) => {
-       try {
-        await signIn(providerName, { redirect: false, callbackUrl: "/" });
-        router.push('/')
-       } catch (error) {
-        console.log(error)
-       }
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  const handleSocialLogin = async (providerName: string) => {
+    try {
+      const response = await signIn(providerName, {
+        redirect: false,
+        callbackUrl,
+      });
+      if(response?.url){
+        console.log("dsfjdsk====================dlfsdjf", response.url)
+        router.push(response.url);
+      }
+    } catch (error) {
+      console.log(error);
     }
-    return (
-        <div className="flex justify-center border-1 rounded-full">
-            <p  onClick={() => handleSocialLogin("google")} ><FcGoogle size={35}/></p>
-        </div>
-    );
+  };
+  return (
+    <div className="flex justify-center border-1 rounded-full">
+      <p onClick={() => handleSocialLogin("google")}>
+        <FcGoogle size={35} />
+      </p>
+    </div>
+  );
 };
 
 export default SocialLogin;
-
-
