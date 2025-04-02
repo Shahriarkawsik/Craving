@@ -73,10 +73,10 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile, credentials }) {
       if (account) {
         try {
-          // console.log("from signIn callback",  {user, account, profile, email, credentials })
+          console.log("from signIn callback",  {user, account, profile, credentials })
           const { providerAccountId, provider } = account;
           const { email: email, name, image} = user;
           const payload = {
@@ -289,7 +289,7 @@ export { handler as GET, handler as POST };
 //         email: token.email as string,
 //         role: token.role as string,
 //         image: token.image as string,
-//         phone: token.phone as number || null,
+//         phone: token.phone as number,
 //         status: token.status as string || "Active",
 //         address: token.address as string || "Not Provided",
 //         created_at: token.created_at as Date || new Date(),

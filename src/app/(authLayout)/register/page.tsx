@@ -145,20 +145,3 @@ const Register = () => {
 
 export default Register;
 
-// try {
-//   const result: { insertedId?: string } | 'Already Have an Account' | null = await registerUser(userData);
-
-//   if (result && typeof result === 'object' && 'insertedId' in result) {
-//       await signIn('credentials', { email, password, redirect: false });
-//       router.push('/')
-//       toast.success('Account Created Successfully!');
-//       console.log(result);
-//   } else if (result === 'Already Have an Account') {
-//       toast.error('Already Registered');
-//   } else {
-//       toast.error('Registration failed. Please try again later.');
-//   }
-// } catch (error) {
-//   console.error(error);
-// }
-// };

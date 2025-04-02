@@ -14,7 +14,6 @@ const SocialLogin = () => {
         callbackUrl,
       });
       if(response?.url){
-        console.log("dsfjdsk====================dlfsdjf", response.url)
         router.push(response.url);
       }
     } catch (error) {
