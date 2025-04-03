@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 // import { addResturant } from "../../../../action/auth/allApi";
 // import { toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { addRestaurant } from "@/app/action/auth/allApi";
+import { Slide, toast } from "react-toastify";
 
 const AddResturant = () => {
   // const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
@@ -26,12 +28,26 @@ const AddResturant = () => {
     restaurantEmail: string
   }
 
-  const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const addedDate = new Date().toISOString();
-    const restaurantData = {...data, addedDate};
-    console.log(restaurantData);
+    const restaurantData = { ...data, addedDate };
+
+    try {
+      addRestaurant(restaurantData);
+      toast.success("Resturant Added Successfully!", {
+        position: "bottom-center",
+        transition: Slide
+      });
+    }
+    catch (error) {
+      toast.error("Something went wrong!", {
+        position: "bottom-center",
+        transition: Slide
+      });
+      console.log("ERROR:", error);
+    }
   }
 
 
@@ -44,14 +60,14 @@ const AddResturant = () => {
       </h3>
       <div className="px-5 lg:px-8 py-6">
         <form onSubmit={handleSubmit(onSubmit)}>
-          
+
           {/* Restaurant Name and location */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantName">
                 Restaurant Name
               </label>
-              <Input type="text" {...register('restaurantName', {required: true})} id="restaurantName" placeholder="Food & Fun" />
+              <Input type="text" {...register('restaurantName', { required: true })} id="restaurantName" placeholder="Food & Fun" />
               {
                 errors.restaurantName && <p className="text-red-500 text-xs italic">Please enter Restaurant name</p>
               }
@@ -60,7 +76,7 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="location">
                 Location
               </label>
-              <Input type="text" {...register('location', {required: true})} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
+              <Input type="text" {...register('location', { required: true })} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
               {
                 errors.location && <p className="text-red-500 text-xs italic">Please enter restaurant location</p>
               }
@@ -69,11 +85,11 @@ const AddResturant = () => {
 
           {/* Owner name and restaurant email */}
           <div className="lg:flex gap-3 mb-3">
-          <div className="w-full">
+            <div className="w-full">
               <label className="text-gray-700 " htmlFor="ownerName">
                 Owner Name
               </label>
-              <Input type="text" {...register('ownerName', {required: true})} id="ownerName" placeholder="John Doe" />
+              <Input type="text" {...register('ownerName', { required: true })} id="ownerName" placeholder="John Doe" />
               {
                 errors.location && <p className="text-red-500 text-xs italic">Please enter owner name</p>
               }
@@ -82,7 +98,7 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="restaurantEmail">
                 Restaurant Email
               </label>
-              <Input type="email" {...register('restaurantEmail', {required: true})} id="restaurantEmail" placeholder="example@gmail.com" />
+              <Input type="email" {...register('restaurantEmail', { required: true })} id="restaurantEmail" placeholder="example@gmail.com" />
               {
                 errors.restaurantEmail && <p className="text-red-500 text-xs italic">Please enter restaurant email</p>
               }
