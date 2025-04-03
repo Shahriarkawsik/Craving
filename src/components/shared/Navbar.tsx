@@ -93,10 +93,11 @@ const Navbar = () => {
                 </NavigationMenuLink>
                 <NavigationMenuLink
                   href="/dashboard"
+
                   className={`${pathName === "/dashboard"
-                      ? "font-bold border-b-2 border-pink-500"
-                      : "font-semibold"
-                    }`}
+                    ? "font-bold border-b-2 border-orange-600"
+                    : "font-semibold"
+                  }`}
                 >
                   Dashboard
                 </NavigationMenuLink>
@@ -115,19 +116,25 @@ const Navbar = () => {
           )}
           <div className="hidden md:flex">
 
-            {/* <Button variant="destructive">Logout</Button> */}
-
             {status == "authenticated" ? (
-              <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" variant="destructive" onClick={() => signOut()}>
+              <Button
+                className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
+                variant="destructive"
+                onClick={() => signOut()}
+              >
                 Logout
               </Button>
             ) : (
               <>
                 <Link href="/signIn">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignIn</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignIn
+                  </Button>
                 </Link>
                 <Link href="/register">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignUp</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignUp
+                  </Button>
                 </Link>
               </>
             )}

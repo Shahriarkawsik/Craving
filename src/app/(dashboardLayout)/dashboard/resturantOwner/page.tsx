@@ -1,7 +1,7 @@
 "use client"
 import { Card, CardContent } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
-import restaurantLogo from "@/assets/categoryImg/fast-food.png"
+import restaurantLogo from "@/assets/logo.png"
 import Image from "next/image";
 import { FC } from "react";
 

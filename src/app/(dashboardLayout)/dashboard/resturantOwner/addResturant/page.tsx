@@ -14,8 +14,13 @@ const AddResturant = () => {
       const owner = (form.elements.namedItem("owner") as HTMLInputElement).value;
       const email = (form.elements.namedItem("email") as HTMLInputElement)
         .value;
+<<<<<<< HEAD
         const result = await addResturant({title, location, owner, email})
         toast.success('Restaurant Added Successfully')
+=======
+        addResturant({title, location, owner, email})
+        toast.success("Resturant Added Successfully!");
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
     };
   return (
     <div className="w-8/12 mx-auto">

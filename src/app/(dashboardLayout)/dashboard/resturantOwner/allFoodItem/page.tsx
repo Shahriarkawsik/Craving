@@ -1,8 +1,14 @@
 "use client";
 
-import { deleteFood, getAllFoodsData } from "@/app/action/auth/allApi";
+import { deleteFood, FoodItem, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+<<<<<<< HEAD
+=======
+
+// import { Input } from "@/components/ui/input"
+// import { Label } from "@/components/ui/label"
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
 import {
   Table,
   TableBody,
@@ -17,19 +23,19 @@ import Swal from "sweetalert2";
 import FoodDetailsModal from "./components/FoodDetailsModal";
 import AvailableOrNot from "./components/AvailableOrNot";
 
-interface FoodItem {
-  _id: string;
-  id: string;
-  restaurant_id: string;
-  foodName: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
-}
+// interface CommonPayload {
+//   _id: string;
+//   id: string;
+//   restaurant_id: string;
+//   foodName: string;
+//   description: string;
+//   price: number;
+//   category: string;
+//   image: string;
+//   is_available: boolean;
+//   created_at: string;
+//   owner_email: string;
+// }
 
 // Delete API response 
 interface DeleteResponse {
@@ -66,10 +72,19 @@ export default function AllFoodItems() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+<<<<<<< HEAD
           setLoading(id);
           const response: DeleteResponse = await deleteFood({ id, isAvailable: false });
 
           if (response.deletedCount > 0) {
+=======
+          setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
+          const result = await deleteFood({
+            id,
+            isAvailable: false,
+          });
+          if (result.deletedCount > 0) {
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -98,14 +113,24 @@ export default function AllFoodItems() {
             <TableHead className="w-[15%] text-left">Category</TableHead>
             <TableHead className="w-[15%] text-left">Price</TableHead>
             <TableHead className="w-[25%] text-left">Actions</TableHead>
-            <TableHead className="w-[25%] text-left">Available or Not</TableHead>
+            <TableHead className="w-[25%] text-left">
+              Available or Not
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {foodData.map((food, index) => (
+<<<<<<< HEAD
             <TableRow key={food._id} className="border-t">
               <TableCell className="text-center font-medium">{index + 1}</TableCell>
               <TableCell className="text-center">
+=======
+            <TableRow key={food.foodName} className="border-t">
+              <TableCell className="text-center font-medium">
+                {index + 1}
+              </TableCell>
+              <TableCell className=" text-center">
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                 <Image
                   src={food.image}
                   width={50}
@@ -134,7 +159,11 @@ export default function AllFoodItems() {
                     "Delete"
                   )}
                 </button>
+<<<<<<< HEAD
                 <div>
+=======
+                <div className="">
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                   <FoodDetailsModal food={food} />
                 </div>
               </TableCell>

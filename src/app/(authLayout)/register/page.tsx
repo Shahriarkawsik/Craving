@@ -6,12 +6,14 @@ import { registerUser } from "../../action/auth/allApi";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
 // import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/"
   // const [error, setError] = useState<string | null>(null)
 
   // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
@@ -20,9 +22,11 @@ const Register = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const image = (form.elements.namedItem("image") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
+      const userData = { name, image, email, password, role: "User", status: "Active", phone:0, address: "null", created_at: new Date() };
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");
@@ -31,23 +35,21 @@ const Register = () => {
     // }
 
     try {
-      await registerUser({ name, email, password });
+      await registerUser(userData);
       toast.success("User register is successfully", {
         position: "top-center",
         autoClose: 1000,
       });
-      form.reset();
 
       if (email && password) {
         const loginResponse = await signIn("credentials", {
-          name,
           email,
           password,
-          redirect: false,
+          redirect:false,
         });
-        
+
         if (loginResponse?.ok) {
-          router.push("/");
+          router.push(callbackUrl);
         }
       }
     } catch (error) {
@@ -68,7 +70,7 @@ const Register = () => {
         <div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-gray-700" htmlFor="name">
+              <label className="text-gray-700">
                 Name
               </label>
               <Input
@@ -80,7 +82,7 @@ const Register = () => {
               />
             </div>
             <div>
-              <label className="text-gray-700" htmlFor="name">
+              <label className="text-gray-700">
                 Image
               </label>
               <Input
@@ -143,20 +145,3 @@ const Register = () => {
 
 export default Register;
 
-// try {
-//   const result: { insertedId?: string } | 'Already Have an Account' | null = await registerUser(userData);
-
-//   if (result && typeof result === 'object' && 'insertedId' in result) {
-//       await signIn('credentials', { email, password, redirect: false });
-//       router.push('/')
-//       toast.success('Account Created Successfully!');
-//       console.log(result);
-//   } else if (result === 'Already Have an Account') {
-//       toast.error('Already Registered');
-//   } else {
-//       toast.error('Registration failed. Please try again later.');
-//   }
-// } catch (error) {
-//   console.error(error);
-// }
-// };
