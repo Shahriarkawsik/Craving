@@ -66,6 +66,10 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     email: payload.email,
     password: payload.password,
     role:payload.role,
+    phone:payload.phone,
+    status:payload.status,
+    address:payload.address,
+    created_at: new Date(),
   });
 };
 
