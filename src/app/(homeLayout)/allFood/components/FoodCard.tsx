@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaStar } from 'react-icons/fa6';
+import { MdFavoriteBorder } from 'react-icons/md';
 
 // Define the interface for the food prop
 interface Food {
@@ -23,18 +25,31 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
 
   return (
     <div>
-      <div className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 border-2">
-        {/* Uncomment and replace image src if you have an image field */}
-        {/* <img src={food.image} alt={food.name} className="w-full h-48 object-cover transition-transform duration-300 hover:scale-110" /> */}
-        <div className="p-6">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-2">{food.foodName}</h3>
-          <p className="text-sm text-gray-600 mb-4">{food.description}</p>
-          <p className="text-sm text-gray-600 mb-4">{food.price}</p>
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
-            View More
-          </button>
-        </div>
-      </div>
+      <div className=" rounded-lg shadow-2xl ">
+                <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+                  {/* <Image
+                    src={foodImg}
+                    alt=" burger"
+                    className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
+                  /> */}
+                  <p className="text-xl absolute top-3 right-3   ">
+                    <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
+                  </p>
+                </div>
+                <div className="space-y-2 mx-2 mb-1 p-2">
+                  <div className="flex justify-between items-center ">
+                    <h1 className=" text-md lg:text-lg font-semibold">{food.foodName}</h1>
+                    <p className="flex justify-center gap-1 items-center ">
+                      {" "}
+                      <span className="text-orange-400">
+                        <FaStar />
+                      </span>{" "}
+                      4.5 <span className=" text-sm">(200+)</span>
+                    </p>
+                  </div>
+                  <strong>${food.price}</strong>
+                </div>
+              </div>
     </div>
   );
 };
