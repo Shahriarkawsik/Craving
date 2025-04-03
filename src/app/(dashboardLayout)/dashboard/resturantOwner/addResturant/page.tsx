@@ -22,13 +22,17 @@ const AddResturant = () => {
   type Inputs = {
     restaurantName: string,
     location: string,
+    ownerName: string,
+
 
   }
 
   const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+    const date = new Date().toISOString();
+    const restaurantData = {...data, date};
+    console.log(restaurantData);
   }
 
 
@@ -42,34 +46,35 @@ const AddResturant = () => {
       <div className="px-5 lg:px-8 py-6">
         <form onSubmit={handleSubmit(onSubmit)}>
           
-          {/* Restaurant Name */}
+          {/* Restaurant Name and location */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="job_title">
+              <label className="text-gray-700 " htmlFor="restaurantName">
                 Restaurant Name
               </label>
-              <Input type="text" {...register('restaurantName')} name="title" placeholder="Food & Fun" />
+              <Input type="text" {...register('restaurantName')} id="restaurantName" placeholder="Food & Fun" />
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="job_title">
+              <label className="text-gray-700 " htmlFor="location">
                 Location
               </label>
-              <Input type="text" {...register('location')} name="location" placeholder="Location" />
+              <Input type="text" {...register('location')} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
             </div>
           </div>
-          {/* owner and email  */}
+
+          {/* Owner name and restaurant email */}
           <div className="lg:flex gap-3 mb-3">
           <div className="w-full">
               <label className="text-gray-700 " htmlFor="job_title">
-                Owner
+                Owner Name
               </label>
-              <Input type="text" name="owner" placeholder="Owner" />
+              <Input type="text" {...register('ownerName')} id="owner" placeholder="John Doe" />
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="job_title">
-                Email
+              <label className="text-gray-700 " htmlFor="restaurantEmail">
+                Restaurant Email
               </label>
-              <Input type="email" name="email" placeholder="Email" />
+              <Input type="email" id="restaurantEmail" placeholder="example@gmail.com" />
             </div>
           </div>
           <div className="mt-6 text-center">
