@@ -2,13 +2,12 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-<<<<<<< HEAD:src/app/action/auth/allApi.tsx
+
 import { Sort } from "mongodb";
-interface CommonPayload {
-=======
+
 
 export interface CommonPayload {
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d:src/app/action/auth/allApi.ts
+
   name?: string;
   image?: string,
   role?: string,
@@ -246,7 +245,7 @@ export const foodAvailableOrNot = async (
   console.log(result);
   return result;
 };
-<<<<<<< HEAD:src/app/action/auth/allApi.tsx
+
 
 
 
@@ -292,5 +291,3 @@ export const getAllFoods = async (query?: string, category?: string, sort?: stri
   }));
 };
 
-=======
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d:src/app/action/auth/allApi.ts
