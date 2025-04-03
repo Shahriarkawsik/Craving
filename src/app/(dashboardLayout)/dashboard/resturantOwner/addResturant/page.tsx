@@ -51,13 +51,19 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="restaurantName">
                 Restaurant Name
               </label>
-              <Input type="text" {...register('restaurantName')} id="restaurantName" placeholder="Food & Fun" />
+              <Input type="text" {...register('restaurantName', {required: true})} id="restaurantName" placeholder="Food & Fun" />
+              {
+                errors.restaurantName && <p className="text-red-500 text-xs italic">Please enter Restaurant name</p>
+              }
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="location">
                 Location
               </label>
-              <Input type="text" {...register('location')} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
+              <Input type="text" {...register('location', {required: true})} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
+              {
+                errors.location && <p className="text-red-500 text-xs italic">Please enter restaurant location</p>
+              }
             </div>
           </div>
 
@@ -67,13 +73,19 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="ownerName">
                 Owner Name
               </label>
-              <Input type="text" {...register('ownerName')} id="ownerName" placeholder="John Doe" />
+              <Input type="text" {...register('ownerName', {required: true})} id="ownerName" placeholder="John Doe" />
+              {
+                errors.location && <p className="text-red-500 text-xs italic">Please enter owner name</p>
+              }
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantEmail">
                 Restaurant Email
               </label>
-              <Input type="email" {...register('restaurantEmail')} id="restaurantEmail" placeholder="example@gmail.com" />
+              <Input type="email" {...register('restaurantEmail', {required: true})} id="restaurantEmail" placeholder="example@gmail.com" />
+              {
+                errors.restaurantEmail && <p className="text-red-500 text-xs italic">Please enter restaurant email</p>
+              }
             </div>
           </div>
           <div className="mt-6 text-center">
