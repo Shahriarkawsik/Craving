@@ -37,13 +37,13 @@ const AddResturant = () => {
     try {
       addRestaurant(restaurantData);
       toast.success("Resturant Added Successfully!", {
-        position: "bottom-center",
+        position: "top-center",
         transition: Slide
       });
     }
     catch (error) {
       toast.error("Something went wrong!", {
-        position: "bottom-center",
+        position: "top-center",
         transition: Slide
       });
       console.log("ERROR:", error);
