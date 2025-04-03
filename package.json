@@ -51,8 +51,6 @@
     "@tailwindcss/postcss": "^4.0.15",
     "@types/lodash": "^4.17.16",
     "@types/aos": "^3.0.7",
-    "@types/lodash": "^4.17.16",
-    "@types/aos": "^3.0.7",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
