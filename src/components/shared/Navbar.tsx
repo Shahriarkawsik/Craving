@@ -26,10 +26,7 @@ const Navbar = () => {
   const pathName = usePathname();
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
-<<<<<<< HEAD
   console.log(data, "all data")
-=======
->>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
