@@ -7,6 +7,7 @@ export interface CommonPayload {
   name?: string;
   email?: string;
   password?: string;
+  userStatus?: string;
   title?: string;
   location?: string;
   owner?: string;
@@ -27,7 +28,7 @@ export interface CommonPayload {
   riderAddress?: string;
   vehicleType?: string;
   // Be Owner
-  _id?: string | undefined; // get from the database after fetch.
+  _id: string; // get from the database after fetch.
   restaurantOwnerEmail?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -103,7 +104,7 @@ export const addResturantOwner = async (
     created_at: payload.created_at,
   });
 };
-/*create Be Rider */
+/*create Be Rider application */
 export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
   const riderCollection = await dbConnect().then((db) =>
@@ -118,6 +119,15 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
     vehicleType: payload.vehicleType,
     created_at: payload.created_at,
   });
+};
+/* Approved and update rider status */
+// export const update;
+
+/* Delete Be Rider */
+export const deleteRider = async (riderId: string): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+  await riderCollection.deleteOne({ _id: new ObjectId(riderId) });
 };
 
 /* Get all rider request */
@@ -134,7 +144,7 @@ export const getAllRider = async (): Promise<CommonPayload[]> => {
 };
 
 export interface FoodItem {
-  _id: string ;
+  _id: string;
   id?: string;
   restaurant_id?: string;
   foodName: string;

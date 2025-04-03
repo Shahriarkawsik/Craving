@@ -8,11 +8,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { addRider } from "@/app/action/auth/allApi";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const BeRider = () => {
   type Inputs = {
     // restaurant_id: string;
-    id: string;
+    _id: string;
     riderEmail: string;
     riderName: string;
     riderNumber: number;
@@ -33,7 +34,12 @@ const BeRider = () => {
     const beRider = { ...data, created_at: new Date() };
     try {
       await addRider(beRider);
-      toast.success("Rider Added Successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Rider Added Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       reset();
     } catch (error) {
       toast.error("Something went wrong!" + error);

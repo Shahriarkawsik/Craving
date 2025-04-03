@@ -9,6 +9,7 @@ import { addResturantOwner } from "@/app/action/auth/allApi";
 
 const BeOwner = () => {
   type Inputs = {
+    _id: string;
     restaurantOwnerEmail: string;
     restaurantName: string;
     restaurantEmail: string;
