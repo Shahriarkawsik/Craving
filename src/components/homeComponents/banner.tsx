@@ -10,14 +10,14 @@ const Banner = () => {
   return (
     <section className="relative w-full h-[75vh] overflow-hidden">
       {/* Background Video */}
-      {/* <video
+      <video
         src="/foodBanner.mp4" // Put the video inside the public folder
         autoPlay
         loop
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover"
-      /> */}
+      />
 
       {/* Content on top of the video (Optional) */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full w-full bg-black/40 text-white text-center">
@@ -29,9 +29,6 @@ const Banner = () => {
         </p>
 
         <ButtonComponent title="Explore Now" onClick={handleClick} />
-        {/* <button className="px-6 py-3 bg-white text-black rounded-md text-lg hover:bg-gray-200 transition">
-          Explore Now
-        </button> */}
       </div>
     </section>
   );

@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
+  // NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,9 @@ const Navbar = () => {
   const pathName = usePathname();
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
-  console.log(data, "all data")
+  console.log(data, "all data");
   console.log(data?.user?.image, "=====================================");
-  console.log(data?.user?.email)
+  console.log(data?.user?.email);
 
   return (
     <header className=" shadow-md py-4">
@@ -44,63 +44,80 @@ const Navbar = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem className="flex items-center space-x-4">
-                <NavigationMenuLink
-                  href="/"
-                  className={`${pathName === "/"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/"
+                    className={`${
+                      pathName === "/"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
                     }`}
-                >
-                  Home
-                </NavigationMenuLink>
+                  >
+                    Home
+                  </Link>
+                {/* </NavigationMenuLink> */}
 
-                <NavigationMenuLink
-                  href="/allFood"
-                  className={`${pathName === "/allFood"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/allFood"
+                    className={`${
+                      pathName === "/allFood"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
                     }`}
-                >
-                  All Food
-                </NavigationMenuLink>
+                  >
+                    All Food
+                  </Link>
+                {/* </NavigationMenuLink> */}
 
-                <NavigationMenuLink
-                  href="/aboutUs"
-                  className={`${pathName === "/aboutUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/aboutUs"
+                    className={`${
+                      pathName === "/aboutUs"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
                     }`}
-                >
-                  About Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/contactUs"
-                  className={`${pathName === "/contactUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
+                  >
+                    About Us
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/contactUs"
+                    className={`${
+                      pathName === "/contactUs"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
                     }`}
-                >
-                  Contact Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/profile"
-                  className={`${pathName === "/profile"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
+                  >
+                    Contact Us
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/profile"
+                    className={`${
+                      pathName === "/profile"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
                     }`}
-                >
-                  Profile
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/dashboard"
-
-                  className={`${pathName === "/dashboard"
-                    ? "font-bold border-b-2 border-orange-600"
-                    : "font-semibold"
-                  }`}
-                >
-                  Dashboard
-                </NavigationMenuLink>
+                  >
+                    Profile
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/dashboard"
+                    className={`${
+                      pathName === "/dashboard"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -115,15 +132,14 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
-
             {status == "authenticated" ? (
-              <Button
+              <button
                 className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
-                variant="destructive"
+                // variant="destructive"
                 onClick={() => signOut()}
               >
                 Logout
-              </Button>
+              </button>
             ) : (
               <>
                 <Link href="/signIn">
@@ -153,10 +169,11 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link
                     href="/"
-                    className={`${pathName === "/"
+                    className={`${
+                      pathName === "/"
                         ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
-                      }`}
+                    }`}
                   >
                     Home
                   </Link>
@@ -164,10 +181,11 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link
                     href="/aboutUs"
-                    className={`${pathName === "/aboutUs"
+                    className={`${
+                      pathName === "/aboutUs"
                         ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
-                      }`}
+                    }`}
                   >
                     About Us
                   </Link>
@@ -175,10 +193,11 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link
                     href="/contactUs"
-                    className={`${pathName === "/contactUs"
+                    className={`${
+                      pathName === "/contactUs"
                         ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
-                      }`}
+                    }`}
                   >
                     Contact Us
                   </Link>
@@ -186,10 +205,11 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link
                     href="/login"
-                    className={`${pathName === "/login"
+                    className={`${
+                      pathName === "/login"
                         ? "font-bold border-b-2 border-orange-600"
                         : "font-semibold"
-                      }`}
+                    }`}
                   >
                     Login
                   </Link>
