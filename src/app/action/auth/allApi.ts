@@ -42,6 +42,13 @@ export interface CommonPayload {
   ownerNIDPhoto?: string;
   // food available or not
   isAvailable?: boolean;
+  // restaurant information
+  ownerName?: string,
+  addedDate?: string,
+  restaurantLogo?: string,
+  restaurantPhone?: number,
+  restaurantRating?: number,
+  ownerId?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -68,18 +75,26 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-export const addResturant = async (payload: CommonPayload): Promise<void> => {
-  // connect to the database and create add resturant collection
-  const resturantCollection = await dbConnect().then((db) =>
-    db.collection("resturant")
-  );
-  await resturantCollection.insertOne({
-    title: payload.title,
+
+// Adding new restaurant information
+export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("allRestaurant");
+
+  await restaurantCollection.insertOne({
+    restaurantName: payload.restaurantName,
     location: payload.location,
-    owner: payload.owner,
-    email: payload.email,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId
   });
 };
+
+
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -145,7 +160,7 @@ export const getAllRider = async (): Promise<CommonPayload[]> => {
 };
 
 export interface FoodItem {
-  _id: string ;
+  _id: string;
   id?: string;
   restaurant_id?: string;
   foodName: string;
