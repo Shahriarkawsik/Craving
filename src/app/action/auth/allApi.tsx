@@ -40,7 +40,7 @@ export interface CommonPayload {
   // restaurant information
   ownerName?: string,
   addedDate?: string
-  
+
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -80,9 +80,13 @@ export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
   const restaurantCollection = db.collection("allRestaurant");
 
   await restaurantCollection.insertOne({
-    
-  })
-}
+    restaurantName: payload.restaurantName,
+    location: payload.location,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate
+  });
+};
 
 
 
