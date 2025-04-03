@@ -35,15 +35,16 @@ export default function AllFoodsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
   const [foodCategory, setFoodCategory] = useState<string>('')
+  const [foodSort, setFoodSort] = useState<string>('')
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async (query = "", category = ""): Promise<void> => {
+  const fetchData = async (query = "", category = "", sort = ""): Promise<void> => {
     try {
       setIsLoading(true);
-      const data = await getAllFoods(query, category) as FoodItem[]; // ✅ এখন `query` এবং `category` দুইটাই পাঠাচ্ছে
+      const data = await getAllFoods(query, category, sort) as FoodItem[];
       setFoods(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -51,27 +52,24 @@ export default function AllFoodsPage() {
       setIsLoading(false);
     }
   };
-  
-  
+
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
     fetchData(query, foodCategory); // ✅ এখন search করলে category ও থাকবে
   }, 500);
-  
-
-
-  
-  
 
   const handleCategory = debounce((category: string) => {
     setFoodCategory(category);
     fetchData(searchQuery, category); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
   }, 500);
-  
 
-  console.log(foodCategory)
 
+  const handleSort = debounce((sort: string) => {
+    console.log(sort)
+    setFoodSort(sort);
+    fetchData(searchQuery, foodCategory, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+  }, 500);
 
   return (
     <div>
@@ -128,6 +126,23 @@ export default function AllFoodsPage() {
           </Select>
 
         </div>
+
+
+        <div>
+          <Select onValueChange={(value) => handleSort(value)}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder="Sort By Price" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="Ascending">Ascending</SelectItem>
+                <SelectItem value="Descending">Descending</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+        </div>
+
         {/* Search Input */}
         <div className="relative w-full max-w-sm mb-6 mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />

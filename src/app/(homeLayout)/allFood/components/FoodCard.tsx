@@ -29,6 +29,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         <div className="p-6">
           <h3 className="text-2xl font-semibold text-gray-800 mb-2">{food.foodName}</h3>
           <p className="text-sm text-gray-600 mb-4">{food.description}</p>
+          <p className="text-sm text-gray-600 mb-4">{food.price}</p>
           <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
             View More
           </button>

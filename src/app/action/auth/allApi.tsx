@@ -230,12 +230,47 @@ interface FoodItem {
   // Add other properties if required
 }
 
-//ALl Food search and sort
-export const getAllFoods = async (query?: string, category?: string): Promise<FoodItem[]> => {
+
+
+// export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
+//   const db = await dbConnect();
+//   const foodCollection: Collection<FoodItem> = db.collection("food");
+
+//   let filter: Record<string, unknown> = {};
+
+//   if (category && category !== 'All Food') {
+//     filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+//   }
+
+//   if (query) {
+//     filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
+//   }
+
+//   // ✅ Sort Logic (Ascending/Descending)
+//   const sortOption: Record<string, number> = {};
+
+//   if (sort === "Ascending") {
+//     sortOption.price = 1; // Price অনুযায়ী Ascending
+//   } else if (sort === "Descending") {
+//     sortOption.price = -1; // Price অনুযায়ী Descending
+//   }
+
+//   // ✅ Sort যুক্ত করে ফিল্টারড ডাটা রিটার্ন করা
+//   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
+
+//   return foodData.map((food) => ({
+//     ...food,
+//     _id: (food._id as unknown as ObjectId).toString(),
+//   }));
+// };
+
+import { Sort } from "mongodb";
+export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
+  console.log(sort)
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
   console.log(category)
-  let filter: Record<string, unknown> = {}; ; // ডায়নামিক ফিল্টার অবজেক্ট  
+  let filter: Record<string, unknown> = {};
 
 
   if(category === 'All Food'){
@@ -250,7 +285,18 @@ export const getAllFoods = async (query?: string, category?: string): Promise<Fo
     filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
   }
 
-  const foodData = await foodCollection.find(filter).toArray();
+  const sortOption: Sort = {}
+
+  if(sort === 'Ascending'){
+    sortOption.price = 1
+  }else if(sort === 'Descending'){
+    sortOption.price = -1
+  }
+
+
+  console.log(filter)
+  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
+
 
   return foodData.map((food) => ({
     ...food,
