@@ -2,12 +2,8 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-
 import { Sort } from "mongodb";
-
-
 export interface CommonPayload {
-
   name?: string;
   image?: string,
   role?: string,
@@ -65,6 +61,10 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     email: payload.email,
     password: payload.password,
     role:payload.role,
+    phone:payload.phone,
+    status:payload.status,
+    address:payload.address,
+    created_at: new Date(),
   });
 };
 
@@ -246,12 +246,6 @@ export const foodAvailableOrNot = async (
   return result;
 };
 
-
-
-
-
-
-
 export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
   console.log(sort)
   const db = await dbConnect();
@@ -290,4 +284,3 @@ export const getAllFoods = async (query?: string, category?: string, sort?: stri
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
-
