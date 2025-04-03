@@ -57,9 +57,9 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: user.role,
+          role: user.role || "User",
           image: user.image || null,
-          phone: user.phone || null,
+          phone: user.phone || 0,
           status: user.status || "Active",
           address: user.address || "Not Provided",
           created_at:user.created_at || new Date(),
@@ -109,9 +109,9 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.role = user.role;
+        token.role = user.role || "User";
         token.image = user.image || null;
-        token.phone = user.phone || null;
+        token.phone = user.phone || 0;
         token.status = user.status || "Active";
         token.address = user.address || "Not Provided";
         token.created_at = user.created_at || new Date();
@@ -125,9 +125,9 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
-        session.user.role = token.role as string;
+        session.user.role = token.role as string || "User";
         session.user.image = token.image as string;
-        session.user.phone = token.phone as number;
+        session.user.phone = token.phone as number || 0;
         session.user.status = token.status as  string || "Active";
         session.user.address = token.address as string || "Not Provided";
         session.user.created_at = token.created_at as Date || new Date();
@@ -150,35 +150,3 @@ export const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-// =========================================================================
-
-
-// import NextAuth from "next-auth"
-// import CredentialsProvider from "next-auth/providers/credentials"
-// const handler = NextAuth({
-//   providers: [
-//     CredentialsProvider({
-//       credentials: {
-//         username: { label: "Username", type: "text", placeholder: "jsmith" },
-//         password: { label: "Password", type: "password" },
-//         email: { label: "Email", type: "email" }
-//       },
-//       async authorize(credentials, req) {
-//         console.log("credentials", credentials)
-//         const res = await fetch("/your/endpoint", {
-//           method: 'POST',
-//           body: JSON.stringify(credentials),
-//           headers: { "Content-Type": "application/json" }
-//         })
-//         const user = await res.json()
-//         if (res.ok && user) {
-//           return user
-//         }
-//         return null
-//       }
-//     })
-//   ]
-// })
-
-// export { handler as GET, handler as POST }
