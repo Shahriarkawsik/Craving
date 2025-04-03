@@ -2,14 +2,19 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-
+import { Sort } from "mongodb";
 export interface CommonPayload {
   name?: string;
+  image?: string,
+  role?: string,
   email?: string;
   password?: string;
   title?: string;
   location?: string;
   owner?: string;
+  phone?:number;
+  status?:string;
+  address?:string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -59,8 +64,14 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   }
   await userCollection.insertOne({
     name: payload.name,
+    image:payload.image,
     email: payload.email,
     password: payload.password,
+    role:payload.role,
+    phone:payload.phone,
+    status:payload.status,
+    address:payload.address,
+    created_at: new Date(),
   });
 };
 
@@ -233,7 +244,6 @@ export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
   console.log(payload);
-
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -249,4 +259,43 @@ export const foodAvailableOrNot = async (
 
   console.log(result);
   return result;
+};
+
+export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
+  console.log(sort)
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+  console.log(category)
+  let filter: Record<string, unknown> = {};
+
+
+  if(category === 'All Food'){
+    filter = {}
+  }
+
+  if (category && category !== 'All Food') {
+    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+  }
+
+  if (query) {
+    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
+  }
+
+  const sortOption: Sort = {}
+
+  if(sort === 'Ascending'){
+    sortOption.price = 1
+  }else if(sort === 'Descending'){
+    sortOption.price = -1
+  }
+
+
+  console.log(filter)
+  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
+
+
+  return foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
 };

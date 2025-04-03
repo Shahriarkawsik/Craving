@@ -4,18 +4,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import SocialLogin from "@/components/shared/SocialLogin";
 const SignIn = () => {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
-
+      
     try {
       const response = await signIn("credentials", {
         email,
@@ -24,7 +26,7 @@ const SignIn = () => {
         redirect: false,
       });
       if (response?.ok) {
-        router.push("/");
+        router.push(callbackUrl);
         form.reset();
       } else {
         alert("Authentication failed");

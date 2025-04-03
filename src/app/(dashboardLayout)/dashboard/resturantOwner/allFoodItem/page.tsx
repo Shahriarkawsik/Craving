@@ -3,9 +3,12 @@
 import { deleteFood, FoodItem, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+<<<<<<< HEAD
+=======
 
 // import { Input } from "@/components/ui/input"
 // import { Label } from "@/components/ui/label"
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
 import {
   Table,
   TableBody,
@@ -34,14 +37,19 @@ import AvailableOrNot from "./components/AvailableOrNot";
 //   owner_email: string;
 // }
 
+// Delete API response 
+interface DeleteResponse {
+  deletedCount: number;
+}
+
 export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
   const [loading, setLoading] = useState<string | null>(null);
   const email = "mhbabu2002@gmail.com";
 
-  const fetchData = async () => {
+  const fetchData = async (): Promise<void> => {
     try {
-      const data = await getAllFoodsData(email);
+      const data = await getAllFoodsData(email) as FoodItem[];
       setFoodData(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -64,12 +72,19 @@ export default function AllFoodItems() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+<<<<<<< HEAD
+          setLoading(id);
+          const response: DeleteResponse = await deleteFood({ id, isAvailable: false });
+
+          if (response.deletedCount > 0) {
+=======
           setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
           const result = await deleteFood({
             id,
             isAvailable: false,
           });
           if (result.deletedCount > 0) {
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -105,11 +120,17 @@ export default function AllFoodItems() {
         </TableHeader>
         <TableBody>
           {foodData.map((food, index) => (
+<<<<<<< HEAD
+            <TableRow key={food._id} className="border-t">
+              <TableCell className="text-center font-medium">{index + 1}</TableCell>
+              <TableCell className="text-center">
+=======
             <TableRow key={food.foodName} className="border-t">
               <TableCell className="text-center font-medium">
                 {index + 1}
               </TableCell>
               <TableCell className=" text-center">
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                 <Image
                   src={food.image}
                   width={50}
@@ -118,10 +139,10 @@ export default function AllFoodItems() {
                   className="w-12 h-12 object-cover rounded-md"
                 />
               </TableCell>
-              <TableCell className=" text-left">{food.foodName}</TableCell>
-              <TableCell className=" text-left">{food.category}</TableCell>
-              <TableCell className=" text-left">${food.price}</TableCell>
-              <TableCell className=" flex gap-2 justify-left items-center">
+              <TableCell className="text-left">{food.foodName}</TableCell>
+              <TableCell className="text-left">{food.category}</TableCell>
+              <TableCell className="text-left">${food.price}</TableCell>
+              <TableCell className="flex gap-2 justify-left items-center">
                 <Link href={`/dashboard/resturantOwner/updateFood/${food._id}`}>
                   <button className="bg-blue-500 text-white px-3 py-1 rounded-md transition hover:bg-blue-600">
                     Edit
@@ -138,11 +159,14 @@ export default function AllFoodItems() {
                     "Delete"
                   )}
                 </button>
+<<<<<<< HEAD
+                <div>
+=======
                 <div className="">
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                   <FoodDetailsModal food={food} />
                 </div>
               </TableCell>
-
               <TableCell>
                 <AvailableOrNot food={food} />
               </TableCell>
