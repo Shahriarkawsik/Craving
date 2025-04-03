@@ -5,12 +5,17 @@ import { Collection } from "mongodb";
 
 export interface CommonPayload {
   name?: string;
+  image?: string,
+  role?: string,
   email?: string;
   password?: string;
   userStatus?: string;
   title?: string;
   location?: string;
   owner?: string;
+  phone?:number;
+  status?:string;
+  address?:string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -53,8 +58,10 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   }
   await userCollection.insertOne({
     name: payload.name,
+    image:payload.image,
     email: payload.email,
     password: payload.password,
+    role:payload.role,
   });
 };
 
