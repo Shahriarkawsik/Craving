@@ -222,13 +222,7 @@ export const foodAvailableOrNot = async (payload: CommonPayload): Promise<unknow
 };
 
 
-// Define the type for a FoodItem
-interface FoodItem {
-  name: string;
-  description: string;
-  image: string;
-  // Add other properties if required
-}
+
 
 
 
