@@ -2,8 +2,13 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
+<<<<<<< HEAD:src/app/action/auth/allApi.tsx
+import { Sort } from "mongodb";
+interface CommonPayload {
+=======
 
 export interface CommonPayload {
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d:src/app/action/auth/allApi.ts
   name?: string;
   image?: string,
   role?: string,
@@ -225,7 +230,6 @@ export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
   console.log(payload);
-
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -242,3 +246,51 @@ export const foodAvailableOrNot = async (
   console.log(result);
   return result;
 };
+<<<<<<< HEAD:src/app/action/auth/allApi.tsx
+
+
+
+
+
+
+export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
+  console.log(sort)
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+  console.log(category)
+  let filter: Record<string, unknown> = {};
+
+
+  if(category === 'All Food'){
+    filter = {}
+  }
+
+  if (category && category !== 'All Food') {
+    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+  }
+
+  if (query) {
+    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
+  }
+
+  const sortOption: Sort = {}
+
+  if(sort === 'Ascending'){
+    sortOption.price = 1
+  }else if(sort === 'Descending'){
+    sortOption.price = -1
+  }
+
+
+  console.log(filter)
+  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
+
+
+  return foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
+};
+
+=======
+>>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d:src/app/action/auth/allApi.ts
