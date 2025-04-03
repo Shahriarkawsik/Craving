@@ -25,7 +25,8 @@ const AddResturant = () => {
     restaurantName: string,
     location: string,
     ownerName: string,
-    restaurantEmail: string
+    restaurantEmail: string,
+    restaurantLogo: string
   }
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
@@ -104,6 +105,18 @@ const AddResturant = () => {
               }
             </div>
           </div>
+
+          {/* Restaurant logo */}
+            <div className="w-full mb-3">
+              <label className="text-gray-700 " htmlFor="restaurantLogo">
+                Restaurant Logo
+              </label>
+              <Input type="url" {...register('restaurantLogo', { required: true })} id="restaurantLogo" placeholder="https://example.com" />
+              {
+                errors.restaurantLogo && <p className="text-red-500 text-xs italic">Please enter restaurant logo link</p>
+              }
+            </div>
+
           <div className="mt-6 text-center">
             <Button type="submit" variant="outline">Add Restaurant</Button>
           </div>
