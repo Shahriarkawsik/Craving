@@ -1,10 +1,10 @@
 "use client"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormEvent } from "react";
-import { addResturant } from "../../../../action/auth/allApi";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+// import { FormEvent } from "react";
+// import { addResturant } from "../../../../action/auth/allApi";
+// import { toast } from "react-toastify";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const AddResturant = () => {
   // const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
@@ -20,10 +20,16 @@ const AddResturant = () => {
   //   };
 
   type Inputs = {
+    restaurantName: string,
+    location: string,
 
   }
 
-  const {register, handleSubmit, formState: {errors}} = useForm();
+  const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
+  }
 
 
 
@@ -34,20 +40,21 @@ const AddResturant = () => {
         Add Resturant
       </h3>
       <div className="px-5 lg:px-8 py-6">
-        <form onSubmit={handleAddResturant}>
-          {/* first title and location */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          
+          {/* Restaurant Name */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="job_title">
                 Restaurant Name
               </label>
-              <Input type="text" name="title" placeholder="Food & Fun" />
+              <Input type="text" {...register('restaurantName')} name="title" placeholder="Food & Fun" />
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="job_title">
                 Location
               </label>
-              <Input type="text" name="location" placeholder="Location" />
+              <Input type="text" {...register('location')} name="location" placeholder="Location" />
             </div>
           </div>
           {/* owner and email  */}
