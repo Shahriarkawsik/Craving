@@ -39,8 +39,11 @@ export interface CommonPayload {
   isAvailable?: boolean;
   // restaurant information
   ownerName?: string,
-  addedDate?: string
-
+  addedDate?: string,
+  restaurantLogo?: string,
+  restaurantPhone?: number,
+  restaurantRating?: number,
+  ownerId?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -61,18 +64,6 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-// export const addResturant = async (payload: CommonPayload): Promise<void> => {
-//   // connect to the database and create add resturant collection
-//   const resturantCollection = await dbConnect().then((db) =>
-//     db.collection("resturant")
-//   );
-//   await resturantCollection.insertOne({
-//     title: payload.title,
-//     location: payload.location,
-//     owner: payload.owner,
-//     email: payload.email,
-//   });
-// };
 
 // Adding new restaurant information
 export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
@@ -84,7 +75,11 @@ export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
     location: payload.location,
     ownerName: payload.ownerName,
     restaurantEmail: payload.restaurantEmail,
-    addedDate: payload.addedDate
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId
   });
 };
 

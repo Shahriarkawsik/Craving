@@ -9,17 +9,6 @@ import { addRestaurant } from "@/app/action/auth/allApi";
 import { Slide, toast } from "react-toastify";
 
 const AddResturant = () => {
-  // const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     const form = e.currentTarget;
-  //     const title = (form.elements.namedItem("title") as HTMLInputElement).value;
-  //     const location = (form.elements.namedItem("location") as HTMLInputElement).value;
-  //     const owner = (form.elements.namedItem("owner") as HTMLInputElement).value;
-  //     const email = (form.elements.namedItem("email") as HTMLInputElement)
-  //       .value;
-  //       addResturant({title, location, owner, email})
-  //       toast.success("Resturant Added Successfully!");
-  //   };
 
   type Inputs = {
     restaurantName: string,
@@ -36,9 +25,9 @@ const AddResturant = () => {
     // adding submit date
     const addedDate = new Date().toISOString();
     // adding rating field
-    const restaurantRating = 0
+    const restaurantRating = 0;
     // adding owner object ID
-    const ownerId = 0
+    const ownerId = "abc123";
     // restaurant data for database
     const restaurantData = { ...data, addedDate, restaurantRating, ownerId };
 
