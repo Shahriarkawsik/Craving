@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account }) {
-      if (account) {
+      if (account?.provider === "google") {
         try {
           // console.log("from signIn callback",  {user, account, profile, credentials })
           const { providerAccountId, provider } = account;
@@ -151,4 +151,34 @@ const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
 
+// =========================================================================
 
+
+// import NextAuth from "next-auth"
+// import CredentialsProvider from "next-auth/providers/credentials"
+// const handler = NextAuth({
+//   providers: [
+//     CredentialsProvider({
+//       credentials: {
+//         username: { label: "Username", type: "text", placeholder: "jsmith" },
+//         password: { label: "Password", type: "password" },
+//         email: { label: "Email", type: "email" }
+//       },
+//       async authorize(credentials, req) {
+//         console.log("credentials", credentials)
+//         const res = await fetch("/your/endpoint", {
+//           method: 'POST',
+//           body: JSON.stringify(credentials),
+//           headers: { "Content-Type": "application/json" }
+//         })
+//         const user = await res.json()
+//         if (res.ok && user) {
+//           return user
+//         }
+//         return null
+//       }
+//     })
+//   ]
+// })
+
+// export { handler as GET, handler as POST }
