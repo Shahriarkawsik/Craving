@@ -4,19 +4,30 @@ import { Button } from "@/components/ui/button";
 import { FormEvent } from "react";
 import { addResturant } from "../../../../action/auth/allApi";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const AddResturant = () => {
-  const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const title = (form.elements.namedItem("title") as HTMLInputElement).value;
-      const location = (form.elements.namedItem("location") as HTMLInputElement).value;
-      const owner = (form.elements.namedItem("owner") as HTMLInputElement).value;
-      const email = (form.elements.namedItem("email") as HTMLInputElement)
-        .value;
-        addResturant({title, location, owner, email})
-        toast.success("Resturant Added Successfully!");
-    };
+  // const handleAddResturant = async (e: FormEvent<HTMLFormElement>) => {
+  //     e.preventDefault();
+  //     const form = e.currentTarget;
+  //     const title = (form.elements.namedItem("title") as HTMLInputElement).value;
+  //     const location = (form.elements.namedItem("location") as HTMLInputElement).value;
+  //     const owner = (form.elements.namedItem("owner") as HTMLInputElement).value;
+  //     const email = (form.elements.namedItem("email") as HTMLInputElement)
+  //       .value;
+  //       addResturant({title, location, owner, email})
+  //       toast.success("Resturant Added Successfully!");
+  //   };
+
+  type Inputs = {
+
+  }
+
+  const {register, handleSubmit, formState: {errors}} = useForm();
+
+
+
+
   return (
     <div className="w-8/12 mx-auto">
       <h3 className="text-center mb-5 text-2xl md:text-3xl font-semibold">
@@ -28,9 +39,9 @@ const AddResturant = () => {
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="job_title">
-                Title
+                Restaurant Name
               </label>
-              <Input type="text" name="title" placeholder="Title" />
+              <Input type="text" name="title" placeholder="Food & Fun" />
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="job_title">
