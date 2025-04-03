@@ -29,8 +29,8 @@ const AddResturant = () => {
   const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    const date = new Date().toISOString();
-    const restaurantData = {...data, date};
+    const addedDate = new Date().toISOString();
+    const restaurantData = {...data, addedDate};
     console.log(restaurantData);
   }
 
