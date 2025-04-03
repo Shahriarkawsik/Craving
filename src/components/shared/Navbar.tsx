@@ -26,7 +26,10 @@ const Navbar = () => {
   const pathName = usePathname();
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
+<<<<<<< HEAD
   console.log(data, "all data")
+=======
+>>>>>>> 896b7bb00efd14bc83d051d15691922b9439f71b
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -105,20 +108,27 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
-           
             {/* <Button variant="destructive">Logout</Button> */}
 
             {status == "authenticated" ? (
-              <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" variant="destructive" onClick={() => signOut()}>
+              <Button
+                className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
+                variant="destructive"
+                onClick={() => signOut()}
+              >
                 Logout
               </Button>
             ) : (
               <>
                 <Link href="/signIn">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignIn</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignIn
+                  </Button>
                 </Link>
                 <Link href="/register">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl" >SignUp</Button>
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                    SignUp
+                  </Button>
                 </Link>
               </>
             )}
