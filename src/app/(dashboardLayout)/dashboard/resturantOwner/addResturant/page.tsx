@@ -23,8 +23,7 @@ const AddResturant = () => {
     restaurantName: string,
     location: string,
     ownerName: string,
-
-
+    restaurantEmail: string
   }
 
   const {register, handleSubmit, formState: {errors}} = useForm<Inputs>();
@@ -65,20 +64,20 @@ const AddResturant = () => {
           {/* Owner name and restaurant email */}
           <div className="lg:flex gap-3 mb-3">
           <div className="w-full">
-              <label className="text-gray-700 " htmlFor="job_title">
+              <label className="text-gray-700 " htmlFor="ownerName">
                 Owner Name
               </label>
-              <Input type="text" {...register('ownerName')} id="owner" placeholder="John Doe" />
+              <Input type="text" {...register('ownerName')} id="ownerName" placeholder="John Doe" />
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantEmail">
                 Restaurant Email
               </label>
-              <Input type="email" id="restaurantEmail" placeholder="example@gmail.com" />
+              <Input type="email" {...register('restaurantEmail')} id="restaurantEmail" placeholder="example@gmail.com" />
             </div>
           </div>
           <div className="mt-6 text-center">
-            <Button variant="outline">Add Resturant</Button>
+            <Button type="submit" variant="outline">Add Restaurant</Button>
           </div>
         </form>
       </div>
