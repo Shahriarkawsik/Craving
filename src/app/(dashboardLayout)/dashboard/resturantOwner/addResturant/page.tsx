@@ -26,14 +26,21 @@ const AddResturant = () => {
     location: string,
     ownerName: string,
     restaurantEmail: string,
-    restaurantLogo: string
+    restaurantLogo: string,
+    restaurantPhone: number,
   }
 
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    // adding submit date
     const addedDate = new Date().toISOString();
-    const restaurantData = { ...data, addedDate };
+    // adding rating field
+    const restaurantRating = 0
+    // adding owner object ID
+    const ownerId = 0
+    // restaurant data for database
+    const restaurantData = { ...data, addedDate, restaurantRating, ownerId };
 
     try {
       addRestaurant(restaurantData);
@@ -106,8 +113,18 @@ const AddResturant = () => {
             </div>
           </div>
 
-          {/* Restaurant logo */}
-            <div className="w-full mb-3">
+          {/* Restaurant logo and phone number */}
+          <div className="lg:flex gap-3 mb-3">
+            <div className="w-full">
+              <label className="text-gray-700 " htmlFor="restaurantPhone">
+                Restaurant Phone Number
+              </label>
+              <Input type="number" {...register('restaurantPhone', { required: true })} id="restaurantPhone" placeholder="01xxxxxxxx" />
+              {
+                errors.restaurantPhone && <p className="text-red-500 text-xs italic">Please enter restaurant phone number</p>
+              }
+            </div>
+            <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantLogo">
                 Restaurant Logo
               </label>
@@ -116,6 +133,7 @@ const AddResturant = () => {
                 errors.restaurantLogo && <p className="text-red-500 text-xs italic">Please enter restaurant logo link</p>
               }
             </div>
+          </div>
 
           <div className="mt-6 text-center">
             <Button type="submit" variant="outline">Add Restaurant</Button>
