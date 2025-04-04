@@ -3,12 +3,6 @@
 import { deleteFood, FoodItem, getAllFoodsData } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-<<<<<<< HEAD
-=======
-
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
 import {
   Table,
   TableBody,
@@ -72,19 +66,10 @@ export default function AllFoodItems() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-<<<<<<< HEAD
           setLoading(id);
           const response: DeleteResponse = await deleteFood({ id, isAvailable: false });
 
           if (response.deletedCount > 0) {
-=======
-          setLoading(id); // যেই item delete হচ্ছে তার id সেট করলাম
-          const result = await deleteFood({
-            id,
-            isAvailable: false,
-          });
-          if (result.deletedCount > 0) {
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
             Swal.fire({
               title: "Deleted!",
               text: "Your file has been deleted.",
@@ -120,17 +105,9 @@ export default function AllFoodItems() {
         </TableHeader>
         <TableBody>
           {foodData.map((food, index) => (
-<<<<<<< HEAD
             <TableRow key={food._id} className="border-t">
               <TableCell className="text-center font-medium">{index + 1}</TableCell>
               <TableCell className="text-center">
-=======
-            <TableRow key={food.foodName} className="border-t">
-              <TableCell className="text-center font-medium">
-                {index + 1}
-              </TableCell>
-              <TableCell className=" text-center">
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                 <Image
                   src={food.image}
                   width={50}
@@ -159,11 +136,7 @@ export default function AllFoodItems() {
                     "Delete"
                   )}
                 </button>
-<<<<<<< HEAD
                 <div>
-=======
-                <div className="">
->>>>>>> 60db2602f75572870e1a511bb50e6c9f4561d57d
                   <FoodDetailsModal food={food} />
                 </div>
               </TableCell>

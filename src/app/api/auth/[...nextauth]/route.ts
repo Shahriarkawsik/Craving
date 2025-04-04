@@ -116,6 +116,17 @@ export const authOptions: NextAuthOptions = {
         token.address = user.address || "Not Provided";
         token.created_at = user.created_at || new Date();
       }
+      else{
+        const updatedUser = await dbConnect().then((db) => db.collection("users").findOne({email:token.email}))
+        if(updatedUser){
+          token.role = updatedUser.role || "User";
+          token.image = updatedUser.image || null;
+          token.phone = updatedUser.phone || 0;
+          token.status = updatedUser.status || "Active";
+          token.address = updatedUser.address || "Not Provided";
+          token.created_at = updatedUser.created_at || new Date();
+        }
+      }
       return token;
     },
 
@@ -150,3 +161,4 @@ export const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
+
