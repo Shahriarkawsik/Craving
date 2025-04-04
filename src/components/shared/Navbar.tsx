@@ -24,11 +24,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const pathName = usePathname();
-  // const { data: session, status } = useSession();
   const { data, status } = useSession();
-  console.log(data, "all data");
   console.log(data?.user?.image, "=====================================");
-  console.log(data?.user?.email);
 
   return (
     <header className=" shadow-md py-4">
