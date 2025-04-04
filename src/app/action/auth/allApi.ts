@@ -2,7 +2,7 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-
+import { Sort } from "mongodb";
 export interface CommonPayload {
   name?: string;
   image?: string,
@@ -43,6 +43,13 @@ export interface CommonPayload {
   ownerNIDPhoto?: string;
   // food available or not
   isAvailable?: boolean;
+  // restaurant information
+  ownerName?: string,
+  addedDate?: string,
+  restaurantLogo?: string,
+  restaurantPhone?: number,
+  restaurantRating?: number,
+  ownerId?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -62,21 +69,33 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     email: payload.email,
     password: payload.password,
     role:payload.role,
+    phone:payload.phone,
+    status:payload.status,
+    address:payload.address,
+    created_at: new Date(),
   });
 };
 
-export const addResturant = async (payload: CommonPayload): Promise<void> => {
-  // connect to the database and create add resturant collection
-  const resturantCollection = await dbConnect().then((db) =>
-    db.collection("resturant")
-  );
-  await resturantCollection.insertOne({
-    title: payload.title,
+
+// Adding new restaurant information
+export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("allRestaurant");
+
+  await restaurantCollection.insertOne({
+    restaurantName: payload.restaurantName,
     location: payload.location,
-    owner: payload.owner,
-    email: payload.email,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId
   });
 };
+
+
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -235,7 +254,6 @@ export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
   console.log(payload);
-
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -251,4 +269,43 @@ export const foodAvailableOrNot = async (
 
   console.log(result);
   return result;
+};
+
+export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
+  console.log(sort)
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+  console.log(category)
+  let filter: Record<string, unknown> = {};
+
+
+  if(category === 'All Food'){
+    filter = {}
+  }
+
+  if (category && category !== 'All Food') {
+    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+  }
+
+  if (query) {
+    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
+  }
+
+  const sortOption: Sort = {}
+
+  if(sort === 'Ascending'){
+    sortOption.price = 1
+  }else if(sort === 'Descending'){
+    sortOption.price = -1
+  }
+
+
+  console.log(filter)
+  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
+
+
+  return foodData.map((food) => ({
+    ...food,
+    _id: (food._id as unknown as ObjectId).toString(),
+  }));
 };

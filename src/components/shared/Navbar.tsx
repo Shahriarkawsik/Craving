@@ -26,6 +26,9 @@ const Navbar = () => {
   const pathName = usePathname();
   // const { data: session, status } = useSession();
   const { data, status } = useSession();
+  console.log(data, "all data");
+  console.log(data?.user?.image, "=====================================");
+  console.log(data?.user?.email);
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -50,6 +53,18 @@ const Navbar = () => {
                 >
                   Home
                 </NavigationMenuLink>
+
+                <NavigationMenuLink
+                  href="/allFood"
+                  className={`${
+                    pathName === "/allFood"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  All Food
+                </NavigationMenuLink>
+
                 <NavigationMenuLink
                   href="/aboutUs"
                   className={`${
@@ -104,8 +119,6 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
-            {/* <Button variant="destructive">Logout</Button> */}
-
             {status == "authenticated" ? (
               <Button
                 className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"

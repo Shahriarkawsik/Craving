@@ -57,9 +57,9 @@ export const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           name: user.name,
           email: user.email,
-          role: user.role,
+          role: user.role || "User",
           image: user.image || null,
-          phone: user.phone || null,
+          phone: user.phone || 0,
           status: user.status || "Active",
           address: user.address || "Not Provided",
           created_at:user.created_at || new Date(),
@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async signIn({ user, account }) {
-      if (account) {
+      if (account?.provider === "google") {
         try {
           // console.log("from signIn callback",  {user, account, profile, credentials })
           const { providerAccountId, provider } = account;
@@ -86,12 +86,12 @@ export const authOptions: NextAuthOptions = {
             name,
             image,
             role: "User",
-            phone: null,
+            phone: 0,
             status: "Active",
             address: "Not Provided",
             created_at: new Date(),
           };
-          // console.log("from signIn callback", payload);
+          console.log("from signIn callback", payload);
           const isUserExist = await dbConnect().then((db)=> db.collection("users").findOne({providerAccountId}))
           if(!isUserExist){
             (await dbConnect().then((db)=> db.collection("users"))).insertOne(payload)
@@ -109,9 +109,9 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.role = user.role;
+        token.role = user.role || "User";
         token.image = user.image || null;
-        token.phone = user.phone || null;
+        token.phone = user.phone || 0;
         token.status = user.status || "Active";
         token.address = user.address || "Not Provided";
         token.created_at = user.created_at || new Date();
@@ -125,9 +125,9 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
-        session.user.role = token.role as string;
+        session.user.role = token.role as string || "User";
         session.user.image = token.image as string;
-        session.user.phone = token.phone as number;
+        session.user.phone = token.phone as number || 0;
         session.user.status = token.status as  string || "Active";
         session.user.address = token.address as string || "Not Provided";
         session.user.created_at = token.created_at as Date || new Date();
@@ -150,5 +150,3 @@ export const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-

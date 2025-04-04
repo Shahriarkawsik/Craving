@@ -28,7 +28,7 @@ const RidersProfile: FC = () => {
     return (
         <div className="p-6 mx-auto">
             {/* restaurant information */}
-            <Card className="p-4 shadow-lg bg-orange-100">
+            <Card className="p-4 shadow-lg bg-orange-200">
                 <CardContent>
                     <div className="flex items-center space-x-4">
                         <Image src={restaurantLogo} alt="Restaurant Logo" className="w-16 h-16 rounded-full" />
