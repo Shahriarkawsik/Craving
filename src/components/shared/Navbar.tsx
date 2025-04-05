@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
+  // NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
@@ -24,10 +24,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const pathName = usePathname();
-  // const { data: session, status } = useSession();
   const { data, status } = useSession();
-  // console.log(data, "all data")
-  // console.log(data?.user?.image, "=====================================");
+  console.log(data?.user?.image, "=====================================");
+
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -42,56 +41,80 @@ const Navbar = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem className="flex items-center space-x-4">
-                <NavigationMenuLink
-                  href="/"
-                  className={`${
-                    pathName === "/"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Home
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/aboutUs"
-                  className={`${
-                    pathName === "/aboutUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  About Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/contactUs"
-                  className={`${
-                    pathName === "/contactUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Contact Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/profile"
-                  className={`${
-                    pathName === "/profile"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Profile
-                </NavigationMenuLink>
-                <NavigationMenuLink
-                  href="/dashboard"
-                  className={`${
-                    pathName === "/dashboard"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Dashboard
-                </NavigationMenuLink>
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/"
+                    className={`${
+                      pathName === "/"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Home
+                  </Link>
+                {/* </NavigationMenuLink> */}
+
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/allFood"
+                    className={`${
+                      pathName === "/allFood"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    All Food
+                  </Link>
+                {/* </NavigationMenuLink> */}
+
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/aboutUs"
+                    className={`${
+                      pathName === "/aboutUs"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    About Us
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/contactUs"
+                    className={`${
+                      pathName === "/contactUs"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Contact Us
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/profile"
+                    className={`${
+                      pathName === "/profile"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Profile
+                  </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                  <Link
+                    href="/dashboard"
+                    className={`${
+                      pathName === "/dashboard"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -106,16 +129,14 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
-            {/* <Button variant="destructive">Logout</Button> */}
-
             {status == "authenticated" ? (
-              <Button
+              <button
                 className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
-                variant="destructive"
+                // variant="destructive"
                 onClick={() => signOut()}
               >
                 Logout
-              </Button>
+              </button>
             ) : (
               <>
                 <Link href="/signIn">
