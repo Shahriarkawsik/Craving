@@ -99,7 +99,7 @@ export function AppSidebar() {
 
           {/* resturant owner's dashboard */}
           <SidebarGroupContent className="my-10">
-            <SidebarMenu>
+    
               <Link href="/dashboard/resturantOwner/addFood">
                 <SidebarMenuItem
                   className={`${
@@ -111,6 +111,8 @@ export function AppSidebar() {
                   Add Food
                 </SidebarMenuItem>
               </Link>
+          
+            {/* <SidebarMenuItem>
               <Link href="/dashboard/resturantOwner/allFoodItem">
                 <SidebarMenuItem
                   className={`${
@@ -122,6 +124,8 @@ export function AppSidebar() {
                   All Food Item
                 </SidebarMenuItem>
               </Link>
+            </SidebarMenuItem> */}
+         
               <Link href="/dashboard/resturantOwner/addResturant">
                 <SidebarMenuItem
                   className={`${
@@ -156,7 +160,7 @@ export function AppSidebar() {
                   Order History
                 </SidebarMenuItem>
               </Link>
-            </SidebarMenu>
+            
           </SidebarGroupContent>
 
           {/* riders dashboard */}

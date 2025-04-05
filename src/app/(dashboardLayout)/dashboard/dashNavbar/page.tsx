@@ -5,7 +5,7 @@ import { MdOutlineLogout } from "react-icons/md";
 
 const DashNavbar = () => {
   return (
-    <div className="flex shadow-lg items-center  p-4 justify-between">
+    <div className="flex shadow-lg items-center p-2 md:p-4 justify-between">
       <div className="flex gap-2 ">
         <Image
           src="https://i.ibb.co.com/5xtrS8JD/rakib.jpg"
@@ -22,7 +22,7 @@ const DashNavbar = () => {
 
       </div>
 
-      <div className="flex items-center gap-2" >Logout <span><MdOutlineLogout /></span> </div>
+      <div className="flex items-center gap-2 py-2  px-5  bg-base-50 shadow-gray-300 hover:font-semibold shadow-md " >Logout <span><MdOutlineLogout /></span> </div>
     </div>
   );
 };

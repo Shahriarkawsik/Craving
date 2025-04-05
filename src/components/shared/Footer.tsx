@@ -4,7 +4,6 @@ import Link from "next/link";
 import logo from "@/assets/logo.png";
 import { FaFacebook, FaLinkedin, FaSquareInstagram } from "react-icons/fa6";
 
-
 const Footer = () => {
   return (
     <footer className="  border-t-2 border-gray-200 w-full bg-gray-50  overflow-hidden ">
@@ -15,8 +14,7 @@ const Footer = () => {
         <div className="lg:flex justify-between ">
           {" "}
           <div>
-            <p className="max-w-lg mt-5 opacity-80">
-              {" "}
+            <p className="max-w-lg mt-5 opacity-80 text-justify">
               Craving delicious food? We've got you covered! At Craving, we
               bring your favorite meals straight to your doorstep with speed and
               convenience. Whether you're in the mood for a quick bite or a
@@ -49,16 +47,14 @@ const Footer = () => {
             </h4>
             <ul className="flex space-x-3 gap-4 justify-between items-start ">
               <li className="text-2xl text-blue-600 hover:opacity-70">
-              <Link href="https://www.facebook.com" target="_blank">
-              <FaFacebook />
+                <Link href="https://www.facebook.com" target="_blank">
+                  <FaFacebook />
                 </Link>
-                
               </li>
               <li className="text-2xl bg-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] rounded hover:opacity-70 ">
-              <Link href="http://instagram.com" target="_blank">
-              <FaSquareInstagram />
+                <Link href="http://instagram.com" target="_blank">
+                  <FaSquareInstagram />
                 </Link>
-               
               </li>
               <li className="text-2xl bg-gradient-to-r from-[#0A66C2] to-[#084B99] rounded hover:opacity-70">
                 <Link href="https://bd.linkedin.com" target="_blank">
