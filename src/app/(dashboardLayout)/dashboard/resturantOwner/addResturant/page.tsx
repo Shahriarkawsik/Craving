@@ -51,17 +51,17 @@ const AddResturant = () => {
 
 
   return (
-    <div className="w-8/12 mx-auto">
-      <h3 className="text-center mb-5 text-2xl md:text-3xl font-semibold">
+    <div className="w-10/12 mx-auto">
+      <h3 className="text-center mb-7 text-2xl md:text-3xl font-bold">
         Add Resturant
       </h3>
-      <div className="px-5 lg:px-8 py-6">
+      <div className="px-5 lg:px-10 py-10 bg-gray-50 shadow-md rounded-3xl">
         <form onSubmit={handleSubmit(onSubmit)}>
 
           {/* Restaurant Name and location */}
-          <div className="lg:flex gap-3 mb-3">
+          <div className="lg:flex gap-7 mb-5">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantName">
+              <label className="text-gray-700 font-bold" htmlFor="restaurantName">
                 Restaurant Name
               </label>
               <Input type="text" {...register('restaurantName', { required: true })} id="restaurantName" placeholder="Food & Fun" />
@@ -70,7 +70,7 @@ const AddResturant = () => {
               }
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="location">
+              <label className="text-gray-700 font-bold" htmlFor="location">
                 Location
               </label>
               <Input type="text" {...register('location', { required: true })} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
@@ -81,9 +81,9 @@ const AddResturant = () => {
           </div>
 
           {/* Owner name and restaurant email */}
-          <div className="lg:flex gap-3 mb-3">
+          <div className="lg:flex gap-7 mb-5">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="ownerName">
+              <label className="text-gray-700 font-bold" htmlFor="ownerName">
                 Owner Name
               </label>
               <Input type="text" {...register('ownerName', { required: true })} id="ownerName" placeholder="John Doe" />
@@ -92,7 +92,7 @@ const AddResturant = () => {
               }
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantEmail">
+              <label className="text-gray-700 font-bold" htmlFor="restaurantEmail">
                 Email
               </label>
               <Input type="email" {...register('restaurantEmail', { required: true })} id="restaurantEmail" placeholder="example@gmail.com" />
@@ -103,9 +103,9 @@ const AddResturant = () => {
           </div>
 
           {/* Restaurant logo and phone number */}
-          <div className="lg:flex gap-3 mb-3">
+          <div className="lg:flex gap-7 mb-5">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantPhone">
+              <label className="text-gray-700 font-bold" htmlFor="restaurantPhone">
                 Phone Number
               </label>
               <Input type="number" {...register('restaurantPhone', { required: true })} id="restaurantPhone" placeholder="01xxxxxxxx" />
@@ -114,7 +114,7 @@ const AddResturant = () => {
               }
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantLogo">
+              <label className="text-gray-700 font-bold" htmlFor="restaurantLogo">
                 Logo
               </label>
               <Input type="url" {...register('restaurantLogo', { required: true })} id="restaurantLogo" placeholder="https://example.com" />
