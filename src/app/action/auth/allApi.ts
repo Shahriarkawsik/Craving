@@ -76,6 +76,32 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     created_at: new Date(),
   });
 };
+/* Get Login user Details */
+export const getUserDetails = async (
+  email: string
+): Promise<CommonPayload | null> => {
+  const db = await dbConnect();
+  const userCollection: Collection<CommonPayload> = db.collection("users");
+
+  const user = await userCollection.findOne({ email });
+
+  if (!user) return null;
+
+  return {
+    ...user,
+    _id: (user._id as unknown as ObjectId).toString(),
+    created_at: user.created_at ? new Date(user.created_at) : undefined,
+  };
+};
+
+export const updateUserRole = async (
+  email: string,
+  role: string
+): Promise<void> => {
+  const db = await dbConnect();
+  const userCollection = db.collection("users");
+  await userCollection.updateOne({ email }, { $set: { role } });
+};
 
 // Adding new restaurant information
 export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
@@ -146,15 +172,18 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
   });
 };
 /* Approved and update rider status */
-// export const update;
 
 /* Delete Be Resturant Owner Application */
-export const deleteResturantOwner = async (resturantOwnerId: string): Promise<void> => {
+export const deleteResturantOwner = async (
+  resturantOwnerId: string
+): Promise<void> => {
   const db = await dbConnect();
   const resturantOwnerCollection: Collection<CommonPayload> =
     db.collection("beResturantOwner");
-  await resturantOwnerCollection.deleteOne({ _id: new ObjectId(resturantOwnerId) });
-}
+  await resturantOwnerCollection.deleteOne({
+    _id: new ObjectId(resturantOwnerId),
+  });
+};
 
 /* Delete Be Rider Application */
 export const deleteRider = async (riderId: string): Promise<void> => {

@@ -9,8 +9,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { addRider } from "@/app/action/auth/allApi";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 
 const BeRider = () => {
+  const { data } = useSession();
+  // console.log(data?.user?.name);
   type Inputs = {
     // restaurant_id: string;
     _id: string;
@@ -67,7 +70,7 @@ const BeRider = () => {
               <Label className="font-semibold">Rider Email</Label>
               <Input
                 readOnly
-                value={"rider@gmail.com"}
+                value={data?.user?.email}
                 type="email"
                 id="email"
                 placeholder="Type your email"
@@ -84,6 +87,8 @@ const BeRider = () => {
             <div className="space-y-3">
               <Label className="font-semibold">Rider Name*</Label>
               <Input
+                readOnly
+                value={data?.user?.name}
                 type="text"
                 id="name"
                 placeholder="Type your name"

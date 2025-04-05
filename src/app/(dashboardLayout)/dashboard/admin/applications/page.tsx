@@ -6,6 +6,8 @@ import {
   deleteRider,
   getAllResturantOwner,
   getAllRider,
+  getUserDetails,
+  updateUserRole,
 } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
@@ -15,6 +17,7 @@ import { TbListDetails } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 const Applications = () => {
+  const [userDetails, setUserDetails] = useState<CommonPayload | null>(null);
   const [riderApplications, setRiderApplications] = useState<CommonPayload[]>(
     []
   );
@@ -49,11 +52,26 @@ const Applications = () => {
   const handleApproveRider = async (riderId: string) => {
     try {
       const selectedRider = riderApplications.find((r) => r._id === riderId);
-      if (!selectedRider) return;
-
+      if (!selectedRider) {
+        console.warn("No rider found for ID:", riderId);
+        return;
+      }
       const { riderEmail } = selectedRider;
-      console.log("Approve rider:", riderEmail);
-      // TODO: implement status update and email logic
+      // fetch user details by riderEmail
+      const user = await getUserDetails(riderEmail);
+      if (!user) {
+        console.error("User not found for email:", riderEmail);
+        return;
+      }
+      const { email, role } = user;
+      console.log("Approving rider:", email, role);
+      await updateUserRole(email, "rider"); // await is important here
+      /* Create a Rider Collection */
+      
+      // Optional: Show success message
+      console.log("Rider role updated successfully!");
+
+      // TODO: update application status and send confirmation email
     } catch (error) {
       console.error("Error approving rider:", error);
     }
@@ -81,7 +99,6 @@ const Applications = () => {
     console.log(ownerId);
   };
   const handleRejectOwner = async (ownerId: string) => {
-   
     try {
       await deleteResturantOwner(ownerId);
       const updatedOwnerApplications = restaurantOwnerApplications.filter(
@@ -102,7 +119,7 @@ const Applications = () => {
   return (
     <section>
       <div className="w-11/12 mx-auto space-y-10">
-        <div>
+        <div className="space-y-8">
           <h1 className="text-center text-5xl text-red-400">
             This is restaurant owner applications
           </h1>
