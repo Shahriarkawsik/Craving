@@ -5,6 +5,10 @@ import TopRestaurant from "../../components/homeComponents/TopRestaurant";
 import Support from "@/components/homeComponents/Support";
 import FAQ from "@/components/homeComponents/FAQ";
 import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
+import EidCart from "@/components/homeComponents/EidCart";
+import CountdownTimer from "@/components/homeComponents/CountdownTimer";
+
+
 
 export default function Home() {
   return (
@@ -12,6 +16,10 @@ export default function Home() {
       {/* bg-amber-100 */}
       {/* Banner section */}
       <Banner />
+         <CountdownTimer targetDate="2025-04-10T00:00:00" />
+      <EidCart/>
+   
+
       {/* Category Section */}
       <Category />
       {/* Cities We Serve Section */}
