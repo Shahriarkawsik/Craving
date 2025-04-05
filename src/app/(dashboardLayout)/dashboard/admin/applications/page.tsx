@@ -1,7 +1,10 @@
 "use client";
+// "use server"
 import {
   CommonPayload,
+  deleteResturantOwner,
   deleteRider,
+  getAllResturantOwner,
   getAllRider,
 } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
@@ -15,7 +18,22 @@ const Applications = () => {
   const [riderApplications, setRiderApplications] = useState<CommonPayload[]>(
     []
   );
+  const [restaurantOwnerApplications, setRestaurantOwnerApplications] =
+    useState<CommonPayload[]>([]);
 
+  // restaurant Owner Application
+  useEffect(() => {
+    const fetchOwnerApplications = async () => {
+      try {
+        const response: CommonPayload[] = await getAllResturantOwner();
+        setRestaurantOwnerApplications(response);
+      } catch (error) {
+        console.error("Error fetching owner applications:", error);
+      }
+    };
+    fetchOwnerApplications();
+  }, []);
+  // rider Application
   useEffect(() => {
     const fetchRiderApplications = async () => {
       try {
@@ -27,27 +45,20 @@ const Applications = () => {
     };
     fetchRiderApplications();
   }, []);
-  /* approve Rider
-  1. If approved then send email to rider
-  2. If approved then send email to owner
-  3. If approved, then update the rider status user to rider.
-*/
 
   const handleApproveRider = async (riderId: string) => {
     try {
-      // console.log(riderId);
-      const {riderEmail} = riderApplications.find(
-        (rider) => rider._id === riderId
-      );
-      console.log(riderEmail);
-      /* step-01: update the rider status */ 
-      
+      const selectedRider = riderApplications.find((r) => r._id === riderId);
+      if (!selectedRider) return;
+
+      const { riderEmail } = selectedRider;
+      console.log("Approve rider:", riderEmail);
+      // TODO: implement status update and email logic
     } catch (error) {
-      console.log(error);
+      console.error("Error approving rider:", error);
     }
   };
 
-  /* Reject Rider */
   const handleRejectRider = async (riderId: string) => {
     try {
       await deleteRider(riderId);
@@ -66,17 +77,93 @@ const Applications = () => {
     }
   };
 
+  const handleApproveOwner = async (ownerId: string) => {
+    console.log(ownerId);
+  };
+  const handleRejectOwner = async (ownerId: string) => {
+   
+    try {
+      await deleteResturantOwner(ownerId);
+      const updatedOwnerApplications = restaurantOwnerApplications.filter(
+        (owner) => owner._id !== ownerId
+      );
+      Swal.fire({
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+        text: "Owner rejected successfully",
+      });
+      setRestaurantOwnerApplications(updatedOwnerApplications);
+    } catch (error) {
+      console.error("Error rejecting owner:", error);
+    }
+  };
+
   return (
     <section>
       <div className="w-11/12 mx-auto space-y-10">
         <div>
-          <h1>This is restaurant owner applications</h1>
+          <h1 className="text-center text-5xl text-red-400">
+            This is restaurant owner applications
+          </h1>
+          <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {restaurantOwnerApplications.map((owner) => (
+              <div
+                key={owner._id}
+                className="shadow-2xl rounded-2xl p-6 space-y-2 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
+              >
+                <h1 className="text-2xl font-bold text-center">
+                  {owner.restaurantName}
+                </h1>
+                <p>
+                  <strong>Restaurant Email: </strong> {owner.restaurantEmail}
+                </p>
+                <p>
+                  <strong>Restaurant Owner Name: </strong>
+                  {owner.restaurantOwnerName}
+                </p>
+                <p>
+                  <strong>Restaurant Owner Email: </strong>
+                  {owner.restaurantOwnerEmail}
+                </p>
+                <p>
+                  <strong>Restaurant Contact Number: </strong>
+                  {owner.restaurantNumber}
+                </p>
+                <p>
+                  <strong>Restaurant Address: </strong>
+                  {owner.restaurantAddress}
+                </p>
+                <p>
+                  <strong>About Restaurant: </strong>
+                  {owner.restaurantDescription}
+                </p>
+                {/* ownerNIDPhoto */}
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={() => handleApproveOwner(owner._id)}
+                    className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleRejectOwner(owner._id)}
+                    className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
         <hr />
         <h1 className="text-center text-5xl text-red-400">
           This is rider applications
         </h1>
+
         <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5 w-11/12 mx-auto"> */}
           {riderApplications.map((rider) => (
             <div
               key={rider._id}
