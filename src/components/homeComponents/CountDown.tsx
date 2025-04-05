@@ -32,10 +32,8 @@ const Countdown: React.FC<CountdownProps> = ({
   return (
     <>
       {" "}
-      <div className="w-11/12 mx-auto ">
-        <p className="text-red-600 font-semibold">
-         Eid Offer expires in {minutes}:{seconds}
-        </p>
+      <div className="w-11/12 mx-auto text-red-600 ">
+        {minutes}:{seconds}
       </div>
     </>
   );
