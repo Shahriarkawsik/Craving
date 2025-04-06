@@ -383,10 +383,8 @@ export const getAllFoods = async (
   category?: string,
   sort?: string
 ): Promise<FoodItem[]> => {
-  console.log(sort);
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
-  console.log(category);
   let filter: Record<string, unknown> = {};
 
   if (category === "All Food") {
