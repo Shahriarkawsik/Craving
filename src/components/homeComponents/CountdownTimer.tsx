@@ -53,7 +53,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
           {["days", "hours", "minutes", "seconds"].map((unit) => (
             <div key={unit}>
               <div className="text-5xl font-bold text-[#c27f27] ">
-                {(timeLeft as any)[unit].toString().padStart(2, "0")}
+                {(timeLeft as Record<string, number>)[unit]
+                  .toString()
+                  .padStart(2, "0")}
               </div>
 
               <div className="text-sm capitalize">{unit}</div>

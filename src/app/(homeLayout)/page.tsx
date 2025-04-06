@@ -1,3 +1,4 @@
+"use client";
 import Banner from "@/components/homeComponents/banner";
 import Category from "@/components/homeComponents/Category";
 import FeaturedFood from "@/components/homeComponents/FeaturedFood";
@@ -6,8 +7,13 @@ import Support from "@/components/homeComponents/Support";
 import FAQ from "@/components/homeComponents/FAQ";
 import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
 import EidCart from "@/components/homeComponents/EidCart";
-import CountdownTimer from "@/components/homeComponents/CountdownTimer";
+// import CountdownTimer from "@/components/homeComponents/CountdownTimer";
+import dynamic from "next/dynamic";
 
+
+const CountdownTimer = dynamic(() => import("@/components/homeComponents/CountdownTimer"), {
+  ssr: false,
+});
 
 
 export default function Home() {
