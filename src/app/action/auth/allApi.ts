@@ -261,6 +261,7 @@ export const foodAvailableOrNot = async (
   return result;
 };
 
+// 
 export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
   console.log(sort)
   const db = await dbConnect();
@@ -289,10 +290,8 @@ export const getAllFoods = async (query?: string, category?: string, sort?: stri
     sortOption.price = -1
   }
 
-
   console.log(filter)
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
-
 
   return foodData.map((food) => ({
     ...food,
