@@ -42,78 +42,78 @@ const Navbar = () => {
             <NavigationMenuList>
               <NavigationMenuItem className="flex items-center space-x-4">
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/"
-                    className={`${
-                      pathName === "/"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Home
-                  </Link>
+                <Link
+                  href="/"
+                  className={`${
+                    pathName === "/"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Home
+                </Link>
                 {/* </NavigationMenuLink> */}
 
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/allFood"
-                    className={`${
-                      pathName === "/allFood"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    All Food
-                  </Link>
+                <Link
+                  href="/allFood"
+                  className={`${
+                    pathName === "/allFood"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  All Food
+                </Link>
                 {/* </NavigationMenuLink> */}
 
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/aboutUs"
-                    className={`${
-                      pathName === "/aboutUs"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    About Us
-                  </Link>
+                <Link
+                  href="/aboutUs"
+                  className={`${
+                    pathName === "/aboutUs"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  About Us
+                </Link>
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/contactUs"
-                    className={`${
-                      pathName === "/contactUs"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Contact Us
-                  </Link>
+                <Link
+                  href="/contactUs"
+                  className={`${
+                    pathName === "/contactUs"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Contact Us
+                </Link>
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/profile"
-                    className={`${
-                      pathName === "/profile"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Profile
-                  </Link>
+                <Link
+                  href="/profile"
+                  className={`${
+                    pathName === "/profile"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Profile
+                </Link>
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-                  <Link
-                    href="/dashboard"
-                    className={`${
-                      pathName === "/dashboard"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
+                <Link
+                  href="/dashboard"
+                  className={`${
+                    pathName === "/dashboard"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  Dashboard
+                </Link>
                 {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>

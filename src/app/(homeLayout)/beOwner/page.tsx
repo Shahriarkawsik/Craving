@@ -4,12 +4,15 @@ import BGImg from "@/assets/bgImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
 import { addResturantOwner } from "@/app/action/auth/allApi";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 const BeOwner = () => {
   type Inputs = {
+    _id: string;
     restaurantOwnerEmail: string;
+    restaurantOwnerName: string;
     restaurantName: string;
     restaurantEmail: string;
     restaurantNumber: number;
@@ -26,15 +29,26 @@ const BeOwner = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const { data } = useSession();
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const beRestaurantOwner = { ...data, created_at: new Date() };
-    // console.log(beRestaurantOwner);
     try {
       await addResturantOwner(beRestaurantOwner);
-      toast.success("Application Submitted Successfully!");
+      Swal.fire({
+        icon: "success",
+        title: "Application Submitted Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       reset();
     } catch (error) {
-      toast.error("Something went wrong!" + error);
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong! ${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (
@@ -58,7 +72,7 @@ const BeOwner = () => {
               <Label className="font-semibold">Email</Label>
               <Input
                 readOnly
-                value={"restaurantowner@gmail.com"}
+                value={data?.user?.email}
                 type="email"
                 id="email"
                 placeholder="Type your email"
@@ -68,6 +82,24 @@ const BeOwner = () => {
               {errors.restaurantOwnerEmail && (
                 <span className="text-red-600 text-sm">
                   {errors.restaurantOwnerEmail.message}
+                </span>
+              )}
+            </div>
+            {/* Restaurant Owner Name */}
+            <div className="space-y-3">
+              <Label className="font-semibold">Restaurant Owner Name*</Label>
+              <Input
+                readOnly
+                value={data?.user?.name}
+                type="text"
+                id="name"
+                placeholder="Type restaurant owner name"
+                {...register("restaurantOwnerName", { required: true })}
+                required
+              />
+              {errors.restaurantOwnerName && (
+                <span className="text-red-600 text-sm">
+                  {errors.restaurantOwnerName.message}
                 </span>
               )}
             </div>
