@@ -120,7 +120,7 @@ const Applications = () => {
       );
       Swal.fire({
         icon: "success",
-        timer: 2500,
+        timer: 500,
         showConfirmButton: false,
         text: "Rider rejected successfully",
       });
@@ -221,12 +221,12 @@ const Applications = () => {
               key={rider._id}
               className="shadow-2xl rounded-2xl p-6 space-y-2 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
             >
-              <figure>
+              <figure className="flex  justify-center">
                 <Image
                   src={rider?.riderImage}
                   alt={rider.riderName}
-                  width={200}
-                  height={200}
+                  width={300}
+                  height={300}
                 />
               </figure>
               <h1 className="text-2xl font-bold text-center">

@@ -238,12 +238,22 @@ export type RiderPayload = {
   riderAvgRating: number;
   riderTotalTransaction: number;
 };
-
+/* Create Rider collection */
 export const createRider = async (payload: RiderPayload): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
 
   await riderCollection.insertOne(payload);
+};
+/* Get specific Rider */
+export const getActiveRider = async (
+  riderEmail: string
+): Promise<RiderPayload | null> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const rider = await riderCollection.findOne({ riderEmail });
+  console.log(rider);
+  return rider ?? null; // Ensures function always returns RiderPayload or null
 };
 
 /* Get all rider Application request */
