@@ -15,13 +15,15 @@ const BeRider = () => {
   const { data } = useSession();
   // console.log(data?.user?.name);
   type Inputs = {
-    // restaurant_id: string;
     _id: string;
     riderEmail: string;
     riderName: string;
+    riderImage: string;
     riderNumber: number;
     riderAddress: string;
     description: string;
+    //TODO: Birthdate: Date;
+    riderIdentification: number;
     vehicleType: string;
     created_at: Date;
   };
@@ -45,7 +47,12 @@ const BeRider = () => {
       });
       reset();
     } catch (error) {
-      toast.error("Something went wrong!" + error);
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong! ${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (
@@ -101,6 +108,23 @@ const BeRider = () => {
                 </span>
               )}
             </div>
+            {/* Rider Image */}
+            <div className="space-y-3">
+              <Label className="font-semibold">Rider Image*</Label>
+              <Input
+                type="url"
+                // type="file"
+                id="name"
+                placeholder="Type your Image URL"
+                {...register("riderImage", { required: true })}
+                required
+              />
+              {errors.riderImage && (
+                <span className="text-red-600 text-sm">
+                  Rider image is required
+                </span>
+              )}
+            </div>
             {/* Rider Number */}
             <div className="space-y-3">
               <Label className="font-semibold">Rider Number*</Label>
@@ -119,6 +143,30 @@ const BeRider = () => {
               {errors.riderNumber && (
                 <span className="text-red-600 text-sm">
                   {errors.riderNumber.message}
+                </span>
+              )}
+            </div>
+            {/* Rider Identification */}
+            <div className="space-y-3">
+              <Label className="font-semibold">
+                NID Number/ Birth Certificate Number*
+              </Label>
+              <Input
+                type="number"
+                id="rider_number"
+                placeholder="1234567890"
+                {...register("riderIdentification", {
+                  required:
+                    "Rider NID Number/ Birth Certificate Number is required",
+                  // pattern: {
+                  //   value: /^\d{11,}$/,
+                  //   message: "Rider number must be at least 11 digits",
+                  // },
+                })}
+              />
+              {errors.riderIdentification && (
+                <span className="text-red-600 text-sm">
+                  {errors.riderIdentification.message}
                 </span>
               )}
             </div>

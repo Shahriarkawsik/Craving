@@ -32,6 +32,8 @@ export interface CommonPayload {
   riderNumber?: number;
   riderAddress?: string;
   vehicleType?: string;
+  riderImage?: string;
+  riderIdentification?: string;
   // Be Owner
   _id: string; // get from the database after fetch.
   restaurantOwnerEmail?: string;
@@ -164,6 +166,8 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
   await riderCollection.insertOne({
     riderEmail: payload.riderEmail,
     riderName: payload.riderName,
+    riderImage: payload.riderImage,
+    riderIdentification: payload.riderIdentification,
     riderNumber: payload.riderNumber,
     riderAddress: payload.riderAddress,
     description: payload.description,
@@ -217,8 +221,32 @@ export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
     throw new Error("Failed to fetch resturant owner data");
   }
 };
+/* Create Rider Collection*/
+export type RiderPayload = {
+  riderImage?: string;
+  riderIdentification?: string;
+  riderName?: string;
+  riderEmail?: string;
+  riderNumber?: number;
+  riderAddress?: string;
+  vehicleType?: string;
+  riderTotalEarning: number;
+  riderTotalOrder: number;
+  riderTotalCompleteOrder: number;
+  // riderTotalPendingOrder: number;
+  riderTotalRating: number;
+  riderAvgRating: number;
+  riderTotalTransaction: number;
+};
 
-/* Get all rider request */
+export const createRider = async (payload: RiderPayload): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+
+  await riderCollection.insertOne(payload);
+};
+
+/* Get all rider Application request */
 export const getAllRider = async (): Promise<CommonPayload[]> => {
   try {
     const db = await dbConnect();

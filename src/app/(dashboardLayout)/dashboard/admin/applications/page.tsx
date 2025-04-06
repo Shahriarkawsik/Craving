@@ -2,22 +2,26 @@
 // "use server"
 import {
   CommonPayload,
+  createRider,
   deleteResturantOwner,
   deleteRider,
   getAllResturantOwner,
   getAllRider,
   getUserDetails,
+  RiderPayload,
   updateUserRole,
 } from "@/app/action/auth/allApi";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FcContacts } from "react-icons/fc";
+import { PiIdentificationCardFill } from "react-icons/pi";
 import { MdEmail, MdEmojiTransportation } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 const Applications = () => {
-  const [userDetails, setUserDetails] = useState<CommonPayload | null>(null);
+  // const [userDetails, setUserDetails] = useState<CommonPayload | null>(null);
   const [riderApplications, setRiderApplications] = useState<CommonPayload[]>(
     []
   );
@@ -51,29 +55,60 @@ const Applications = () => {
 
   const handleApproveRider = async (riderId: string) => {
     try {
+      // Find the selected rider application
       const selectedRider = riderApplications.find((r) => r._id === riderId);
       if (!selectedRider) {
         console.warn("No rider found for ID:", riderId);
         return;
       }
+
       const { riderEmail } = selectedRider;
-      // fetch user details by riderEmail
+
+      // Fetch user details using rider's email
       const user = await getUserDetails(riderEmail);
       if (!user) {
         console.error("User not found for email:", riderEmail);
         return;
       }
-      const { email, role } = user;
-      console.log("Approving rider:", email, role);
-      await updateUserRole(email, "rider"); // await is important here
-      /* Create a Rider Collection */
-      
-      // Optional: Show success message
-      console.log("Rider role updated successfully!");
+      // Update user role to "rider"
+      await updateUserRole(user?.email, "rider");
 
-      // TODO: update application status and send confirmation email
+      // Construct the rider payload
+      const rider: RiderPayload = {
+        riderImage: selectedRider.riderImage,
+        riderName: selectedRider.riderName,
+        riderEmail: selectedRider.riderEmail,
+        riderNumber: selectedRider.riderNumber,
+        riderAddress: selectedRider.riderAddress,
+        riderIdentification: selectedRider.riderIdentification,
+        vehicleType: selectedRider.vehicleType,
+        riderTotalEarning: 0,
+        riderTotalOrder: 0,
+        riderTotalCompleteOrder: 0,
+        riderTotalRating: 0,
+        riderAvgRating: 0,
+        riderTotalTransaction: 0,
+      };
+
+      // Insert into rider collection
+      await createRider(rider);
+      // Success
+      Swal.fire({
+        icon: "success",
+        timer: 2500,
+        showConfirmButton: false,
+        text: "Rider role updated & rider added to collection!",
+      });
+      //remove rider application
+      await deleteRider(riderId);
+      const updatedRiderApplications = riderApplications.filter(
+        (rider) => rider._id !== riderId
+      );
+      setRiderApplications(updatedRiderApplications);
+
+      // TODO: update application status & send confirmation email
     } catch (error) {
-      console.error("Error approving rider:", error);
+      console.error("❌ Error approving rider:", error);
     }
   };
 
@@ -186,6 +221,14 @@ const Applications = () => {
               key={rider._id}
               className="shadow-2xl rounded-2xl p-6 space-y-2 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
             >
+              <figure>
+                <Image
+                  src={rider?.riderImage}
+                  alt={rider.riderName}
+                  width={200}
+                  height={200}
+                />
+              </figure>
               <h1 className="text-2xl font-bold text-center">
                 {rider.riderName}
               </h1>
@@ -204,6 +247,10 @@ const Applications = () => {
               <p className="flex items-center gap-2 text-xl">
                 <FaLocationDot className="text-2xl text-orange-500" />
                 <span>{rider.riderAddress}</span>
+              </p>
+              <p className="flex items-center gap-2 text-xl">
+                <PiIdentificationCardFill className="text-2xl text-orange-500" />
+                <span>{rider.riderIdentification}</span>
               </p>
               <p className="flex items-center gap-2 text-xl">
                 <TbListDetails className="text-2xl text-orange-500" />
