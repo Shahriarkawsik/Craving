@@ -5,16 +5,17 @@ import { Collection } from "mongodb";
 import { Sort } from "mongodb";
 export interface CommonPayload {
   name?: string;
-  image?: string,
-  role?: string,
+  image?: string;
+  role?: string;
   email?: string;
   password?: string;
+  userStatus?: string;
   title?: string;
   location?: string;
   owner?: string;
-  phone?:number;
-  status?:string;
-  address?:string;
+  phone?: number;
+  status?: string;
+  address?: string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -31,9 +32,12 @@ export interface CommonPayload {
   riderNumber?: number;
   riderAddress?: string;
   vehicleType?: string;
+  riderImage?: string;
+  riderIdentification?: string;
   // Be Owner
-  _id?: string | undefined; // get from the database after fetch.
+  _id: string; // get from the database after fetch.
   restaurantOwnerEmail?: string;
+  restaurantOwnerName?: string;
   restaurantName?: string;
   restaurantEmail?: string;
   restaurantNumber?: number;
@@ -43,12 +47,12 @@ export interface CommonPayload {
   // food available or not
   isAvailable?: boolean;
   // restaurant information
-  ownerName?: string,
-  addedDate?: string,
-  restaurantLogo?: string,
-  restaurantPhone?: number,
-  restaurantRating?: number,
-  ownerId?: string
+  ownerName?: string;
+  addedDate?: string;
+  restaurantLogo?: string;
+  restaurantPhone?: number;
+  restaurantRating?: number;
+  ownerId?: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -64,17 +68,42 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   }
   await userCollection.insertOne({
     name: payload.name,
-    image:payload.image,
+    image: payload.image,
     email: payload.email,
     password: payload.password,
-    role:payload.role,
-    phone:payload.phone,
-    status:payload.status,
-    address:payload.address,
+    role: payload.role,
+    phone: payload.phone,
+    status: payload.status,
+    address: payload.address,
     created_at: new Date(),
   });
 };
+/* Get Login user Details */
+export const getUserDetails = async (
+  email: string
+): Promise<CommonPayload | null> => {
+  const db = await dbConnect();
+  const userCollection: Collection<CommonPayload> = db.collection("users");
 
+  const user = await userCollection.findOne({ email });
+
+  if (!user) return null;
+
+  return {
+    ...user,
+    _id: (user._id as unknown as ObjectId).toString(),
+    created_at: user.created_at ? new Date(user.created_at) : undefined,
+  };
+};
+
+export const updateUserRole = async (
+  email: string,
+  role: string
+): Promise<void> => {
+  const db = await dbConnect();
+  const userCollection = db.collection("users");
+  await userCollection.updateOne({ email }, { $set: { role } });
+};
 
 // Adding new restaurant information
 export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
@@ -90,11 +119,9 @@ export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
     restaurantLogo: payload.restaurantLogo,
     restaurantPhone: payload.restaurantPhone,
     restaurantRating: payload.restaurantRating,
-    ownerId: payload.ownerId
+    ownerId: payload.ownerId,
   });
 };
-
-
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -120,6 +147,7 @@ export const addResturantOwner = async (
   );
   await resturantOwnerCollection.insertOne({
     restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantOwnerName: payload.restaurantOwnerName,
     restaurantName: payload.restaurantName,
     restaurantEmail: payload.restaurantEmail,
     restaurantNumber: payload.restaurantNumber,
@@ -129,7 +157,7 @@ export const addResturantOwner = async (
     created_at: payload.created_at,
   });
 };
-/*create Be Rider */
+/*create Be Rider application */
 export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
   const riderCollection = await dbConnect().then((db) =>
@@ -138,6 +166,8 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
   await riderCollection.insertOne({
     riderEmail: payload.riderEmail,
     riderName: payload.riderName,
+    riderImage: payload.riderImage,
+    riderIdentification: payload.riderIdentification,
     riderNumber: payload.riderNumber,
     riderAddress: payload.riderAddress,
     description: payload.description,
@@ -145,14 +175,101 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
+/* Approved and update rider status */
 
-/* Get all rider request */
+/* Delete Be Resturant Owner Application */
+export const deleteResturantOwner = async (
+  resturantOwnerId: string
+): Promise<void> => {
+  const db = await dbConnect();
+  const resturantOwnerCollection: Collection<CommonPayload> =
+    db.collection("beResturantOwner");
+  await resturantOwnerCollection.deleteOne({
+    _id: new ObjectId(resturantOwnerId),
+  });
+};
+
+/* Delete Be Rider Application */
+export const deleteRider = async (riderId: string): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+  await riderCollection.deleteOne({ _id: new ObjectId(riderId) });
+};
+/* Get all resturant owner Application */
+export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const resturantOwnerCollection: Collection<CommonPayload> =
+      db.collection("beResturantOwner");
+    const resturantOwnerData = await resturantOwnerCollection
+      .find({})
+      .toArray();
+    // Convert created_at to Date object
+    const formattedResturantOwnerData = resturantOwnerData.map(
+      (resturantOwner) => ({
+        ...resturantOwner,
+        _id: (resturantOwner._id as unknown as ObjectId).toString(),
+        created_at: resturantOwner.created_at
+          ? new Date(resturantOwner.created_at)
+          : undefined,
+      })
+    );
+
+    return formattedResturantOwnerData;
+  } catch (error) {
+    console.error("Error fetching resturant owners:", error);
+    throw new Error("Failed to fetch resturant owner data");
+  }
+};
+/* Create Rider Collection*/
+export type RiderPayload = {
+  riderImage?: string;
+  riderIdentification?: string;
+  riderName?: string;
+  riderEmail?: string;
+  riderNumber?: number;
+  riderAddress?: string;
+  vehicleType?: string;
+  riderTotalEarning: number;
+  riderTotalOrder: number;
+  riderTotalCompleteOrder: number;
+  // riderTotalPendingOrder: number;
+  riderTotalRating: number;
+  riderAvgRating: number;
+  riderTotalTransaction: number;
+};
+/* Create Rider collection */
+export const createRider = async (payload: RiderPayload): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+
+  await riderCollection.insertOne(payload);
+};
+/* Get specific Rider */
+export const getActiveRider = async (
+  riderEmail: string
+): Promise<RiderPayload | null> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const rider = await riderCollection.findOne({ riderEmail });
+  console.log(rider);
+  return rider ?? null; // Ensures function always returns RiderPayload or null
+};
+
+/* Get all rider Application request */
 export const getAllRider = async (): Promise<CommonPayload[]> => {
   try {
     const db = await dbConnect();
     const riderCollection: Collection<CommonPayload> = db.collection("beRider");
     const riderData = await riderCollection.find({}).toArray();
-    return riderData;
+    // Convert created_at to Date object
+    const formattedRiderData = riderData.map((rider) => ({
+      ...rider,
+      _id: (rider._id as unknown as ObjectId).toString(),
+      created_at: rider.created_at ? new Date(rider.created_at) : undefined,
+    }));
+
+    return formattedRiderData;
   } catch (error) {
     console.error("Error fetching riders:", error);
     throw new Error("Failed to fetch rider data");
@@ -261,19 +378,20 @@ export const foodAvailableOrNot = async (
   return result;
 };
 
-export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
-  console.log(sort)
+export const getAllFoods = async (
+  query?: string,
+  category?: string,
+  sort?: string
+): Promise<FoodItem[]> => {
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
-  console.log(category)
   let filter: Record<string, unknown> = {};
 
-
-  if(category === 'All Food'){
-    filter = {}
+  if (category === "All Food") {
+    filter = {};
   }
 
-  if (category && category !== 'All Food') {
+  if (category && category !== "All Food") {
     filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
   }
 
@@ -281,18 +399,16 @@ export const getAllFoods = async (query?: string, category?: string, sort?: stri
     filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
   }
 
-  const sortOption: Sort = {}
+  const sortOption: Sort = {};
 
-  if(sort === 'Ascending'){
-    sortOption.price = 1
-  }else if(sort === 'Descending'){
-    sortOption.price = -1
+  if (sort === "Ascending") {
+    sortOption.price = 1;
+  } else if (sort === "Descending") {
+    sortOption.price = -1;
   }
 
-
-  console.log(filter)
+  console.log(filter);
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
-
 
   return foodData.map((food) => ({
     ...food,
