@@ -46,6 +46,7 @@ export interface CommonPayload {
   restaurantAddress?: string;
   ownerIdentification?: number;
   restaurantOpeningDate?: Date;
+  resturantUpdatedDate?: Date;
   foodCategories?: string[];
   totalFoodItem?: number;
   restaurantTotalSell?: number;
@@ -114,22 +115,57 @@ export const updateUserRole = async (
 };
 
 // Adding new restaurant information
-export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
-  const db = await dbConnect();
-  const restaurantCollection = db.collection("allRestaurant");
+// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
+//   // const db = await dbConnect();
+//   // const restaurantCollection = db.collection("resturant");
+//   console.log(payload)
 
-  await restaurantCollection.insertOne({
-    restaurantName: payload.restaurantName,
-    location: payload.location,
-    ownerName: payload.ownerName,
-    restaurantEmail: payload.restaurantEmail,
-    addedDate: payload.addedDate,
-    restaurantLogo: payload.restaurantLogo,
-    restaurantPhone: payload.restaurantPhone,
-    restaurantRating: payload.restaurantRating,
-    ownerId: payload.ownerId,
-  });
+//   // await restaurantCollection.insertOne({
+//   //   restaurantName: payload.restaurantName,
+//   //   location: payload.location,
+//   //   ownerName: payload.ownerName,
+//   //   restaurantEmail: payload.restaurantEmail,
+//   //   addedDate: payload.addedDate,
+//   //   restaurantLogo: payload.restaurantLogo,
+//   //   restaurantPhone: payload.restaurantPhone,
+//   //   restaurantRating: payload.restaurantRating,
+//   //   ownerId: payload.ownerId,
+//   // });
+// };
+
+export const updateRestaurant = async (
+  payload: CommonPayload, email: string
+): Promise<{
+  acknowledged: boolean;
+  matchedCount: number;
+  modifiedCount: number;
+}> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("resturant");
+console.log(email)
+  const result = await foodCollection.updateOne(
+    { restaurantOwnerEmail: email },
+    {
+      $set: {
+        restaurantName: payload.restaurantName,
+        ownerName: payload.ownerName,
+        restaurantEmail: payload.restaurantEmail,
+        restaurantLogo: payload.restaurantLogo,
+        restaurantPhone: payload.restaurantPhone,
+        restaurantDescription: payload.restaurantDescription,
+        restaurantAddress: payload.restaurantAddress,
+        resturantUpdatedDate: payload.resturantUpdatedDate,
+      },
+    },
+    { upsert: false }
+  );
+  return {
+    acknowledged: result.acknowledged,
+    matchedCount: result.matchedCount,
+    modifiedCount: result.modifiedCount,
+  };
 };
+
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
