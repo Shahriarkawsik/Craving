@@ -133,7 +133,7 @@ export function AppSidebar() {
                   All Food Item
                 </SidebarMenuItem>
               </Link>
-              <Link href="/dashboard/resturantOwner/addResturant">
+              <Link href="/dashboard/resturantOwner/updateResturant">
                 <SidebarMenuItem
                   className={`${
                     pathName === "/dashboard/resturantOwner/addResturant"
@@ -141,7 +141,7 @@ export function AppSidebar() {
                       : "font-normal"
                   } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
-                  Add Resturant
+                  Update Resturant
                 </SidebarMenuItem>
               </Link>
 
