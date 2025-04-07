@@ -82,7 +82,6 @@ const AboutComponent: React.FC = () => {
         github: "https://github.com/Jakaria030",
       },
     },
-
     {
       id: 6,
       name: "Shahidul Islam",
