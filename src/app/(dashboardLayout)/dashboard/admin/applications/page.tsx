@@ -8,7 +8,6 @@ import {
   getAllResturantOwner,
   getAllRider,
   getUserDetails,
-  ResturantPayload,
   RiderPayload,
   updateUserRole,
 } from "@/app/action/auth/allApi";
@@ -73,12 +72,16 @@ const Applications = () => {
       }
 
       const { riderEmail } = selectedRider;
+      if (!riderEmail) {
+        console.error("Rider email not found for ID:", riderId);
+        return;
+      }
       const user = await getUserDetails(riderEmail);
       if (!user) {
         console.error("User not found for email:", riderEmail);
         return;
       }
-      await updateUserRole(user?.email, "Rider");
+      await updateUserRole(user?.email as string, "Rider");
 
       const rider: RiderPayload = {
         riderImage: selectedRider.riderImage,
@@ -137,7 +140,7 @@ const Applications = () => {
       }
 
       // 1. Update the role
-      await updateUserRole(user.email, "Owner");
+      await updateUserRole(user.email as string, "Owner");
       // 2. Create the restaurant
       const restaurant: CommonPayload = {
         restaurantOwnerId: user._id,
@@ -236,7 +239,7 @@ const Applications = () => {
               >
                 <figure className="flex justify-center">
                   <Image
-                    src={owner?.restaurantLogo}
+                    src={owner?.restaurantLogo as string}
                     alt="Owner Image"
                     width={400}
                     height={400}
@@ -277,13 +280,13 @@ const Applications = () => {
 
                 <div className="flex justify-center gap-4">
                   <button
-                    onClick={() => handleApproveOwner(owner._id)}
+                    onClick={() => handleApproveOwner(owner._id as string)}
                     className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
                   >
                     Accept
                   </button>
                   <button
-                    onClick={() => handleRejectOwner(owner._id)}
+                    onClick={() => handleRejectOwner(owner._id as string)}
                     className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
                   >
                     Reject
