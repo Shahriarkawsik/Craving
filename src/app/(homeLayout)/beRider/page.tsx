@@ -7,7 +7,6 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { addRider } from "@/app/action/auth/allApi";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 
