@@ -204,9 +204,9 @@ export const deleteResturantOwner = async (
 export const deleteRider = async (riderId: string): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<CommonPayload> = db.collection("beRider");
-  await riderCollection.deleteOne({ 
-    // _id: new ObjectId(riderId) 
-      _id: (riderId as unknown as ObjectId).toString(),
+  await riderCollection.deleteOne({
+    // _id: new ObjectId(riderId)
+    _id: (riderId as unknown as ObjectId).toString(),
   });
 };
 /* Get all resturant owner Application */
@@ -284,6 +284,46 @@ export const createResturant = async (
     restaurantCompleteOrder: payload.restaurantCompleteOrder,
     restaurantPendingOrder: payload.restaurantPendingOrder,
   });
+};
+/* Get all Restaurant Data */
+export const getAllResturant = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const resturantCollection: Collection<CommonPayload> =
+      db.collection("resturant");
+
+    const resturantData = await resturantCollection.find({}).toArray();
+
+    // Ensure all fields are returned exactly as CommonPayload expects
+    const formattedResturantData: CommonPayload[] = resturantData.map(
+      (resturant) => ({
+        _id: (resturant._id as unknown as ObjectId).toString(),
+        restaurantOwnerId: resturant.restaurantOwnerId,
+        restaurantOwnerEmail: resturant.restaurantOwnerEmail,
+        restaurantOwnerName: resturant.restaurantOwnerName,
+        restaurantName: resturant.restaurantName,
+        restaurantEmail: resturant.restaurantEmail,
+        restaurantNumber: resturant.restaurantNumber,
+        restaurantLogo: resturant.restaurantLogo,
+        restaurantDescription: resturant.restaurantDescription,
+        restaurantAddress: resturant.restaurantAddress,
+        ownerIdentification: resturant.ownerIdentification,
+        restaurantOpeningDate: new Date(resturant.restaurantOpeningDate),
+        foodCategories: resturant.foodCategories || [],
+        restaurantRating: resturant.restaurantRating || 0,
+        totalFoodItem: resturant.totalFoodItem || 0,
+        restaurantTotalSell: resturant.restaurantTotalSell || 0,
+        restaurantTotalOrder: resturant.restaurantTotalOrder || 0,
+        restaurantCompleteOrder: resturant.restaurantCompleteOrder || 0,
+        restaurantPendingOrder: resturant.restaurantPendingOrder || 0,
+      })
+    );
+
+    return formattedResturantData;
+  } catch (error) {
+    console.error("Error fetching restaurants:", error);
+    return []; // fallback return
+  }
 };
 
 /* Create Rider Collection*/
