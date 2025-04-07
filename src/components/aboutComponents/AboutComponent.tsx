@@ -55,9 +55,9 @@ const AboutComponent: React.FC = () => {
       role: "Delivery Operations Manager",
       image: "https://i.ibb.co.com/BKQ0RhVf/kabir.jpg",
       socials: {
-        facebook: "https://www.facebook.com/shahriar.kawsik/",
+        facebook: "https://www.facebook.com/shahriar.kawsik",
         linkedin: "https://www.linkedin.com/in/md-shahriar-kabir-cse",
-        github: "https://www.facebook.com/shahriar.kawsik/",
+        github: "https://github.com/Shahriarkawsik",
       },
     },
     {
@@ -162,21 +162,21 @@ const AboutComponent: React.FC = () => {
                         {/* social icons  */}
                         <div className="flex justify-center items-center gap-2 mt-2">
                           <a
-                            href={member.socials.facebook}
+                            href={member?.socials?.facebook}
                             target="_blank"
                             className="text-white hover:text-[#ff8a00]"
                           >
                             <CiFacebook size={30} />
                           </a>
                           <a
-                            href={member.socials.facebook}
+                            href={member.socials.linkedin}
                             target="_blank"
                             className="text-white hover:text-[#ff8a00]"
                           >
                             <CiLinkedin size={30} />
                           </a>
                           <a
-                            href={member.socials.facebook}
+                            href={member.socials.github}
                             target="_blank"
                             className="text-white hover:text-[#ff8a00]"
                           >
