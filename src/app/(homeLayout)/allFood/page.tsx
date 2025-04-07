@@ -66,7 +66,7 @@ export default function AllFoodsPage() {
 
 
   const handleSort = debounce((sort: string) => {
-    console.log(sort)
+    // console.log(sort)
     setFoodSort(sort);
     fetchData(searchQuery, foodCategory, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
   }, 500);

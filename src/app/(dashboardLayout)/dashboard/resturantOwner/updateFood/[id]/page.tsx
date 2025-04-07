@@ -19,7 +19,7 @@ interface Inputs {
 export default function UpdateFood() {
   const { id } = useParams<{ id: string }>(); 
 
-  console.log("Food ID:", id);
+  // console.log("Food ID:", id);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
 
@@ -44,7 +44,7 @@ export default function UpdateFood() {
       if (result.isConfirmed) {
         try {
           const result = await updateFood(allData);
-          console.log(result)
+          // console.log(result)
           if (result.modifiedCount > 0) {
             Swal.fire({
               title: "Update Successfully!",

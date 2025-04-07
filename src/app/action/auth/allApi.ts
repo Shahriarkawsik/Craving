@@ -45,13 +45,13 @@ export interface CommonPayload {
   restaurantDescription?: string;
   restaurantAddress?: string;
   ownerIdentification?: number;
-  restaurantOpeningDate: Date;
-  foodCategories: string[];
-  totalFoodItem: number;
-  restaurantTotalSell: number;
-  restaurantTotalOrder: number;
-  restaurantCompleteOrder: number;
-  restaurantPendingOrder: number;
+  restaurantOpeningDate?: Date;
+  foodCategories?: string[];
+  totalFoodItem?: number;
+  restaurantTotalSell?: number;
+  restaurantTotalOrder?: number;
+  restaurantCompleteOrder?: number;
+  restaurantPendingOrder?: number;
   // food available or not
   isAvailable?: boolean;
   // restaurant information
@@ -308,7 +308,7 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
         restaurantDescription: resturant.restaurantDescription,
         restaurantAddress: resturant.restaurantAddress,
         ownerIdentification: resturant.ownerIdentification,
-        restaurantOpeningDate: new Date(resturant.restaurantOpeningDate),
+        restaurantOpeningDate: new Date(resturant.restaurantOpeningDate || 0),
         foodCategories: resturant.foodCategories || [],
         restaurantRating: resturant.restaurantRating || 0,
         totalFoodItem: resturant.totalFoodItem || 0,
@@ -355,7 +355,7 @@ export const getActiveRider = async (
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const rider = await riderCollection.findOne({ riderEmail });
-  console.log(rider);
+  // console.log(rider);
   return rider ?? null; // Ensures function always returns RiderPayload or null
 };
 
@@ -463,7 +463,7 @@ export const updateFood = async (
 export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
-  console.log(payload);
+  // console.log(payload);
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -477,7 +477,7 @@ export const foodAvailableOrNot = async (
     }
   );
 
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
@@ -510,7 +510,7 @@ export const getAllFoods = async (
     sortOption.price = -1;
   }
 
-  console.log(filter);
+  // console.log(filter);
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
 
   return foodData.map((food) => ({
