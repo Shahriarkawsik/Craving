@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { FormEvent } from "react";
@@ -9,17 +9,20 @@ import { addRestaurant } from "@/app/action/auth/allApi";
 import { Slide, toast } from "react-toastify";
 
 const AddResturant = () => {
-
   type Inputs = {
-    restaurantName: string,
-    location: string,
-    ownerName: string,
-    restaurantEmail: string,
-    restaurantLogo: string,
-    restaurantPhone: number,
-  }
+    restaurantName: string;
+    location: string;
+    ownerName: string;
+    restaurantEmail: string;
+    restaurantLogo: string;
+    restaurantPhone: number;
+  };
 
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     // adding submit date
@@ -35,20 +38,16 @@ const AddResturant = () => {
       addRestaurant(restaurantData);
       toast.success("Resturant Added Successfully!", {
         position: "top-center",
-        transition: Slide
+        transition: Slide,
       });
-    }
-    catch (error) {
-      toast.error("Something went wrong!", {
+    } catch (error) {
+      toast.error(`Something went wrong! ${error}`, {
         position: "top-center",
-        transition: Slide
+        transition: Slide,
       });
-      console.log("ERROR:", error);
+      // console.log("ERROR:", error);
     }
-  }
-
-
-
+  };
 
   return (
     <div className="w-8/12 mx-auto">
@@ -57,26 +56,39 @@ const AddResturant = () => {
       </h3>
       <div className="px-5 lg:px-8 py-6">
         <form onSubmit={handleSubmit(onSubmit)}>
-
           {/* Restaurant Name and location */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantName">
                 Restaurant Name
               </label>
-              <Input type="text" {...register('restaurantName', { required: true })} id="restaurantName" placeholder="Food & Fun" />
-              {
-                errors.restaurantName && <p className="text-red-500 text-xs italic">Please enter Restaurant name</p>
-              }
+              <Input
+                type="text"
+                {...register("restaurantName", { required: true })}
+                id="restaurantName"
+                placeholder="Food & Fun"
+              />
+              {errors.restaurantName && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter Restaurant name
+                </p>
+              )}
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="location">
                 Location
               </label>
-              <Input type="text" {...register('location', { required: true })} id="location" placeholder="2/A Emperor Building, Gulshan-1" />
-              {
-                errors.location && <p className="text-red-500 text-xs italic">Please enter restaurant location</p>
-              }
+              <Input
+                type="text"
+                {...register("location", { required: true })}
+                id="location"
+                placeholder="2/A Emperor Building, Gulshan-1"
+              />
+              {errors.location && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter restaurant location
+                </p>
+              )}
             </div>
           </div>
 
@@ -86,19 +98,33 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="ownerName">
                 Owner Name
               </label>
-              <Input type="text" {...register('ownerName', { required: true })} id="ownerName" placeholder="John Doe" />
-              {
-                errors.location && <p className="text-red-500 text-xs italic">Please enter owner name</p>
-              }
+              <Input
+                type="text"
+                {...register("ownerName", { required: true })}
+                id="ownerName"
+                placeholder="John Doe"
+              />
+              {errors.location && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter owner name
+                </p>
+              )}
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantEmail">
                 Email
               </label>
-              <Input type="email" {...register('restaurantEmail', { required: true })} id="restaurantEmail" placeholder="example@gmail.com" />
-              {
-                errors.restaurantEmail && <p className="text-red-500 text-xs italic">Please enter restaurant email</p>
-              }
+              <Input
+                type="email"
+                {...register("restaurantEmail", { required: true })}
+                id="restaurantEmail"
+                placeholder="example@gmail.com"
+              />
+              {errors.restaurantEmail && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter restaurant email
+                </p>
+              )}
             </div>
           </div>
 
@@ -108,24 +134,40 @@ const AddResturant = () => {
               <label className="text-gray-700 " htmlFor="restaurantPhone">
                 Phone Number
               </label>
-              <Input type="number" {...register('restaurantPhone', { required: true })} id="restaurantPhone" placeholder="01xxxxxxxx" />
-              {
-                errors.restaurantPhone && <p className="text-red-500 text-xs italic">Please enter restaurant phone number</p>
-              }
+              <Input
+                type="number"
+                {...register("restaurantPhone", { required: true })}
+                id="restaurantPhone"
+                placeholder="01xxxxxxxx"
+              />
+              {errors.restaurantPhone && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter restaurant phone number
+                </p>
+              )}
             </div>
             <div className="w-full">
               <label className="text-gray-700 " htmlFor="restaurantLogo">
                 Logo
               </label>
-              <Input type="url" {...register('restaurantLogo', { required: true })} id="restaurantLogo" placeholder="https://example.com" />
-              {
-                errors.restaurantLogo && <p className="text-red-500 text-xs italic">Please enter restaurant logo link</p>
-              }
+              <Input
+                type="url"
+                {...register("restaurantLogo", { required: true })}
+                id="restaurantLogo"
+                placeholder="https://example.com"
+              />
+              {errors.restaurantLogo && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter restaurant logo link
+                </p>
+              )}
             </div>
           </div>
 
           <div className="mt-6 text-center">
-            <Button type="submit" variant="outline">Add Restaurant</Button>
+            <Button type="submit" variant="outline">
+              Add Restaurant
+            </Button>
           </div>
         </form>
       </div>

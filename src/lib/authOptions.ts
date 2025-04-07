@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
             address: "Not Provided",
             created_at: new Date(),
           };
-          console.log("from signIn callback", payload);
+          // console.log("from signIn callback", payload);
           const isUserExist = await dbConnect().then((db) =>
             db.collection("users").findOne({ providerAccountId })
           );

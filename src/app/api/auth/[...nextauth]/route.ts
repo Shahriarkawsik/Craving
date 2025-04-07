@@ -1,4 +1,4 @@
-import authOptions from "@/lib/authoptions";
+import authOptions from "@/lib/authOptions";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
