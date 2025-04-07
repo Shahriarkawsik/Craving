@@ -309,8 +309,8 @@ const Applications = () => {
             >
               <figure className="flex justify-center">
                 <Image
-                  src={rider.riderImage}
-                  alt={rider.riderName}
+                  src={rider.riderImage as string}
+                  alt={rider.riderName as string}
                   width={300}
                   height={300}
                 />
@@ -344,13 +344,13 @@ const Applications = () => {
               </p>
               <div className="flex justify-center items-center gap-5">
                 <button
-                  onClick={() => handleApproveRider(rider._id)}
+                  onClick={() => handleApproveRider(rider._id as string)}
                   className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleRejectRider(rider._id)}
+                  onClick={() => handleRejectRider(rider._id as string)}
                   className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
                 >
                   Reject
