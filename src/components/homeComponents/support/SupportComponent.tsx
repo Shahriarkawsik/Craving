@@ -4,8 +4,6 @@ import Lottie from "lottie-react";
 import supportLottie from "@/assets/supportLottie.json";
 import Link from "next/link";
 
-// import SectionHeading from "../shared/SectionHeading";
-
 const SupportComponent: React.FC = () => {
   return (
     <section className="py-10 bg-gray-100">
