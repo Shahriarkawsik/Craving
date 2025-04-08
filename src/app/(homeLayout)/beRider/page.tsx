@@ -21,7 +21,6 @@ const BeRider = () => {
     riderNumber: number;
     riderAddress: string;
     description: string;
-    //TODO: Birthdate: Date;
     riderIdentification: number;
     vehicleType: string;
     created_at: Date;

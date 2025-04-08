@@ -327,9 +327,7 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
     const db = await dbConnect();
     const resturantCollection: Collection<CommonPayload> =
       db.collection("resturant");
-
     const resturantData = await resturantCollection.find({}).toArray();
-
     // Ensure all fields are returned exactly as CommonPayload expects
     const formattedResturantData: CommonPayload[] = resturantData.map(
       (resturant) => ({
@@ -354,7 +352,6 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
         restaurantPendingOrder: resturant.restaurantPendingOrder || 0,
       })
     );
-
     return formattedResturantData;
   } catch (error) {
     console.error("Error fetching restaurants:", error);
@@ -547,6 +544,7 @@ export const getAllFoods = async (
   }
 
   // console.log(filter);
+
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
 
   return foodData.map((food) => ({
