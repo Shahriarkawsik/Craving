@@ -33,13 +33,13 @@ export default function AvailableOrNot({ food }: AvailableOrNotProps): JSX.Eleme
     setIsAvailable(newAvailability);
     const result = await foodAvailableOrNot({ isAvailable: newAvailability, id }) as ApiResponse;
     if(result?.modifiedCount > 0){
-      console.log(result)
+      // console.log(result)
       if(isAvailable === true){
-        console.log(isAvailable)
+        // console.log(isAvailable)
         toast.error(`${food.foodName} is not available now`)
         
       }else{
-        console.log(isAvailable)
+        // console.log(isAvailable)
         toast.success(`${food.foodName} is available now`)
       }
     }

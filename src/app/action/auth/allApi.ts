@@ -33,9 +33,10 @@ export interface CommonPayload {
   riderAddress?: string;
   vehicleType?: string;
   riderImage?: string;
-  riderIdentification?: string;
+  riderIdentification?: number;
   // Be Owner
-  _id: string; // get from the database after fetch.
+  _id?: string; // get from the database after fetch.
+  restaurantOwnerId?: string;
   restaurantOwnerEmail?: string;
   restaurantOwnerName?: string;
   restaurantName?: string;
@@ -43,7 +44,15 @@ export interface CommonPayload {
   restaurantNumber?: number;
   restaurantDescription?: string;
   restaurantAddress?: string;
-  ownerNIDPhoto?: string;
+  ownerIdentification?: number;
+  restaurantOpeningDate?: Date;
+  resturantUpdatedDate?: Date;
+  foodCategories?: string[];
+  totalFoodItem?: number;
+  restaurantTotalSell?: number;
+  restaurantTotalOrder?: number;
+  restaurantCompleteOrder?: number;
+  restaurantPendingOrder?: number;
   // food available or not
   isAvailable?: boolean;
   // restaurant information
@@ -106,22 +115,57 @@ export const updateUserRole = async (
 };
 
 // Adding new restaurant information
-export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
-  const db = await dbConnect();
-  const restaurantCollection = db.collection("allRestaurant");
+// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
+//   // const db = await dbConnect();
+//   // const restaurantCollection = db.collection("resturant");
+//   console.log(payload)
 
-  await restaurantCollection.insertOne({
-    restaurantName: payload.restaurantName,
-    location: payload.location,
-    ownerName: payload.ownerName,
-    restaurantEmail: payload.restaurantEmail,
-    addedDate: payload.addedDate,
-    restaurantLogo: payload.restaurantLogo,
-    restaurantPhone: payload.restaurantPhone,
-    restaurantRating: payload.restaurantRating,
-    ownerId: payload.ownerId,
-  });
+//   // await restaurantCollection.insertOne({
+//   //   restaurantName: payload.restaurantName,
+//   //   location: payload.location,
+//   //   ownerName: payload.ownerName,
+//   //   restaurantEmail: payload.restaurantEmail,
+//   //   addedDate: payload.addedDate,
+//   //   restaurantLogo: payload.restaurantLogo,
+//   //   restaurantPhone: payload.restaurantPhone,
+//   //   restaurantRating: payload.restaurantRating,
+//   //   ownerId: payload.ownerId,
+//   // });
+// };
+
+export const updateRestaurant = async (
+  payload: CommonPayload, email: string
+): Promise<{
+  acknowledged: boolean;
+  matchedCount: number;
+  modifiedCount: number;
+}> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("resturant");
+console.log(email)
+  const result = await foodCollection.updateOne(
+    { restaurantOwnerEmail: email },
+    {
+      $set: {
+        restaurantName: payload.restaurantName,
+        ownerName: payload.ownerName,
+        restaurantEmail: payload.restaurantEmail,
+        restaurantLogo: payload.restaurantLogo,
+        restaurantPhone: payload.restaurantPhone,
+        restaurantDescription: payload.restaurantDescription,
+        restaurantAddress: payload.restaurantAddress,
+        resturantUpdatedDate: payload.resturantUpdatedDate,
+      },
+    },
+    { upsert: false }
+  );
+  return {
+    acknowledged: result.acknowledged,
+    matchedCount: result.matchedCount,
+    modifiedCount: result.modifiedCount,
+  };
 };
+
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -137,6 +181,7 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
+
 /* Be Resturant Owner */
 export const addResturantOwner = async (
   payload: CommonPayload
@@ -151,9 +196,10 @@ export const addResturantOwner = async (
     restaurantName: payload.restaurantName,
     restaurantEmail: payload.restaurantEmail,
     restaurantNumber: payload.restaurantNumber,
+    restaurantLogo: payload.restaurantLogo,
     restaurantDescription: payload.restaurantDescription,
+    ownerIdentification: payload.ownerIdentification,
     restaurantAddress: payload.restaurantAddress,
-    ownerNIDPhoto: payload.ownerNIDPhoto,
     created_at: payload.created_at,
   });
 };
@@ -185,7 +231,8 @@ export const deleteResturantOwner = async (
   const resturantOwnerCollection: Collection<CommonPayload> =
     db.collection("beResturantOwner");
   await resturantOwnerCollection.deleteOne({
-    _id: new ObjectId(resturantOwnerId),
+    // _id: new ObjectId(resturantOwnerId),
+    _id: (resturantOwnerId as unknown as ObjectId).toString(),
   });
 };
 
@@ -193,7 +240,10 @@ export const deleteResturantOwner = async (
 export const deleteRider = async (riderId: string): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<CommonPayload> = db.collection("beRider");
-  await riderCollection.deleteOne({ _id: new ObjectId(riderId) });
+  await riderCollection.deleteOne({
+    // _id: new ObjectId(riderId)
+    _id: (riderId as unknown as ObjectId).toString(),
+  });
 };
 /* Get all resturant owner Application */
 export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
@@ -221,10 +271,122 @@ export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
     throw new Error("Failed to fetch resturant owner data");
   }
 };
+/* Resturant Payload */
+// export type ResturantPayload = {
+//   restaurantOwnerId: string;
+//   restaurantOwnerEmail: string;
+//   restaurantOwnerName: string;
+//   restaurantName: string;
+//   restaurantEmail: string;
+//   restaurantNumber: string;
+//   restaurantLogo: string;
+//   restaurantDescription: string;
+//   restaurantAddress: string;
+//   ownerIdentification: number;
+//   restaurantOpeningDate: Date;
+//   foodCategories: string[];
+//   restaurantRating: number;
+//   totalFoodItem: number;
+//   restaurantTotalSell: number;
+//   restaurantTotalOrder: number;
+//   restaurantCompleteOrder: number;
+//   restaurantPendingOrder: number;
+// };
+
+/* Create Resturant Collection */
+export const createResturant = async (
+  payload: CommonPayload
+): Promise<void> => {
+  const db = await dbConnect();
+  const resturantCollection: Collection<CommonPayload> =
+    db.collection("resturant");
+  await resturantCollection.insertOne({
+    restaurantOwnerId: payload.restaurantOwnerId,
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantOwnerName: payload.restaurantOwnerName,
+    restaurantName: payload.restaurantName,
+    restaurantEmail: payload.restaurantEmail,
+    restaurantNumber: payload.restaurantNumber,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantDescription: payload.restaurantDescription,
+    restaurantAddress: payload.restaurantAddress,
+    ownerIdentification: payload.ownerIdentification,
+    restaurantOpeningDate: payload.restaurantOpeningDate,
+    foodCategories: payload.foodCategories,
+    restaurantRating: payload.restaurantRating,
+    totalFoodItem: payload.totalFoodItem,
+    restaurantTotalSell: payload.restaurantTotalSell,
+    restaurantTotalOrder: payload.restaurantTotalOrder,
+    restaurantCompleteOrder: payload.restaurantCompleteOrder,
+    restaurantPendingOrder: payload.restaurantPendingOrder,
+  });
+};
+/* Get all Restaurant Data */
+export const getAllResturant = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const resturantCollection: Collection<CommonPayload> =
+      db.collection("resturant");
+    const resturantData = await resturantCollection.find({}).toArray();
+    // Ensure all fields are returned exactly as CommonPayload expects
+    const formattedResturantData: CommonPayload[] = resturantData.map(
+      (resturant) => ({
+        _id: (resturant._id as unknown as ObjectId).toString(),
+        restaurantOwnerId: resturant.restaurantOwnerId,
+        restaurantOwnerEmail: resturant.restaurantOwnerEmail,
+        restaurantOwnerName: resturant.restaurantOwnerName,
+        restaurantName: resturant.restaurantName,
+        restaurantEmail: resturant.restaurantEmail,
+        restaurantNumber: resturant.restaurantNumber,
+        restaurantLogo: resturant.restaurantLogo,
+        restaurantDescription: resturant.restaurantDescription,
+        restaurantAddress: resturant.restaurantAddress,
+        ownerIdentification: resturant.ownerIdentification,
+        restaurantOpeningDate: new Date(resturant.restaurantOpeningDate || 0),
+        foodCategories: resturant.foodCategories || [],
+        restaurantRating: resturant.restaurantRating || 0,
+        totalFoodItem: resturant.totalFoodItem || 0,
+        restaurantTotalSell: resturant.restaurantTotalSell || 0,
+        restaurantTotalOrder: resturant.restaurantTotalOrder || 0,
+        restaurantCompleteOrder: resturant.restaurantCompleteOrder || 0,
+        restaurantPendingOrder: resturant.restaurantPendingOrder || 0,
+      })
+    );
+    return formattedResturantData;
+  } catch (error) {
+    console.error("Error fetching restaurants:", error);
+    return []; // fallback return
+  }
+};
+
+// get restaurant specific owner
+export const getRestaurantByEmail = async (
+  email: string
+): Promise<CommonPayload> => {
+    console.log(email)
+    const db = await dbConnect();
+    const foodCollection = db.collection("resturant");
+
+    const result = await foodCollection.findOne({
+      restaurantOwnerEmail: email,
+    });
+    
+
+    const formattedFoodData = {
+      ...result,
+      _id: (result?._id as unknown as ObjectId).toString(),
+    };
+    console.log(formattedFoodData)
+    return formattedFoodData;
+
+};
+
+
+
 /* Create Rider Collection*/
 export type RiderPayload = {
   riderImage?: string;
-  riderIdentification?: string;
+  riderIdentification?: number;
   riderName?: string;
   riderEmail?: string;
   riderNumber?: number;
@@ -233,7 +395,6 @@ export type RiderPayload = {
   riderTotalEarning: number;
   riderTotalOrder: number;
   riderTotalCompleteOrder: number;
-  // riderTotalPendingOrder: number;
   riderTotalRating: number;
   riderAvgRating: number;
   riderTotalTransaction: number;
@@ -242,7 +403,6 @@ export type RiderPayload = {
 export const createRider = async (payload: RiderPayload): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
-
   await riderCollection.insertOne(payload);
 };
 /* Get specific Rider */
@@ -252,7 +412,7 @@ export const getActiveRider = async (
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const rider = await riderCollection.findOne({ riderEmail });
-  console.log(rider);
+  // console.log(rider);
   return rider ?? null; // Ensures function always returns RiderPayload or null
 };
 
@@ -360,7 +520,7 @@ export const updateFood = async (
 export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
-  console.log(payload);
+  // console.log(payload);
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -374,7 +534,7 @@ export const foodAvailableOrNot = async (
     }
   );
 
-  console.log(result);
+  // console.log(result);
   return result;
 };
 
@@ -407,7 +567,8 @@ export const getAllFoods = async (
     sortOption.price = -1;
   }
 
-  console.log(filter);
+  // console.log(filter);
+
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
 
   return foodData.map((food) => ({

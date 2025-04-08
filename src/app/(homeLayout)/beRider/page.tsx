@@ -7,13 +7,12 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { addRider } from "@/app/action/auth/allApi";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
 
 const BeRider = () => {
   const { data } = useSession();
-  // console.log(data?.user?.name);
+  console.log(data?.user?.name);
   type Inputs = {
     _id: string;
     riderEmail: string;
@@ -22,7 +21,6 @@ const BeRider = () => {
     riderNumber: number;
     riderAddress: string;
     description: string;
-    //TODO: Birthdate: Date;
     riderIdentification: number;
     vehicleType: string;
     created_at: Date;
