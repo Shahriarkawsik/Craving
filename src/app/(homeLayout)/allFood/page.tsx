@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import Link from "next/link";
 
 interface FoodItem {
   _id: string;
@@ -52,6 +53,7 @@ export default function AllFoodsPage() {
       setIsLoading(false);
     }
   };
+
 
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
@@ -167,7 +169,7 @@ export default function AllFoodsPage() {
         ) : (
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5">
             {foods.length > 0 ? (
-              foods.map((food) => <FoodCard key={food._id} food={food} />)
+              foods?.map((food) => <Link key={food._id} href={`/foodDetails/${food._id}`}><FoodCard food={food} /></Link>)
             ) : (
               <p className="text-center text-gray-500 col-span-full">
                 No matching food found.
