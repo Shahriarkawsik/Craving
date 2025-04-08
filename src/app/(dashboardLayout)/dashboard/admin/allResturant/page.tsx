@@ -39,10 +39,14 @@ const AllResturant = () => {
           <TableHeader>
             <TableRow className="text-center">
               <TableHead className="w-[100px]"></TableHead>
-              <TableHead>Restaurant Name</TableHead>
+              <TableHead className="font-semibold">Restaurant Name</TableHead>
               <TableHead>Restaurant Email</TableHead>
-              <TableHead>Restaurant Address</TableHead>
-              <TableHead>Restaurant Owner Name</TableHead>
+              <TableHead className="font-semibold">
+                Restaurant Address
+              </TableHead>
+              <TableHead className="font-semibold">
+                Restaurant Owner Name
+              </TableHead>
               <TableHead>Restaurant Owner Email</TableHead>
               <TableHead>Restaurant Number</TableHead>
               <TableHead className="text-right">Owner Identification</TableHead>
