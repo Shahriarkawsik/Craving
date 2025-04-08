@@ -7,7 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 // import { FaLinkedin } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 import { MdMarkEmailRead } from "react-icons/md";
-import { FaPhoneSquareAlt } from "react-icons/fa";
+import { FaPhoneSquareAlt, FaRegEdit } from "react-icons/fa";
+import Link from "next/link";
+
 
 // Define TypeScript interface for user session?.user?
 // interface ProfileProps {
@@ -72,8 +74,14 @@ const Profile: React.FC = () => {
     <div className="flex justify-center items-center min-h-screen bg-gray-300">
       <Card
         key={session?.user?.id}
-        className="w-full max-w-lg rounded-2xl border-0 shadow-lg pt-0 bg-white"
+        className="w-full max-w-lg rounded-2xl border-0 shadow-lg pt-0 bg-white relative"
       >
+        <div className="absolute top-4 right-4 hover:bg-gray-200 bg-white rounded-full p-2 text-2xl cursor-pointer">
+          <Link href="/editProfile">
+            <FaRegEdit />{" "}
+          </Link>
+        </div>
+
         <CardHeader className="flex flex-col rounded-t-2xl bg-amber-300 p-14 items-center">
           {/* Profile Image */}
           <Avatar className="w-32 h-32">
@@ -81,31 +89,39 @@ const Profile: React.FC = () => {
               src={session?.user?.image as string}
               alt={session?.user?.name}
             />
-            <AvatarFallback >{session?.user?.name.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{session?.user?.name.charAt(0)}</AvatarFallback>
           </Avatar>
 
           <CardTitle className="mt-3 text-2xl font-semibold">
             {session?.user?.name}
           </CardTitle>
-          <p className="text-gray-500 text-[12px] bg-gray-200 px-2 rounded-full ">{session?.user?.role}</p>
-         
-         {/* this is a email and phone number */}
-         
+          <p className="text-gray-500 text-[12px] bg-gray-200 px-2 rounded-full ">
+            {session?.user?.role}
+          </p>
+
+          {/* this is a email and phone number */}
+
           <div className="flex gap-4 items-center text-md text-gray-700  ">
-            <div    className="flex gap-2 items-center">
-              <span><MdMarkEmailRead /></span>
-              <p >{session?.user?.email}</p>
+            <div className="flex gap-2 items-center">
+              <span>
+                <MdMarkEmailRead />
+              </span>
+              <p>{session?.user?.email}</p>
             </div>
 
             <div className="flex gap-2 items-center">
-            <span><FaPhoneSquareAlt /></span>
-              <p >{session?.user?.phone || "Not Provided" }</p>
+              <span>
+                <FaPhoneSquareAlt />
+              </span>
+              <p>{session?.user?.phone || "Not Provided"}</p>
             </div>
           </div>
         </CardHeader>
 
         {/* Profile  */}
-        <CardContent className=" m-4">hf jkhh</CardContent>
+        <CardContent className=" m-4">
+          Address : {session?.user?.address || "Not Provided"}
+        </CardContent>
       </Card>
     </div>
   );

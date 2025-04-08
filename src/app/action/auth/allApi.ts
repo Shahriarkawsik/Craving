@@ -5,16 +5,16 @@ import { Collection } from "mongodb";
 import { Sort } from "mongodb";
 export interface CommonPayload {
   name?: string;
-  image?: string,
-  role?: string,
+  image?: string;
+  role?: string;
   email?: string;
   password?: string;
   title?: string;
   location?: string;
   owner?: string;
-  phone?:number;
-  status?:string;
-  address?:string;
+  phone?: number;
+  status?: string;
+  address?: string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -43,12 +43,12 @@ export interface CommonPayload {
   // food available or not
   isAvailable?: boolean;
   // restaurant information
-  ownerName?: string,
-  addedDate?: string,
-  restaurantLogo?: string,
-  restaurantPhone?: number,
-  restaurantRating?: number,
-  ownerId?: string
+  ownerName?: string;
+  addedDate?: string;
+  restaurantLogo?: string;
+  restaurantPhone?: number;
+  restaurantRating?: number;
+  ownerId?: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -64,17 +64,23 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
   }
   await userCollection.insertOne({
     name: payload.name,
-    image:payload.image,
+    image: payload.image,
     email: payload.email,
     password: payload.password,
-    role:payload.role,
-    phone:payload.phone,
-    status:payload.status,
-    address:payload.address,
+    role: payload.role,
+    phone: payload.phone,
+    status: payload.status,
+    address: payload.address,
     created_at: new Date(),
   });
 };
 
+// update user
+export const updateUser = async (payload: CommonPayload): Promise<void> => {
+  // Connect to the database and update user collection
+  const userCollection = await dbConnect().then((db) => db.collection("users"));
+  await userCollection.updateOne({ email: payload.email }, { $set: payload });
+};
 
 // Adding new restaurant information
 export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
@@ -90,11 +96,9 @@ export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
     restaurantLogo: payload.restaurantLogo,
     restaurantPhone: payload.restaurantPhone,
     restaurantRating: payload.restaurantRating,
-    ownerId: payload.ownerId
+    ownerId: payload.ownerId,
   });
 };
-
-
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -210,6 +214,8 @@ export const deleteFood = async (
   }
 };
 
+//update food
+
 export const updateFood = async (
   payload: CommonPayload
 ): Promise<{
@@ -261,19 +267,22 @@ export const foodAvailableOrNot = async (
   return result;
 };
 
-export const getAllFoods = async (query?: string, category?: string, sort?: string): Promise<FoodItem[]> => {
-  console.log(sort)
+export const getAllFoods = async (
+  query?: string,
+  category?: string,
+  sort?: string
+): Promise<FoodItem[]> => {
+  console.log(sort);
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
-  console.log(category)
+  console.log(category);
   let filter: Record<string, unknown> = {};
 
-
-  if(category === 'All Food'){
-    filter = {}
+  if (category === "All Food") {
+    filter = {};
   }
 
-  if (category && category !== 'All Food') {
+  if (category && category !== "All Food") {
     filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
   }
 
@@ -281,18 +290,16 @@ export const getAllFoods = async (query?: string, category?: string, sort?: stri
     filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
   }
 
-  const sortOption: Sort = {}
+  const sortOption: Sort = {};
 
-  if(sort === 'Ascending'){
-    sortOption.price = 1
-  }else if(sort === 'Descending'){
-    sortOption.price = -1
+  if (sort === "Ascending") {
+    sortOption.price = 1;
+  } else if (sort === "Descending") {
+    sortOption.price = -1;
   }
 
-
-  console.log(filter)
+  console.log(filter);
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
-
 
   return foodData.map((food) => ({
     ...food,
