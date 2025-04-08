@@ -36,10 +36,10 @@ const AllRiders = () => {
       ) : (
         <Table>
           <TableHeader>
-            <TableRow className="border border-orange-600 text-center">
+            <TableRow className=" text-center">
               <TableHead className="w-[100px]">Rider Image</TableHead>
-              <TableHead>Rider Name</TableHead>
-              <TableHead>Rider Email</TableHead>
+              <TableHead className="font-semibold">Rider Name</TableHead>
+              <TableHead className="font-semibold">Rider Email</TableHead>
               <TableHead>Rider Address</TableHead>
               <TableHead>Rider Identification</TableHead>
               <TableHead>Rider Number</TableHead>
@@ -55,11 +55,11 @@ const AllRiders = () => {
                     alt={rider.riderName as string}
                     width={100}
                     height={100}
-                    className="rounded-full w-16 h-16"
+                    className="rounded-full w-16 h-16 shadow-2xl"
                   />
                 </TableCell>
-                <TableCell>{rider.riderName}</TableCell>
-                <TableCell>{rider.riderEmail}</TableCell>
+                <TableCell className="font-semibold">{rider.riderName}</TableCell>
+                <TableCell className="font-semibold">{rider.riderEmail}</TableCell>
                 <TableCell>{rider.riderAddress}</TableCell>
                 <TableCell>{rider.riderIdentification}</TableCell>
                 <TableCell>{rider.riderNumber}</TableCell>
