@@ -1,11 +1,10 @@
 "use client"
 import { Card, CardContent } from "@/components/ui/card";
 import { Bar, BarChart, CartesianGrid, Legend, Pie, PieChart, Tooltip, XAxis, YAxis } from "recharts";
-import restaurantLogo from "@/assets/logo.png"
+import restaurantLogoPublic from "@/assets/logo.png"
 import Image from "next/image";
-import { FC } from "react";
-
-
+import { FC, useEffect, useState } from "react";
+import { getRestaurantByEmail } from "@/app/action/auth/allApi";
 
 interface SalesData {
     day: string;
@@ -17,8 +16,40 @@ interface FoodCategoryData {
     value: number;
 }
 
+interface RestaurantInfo {
+    _id?: string;
+    restaurantName: string;
+    restaurantAddress: string;
+    restaurantDescription: string;
+    restaurantEmail: string;
+    restaurantLogo: string;
+    restaurantPhone: string;
+    restaurantOwnerName: string;
+    restaurantOwnerEmail: string;
+    restaurantOwnerId: string;
+    restaurantOpeningDate: Date;
+    restaurantTotalSell: number;
+    restaurantTotalOrder: number;
+    restaurantCompleteOrder: number;
+    restaurantPendingOrder: number;
+    restaurantRating: number;
+    totalFoodItem: number;
+    foodCategories: string[];
+    ownerIdentification: string;
+    ownerName: string;
+    restaurantNumber: string;
+}
 
 const RestaurantOwner: FC = () => {
+    const [restaurant, setRestaurant] = useState<RestaurantInfo | null>(null)
+    const getRestaurantSpecificOwner = async (): Promise<void> => {
+        const specificRestaurant = await getRestaurantByEmail('shahriarkawsik@gmail.com')
+        setRestaurant(specificRestaurant as unknown as RestaurantInfo)
+    }
+    console.log(restaurant)
+    useEffect(() => {
+        getRestaurantSpecificOwner()
+    }, [])
 
     const weeklySales: SalesData[] = [
         { day: "Mon", sales: 1200 },
@@ -37,17 +68,16 @@ const RestaurantOwner: FC = () => {
         { name: "Desserts", value: 8 },
     ];
 
-
     return (
         <div className="p-6 mx-auto">
             {/* restaurant information */}
             <Card className="p-4 shadow-lg bg-orange-100">
                 <CardContent>
                     <div className="flex items-center space-x-4">
-                        <Image src={restaurantLogo} alt="Restaurant Logo" className="w-16 h-16 rounded-full" />
+                        <Image src={restaurant?.restaurantLogo || restaurantLogoPublic} alt="Restaurant Logo" width={50} height={50} className="w-16 h-16 rounded-full" />
                         <div>
-                            <h2 className="text-2xl font-bold">Delicious Bites</h2>
-                            <p className="text-gray-500">Emperor Building, Gulshan-2, Dhaka</p>
+                            <h2 className="text-2xl font-bold">{restaurant?.restaurantName}</h2>
+                            <p className="text-gray-500">{restaurant?.restaurantAddress}</p>
                         </div>
                     </div>
                 </CardContent>
@@ -58,29 +88,28 @@ const RestaurantOwner: FC = () => {
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
                     <CardContent>
                         <h3 className="text-xl font-semibold">Total Food Items</h3>
-                        <p className="text-2xl font-bold">30</p>
+                        <p className="text-2xl font-bold">{restaurant?.totalFoodItem}</p>
                     </CardContent>
                 </Card>
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-teal-100">
                     <CardContent>
                         <h3 className="text-xl font-semibold">Food Categories</h3>
-                        <p className="text-2xl font-bold">4</p>
+                        <p className="text-2xl font-bold">{restaurant?.foodCategories?.length || '5'}</p>
                     </CardContent>
                 </Card>
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-rose-100">
                     <CardContent>
                         <h3 className="text-xl font-semibold">Total Sales</h3>
-                        <p className="text-2xl font-bold">$12,000</p>
+                        <p className="text-2xl font-bold">${restaurant?.restaurantTotalSell}</p>
                     </CardContent>
                 </Card>
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-violet-100">
                     <CardContent>
                         <h3 className="text-xl font-semibold">Total Orders</h3>
-                        <p className="text-2xl font-bold">320</p>
+                        <p className="text-2xl font-bold">{restaurant?.restaurantTotalOrder}</p>
                     </CardContent>
                 </Card>
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 {/* bar chart */}
                 <Card className="p-4 border border-blue-300">
@@ -107,8 +136,11 @@ const RestaurantOwner: FC = () => {
                     </CardContent>
                 </Card>
             </div>
+
         </div>
     );
 };
 
 export default RestaurantOwner;
+
+

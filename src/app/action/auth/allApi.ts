@@ -359,6 +359,30 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
   }
 };
 
+// get restaurant specific owner
+export const getRestaurantByEmail = async (
+  email: string
+): Promise<CommonPayload> => {
+    console.log(email)
+    const db = await dbConnect();
+    const foodCollection = db.collection("resturant");
+
+    const result = await foodCollection.findOne({
+      restaurantOwnerEmail: email,
+    });
+    
+
+    const formattedFoodData = {
+      ...result,
+      _id: (result?._id as unknown as ObjectId).toString(),
+    };
+    console.log(formattedFoodData)
+    return formattedFoodData;
+
+};
+
+
+
 /* Create Rider Collection*/
 export type RiderPayload = {
   riderImage?: string;
