@@ -4,7 +4,10 @@ import BGImg from "@/assets/bgImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { addResturantOwner, CommonPayload } from "@/app/action/auth/allApi";
+import {
+  createResturantOwnerApplication,
+  CommonPayload,
+} from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,7 +39,7 @@ const BeOwner = () => {
   const onSubmit: SubmitHandler<CommonPayload> = async (data) => {
     const beRestaurantOwner = { ...data, created_at: new Date() };
     try {
-      await addResturantOwner(beRestaurantOwner);
+      await createResturantOwnerApplication(beRestaurantOwner);
       Swal.fire({
         icon: "success",
         title: "Application Submitted Successfully!",
