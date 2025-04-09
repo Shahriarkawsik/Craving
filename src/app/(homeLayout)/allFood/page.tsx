@@ -37,6 +37,7 @@ export default function AllFoodsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
   const [foodCategory, setFoodCategory] = useState<string>('')
   const [foodSort, setFoodSort] = useState<string>('')
+  const [foodId, setFoodId] = useState<string>("");
 
   useEffect(() => {
     fetchData();
@@ -169,7 +170,7 @@ export default function AllFoodsPage() {
         ) : (
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5">
             {foods.length > 0 ? (
-              foods?.map((food) => <Link key={food._id} href={`/foodDetails/${food._id}`}><FoodCard food={food} /></Link>)
+              foods?.map((food) => <FoodCard key={food._id} food={food} />)
             ) : (
               <p className="text-center text-gray-500 col-span-full">
                 No matching food found.
