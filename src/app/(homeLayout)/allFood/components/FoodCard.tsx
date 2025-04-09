@@ -21,9 +21,18 @@ interface FoodCardProps {
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
-  // console.log(food);  // Log the food object for debugging
+  console.log(food);  // Log the food object for debugging
+
+  const handleClick = (id: string) => {
+    
+  }
+
+
+
+
+
   return (
-    <div>
+    <div onClick={()=> handleClick(food._id)}>
       <div className=" rounded-lg shadow-2xl ">
         <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
           {/* <Image

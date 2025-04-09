@@ -466,6 +466,21 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   return formattedFoodData;
 };
 
+
+// get food details dynamically
+export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodDetails = await foodCollection.findOne({_id: new ObjectId(id)});
+  return foodDetails
+}
+
+
+
+
+
+
 // Delete specific food
 export const deleteFood = async (
   payload: CommonPayload

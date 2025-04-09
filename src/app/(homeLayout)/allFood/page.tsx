@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import Link from "next/link";
+
 
 interface FoodItem {
   _id: string;
@@ -37,7 +37,6 @@ export default function AllFoodsPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
   const [foodCategory, setFoodCategory] = useState<string>('')
   const [foodSort, setFoodSort] = useState<string>('')
-  const [foodId, setFoodId] = useState<string>("");
 
   useEffect(() => {
     fetchData();
