@@ -144,7 +144,7 @@ export const updateRestaurant = async (
 }> => {
   const db = await dbConnect();
   const foodCollection = db.collection("resturant");
-console.log(email)
+  console.log(email)
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
     {
@@ -362,7 +362,7 @@ export const getRestaurant = async (): Promise<CommonPayload[]> => {
 /* Delete Restaurant */
 export const deleteRestaurant = async (id: string): Promise<void> => {
   const db = await dbConnect();
-  const restaurantCollection: Collection<CommonPayload> =   
+  const restaurantCollection: Collection<CommonPayload> =
     db.collection("restaurant");
   await restaurantCollection.deleteOne({ _id: new ObjectId(id) });
 };
@@ -371,21 +371,21 @@ export const deleteRestaurant = async (id: string): Promise<void> => {
 export const getRestaurantByEmail = async (
   email: string
 ): Promise<CommonPayload> => {
-    console.log(email)
-    const db = await dbConnect();
-    const foodCollection = db.collection("resturant");
+  console.log(email)
+  const db = await dbConnect();
+  const foodCollection = db.collection("resturant");
 
-    const result = await foodCollection.findOne({
-      restaurantOwnerEmail: email,
-    });
-    
+  const result = await foodCollection.findOne({
+    restaurantOwnerEmail: email,
+  });
 
-    const formattedFoodData = {
-      ...result,
-      _id: (result?._id as unknown as ObjectId).toString(),
-    };
-    console.log(formattedFoodData)
-    return formattedFoodData;
+
+  const formattedFoodData = {
+    ...result,
+    _id: (result?._id as unknown as ObjectId).toString(),
+  };
+  console.log(formattedFoodData)
+  return formattedFoodData;
 
 };
 
@@ -438,7 +438,7 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const riderData = await riderCollection.find({}).toArray();
   return riderData;
-} 
+}
 
 export interface FoodItem {
   _id: string;
@@ -472,9 +472,18 @@ export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
   const db = await dbConnect();
   const foodCollection: Collection<FoodItem> = db.collection("food");
 
-  const foodDetails = await foodCollection.findOne({_id: new ObjectId(id)});
-  return foodDetails
-}
+  const foodDetails = await foodCollection.findOne({ _id: new ObjectId(id) });
+
+  if (!foodDetails) return null;
+
+  const serializedFood = {
+    ...foodDetails,
+    _id: foodDetails._id.toString(),
+    created_at: foodDetails.created_at?.toString(),
+  };
+
+  return serializedFood as FoodItem;
+};
 
 
 

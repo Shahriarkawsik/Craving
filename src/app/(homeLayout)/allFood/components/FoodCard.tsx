@@ -1,4 +1,5 @@
-import React from "react";
+import { getFoodDetails } from "@/app/action/auth/allApi";
+import React, { useState } from "react";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder } from "react-icons/md";
 
@@ -21,18 +22,20 @@ interface FoodCardProps {
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
-  console.log(food);  // Log the food object for debugging
 
-  const handleClick = (id: string) => {
-    
-  }
+  // dynamic food details
+  const handleClick = async (id: string) => {
+    const foodDetailsData = await getFoodDetails(id);
+
+    console.log(foodDetailsData); // ✅ log the fresh data
+  };
 
 
 
 
 
   return (
-    <div onClick={()=> handleClick(food._id)}>
+    <div onClick={() => handleClick(food._id)}>
       <div className=" rounded-lg shadow-2xl ">
         <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
           {/* <Image
