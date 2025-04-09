@@ -1,6 +1,10 @@
 
 
-const page = () => {
+
+const FoodDetails = async ({ params }: { params: { foodId: string }}) => {
+    
+    console.log(params.foodId);
+
     return (
         <div>
             <h2>this is food details page</h2>
@@ -8,4 +12,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default FoodDetails;

@@ -1,5 +1,9 @@
 "use client";
-import { CommonPayload, getAllRider } from "@/app/action/auth/allApi";
+import {
+  CommonPayload,
+  deleteRider,
+  getAllRider,
+} from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 
 import {
@@ -11,8 +15,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import Swal from "sweetalert2";
 const AllRiders = () => {
   const [riders, setRiders] = useState<CommonPayload[]>([]);
+  // console.log(riders);
   useEffect(() => {
     const fetchAllRiders = async () => {
       try {
@@ -29,6 +35,45 @@ const AllRiders = () => {
     };
     fetchAllRiders();
   }, []);
+
+  /* Handle Details */
+  const handleRiderDetails = async (id: string): Promise<void> => {
+    try {
+      console.log(id);
+    } catch {}
+  };
+
+  /* Handle Delete */
+  const handleRiderDelete = async (riderId: string): Promise<void> => {
+    try {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteRider(riderId);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          setRiders((prev) => prev.filter((rider) => rider._id !== riderId));
+        }
+      });
+    } catch (error) {
+      console.error("Error deleting rider:", error);
+      Swal.fire({
+        icon: "error",
+        text: `Error deleting rider ${error}`,
+        title: "Error",
+      });
+    }
+  };
   return (
     <section className="w-11/12 mx-auto ">
       {!riders || riders.length === 0 ? (
@@ -43,7 +88,8 @@ const AllRiders = () => {
               <TableHead>Rider Address</TableHead>
               <TableHead>Rider Identification</TableHead>
               <TableHead>Rider Number</TableHead>
-              <TableHead className="text-right">Vehicle Type</TableHead>
+              <TableHead>Vehicle Type</TableHead>
+              <TableHead className="text-right"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -58,13 +104,29 @@ const AllRiders = () => {
                     className="rounded-full w-16 h-16 shadow-2xl"
                   />
                 </TableCell>
-                <TableCell className="font-semibold">{rider.riderName}</TableCell>
-                <TableCell className="font-semibold">{rider.riderEmail}</TableCell>
+                <TableCell className="font-semibold">
+                  {rider.riderName}
+                </TableCell>
+                <TableCell className="font-semibold">
+                  {rider.riderEmail}
+                </TableCell>
                 <TableCell>{rider.riderAddress}</TableCell>
                 <TableCell>{rider.riderIdentification}</TableCell>
                 <TableCell>{rider.riderNumber}</TableCell>
-                <TableCell className="text-right">
-                  {rider.vehicleType}
+                <TableCell>{rider.vehicleType}</TableCell>
+                <TableCell className="text-right space-x-4">
+                  <button
+                    onClick={() => handleRiderDetails(rider._id as string)}
+                    className="px-3 py-1 hover:bg-green-50 rounded-lg text-green-400 font-bold text-xl border"
+                  >
+                    Details
+                  </button>
+                  <button
+                    className="px-3 py-1 hover:bg-red-50 rounded-lg text-red-400 font-bold text-xl border"
+                    onClick={() => handleRiderDelete(rider._id as string)}
+                  >
+                    Delete
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
