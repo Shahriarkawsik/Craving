@@ -1,22 +1,24 @@
 "use client";
 import { useParams } from "next/navigation";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import categoryBannerImage from "../../../../assets/bannerImg/aboutBanner1.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa6";
-import foodImage from "../../../../assets/bannerImg/dish-banner-001.jpg";
 import { FaShoppingCart } from "react-icons/fa";
+import { getAllFoods } from "@/app/action/auth/allApi";
 
 interface FoodItem {
-    id: number;
-    restaurant_id: number;
+    _id: string;
+    restaurant_id: string;
     foodName: string;
     description: string;
     price: number;
-    foodImage: string;
+    category: string;
+    image: string;
     is_available: boolean;
-    rating: number;
+    created_at: string;
+    owner_email: string;
 }
 
 const Page: FC = () => {
@@ -24,109 +26,26 @@ const Page: FC = () => {
     const categoryName = decodeURIComponent(params.categoryName as string);
 
     // food data
-    const foodItems: FoodItem[] = [
-        {
-            id: 1,
-            restaurant_id: 101,
-            foodName: "Cheeseburger",
-            description: "A delicious cheeseburger with fresh lettuce, tomatoes, and melted cheese.",
-            price: 5.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.5
-        },
-        {
-            id: 2,
-            restaurant_id: 102,
-            foodName: "Margherita Pizza",
-            description: "A classic Margherita pizza with fresh basil, mozzarella, and tomato sauce.",
-            price: 7.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.7
-        },
-        {
-            id: 3,
-            restaurant_id: 103,
-            foodName: "Vegetable Salad",
-            description: "A healthy and refreshing salad with a variety of fresh vegetables.",
-            price: 4.49,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: false,
-            rating: 4.2
-        },
-        {
-            id: 4,
-            restaurant_id: 104,
-            foodName: "Chicken Sandwich",
-            description: "A crispy chicken sandwich with a savory sauce and pickles.",
-            price: 6.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.6
-        },
-        {
-            id: 5,
-            restaurant_id: 105,
-            foodName: "Spaghetti Bolognese",
-            description: "A classic spaghetti dish with rich, flavorful Bolognese sauce.",
-            price: 8.49,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.8
-        },
-        {
-            id: 6,
-            restaurant_id: 106,
-            foodName: "Grilled Salmon",
-            description: "Tender grilled salmon served with a side of vegetables.",
-            price: 12.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.7
-        },
-        {
-            id: 7,
-            restaurant_id: 107,
-            foodName: "Cheese Nachos",
-            description: "Crispy nachos topped with melted cheese and jalapeños.",
-            price: 4.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: false,
-            rating: 4.3
-        },
-        {
-            id: 8,
-            restaurant_id: 108,
-            foodName: "Beef Tacos",
-            description: "Soft tacos filled with seasoned beef, lettuce, and salsa.",
-            price: 5.49,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.4
-        },
-        {
-            id: 9,
-            restaurant_id: 109,
-            foodName: "Vegetable Stir Fry",
-            description: "A healthy stir fry with a variety of fresh vegetables and soy sauce.",
-            price: 7.29,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.1
-        },
-        {
-            id: 10,
-            restaurant_id: 110,
-            foodName: "Chocolate Cake",
-            description: "A rich and moist chocolate cake topped with creamy frosting.",
-            price: 3.99,
-            foodImage: "../../../../assets/bannerImg/dish-banner-001.jpg",
-            is_available: true,
-            rating: 4.9
-        }
-    ];
+    const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async (query = "", category = categoryName, sort = ""): Promise<void> => {
+        try {
+            setIsLoading(true);
+            const data = await getAllFoods(query, category, sort) as FoodItem[];
+            setFoodItems(data);
+        } catch (error) {
+            console.error("Error fetching food data:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    console.log(foodItems);
     return (
         <div>
             {/* banner section */}
@@ -162,14 +81,14 @@ const Page: FC = () => {
                 </div>
 
                 {/* food card */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5">
+                {!isLoading ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5">
                     {foodItems.map((food) => (
                         <div
-                            key={food.id}
+                            key={food._id}
                             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                         >
                             <Image
-                                src={foodImage}
+                                src={food.image}
                                 alt={food.foodName}
                                 width={350}
                                 height={200}
@@ -181,14 +100,14 @@ const Page: FC = () => {
                                 <div className="flex items-center justify-between mt-3">
                                     <div className="flex items-center text-yellow-500">
                                         {[...Array(5)].map((_, index) => (
-                                            <FaStar key={index} className={`mr-1 ${food.rating >= index + 1 ? "text-yellow-500" : "text-gray-300"}`} />
+                                            <FaStar key={index} className={`mr-1 ${5 >= index + 1 ? "text-yellow-500" : "text-gray-300"}`} />
                                         ))}
-                                        <span className="ml-2 text-sm">{food.rating}</span>
+                                        <span className="ml-2 text-sm">{5}</span>
                                     </div>
                                     <span className="font-semibold text-lg">${food.price}</span>
                                 </div>
                                 <div className="flex justify-between items-center mt-3">
-                                    <Link href={`/${categoryName}/${food.id}`} className="text-orange-700 hover:text-orange-800 text-sm">
+                                    <Link href={`${categoryName}/${food._id}`} className="text-orange-700 hover:text-orange-800 text-sm">
                                         View Details
                                     </Link>
                                     <button
@@ -203,7 +122,7 @@ const Page: FC = () => {
                             </div>
                         </div>
                     ))}
-                </div>
+                </div>: <div className="w-full h-full flex items-center justify-center">Loading...</div>}
             </section>
         </div>
     );

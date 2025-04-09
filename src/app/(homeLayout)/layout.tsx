@@ -28,12 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-<<<<<<< HEAD
-      <body cz-shortcut-listen="true"
-=======
       <NextAuthSessionProvider>
       <body
->>>>>>> 55e1d5a24e740c7da477576a71f89516c3d7e3d3
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
           <header>
