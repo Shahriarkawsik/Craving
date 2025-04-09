@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 
 const BeRider = () => {
   const { data } = useSession();
-  // console.log(data?.user?.name);
+  console.log(data?.user?.name);
   type Inputs = {
     _id: string;
     riderEmail: string;
