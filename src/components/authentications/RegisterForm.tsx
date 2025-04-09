@@ -68,8 +68,7 @@ const RegisterForm = () => {
         icon: "error",
         title: "Oops...",
         text: "Something went wrong!",
-        
-      })
+      });
       toast.error("Already have an account", {
         position: "top-center",
         autoClose: 1000,
@@ -92,10 +91,10 @@ const RegisterForm = () => {
       <div>
         <label className="text-gray-700">Image</label>
         <Input
-          type="text"
+          type="url"
           name="image"
           placeholder="Enter your Image"
-          required
+          // required
           className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
       </div>
