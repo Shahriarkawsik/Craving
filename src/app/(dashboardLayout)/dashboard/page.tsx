@@ -18,7 +18,6 @@ export function AppSidebar() {
   const pathName = usePathname();
   const { data: session } = useSession();
   console.log(session);
-  // const role = "Admin";
   return (
     <Sidebar className="">
       <SidebarContent>

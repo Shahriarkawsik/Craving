@@ -25,7 +25,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const Navbar = () => {
   const pathName = usePathname();
   const { data, status } = useSession();
-  console.log(data)
+  console.log(data);
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -91,28 +91,34 @@ const Navbar = () => {
                 </Link>
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-                <Link
-                  href="/profile"
-                  className={`${
-                    pathName === "/profile"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Profile
-                </Link>
+                {data && (
+                  <Link
+                    href="/profile"
+                    className={`${
+                      pathName === "/profile"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Profile
+                  </Link>
+                )}
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-                <Link
-                  href="/dashboard"
-                  className={`${
-                    pathName === "/dashboard"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Dashboard
-                </Link>
+                {(data?.user?.role === "Admin" ||
+                  data?.user?.role === "Rider" ||
+                  data?.user?.role === "RestaurantOwner") && (
+                  <Link
+                    href="/dashboard"
+                    className={`${
+                      pathName === "/dashboard"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>
