@@ -102,6 +102,7 @@ export const getUserDetails = async (
   return {
     ...user,
     _id: (user._id as unknown as ObjectId).toString(),
+    // _id: new ObjectId(user._id),
 
     created_at: user.created_at ? new Date(user.created_at) : undefined,
   };
@@ -216,7 +217,6 @@ export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
       _id: (rider._id as unknown as ObjectId).toString(),
       created_at: rider.created_at ? new Date(rider.created_at) : undefined,
     }));
-
     return formattedRiderData;
   } catch (error) {
     console.error("Error fetching riders:", error);
@@ -230,7 +230,7 @@ export const deleteRiderApplication = async (
   const db = await dbConnect();
   const riderCollection: Collection<CommonPayload> = db.collection("beRider");
   await riderCollection.deleteOne({
-    _id: new ObjectId(riderId),
+    _id: new ObjectId(riderId).toString(),
   });
 };
 /* Be Resturant Owner Application */
@@ -290,7 +290,7 @@ export const deleteRestaurantOwnerApplication = async (
   const resturantOwnerCollection: Collection<CommonPayload> =
     db.collection("beRestaurantOwner");
   await resturantOwnerCollection.deleteOne({
-    _id: new ObjectId(resturantOwnerId),
+    _id: new ObjectId(resturantOwnerId).toString(),
   });
 };
 
@@ -362,9 +362,9 @@ export const getRestaurant = async (): Promise<CommonPayload[]> => {
 /* Delete Restaurant */
 export const deleteRestaurant = async (id: string): Promise<void> => {
   const db = await dbConnect();
-  const restaurantCollection: Collection<CommonPayload> =   
+  const restaurantCollection: Collection<CommonPayload> =
     db.collection("restaurant");
-  await restaurantCollection.deleteOne({ _id: new ObjectId(id) });
+  await restaurantCollection.deleteOne({ _id: new ObjectId(id).toString() });
 };
 
 // get restaurant specific owner
@@ -393,6 +393,7 @@ export const getRestaurantByEmail = async (
 
 /* Create Rider Collection*/
 export type RiderPayload = {
+  // _id?: string;
   riderImage?: string;
   riderIdentification?: number;
   riderName?: string;
@@ -428,8 +429,7 @@ export const getActiveRider = async (
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const rider = await riderCollection.findOne({ riderEmail });
-  // console.log(rider);
-  return rider ?? null; // Ensures function always returns RiderPayload or null
+  return rider ?? null;
 };
 
 /* Get All Rider */
@@ -438,7 +438,7 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const riderData = await riderCollection.find({}).toArray();
   return riderData;
-} 
+};
 
 export interface FoodItem {
   _id: string;

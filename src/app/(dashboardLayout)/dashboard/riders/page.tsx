@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import restaurantLogo from "@/assets/images/rider.png";
 import Image from "next/image";
 import {
@@ -12,6 +12,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useSession } from "next-auth/react";
+import { getActiveRider, RiderPayload } from "@/app/action/auth/allApi";
 
 interface EarningData {
   day: string;
@@ -19,7 +21,6 @@ interface EarningData {
 }
 
 const RidersProfile: FC = () => {
-
   const weeklyEarnings: EarningData[] = [
     { day: "Mon", earnings: 220 },
     { day: "Tue", earnings: 318 },
@@ -29,6 +30,36 @@ const RidersProfile: FC = () => {
     { day: "Sat", earnings: 490 },
     { day: "Sun", earnings: 350 },
   ];
+  /* Current User */
+  const { data } = useSession();
+  const [rider, setRider] = useState<RiderPayload | null>(null);
+  const {
+    riderName,
+    riderAddress,
+    riderTotalEarning,
+    riderTotalOrder,
+    riderTotalRating,
+    riderTotalTransaction,
+  } = rider ?? {};
+  useEffect(() => {
+    const fetchRider = async () => {
+      try {
+        const email = data?.user?.email;
+        if (!email) {
+          console.warn("No email found. Skipping fetch.");
+          return;
+        }
+        const response = await getActiveRider(email);
+
+        if (response) {
+          setRider(response);
+        }
+      } catch (error) {
+        console.error("Error fetching rider:", error);
+      }
+    };
+    fetchRider();
+  }, [data?.user?.email]); // ✅ add dependency
 
   return (
     <div className="p-6 mx-auto">
@@ -42,10 +73,8 @@ const RidersProfile: FC = () => {
               className="w-16 h-16 rounded-full"
             />
             <div>
-              <h2 className="text-2xl font-bold">Hasan Mahmud</h2>
-              <p className="text-gray-500">
-                Senior Rider, Chattogram City Area
-              </p>
+              <h2 className="text-2xl font-bold">{riderName}</h2>
+              <p className="text-gray-500">{riderAddress}</p>
             </div>
           </div>
         </CardContent>
@@ -56,25 +85,25 @@ const RidersProfile: FC = () => {
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Earnings</h3>
-            <p className="text-2xl font-bold">20000 BDT</p>
+            <p className="text-2xl font-bold">{riderTotalEarning} BDT</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-teal-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Orders</h3>
-            <p className="text-2xl font-bold">178</p>
+            <p className="text-2xl font-bold">{riderTotalOrder}</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-rose-100">
           <CardContent>
-            <h3 className="text-xl font-semibold">Total Reviews</h3>
-            <p className="text-2xl font-bold">93</p>
+            <h3 className="text-xl font-semibold">Ratting</h3>
+            <p className="text-2xl font-bold">{riderTotalRating}</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-violet-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Transactions</h3>
-            <p className="text-2xl font-bold">15000 BDT</p>
+            <p className="text-2xl font-bold">{riderTotalTransaction} BDT</p>
           </CardContent>
         </Card>
       </div>
