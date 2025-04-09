@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 import { Sort } from "mongodb";
+import bcrypt from "bcryptjs";
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -75,11 +76,18 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
       "This email is already registered. Please use a different email."
     );
   }
+
+   if (!payload.password) {
+    throw new Error("Password is Required");
+  }
+  const hashedPassword = await bcrypt.hash(payload.password, 10);
+  
   await userCollection.insertOne({
     name: payload.name,
     image: payload.image,
     email: payload.email,
-    password: payload.password,
+    // password: payload.password,
+    password: hashedPassword,
     role: payload.role,
     phone: payload.phone,
     status: payload.status,
