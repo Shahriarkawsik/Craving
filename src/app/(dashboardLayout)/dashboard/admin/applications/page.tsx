@@ -183,7 +183,6 @@ const Applications = () => {
       });
     }
   };
-
   const handleRejectRider = async (riderId: string) => {
     try {
       Swal.fire({
