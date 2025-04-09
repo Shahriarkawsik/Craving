@@ -2,9 +2,11 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./page";
 
 import DashNavbar from "./dashNavbar/page";
+import NextAuthSessionProvider from "@/Providers/NextAuthSessionProvider";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
+  <NextAuthSessionProvider>
     <SidebarProvider className="">
       <AppSidebar />
       <SidebarTrigger />
@@ -16,5 +18,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="  ">{children}</main>
       </div>
     </SidebarProvider>
+    </NextAuthSessionProvider>
   );
 }

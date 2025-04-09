@@ -29,9 +29,6 @@ const Banner = () => {
         </p>
 
         <ButtonComponent title="Explore Now" onClick={handleClick} />
-        {/* <button className="px-6 py-3 bg-white text-black rounded-md text-lg hover:bg-gray-200 transition">
-          Explore Now
-        </button> */}
       </div>
     </section>
   );

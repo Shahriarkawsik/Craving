@@ -5,7 +5,7 @@ import logo from "../../assets/logo.png";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
+  // NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
@@ -24,8 +24,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const pathName = usePathname();
-  // const { data: session, status } = useSession();
   const { data, status } = useSession();
+  console.log(data)
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -40,7 +40,8 @@ const Navbar = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem className="flex items-center space-x-4">
-                <NavigationMenuLink
+                {/* <NavigationMenuLink> */}
+                <Link
                   href="/"
                   className={`${
                     pathName === "/"
@@ -49,8 +50,24 @@ const Navbar = () => {
                   }`}
                 >
                   Home
-                </NavigationMenuLink>
-                <NavigationMenuLink
+                </Link>
+                {/* </NavigationMenuLink> */}
+
+                {/* <NavigationMenuLink> */}
+                <Link
+                  href="/allFood"
+                  className={`${
+                    pathName === "/allFood"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                  }`}
+                >
+                  All Food
+                </Link>
+                {/* </NavigationMenuLink> */}
+
+                {/* <NavigationMenuLink> */}
+                <Link
                   href="/aboutUs"
                   className={`${
                     pathName === "/aboutUs"
@@ -59,8 +76,10 @@ const Navbar = () => {
                   }`}
                 >
                   About Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
+                </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                <Link
                   href="/contactUs"
                   className={`${
                     pathName === "/contactUs"
@@ -69,8 +88,10 @@ const Navbar = () => {
                   }`}
                 >
                   Contact Us
-                </NavigationMenuLink>
-                <NavigationMenuLink
+                </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                <Link
                   href="/profile"
                   className={`${
                     pathName === "/profile"
@@ -79,8 +100,10 @@ const Navbar = () => {
                   }`}
                 >
                   Profile
-                </NavigationMenuLink>
-                <NavigationMenuLink
+                </Link>
+                {/* </NavigationMenuLink> */}
+                {/* <NavigationMenuLink> */}
+                <Link
                   href="/dashboard"
                   className={`${
                     pathName === "/dashboard"
@@ -89,7 +112,8 @@ const Navbar = () => {
                   }`}
                 >
                   Dashboard
-                </NavigationMenuLink>
+                </Link>
+                {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -104,16 +128,14 @@ const Navbar = () => {
             </div>
           )}
           <div className="hidden md:flex">
-            {/* <Button variant="destructive">Logout</Button> */}
-
             {status == "authenticated" ? (
-              <Button
+              <button
                 className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
-                variant="destructive"
+                // variant="destructive"
                 onClick={() => signOut()}
               >
                 Logout
-              </Button>
+              </button>
             ) : (
               <>
                 <Link href="/signIn">
