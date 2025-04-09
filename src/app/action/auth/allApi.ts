@@ -576,3 +576,4 @@ export const getAllFoods = async (
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
+

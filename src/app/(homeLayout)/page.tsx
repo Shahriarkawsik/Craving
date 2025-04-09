@@ -1,3 +1,4 @@
+'use client'
 import Banner from "@/components/homeComponents/banner";
 import Category from "@/components/homeComponents/Category";
 import FeaturedFood from "@/components/homeComponents/FeaturedFood";
@@ -7,8 +8,10 @@ import FAQ from "@/components/homeComponents/FAQ/FAQ";
 import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
 
 export default function Home() {
+
   return (
     <section className="lg:space-y-20">
+      
       {/* bg-amber-100 */}
       {/* Banner section */}
       <Banner />
