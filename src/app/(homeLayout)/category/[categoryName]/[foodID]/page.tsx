@@ -1,13 +1,17 @@
-import {FC} from 'react';
+import { getSingleFood } from '@/app/action/auth/allApi';
 
-const Page: FC = () => {
-    
+interface Props {
+  params: { foodID: string };
+}
 
-    return (
-        <div>
-            Food Details
-        </div>
-    );
+const Page = async ({ params }: Props) => {
+  const food = await getSingleFood(params.foodID);
+
+  return (
+    <div>
+      {food?.foodName}
+    </div>
+  );
 };
 
 export default Page;
