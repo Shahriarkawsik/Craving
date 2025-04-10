@@ -1,12 +1,12 @@
 "use client";
 import {
   CommonPayload,
-  createResturant,
+  createRestaurant,
   createRider,
-  deleteResturantOwner,
-  deleteRider,
-  getAllResturantOwner,
-  getAllRider,
+  deleteRestaurantOwnerApplication,
+  deleteRiderApplication,
+  getRestaurantOwnerApplication,
+  getBeRiderApplication,
   getUserDetails,
   RiderPayload,
   updateUserRole,
@@ -26,12 +26,13 @@ const Applications = () => {
   );
   const [restaurantOwnerApplications, setRestaurantOwnerApplications] =
     useState<CommonPayload[]>([]);
+  // console.log(restaurantOwnerApplications);
 
   // Fetch restaurant owner applications
   useEffect(() => {
     const fetchOwnerApplications = async () => {
       try {
-        const response = await getAllResturantOwner();
+        const response = await getRestaurantOwnerApplication();
         if (Array.isArray(response)) {
           setRestaurantOwnerApplications(response);
         } else {
@@ -49,7 +50,7 @@ const Applications = () => {
   useEffect(() => {
     const fetchRiderApplications = async () => {
       try {
-        const response = await getAllRider();
+        const response = await getBeRiderApplication();
         if (Array.isArray(response)) {
           setRiderApplications(response);
         } else {
@@ -99,7 +100,6 @@ const Applications = () => {
         riderTotalTransaction: 0,
       };
       await createRider(rider);
-
       Swal.fire({
         icon: "success",
         timer: 2500,
@@ -107,7 +107,7 @@ const Applications = () => {
         text: "Rider role updated & rider added to collection!",
       });
 
-      await deleteRider(riderId);
+      await deleteRiderApplication(riderId);
       setRiderApplications((prev) =>
         prev.filter((rider) => rider._id !== riderId)
       );
@@ -122,11 +122,11 @@ const Applications = () => {
         (owner) => owner._id === ownerId
       );
 
+      // console.log(selectedOwner);
       if (!selectedOwner) {
         console.warn("❗ No owner found for ID:", ownerId);
         return;
       }
-
       const { restaurantOwnerEmail } = selectedOwner;
       if (!restaurantOwnerEmail) {
         console.warn("❗ No owner email found for ID:", ownerId);
@@ -138,7 +138,6 @@ const Applications = () => {
         console.error("❌ User not found for email:", restaurantOwnerEmail);
         return;
       }
-
       // 1. Update the role
       await updateUserRole(user.email as string, "Owner");
       // 2. Create the restaurant
@@ -162,17 +161,13 @@ const Applications = () => {
         restaurantCompleteOrder: 0,
         restaurantPendingOrder: 0,
       };
-
-      await createResturant(restaurant);
-
+      await createRestaurant(restaurant);
       // 3. Delete the application
-      await deleteResturantOwner(ownerId);
-
+      await deleteRestaurantOwnerApplication(ownerId);
       // 4. Update UI
       setRestaurantOwnerApplications((prev) =>
         prev.filter((owner) => owner._id !== ownerId)
       );
-
       Swal.fire({
         icon: "success",
         timer: 1500,
@@ -188,38 +183,68 @@ const Applications = () => {
       });
     }
   };
-
   const handleRejectRider = async (riderId: string) => {
     try {
-      await deleteRider(riderId);
-      setRiderApplications((prev) =>
-        prev.filter((rider) => rider._id !== riderId)
-      );
       Swal.fire({
-        icon: "success",
-        timer: 500,
-        showConfirmButton: false,
-        text: "Rider rejected successfully",
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteRiderApplication(riderId);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          setRiderApplications((prev) =>
+            prev.filter((rider) => rider._id !== riderId)
+          );
+        }
       });
     } catch (error) {
-      console.error("Error rejecting rider:", error);
+      // console.error("Error rejecting rider:", error);
+      Swal.fire({
+        title: "Error!",
+        text: `Failed to delete. ${error}`,
+        icon: "error",
+      });
     }
   };
 
   const handleRejectOwner = async (ownerId: string) => {
     try {
-      await deleteResturantOwner(ownerId);
-      setRestaurantOwnerApplications((prev) =>
-        prev.filter((owner) => owner._id !== ownerId)
-      );
       Swal.fire({
-        icon: "success",
-        timer: 1500,
-        showConfirmButton: false,
-        text: "Owner rejected successfully",
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteRestaurantOwnerApplication(ownerId);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+          setRestaurantOwnerApplications((prev) =>
+            prev.filter((owner) => owner._id !== ownerId)
+          );
+        }
       });
     } catch (error) {
-      console.error("Error rejecting owner:", error);
+      Swal.fire({
+        title: "Error!",
+        text: `Failed to delete. ${error}`,
+        icon: "error",
+      });
     }
   };
 

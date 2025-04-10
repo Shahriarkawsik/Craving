@@ -103,54 +103,53 @@ export function AppSidebar() {
           )}
 
           {/* resturant owner's dashboard */}
-          <SidebarGroupContent className="my-10">
-       
-              <Link href="/dashboard/resturantOwner">
-                <SidebarMenuItem
-                  className={`${
-                    pathName === "/dashboard/resturantOwner"
-                      ? " font-semibold shadow-md shadow-gray-300"
-                      : "font-normal"
-                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                >
-                  Restaurant Profile
-                </SidebarMenuItem>
-              </Link>
-              <Link href="/dashboard/resturantOwner/addFood">
-                <SidebarMenuItem
-                  className={`${
-                    pathName === "/dashboard/resturantOwner/addFood"
-                      ? " font-semibold shadow-md shadow-gray-300"
-                      : "font-normal"
-                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                >
-                  Add Food
-                </SidebarMenuItem>
-              </Link>
-          
-            {/* <SidebarMenuItem>
-              <Link href="/dashboard/resturantOwner/allFoodItem">
-                <SidebarMenuItem
-                  className={`${
-                    pathName === "/dashboard/resturantOwner/allFoodItem"
-                      ? " font-semibold shadow-md shadow-gray-300"
-                      : "font-normal"
-                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                >
-                  All Food Item
-                </SidebarMenuItem>
-              </Link>
-              <Link href="/dashboard/resturantOwner/updateResturant">
-                <SidebarMenuItem
-                  className={`${
-                    pathName === "/dashboard/resturantOwner/addResturant"
-                      ? " font-semibold shadow-md shadow-gray-300"
-                      : "font-normal"
-                  } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                >
-                  Update Resturant
-                </SidebarMenuItem>
-              </Link>
+          {session?.user?.role === "RestaurantOwner" && (
+            <SidebarGroupContent className="my-10">
+              <SidebarMenu>
+                <Link href="/dashboard/resturantOwner">
+                  <SidebarMenuItem
+                    className={`${
+                      pathName === "/dashboard/resturantOwner"
+                        ? " font-semibold shadow-md shadow-gray-300"
+                        : "font-normal"
+                    } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                  >
+                    Restaurant Profile
+                  </SidebarMenuItem>
+                </Link>
+                <Link href="/dashboard/resturantOwner/addFood">
+                  <SidebarMenuItem
+                    className={`${
+                      pathName === "/dashboard/resturantOwner/addFood"
+                        ? " font-semibold shadow-md shadow-gray-300"
+                        : "font-normal"
+                    } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                  >
+                    Add Food
+                  </SidebarMenuItem>
+                </Link>
+                <Link href="/dashboard/resturantOwner/allFoodItem">
+                  <SidebarMenuItem
+                    className={`${
+                      pathName === "/dashboard/resturantOwner/allFoodItem"
+                        ? " font-semibold shadow-md shadow-gray-300"
+                        : "font-normal"
+                    } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                  >
+                    All Food Item
+                  </SidebarMenuItem>
+                </Link>
+                <Link href="/dashboard/resturantOwner/updateResturant">
+                  <SidebarMenuItem
+                    className={`${
+                      pathName === "/dashboard/resturantOwner/addResturant"
+                        ? " font-semibold shadow-md shadow-gray-300"
+                        : "font-normal"
+                    } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                  >
+                    Update Resturant
+                  </SidebarMenuItem>
+                </Link>
 
                 <Link href="/dashboard/resturantOwner/orderHistory">
                   <SidebarMenuItem
@@ -163,14 +162,9 @@ export function AppSidebar() {
                     Order History
                   </SidebarMenuItem>
                 </Link>
-              </SidebarMenu>*/}
-
-          </SidebarGroupContent>
-
-
-
-            
-          
+              </SidebarMenu>
+            </SidebarGroupContent>
+          )}
 
           {/* riders dashboard */}
           {session?.user?.role === "Rider" && (
