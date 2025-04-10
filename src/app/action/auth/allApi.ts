@@ -36,6 +36,7 @@ export interface CommonPayload {
   riderIdentification?: number;
   // Be Owner
   _id?: string; // get from the database after fetch.
+  // _id?: ObjectId;
   restaurantOwnerId?: string;
   restaurantOwnerEmail?: string;
   restaurantOwnerName?: string;
@@ -62,6 +63,7 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
+  city?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -101,6 +103,8 @@ export const getUserDetails = async (
   return {
     ...user,
     _id: (user._id as unknown as ObjectId).toString(),
+    // _id: new ObjectId(user._id),
+
     created_at: user.created_at ? new Date(user.created_at) : undefined,
   };
 };
@@ -114,25 +118,6 @@ export const updateUserRole = async (
   await userCollection.updateOne({ email }, { $set: { role } });
 };
 
-// Adding new restaurant information
-// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
-//   // const db = await dbConnect();
-//   // const restaurantCollection = db.collection("resturant");
-//   console.log(payload)
-
-//   // await restaurantCollection.insertOne({
-//   //   restaurantName: payload.restaurantName,
-//   //   location: payload.location,
-//   //   ownerName: payload.ownerName,
-//   //   restaurantEmail: payload.restaurantEmail,
-//   //   addedDate: payload.addedDate,
-//   //   restaurantLogo: payload.restaurantLogo,
-//   //   restaurantPhone: payload.restaurantPhone,
-//   //   restaurantRating: payload.restaurantRating,
-//   //   ownerId: payload.ownerId,
-//   // });
-// };
-
 export const updateRestaurant = async (
   payload: CommonPayload, email: string
 ): Promise<{
@@ -141,7 +126,7 @@ export const updateRestaurant = async (
   modifiedCount: number;
 }> => {
   const db = await dbConnect();
-  const foodCollection = db.collection("resturant");
+  const foodCollection = db.collection("restaurant");
 console.log(email)
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
@@ -167,6 +152,29 @@ console.log(email)
 };
 
 
+export const showRestaurantByCity = async (
+  city: CommonPayload
+): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("restaurant");
+  let query = {}
+  if(city.city === 'all'){
+    query = {}
+  }
+
+  else{
+    query = {restaurantAddress: city.city}
+  }
+  const result = await restaurantCollection.find(query).toArray() 
+  console.log("city api", city.city)
+  return result.map((restaurant) => ({
+    ...restaurant,
+    _id: (restaurant._id as unknown as ObjectId).toString(),
+  }));
+};
+
+
+
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add food collection
@@ -182,29 +190,10 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-/* Be Resturant Owner */
-export const addResturantOwner = async (
+/*create Be Rider application Collection*/
+export const createBeRiderApplication = async (
   payload: CommonPayload
 ): Promise<void> => {
-  // connect to the database and create add resturant owner collection
-  const resturantOwnerCollection = await dbConnect().then((db) =>
-    db.collection("beResturantOwner")
-  );
-  await resturantOwnerCollection.insertOne({
-    restaurantOwnerEmail: payload.restaurantOwnerEmail,
-    restaurantOwnerName: payload.restaurantOwnerName,
-    restaurantName: payload.restaurantName,
-    restaurantEmail: payload.restaurantEmail,
-    restaurantNumber: payload.restaurantNumber,
-    restaurantLogo: payload.restaurantLogo,
-    restaurantDescription: payload.restaurantDescription,
-    ownerIdentification: payload.ownerIdentification,
-    restaurantAddress: payload.restaurantAddress,
-    created_at: payload.created_at,
-  });
-};
-/*create Be Rider application */
-export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
   const riderCollection = await dbConnect().then((db) =>
     db.collection("beRider")
@@ -221,36 +210,63 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
-/* Approved and update rider status */
-
-/* Delete Be Resturant Owner Application */
-export const deleteResturantOwner = async (
-  resturantOwnerId: string
-): Promise<void> => {
-  const db = await dbConnect();
-  const resturantOwnerCollection: Collection<CommonPayload> =
-    db.collection("beResturantOwner");
-  await resturantOwnerCollection.deleteOne({
-    // _id: new ObjectId(resturantOwnerId),
-    _id: (resturantOwnerId as unknown as ObjectId).toString(),
-  });
+/* Get all rider Application request */
+export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+    const riderData = await riderCollection.find({}).toArray();
+    // Convert created_at to Date object
+    const formattedRiderData = riderData.map((rider) => ({
+      ...rider,
+      _id: (rider._id as unknown as ObjectId).toString(),
+      created_at: rider.created_at ? new Date(rider.created_at) : undefined,
+    }));
+    return formattedRiderData;
+  } catch (error) {
+    console.error("Error fetching riders:", error);
+    throw new Error("Failed to fetch rider data");
+  }
 };
-
 /* Delete Be Rider Application */
-export const deleteRider = async (riderId: string): Promise<void> => {
+export const deleteRiderApplication = async (
+  riderId: string
+): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<CommonPayload> = db.collection("beRider");
   await riderCollection.deleteOne({
-    // _id: new ObjectId(riderId)
-    _id: (riderId as unknown as ObjectId).toString(),
+    _id: new ObjectId(riderId).toString(),
+  });
+};
+/* Be Resturant Owner Application */
+export const createResturantOwnerApplication = async (
+  payload: CommonPayload
+): Promise<void> => {
+  // connect to the database and create add resturant owner collection
+  const resturantOwnerCollection = await dbConnect().then((db) =>
+    db.collection("beRestaurantOwner")
+  );
+  await resturantOwnerCollection.insertOne({
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantOwnerName: payload.restaurantOwnerName,
+    restaurantName: payload.restaurantName,
+    restaurantEmail: payload.restaurantEmail,
+    restaurantNumber: payload.restaurantNumber,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantDescription: payload.restaurantDescription,
+    ownerIdentification: payload.ownerIdentification,
+    restaurantAddress: payload.restaurantAddress,
+    created_at: payload.created_at,
   });
 };
 /* Get all resturant owner Application */
-export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
+export const getRestaurantOwnerApplication = async (): Promise<
+  CommonPayload[]
+> => {
   try {
     const db = await dbConnect();
     const resturantOwnerCollection: Collection<CommonPayload> =
-      db.collection("beResturantOwner");
+      db.collection("beRestaurantOwner");
     const resturantOwnerData = await resturantOwnerCollection
       .find({})
       .toArray();
@@ -271,35 +287,25 @@ export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
     throw new Error("Failed to fetch resturant owner data");
   }
 };
-/* Resturant Payload */
-// export type ResturantPayload = {
-//   restaurantOwnerId: string;
-//   restaurantOwnerEmail: string;
-//   restaurantOwnerName: string;
-//   restaurantName: string;
-//   restaurantEmail: string;
-//   restaurantNumber: string;
-//   restaurantLogo: string;
-//   restaurantDescription: string;
-//   restaurantAddress: string;
-//   ownerIdentification: number;
-//   restaurantOpeningDate: Date;
-//   foodCategories: string[];
-//   restaurantRating: number;
-//   totalFoodItem: number;
-//   restaurantTotalSell: number;
-//   restaurantTotalOrder: number;
-//   restaurantCompleteOrder: number;
-//   restaurantPendingOrder: number;
-// };
+/* Delete Be Resturant Owner Application */
+export const deleteRestaurantOwnerApplication = async (
+  resturantOwnerId: string
+): Promise<void> => {
+  const db = await dbConnect();
+  const resturantOwnerCollection: Collection<CommonPayload> =
+    db.collection("beRestaurantOwner");
+  await resturantOwnerCollection.deleteOne({
+    _id: new ObjectId(resturantOwnerId).toString(),
+  });
+};
 
 /* Create Resturant Collection */
-export const createResturant = async (
+export const createRestaurant = async (
   payload: CommonPayload
 ): Promise<void> => {
   const db = await dbConnect();
   const resturantCollection: Collection<CommonPayload> =
-    db.collection("resturant");
+    db.collection("restaurant");
   await resturantCollection.insertOne({
     restaurantOwnerId: payload.restaurantOwnerId,
     restaurantOwnerEmail: payload.restaurantOwnerEmail,
@@ -322,11 +328,11 @@ export const createResturant = async (
   });
 };
 /* Get all Restaurant Data */
-export const getAllResturant = async (): Promise<CommonPayload[]> => {
+export const getRestaurant = async (): Promise<CommonPayload[]> => {
   try {
     const db = await dbConnect();
     const resturantCollection: Collection<CommonPayload> =
-      db.collection("resturant");
+      db.collection("restaurant");
     const resturantData = await resturantCollection.find({}).toArray();
     // Ensure all fields are returned exactly as CommonPayload expects
     const formattedResturantData: CommonPayload[] = resturantData.map(
@@ -358,6 +364,13 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
     return []; // fallback return
   }
 };
+/* Delete Restaurant */
+export const deleteRestaurant = async (id: string): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection: Collection<CommonPayload> =
+    db.collection("restaurant");
+  await restaurantCollection.deleteOne({ _id: new ObjectId(id).toString() });
+};
 
 // get restaurant specific owner
 export const getRestaurantByEmail = async (
@@ -385,6 +398,7 @@ export const getRestaurantByEmail = async (
 
 /* Create Rider Collection*/
 export type RiderPayload = {
+  // _id?: string;
   riderImage?: string;
   riderIdentification?: number;
   riderName?: string;
@@ -405,6 +419,14 @@ export const createRider = async (payload: RiderPayload): Promise<void> => {
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   await riderCollection.insertOne(payload);
 };
+/* Delete Rider */
+export const deleteRider = async (riderId: string): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  await riderCollection.deleteOne({
+    _id: new ObjectId(riderId),
+  });
+};
 /* Get specific Rider */
 export const getActiveRider = async (
   riderEmail: string
@@ -412,28 +434,15 @@ export const getActiveRider = async (
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const rider = await riderCollection.findOne({ riderEmail });
-  // console.log(rider);
-  return rider ?? null; // Ensures function always returns RiderPayload or null
+  return rider ?? null;
 };
 
-/* Get all rider Application request */
-export const getAllRider = async (): Promise<CommonPayload[]> => {
-  try {
-    const db = await dbConnect();
-    const riderCollection: Collection<CommonPayload> = db.collection("beRider");
-    const riderData = await riderCollection.find({}).toArray();
-    // Convert created_at to Date object
-    const formattedRiderData = riderData.map((rider) => ({
-      ...rider,
-      _id: (rider._id as unknown as ObjectId).toString(),
-      created_at: rider.created_at ? new Date(rider.created_at) : undefined,
-    }));
-
-    return formattedRiderData;
-  } catch (error) {
-    console.error("Error fetching riders:", error);
-    throw new Error("Failed to fetch rider data");
-  }
+/* Get All Rider */
+export const getAllRider = async (): Promise<RiderPayload[]> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const riderData = await riderCollection.find({}).toArray();
+  return riderData;
 };
 
 export interface FoodItem {
@@ -576,4 +585,3 @@ export const getAllFoods = async (
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
-
