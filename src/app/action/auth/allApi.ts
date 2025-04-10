@@ -89,13 +89,40 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     created_at: new Date(),
   });
 };
+
+// update user
+export const updateUser = async (payload: CommonPayload): Promise<void> => {
+  // Connect to the database and update user collection
+  const userCollection = await dbConnect().then((db) => db.collection("users"));
+  await userCollection.updateOne({ email: payload.email }, { $set: payload });
+};
+
+// Adding new restaurant information
+// export const addRestaurant = async (payload: CommonPayload): Promise<void> => {}
+
+export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("allRestaurant");
+
+  await restaurantCollection.insertOne({
+    restaurantName: payload.restaurantName,
+    location: payload.location,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId,
+  });
+};
+
 /* Get Login user Details */
 export const getUserDetails = async (
   email: string
 ): Promise<CommonPayload | null> => {
   const db = await dbConnect();
   const userCollection: Collection<CommonPayload> = db.collection("users");
-
   const user = await userCollection.findOne({ email });
 
   if (!user) return null;
@@ -495,6 +522,8 @@ export const deleteFood = async (
     throw error;
   }
 };
+
+//update food
 
 export const updateFood = async (
   payload: CommonPayload

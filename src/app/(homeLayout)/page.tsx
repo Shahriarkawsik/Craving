@@ -9,6 +9,15 @@ import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
 import { useEffect, useState } from "react";
 import LocationModal from "@/components/homeComponents/location/LocationModal";
 import { CommonPayload, showRestaurantByCity } from "../action/auth/allApi";
+import EidCart from "@/components/homeComponents/EidCart";
+// import CountdownTimer from "@/components/homeComponents/CountdownTimer";
+import dynamic from "next/dynamic";
+
+
+const CountdownTimer = dynamic(() => import("@/components/homeComponents/CountdownTimer"), {
+  ssr: false,
+});
+
 
 export default function Home() {
 
@@ -95,7 +104,13 @@ export default function Home() {
 
       {/* bg-amber-100 */}
       {/* Banner section */}
+      <div>
       <Banner />
+      <CountdownTimer targetDate="2025-04-10T00:00:00" />
+      </div>
+      <EidCart/>
+   
+
       {/* Category Section */}
       <Category />
       {/* Cities We Serve Section */}

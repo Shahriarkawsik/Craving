@@ -2,7 +2,7 @@ import { CommonPayload } from "@/app/action/auth/allApi";
 import Image from "next/image";
 // import restaurantImg001 from "../../assets/restaurantsImg/restaurantImg-001.jpeg";
 import { FaLocationDot } from "react-icons/fa6";
-import { MdFoodBank } from "react-icons/md";
+// import { MdFoodBank } from "react-icons/md";
 interface TopRestaurantProps {
   restaurants: CommonPayload[];
 }
