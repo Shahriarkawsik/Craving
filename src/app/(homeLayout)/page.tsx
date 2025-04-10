@@ -1,3 +1,4 @@
+"use client";
 import Banner from "@/components/homeComponents/banner";
 import Category from "@/components/homeComponents/Category";
 import FeaturedFood from "@/components/homeComponents/FeaturedFood";
@@ -5,13 +6,28 @@ import TopRestaurant from "../../components/homeComponents/TopRestaurant";
 import Support from "@/components/homeComponents/support/Support";
 import FAQ from "@/components/homeComponents/FAQ/FAQ";
 import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
+import EidCart from "@/components/homeComponents/EidCart";
+// import CountdownTimer from "@/components/homeComponents/CountdownTimer";
+import dynamic from "next/dynamic";
+
+
+const CountdownTimer = dynamic(() => import("@/components/homeComponents/CountdownTimer"), {
+  ssr: false,
+});
+
 
 export default function Home() {
   return (
     <section className="lg:space-y-20">
       {/* bg-amber-100 */}
       {/* Banner section */}
+      <div>
       <Banner />
+      <CountdownTimer targetDate="2025-04-10T00:00:00" />
+      </div>
+      <EidCart/>
+   
+
       {/* Category Section */}
       <Category />
       {/* Cities We Serve Section */}
