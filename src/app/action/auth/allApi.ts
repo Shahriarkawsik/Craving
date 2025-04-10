@@ -63,7 +63,8 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
-  city?: string
+  city?: string;
+  restaurantId?: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -199,6 +200,31 @@ export const showRestaurantByCity = async (
     _id: (restaurant._id as unknown as ObjectId).toString(),
   }));
 };
+
+export const getFoodByRestaurantId = async (
+  restaurantId: CommonPayload
+): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection('food');
+
+  const result = await foodCollection
+    .find({ restaurant_id: restaurantId.id })
+    .toArray();
+
+  return result.map((food) => ({
+    _id: (food._id as ObjectId).toString(),
+    restaurant_id: food.restaurant_id,
+    foodName: food.foodName,
+    description: food.description,
+    price: food.price,
+    category: food.category,
+    image: food.image,
+    is_available: food.is_available,
+    created_at: food.created_at,
+  }));
+};
+
+
 
 
 
@@ -423,6 +449,11 @@ export const getRestaurantByEmail = async (
 
 
 
+
+
+
+
+
 /* Create Rider Collection*/
 export type RiderPayload = {
   // _id?: string;
@@ -473,17 +504,17 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
 };
 
 export interface FoodItem {
-  _id: string;
+  _id?: string;
   id?: string;
   restaurant_id?: string;
-  foodName: string;
+  foodName?: string;
   description: string;
   price: number;
   category: string;
   image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
+  is_available?: boolean;
+  created_at?: string;
+  owner_email?: string;
 }
 //  get all food specific owner
 export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
@@ -590,7 +621,7 @@ export const getAllFoods = async (
   }
 
   if (category && category !== "All Food") {
-    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+    filter.category = category; 
   }
 
   if (query) {
