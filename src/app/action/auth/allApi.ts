@@ -581,6 +581,7 @@ export const getAllFoods = async (
   }));
 };
 
+// signle food get
 export const getSingleFood = async (id: string) => {
   const db = await dbConnect();
   const foodCollection = db.collection("food");
