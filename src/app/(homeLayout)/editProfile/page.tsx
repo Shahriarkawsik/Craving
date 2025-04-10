@@ -23,15 +23,14 @@ const EditProfile = () => {
     const userData = {
       name,
       image,
-     
       phone,
       address,
       role: "User",
       status: "Active",
-
       update_at: new Date(),
     };
-    // console.log(userData);
+    
+    console.log(userData);
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");

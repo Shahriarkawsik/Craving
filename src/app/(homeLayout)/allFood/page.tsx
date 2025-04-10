@@ -66,7 +66,7 @@ export default function AllFoodsPage() {
 
 
   const handleSort = debounce((sort: string) => {
-    console.log(sort)
+    // console.log(sort)
     setFoodSort(sort);
     fetchData(searchQuery, foodCategory, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
   }, 500);
@@ -103,55 +103,62 @@ export default function AllFoodsPage() {
         </h1>
       </div>
 
+      {/* Category Filter */}
       <div className="w-11/12 mx-auto">
-        <div>
-          <Select onValueChange={(value) => handleCategory(value)}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select Food Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="All Food">All Food</SelectItem>
-                <SelectItem value="Fast Food">Fast Food</SelectItem>
-                <SelectItem value="Vegetarian">Vegetarian</SelectItem>
-                <SelectItem value="Organic Food">Organic Food</SelectItem>
-                <SelectItem value="Bakery">Bakery</SelectItem>
-                <SelectItem value="Chinese">Chinese</SelectItem>
-                <SelectItem value="Desert">Desert</SelectItem>
-                <SelectItem value="Sea Food">Sea Food</SelectItem>
-                <SelectItem value="Salad">Salad</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
 
-        </div>
-
-
-        <div>
-          <Select onValueChange={(value) => handleSort(value)}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Sort By Price" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="Ascending">Ascending</SelectItem>
-                <SelectItem value="Descending">Descending</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-        </div>
 
         {/* Search Input */}
-        <div className="relative w-full max-w-sm mb-6 mx-auto">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search food..."
-            onChange={(e) => handleSearch(e.target.value)}
-            className="pl-10 w-full pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="md:flex justify-between items-center space-y-3.5">
+          <div className="w-full md:w-[200px]">
+            <Select onValueChange={(value) => handleCategory(value)}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Select Food Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Fruits</SelectLabel>
+                  <SelectItem value="All Food">All Food</SelectItem>
+                  <SelectItem value="Fast Food">Fast Food</SelectItem>
+                  <SelectItem value="Vegetarian">Vegetarian</SelectItem>
+                  <SelectItem value="Organic Food">Organic Food</SelectItem>
+                  <SelectItem value="Bakery">Bakery</SelectItem>
+                  <SelectItem value="Chinese">Chinese</SelectItem>
+                  <SelectItem value="Desert">Desert</SelectItem>
+                  <SelectItem value="Sea Food">Sea Food</SelectItem>
+                  <SelectItem value="Salad">Salad</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+          </div>
+
+
+
+          <div className="relative w-[200px] md:w-[300px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Search food..."
+              onChange={(e) => handleSearch(e.target.value)}
+              className="pl-10 w-full pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Sort */}
+          <div>
+            <Select onValueChange={(value) => handleSort(value)}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Sort By Price" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="Ascending">Ascending</SelectItem>
+                  <SelectItem value="Descending">Descending</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+          </div>
         </div>
 
         {/* Show Loading */}

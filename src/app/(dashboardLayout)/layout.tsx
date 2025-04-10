@@ -41,7 +41,7 @@ export default function RootLayout({
         cz-shortcut-listen="true"
       >
         <main>{children}</main>
-        <ToastContainer position="top-center" autoClose={2000} />
+          <ToastContainer position="top-center" autoClose={2000} />
       </body>
     </html>
   );

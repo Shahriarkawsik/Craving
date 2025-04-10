@@ -8,7 +8,7 @@ import { MdOutlineLogout } from "react-icons/md";
 
 const DashNavbar = () => {
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
   return (
     <div className="flex shadow-lg items-center p-2 md:p-4 justify-between">
       <div className="flex gap-2 ">
