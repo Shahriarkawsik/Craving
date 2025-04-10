@@ -63,6 +63,7 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
+  city?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -144,25 +145,6 @@ export const updateUserRole = async (
   await userCollection.updateOne({ email }, { $set: { role } });
 };
 
-// Adding new restaurant information
-// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
-//   // const db = await dbConnect();
-//   // const restaurantCollection = db.collection("resturant");
-//   console.log(payload)
-
-//   // await restaurantCollection.insertOne({
-//   //   restaurantName: payload.restaurantName,
-//   //   location: payload.location,
-//   //   ownerName: payload.ownerName,
-//   //   restaurantEmail: payload.restaurantEmail,
-//   //   addedDate: payload.addedDate,
-//   //   restaurantLogo: payload.restaurantLogo,
-//   //   restaurantPhone: payload.restaurantPhone,
-//   //   restaurantRating: payload.restaurantRating,
-//   //   ownerId: payload.ownerId,
-//   // });
-// };
-
 export const updateRestaurant = async (
   payload: CommonPayload, email: string
 ): Promise<{
@@ -171,7 +153,7 @@ export const updateRestaurant = async (
   modifiedCount: number;
 }> => {
   const db = await dbConnect();
-  const foodCollection = db.collection("resturant");
+  const foodCollection = db.collection("restaurant");
 console.log(email)
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
@@ -195,6 +177,29 @@ console.log(email)
     modifiedCount: result.modifiedCount,
   };
 };
+
+
+export const showRestaurantByCity = async (
+  city: CommonPayload
+): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("restaurant");
+  let query = {}
+  if(city.city === 'all'){
+    query = {}
+  }
+
+  else{
+    query = {restaurantAddress: city.city}
+  }
+  const result = await restaurantCollection.find(query).toArray() 
+  console.log("city api", city.city)
+  return result.map((restaurant) => ({
+    ...restaurant,
+    _id: (restaurant._id as unknown as ObjectId).toString(),
+  }));
+};
+
 
 
 // Post Add food from resturant owner
