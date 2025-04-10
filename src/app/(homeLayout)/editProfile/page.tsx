@@ -29,7 +29,7 @@ const EditProfile = () => {
       status: "Active",
       update_at: new Date(),
     };
-    
+
     console.log(userData);
 
     // if (!passwordRegex.test(password)) {
@@ -39,7 +39,7 @@ const EditProfile = () => {
     // }
 
     try {
-      await updateUser(userData );
+      await updateUser(userData);
       toast.success("User update is successfully", {
         position: "top-center",
         autoClose: 1000,
