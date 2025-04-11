@@ -614,3 +614,12 @@ export const getAllFoods = async (
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
+
+// signle food get
+export const getSingleFood = async (id: string) => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const foodItem = await foodCollection.findOne({_id: new ObjectId(id)});
+
+  return foodItem;

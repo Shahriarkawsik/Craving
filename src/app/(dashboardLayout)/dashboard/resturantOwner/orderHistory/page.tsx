@@ -1,5 +1,7 @@
 import OrderHistoryTable from "./components/OrderHistoryTable";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 
 // Define the type for each order
 interface Order {
@@ -153,7 +155,9 @@ const OrderHistory: React.FC = () => {
     }, {} as { [key: string]: number });
 
     return (
+
         <div className="px-5">
+
             <section>
                 <h1 className="uppercase text-2xl">Orders History</h1>
                 <p>{`Hello, Gulam Jakaria. You have ${statusCount['pending']} pending orders.`}</p>
