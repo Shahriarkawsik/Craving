@@ -114,28 +114,23 @@ const RestaurantOwner: FC = () => {
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-teal-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Food Categories</h3>
-            <p className="text-2xl font-bold">
-              {restaurant?.foodCategories?.length || "5"}
-            </p>
+            <p className="text-2xl font-bold">4</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-rose-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Sales</h3>
-            <p className="text-2xl font-bold">
-              ${restaurant?.restaurantTotalSell}
-            </p>
+            <p className="text-2xl font-bold">12,000 BDT</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-violet-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Orders</h3>
-            <p className="text-2xl font-bold">
-              {restaurant?.restaurantTotalOrder}
-            </p>
+            <p className="text-2xl font-bold">320</p>
           </CardContent>
         </Card>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         {/* bar chart */}
         <Card className="p-4 border border-blue-300">

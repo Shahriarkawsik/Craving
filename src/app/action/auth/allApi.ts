@@ -63,6 +63,7 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
+  city?: string
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -88,13 +89,40 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     created_at: new Date(),
   });
 };
+
+// update user
+export const updateUser = async (payload: CommonPayload): Promise<void> => {
+  // Connect to the database and update user collection
+  const userCollection = await dbConnect().then((db) => db.collection("users"));
+  await userCollection.updateOne({ email: payload.email }, { $set: payload });
+};
+
+// Adding new restaurant information
+// export const addRestaurant = async (payload: CommonPayload): Promise<void> => {}
+
+export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("allRestaurant");
+
+  await restaurantCollection.insertOne({
+    restaurantName: payload.restaurantName,
+    location: payload.location,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId,
+  });
+};
+
 /* Get Login user Details */
 export const getUserDetails = async (
   email: string
 ): Promise<CommonPayload | null> => {
   const db = await dbConnect();
   const userCollection: Collection<CommonPayload> = db.collection("users");
-
   const user = await userCollection.findOne({ email });
 
   if (!user) return null;
@@ -117,25 +145,6 @@ export const updateUserRole = async (
   await userCollection.updateOne({ email }, { $set: { role } });
 };
 
-// Adding new restaurant information
-// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
-//   // const db = await dbConnect();
-//   // const restaurantCollection = db.collection("resturant");
-//   console.log(payload)
-
-//   // await restaurantCollection.insertOne({
-//   //   restaurantName: payload.restaurantName,
-//   //   location: payload.location,
-//   //   ownerName: payload.ownerName,
-//   //   restaurantEmail: payload.restaurantEmail,
-//   //   addedDate: payload.addedDate,
-//   //   restaurantLogo: payload.restaurantLogo,
-//   //   restaurantPhone: payload.restaurantPhone,
-//   //   restaurantRating: payload.restaurantRating,
-//   //   ownerId: payload.ownerId,
-//   // });
-// };
-
 export const updateRestaurant = async (
   payload: CommonPayload, email: string
 ): Promise<{
@@ -144,7 +153,7 @@ export const updateRestaurant = async (
   modifiedCount: number;
 }> => {
   const db = await dbConnect();
-  const foodCollection = db.collection("resturant");
+  const foodCollection = db.collection("restaurant");
 console.log(email)
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
@@ -168,6 +177,29 @@ console.log(email)
     modifiedCount: result.modifiedCount,
   };
 };
+
+
+export const showRestaurantByCity = async (
+  city: CommonPayload
+): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("restaurant");
+  let query = {}
+  if(city.city === 'all'){
+    query = {}
+  }
+
+  else{
+    query = {restaurantAddress: city.city}
+  }
+  const result = await restaurantCollection.find(query).toArray() 
+  console.log("city api", city.city)
+  return result.map((restaurant) => ({
+    ...restaurant,
+    _id: (restaurant._id as unknown as ObjectId).toString(),
+  }));
+};
+
 
 
 // Post Add food from resturant owner
@@ -491,6 +523,8 @@ export const deleteFood = async (
   }
 };
 
+//update food
+
 export const updateFood = async (
   payload: CommonPayload
 ): Promise<{
@@ -580,3 +614,12 @@ export const getAllFoods = async (
     _id: (food._id as unknown as ObjectId).toString(),
   }));
 };
+
+// signle food get
+export const getSingleFood = async (id: string) => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const foodItem = await foodCollection.findOne({_id: new ObjectId(id)});
+
+  return foodItem;
