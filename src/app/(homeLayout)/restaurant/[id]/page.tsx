@@ -5,6 +5,9 @@ import { useParams } from 'next/navigation';
 import Image from 'next/image';
 // import { FaStar } from 'react-icons/fa6';
 import { MdFavoriteBorder } from 'react-icons/md';
+import { FaShoppingCart } from 'react-icons/fa';
+import Link from 'next/link';
+import { FaStar } from 'react-icons/fa6';
 
 interface FoodItem {
   _id: string;
@@ -41,41 +44,52 @@ export default function Page(): JSX.Element {
   }, [id]);
 
 
-  console.log()
-
-
-
   return (
     <div className='w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12'>
       <div className="">
         <h1 className="text-2xl font-bold mb-6">Restaurant Menu</h1>
         {foods.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {
-              foods.map((food) => <div key={food._id} className=" rounded-lg shadow-2xl ">
-                <div className="rounded-lg rounded-b-none relative overflow-hidden">
-                  <figure className='w-full h-52'>
-                    <Image
-                      src={food?.image}
-                      alt=" burger"
-                      className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 w-full h-full"
-                      width={100}
-                      height={100}
-                    />
-                  </figure>
-                  <p className="text-xl absolute top-3 right-3   ">
-                    <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
-                  </p>
-                </div>
-                <div className="space-y-2 mx-2 mb-1 p-2">
-                  <div className="flex justify-between items-center ">
-                    <h1 className=" text-md lg:text-lg font-semibold">{food.foodName}</h1>
-
+            {foods.map((food) => (
+              <div
+                key={food._id}
+                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+              >
+                <Image
+                  src={food.image}
+                  alt={food.foodName}
+                  width={350}
+                  height={200}
+                  className="object-cover w-full h-48"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold">{food.foodName}</h3>
+                  <p className="text-sm text-gray-500 mt-2">{food.description}</p>
+                  <div className="flex items-center justify-between mt-3">
+                    <div className="flex items-center text-yellow-500">
+                      {[...Array(5)].map((_, index) => (
+                        <FaStar key={index} className={`mr-1 ${5 >= index + 1 ? "text-yellow-500" : "text-gray-300"}`} />
+                      ))}
+                      <span className="ml-2 text-sm">{5}</span>
+                    </div>
+                    <span className="font-semibold text-lg">${food.price}</span>
                   </div>
-                  <strong>${food.price}</strong>
+                  <div className="flex justify-between items-center mt-3">
+                    {/* <Link href={`${categoryName}/${food._id}`} className="text-orange-700 hover:text-orange-800 text-sm">
+                      View Details
+                    </Link> */}
+                    <button
+                      className={`text-white bg-orange-400 hover:bg-orange-500 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md transition-colors duration-300 ${!food.is_available ? 'cursor-not-allowed bg-gray-400 hover:bg-gray-400' : 'cursor-pointer'
+                        }`}
+                      disabled={!food.is_available}
+                    >
+                      <FaShoppingCart size={20} />
+                      <span>{food.is_available ? 'Add to Cart' : 'Out of Stock'}</span>
+                    </button>
+                  </div>
                 </div>
-              </div>)
-            }
+              </div>
+            ))}
           </div>
         ) : (
           <p>No foods found for this restaurant.</p>

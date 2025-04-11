@@ -719,3 +719,28 @@ export const getOrderCartByEmail = async (email: string) => {
     user_email: item.user_email || "",
   }));
 };
+
+// Delete Cart Item
+export const deleteCartItem = async (
+  payload: CommonPayload
+): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  try {
+    const db = await dbConnect();
+    const cartCollection = db.collection("cart");
+    console.log(payload)
+    const result = await cartCollection.deleteOne({
+      _id: new ObjectId(payload.id),
+    });
+
+    if (result.deletedCount === 0) {
+      throw new Error("No item found to delete");
+    }
+    return {
+      acknowledged: result.acknowledged,
+      deletedCount: result.deletedCount,
+    };
+  } catch (error) {
+    console.error("Error deleting food item:", error);
+    throw error;
+  }
+};

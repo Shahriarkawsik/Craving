@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
 import React, { useEffect, useState } from "react";
-import { getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -14,6 +14,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 interface CartItem {
     _id: string;
@@ -28,28 +29,65 @@ interface CartItem {
     owner_email: string | null;
     user_email: string;
 }
+interface DeleteResponse {
+    deletedCount: number;
+  }
 
 export default function CartPage() {
     const { data: session } = useSession();
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [loading, setLoading] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchCartItems = async () => {
-            if (session?.user?.email) {
-                try {
-                    const items = await getOrderCartByEmail(session.user.email);
-                    setCartItems(items);
-                } catch (error) {
-                    console.error("🚨 Error fetching cart items:", error);
-                }
+    const fetchCartItems = async () => {
+        if (session?.user?.email) {
+            try {
+                const items = await getOrderCartByEmail(session.user.email);
+                setCartItems(items);
+            } catch (error) {
+                console.error("🚨 Error fetching cart items:", error);
             }
-        };
+        }
+    };
 
+    useEffect(() => {
         fetchCartItems();
     }, [session]);
 
     const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
+
+
+    const handleDeleteCartItem = async (id: string): Promise<void> => {
+        console.log(id)
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              setLoading(id);
+              const response: DeleteResponse = await deleteCartItem({id});
+    
+              if (response.deletedCount > 0) {
+                Swal.fire({
+                  title: "Deleted!",
+                  text: "Your file has been deleted.",
+                  icon: "success",
+                });
+                fetchCartItems();
+              }
+            } catch (error) {
+              console.error("Error deleting food item:", error);
+            } finally {
+              setLoading(null);
+            }
+          }
+        });
+      };
 
     return (
         <div className="w-11/12 max-w-screen-xl mx-auto mt-12">
@@ -88,11 +126,17 @@ export default function CartPage() {
                                     <TableCell>{item.category}</TableCell>
                                     <TableCell>${item.price.toFixed(2)}</TableCell>
                                     <TableCell className="flex flex-col md:flex-row gap-2 mt-2">
-                                        <Link href={`/dashboard/resturantOwner/updateFood/${item._id}`}>
-                                            <button className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer">
+                                        <button
+                                            onClick={() => handleDeleteCartItem(item._id)}
+                                            className=" text-black text-2xl rounded-md cursor-pointer  px-3 py-1 flex items-center justify-center transition "
+                                            disabled={loading === item._id}
+                                        >
+                                            {loading === item._id ? (
+                                                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                                            ) : (
                                                 <TiDelete />
-                                            </button>
-                                        </Link>
+                                            )}
+                                        </button>
                                     </TableCell>
                                 </TableRow>
                             ))}
