@@ -16,6 +16,7 @@ export interface CommonPayload {
   phone?: number;
   status?: string;
   address?: string;
+  user_email?: string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -38,7 +39,9 @@ export interface CommonPayload {
   _id?: string; // get from the database after fetch.
   // _id?: ObjectId;
   restaurantOwnerId?: string;
+  restaurant_id?: string;
   restaurantOwnerEmail?: string;
+  owner_email?: string;
   restaurantOwnerName?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -204,6 +207,27 @@ export const createBeRiderApplication = async (
     created_at: payload.created_at,
   });
 };
+
+// add to cart
+export const addToCart = async (payload: CommonPayload): Promise<void> => {
+  const cartCollection = await dbConnect().then((db) => db.collection("cart"));
+  await cartCollection.insertOne({
+    restaurant_id: payload.restaurant_id,
+    foodName: payload.foodName,
+    description: payload.description,
+    price: payload.price,
+    category: payload.category,
+    image: payload.image,
+    is_available: payload.is_available,
+    created_at: payload.created_at,
+    owner_email: payload.owner_email,
+    user_email: payload.user_email
+  })
+}
+
+
+
+
 /* Get all rider Application request */
 export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
   try {

@@ -2,6 +2,11 @@ import React from "react";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder } from "react-icons/md";
 import OrderDetailsModal from "./OrderDetailsModal";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { addToCart } from "@/app/action/auth/allApi";
+import { toast } from "react-toastify";
 
 // Define the interface for the food prop
 interface Food {
@@ -15,6 +20,7 @@ interface Food {
   is_available: boolean;
   created_at: string;
   owner_email: string;
+  user_email: string
 }
 
 interface FoodCardProps {
@@ -23,14 +29,14 @@ interface FoodCardProps {
 
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
 
-  // dynamic food details
-  // const [foodDetail, setFoodDetail] = useState<Food>("");
+  const data = useSession();
 
-  // const handleClick = async (id: string) => {
-  //   const foodDetailsData = await getFoodDetails(id);
-  //   setFoodDetail(foodDetailsData);
-  // };
+  const cartFood = {...food, user_email: data.data?.user?.email}
 
+  const handleClick = () => {
+    addToCart(cartFood)
+    toast.success("Added to cart")
+  }
 
 
 
@@ -63,6 +69,11 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
               </p>
             </div>
             <strong>${food.price}</strong>
+          </div>
+          {/* buttons */}
+          <div>
+          <Button onClick={handleClick} variant="default">Add to Cart</Button>
+          <Link href={`/cart`}><Button variant="default">Order Now</Button></Link>
           </div>
         </div>
       </div>
