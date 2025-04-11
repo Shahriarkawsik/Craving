@@ -16,6 +16,7 @@ export interface CommonPayload {
   phone?: number;
   status?: string;
   address?: string;
+  user_email?: string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -38,7 +39,9 @@ export interface CommonPayload {
   _id?: string; // get from the database after fetch.
   // _id?: ObjectId;
   restaurantOwnerId?: string;
+  restaurant_id?: string;
   restaurantOwnerEmail?: string;
+  owner_email?: string;
   restaurantOwnerName?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -63,6 +66,8 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
+  city?: string;
+  restaurantId?: string;
 }
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
@@ -154,25 +159,6 @@ export const updateUserRole = async (
   await userCollection.updateOne({ email }, { $set: { role } });
 };
 
-// Adding new restaurant information
-// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
-//   // const db = await dbConnect();
-//   // const restaurantCollection = db.collection("resturant");
-//   console.log(payload)
-
-//   // await restaurantCollection.insertOne({
-//   //   restaurantName: payload.restaurantName,
-//   //   location: payload.location,
-//   //   ownerName: payload.ownerName,
-//   //   restaurantEmail: payload.restaurantEmail,
-//   //   addedDate: payload.addedDate,
-//   //   restaurantLogo: payload.restaurantLogo,
-//   //   restaurantPhone: payload.restaurantPhone,
-//   //   restaurantRating: payload.restaurantRating,
-//   //   ownerId: payload.ownerId,
-//   // });
-// };
-
 export const updateRestaurant = async (
   payload: CommonPayload, email: string
 ): Promise<{
@@ -181,7 +167,7 @@ export const updateRestaurant = async (
   modifiedCount: number;
 }> => {
   const db = await dbConnect();
-  const foodCollection = db.collection("resturant");
+  const foodCollection = db.collection("restaurant");
 console.log(email)
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
@@ -205,6 +191,54 @@ console.log(email)
     modifiedCount: result.modifiedCount,
   };
 };
+
+
+export const showRestaurantByCity = async (
+  city: CommonPayload
+): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("restaurant");
+  let query = {}
+  if(city.city === 'all'){
+    query = {}
+  }
+
+  else{
+    query = {restaurantAddress: city.city}
+  }
+  const result = await restaurantCollection.find(query).toArray() 
+  console.log("city api", city.city)
+  return result.map((restaurant) => ({
+    ...restaurant,
+    _id: (restaurant._id as unknown as ObjectId).toString(),
+  }));
+};
+
+export const getFoodByRestaurantId = async (
+  restaurantId: CommonPayload
+): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection('food');
+
+  const result = await foodCollection
+    .find({ restaurant_id: restaurantId.id })
+    .toArray();
+
+  return result.map((food) => ({
+    _id: (food._id as ObjectId).toString(),
+    restaurant_id: food.restaurant_id,
+    foodName: food.foodName,
+    description: food.description,
+    price: food.price,
+    category: food.category,
+    image: food.image,
+    is_available: food.is_available,
+    created_at: food.created_at,
+  }));
+};
+
+
+
 
 
 // Post Add food from resturant owner
@@ -242,6 +276,27 @@ export const createBeRiderApplication = async (
     created_at: payload.created_at,
   });
 };
+
+// add to cart
+export const addToCart = async (payload: CommonPayload): Promise<void> => {
+  const cartCollection = await dbConnect().then((db) => db.collection("cart"));
+  await cartCollection.insertOne({
+    restaurant_id: payload.restaurant_id,
+    foodName: payload.foodName,
+    description: payload.description,
+    price: payload.price,
+    category: payload.category,
+    image: payload.image,
+    is_available: payload.is_available,
+    created_at: payload.created_at,
+    owner_email: payload.owner_email,
+    user_email: payload.user_email
+  })
+}
+
+
+
+
 /* Get all rider Application request */
 export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
   try {
@@ -408,23 +463,28 @@ export const deleteRestaurant = async (id: string): Promise<void> => {
 export const getRestaurantByEmail = async (
   email: string
 ): Promise<CommonPayload> => {
-    console.log(email)
-    const db = await dbConnect();
-    const foodCollection = db.collection("resturant");
+  console.log(email)
+  const db = await dbConnect();
+  const foodCollection = db.collection("resturant");
 
-    const result = await foodCollection.findOne({
-      restaurantOwnerEmail: email,
-    });
-    
+  const result = await foodCollection.findOne({
+    restaurantOwnerEmail: email,
+  });
 
-    const formattedFoodData = {
-      ...result,
-      _id: (result?._id as unknown as ObjectId).toString(),
-    };
-    console.log(formattedFoodData)
-    return formattedFoodData;
+
+  const formattedFoodData = {
+    ...result,
+    _id: (result?._id as unknown as ObjectId).toString(),
+  };
+  console.log(formattedFoodData)
+  return formattedFoodData;
 
 };
+
+
+
+
+
 
 
 
@@ -478,17 +538,17 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
 };
 
 export interface FoodItem {
-  _id: string;
+  _id?: string;
   id?: string;
   restaurant_id?: string;
-  foodName: string;
+  foodName?: string;
   description: string;
   price: number;
   category: string;
   image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
+  is_available?: boolean;
+  created_at?: string;
+  owner_email?: string;
 }
 //  get all food specific owner
 export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
@@ -502,6 +562,30 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
   }));
   return formattedFoodData;
 };
+
+
+// get food details dynamically
+export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodDetails = await foodCollection.findOne({ _id: new ObjectId(id) });
+
+  if (!foodDetails) return null;
+
+  const serializedFood = {
+    ...foodDetails,
+    _id: foodDetails._id.toString(),
+    created_at: foodDetails.created_at?.toString(),
+  };
+
+  return serializedFood as FoodItem;
+};
+
+
+
+
+
 
 // Delete specific food
 export const deleteFood = async (
@@ -595,7 +679,7 @@ export const getAllFoods = async (
   }
 
   if (category && category !== "All Food") {
-    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+    filter.category = category; 
   }
 
   if (query) {
@@ -617,5 +701,37 @@ export const getAllFoods = async (
   return foodData.map((food) => ({
     ...food,
     _id: (food._id as unknown as ObjectId).toString(),
+  }));
+};
+
+// signle food get
+export const getSingleFood = async (id: string) => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const foodItem = await foodCollection.findOne({_id: new ObjectId(id)});
+
+  return foodItem;
+}
+
+
+export const getOrderCartByEmail = async (email: string) => {
+  const db = await dbConnect();
+  const cartCollection = db.collection("cart");
+
+  const cartItems = await cartCollection.find({ user_email: email }).toArray();
+
+  return cartItems.map((item) => ({
+    _id: item._id.toString(),
+    restaurant_id: item.restaurant_id?.toString() || null,
+    foodName: item.foodName || "",
+    description: item.description || "",
+    price: item.price || 0,
+    category: item.category || "",
+    image: item.image || "",
+    is_available: item.is_available ?? true,
+    created_at: item.created_at ? new Date(item.created_at) : null,
+    owner_email: item.owner_email ?? null,
+    user_email: item.user_email || "",
   }));
 };
