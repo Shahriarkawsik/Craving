@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import FoodDetailsModal from "./components/FoodDetailsModal";
-import AvailableOrNot from "./components/AvailableOrNot";
+// import FoodDetailsModal from "./components/FoodDetailsModal";
+// import AvailableOrNot from "./components/AvailableOrNot";
 
 // interface CommonPayload {
 //   _id: string;
@@ -137,11 +137,11 @@ export default function AllFoodItems() {
                   )}
                 </button>
                 <div>
-                  <FoodDetailsModal food={food} />
+                  {/* <FoodDetailsModal food={food} /> */}
                 </div>
               </TableCell>
               <TableCell>
-                <AvailableOrNot food={food} />
+                {/* <AvailableOrNot food={food} /> */}
               </TableCell>
             </TableRow>
           ))}

@@ -31,7 +31,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
 
   const data = useSession();
 
-  const cartFood = {...food, user_email: data.data?.user?.email}
+  const cartFood = { ...food, user_email: data.data?.user?.email, created_at: new Date(food.created_at) }
 
   const handleClick = () => {
     addToCart(cartFood)
@@ -42,19 +42,19 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
 
 
   return (
-    <OrderDetailsModal food={food}>
-      <div>
-        <div className=" rounded-lg shadow-2xl ">
-          <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
-            {/* <Image
+    <div>
+      <div className=" rounded-lg shadow-2xl ">
+        <div className="rounded-lg rounded-b-none  relative overflow-hidden inline-block">
+          {/* <Image
                     src={foodImg}
                     alt=" burger"
                     className="rounded-lg rounded-b-none  transition-transform duration-300 ease-in-out transform hover:scale-109 "
-                  /> */}
-            <p className="text-xl absolute top-3 right-3   ">
-              <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
-            </p>
-          </div>
+                    /> */}
+          <p className="text-xl absolute top-3 right-3   ">
+            <MdFavoriteBorder className=" p-1 rounded-full  w-8 h-8  hover:border-1 hover:bg-gray-300 bg-white " />
+          </p>
+        </div>
+        <OrderDetailsModal food={food}>
           <div className="space-y-2 mx-2 mb-1 p-2">
             <div className="flex justify-between items-center ">
               <h1 className=" text-md lg:text-lg font-semibold">
@@ -70,14 +70,15 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
             </div>
             <strong>${food.price}</strong>
           </div>
-          {/* buttons */}
-          <div>
+        </OrderDetailsModal>
+        {/* buttons */}
+        <div>
           <Button onClick={handleClick} variant="default">Add to Cart</Button>
           <Link href={`/cart`}><Button variant="default">Order Now</Button></Link>
-          </div>
         </div>
       </div>
-    </OrderDetailsModal>
+    </div>
+
   );
 };
 
