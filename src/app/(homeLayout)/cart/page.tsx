@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
 import React, { useEffect, useState } from "react";
-import { getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Swal from "sweetalert2";
 
 interface CartItem {
   _id: string;
@@ -27,11 +28,16 @@ interface CartItem {
   owner_email: string | null;
   user_email: string;
 }
+interface DeleteResponse {
+  deletedCount: number;
+}
 
 export default function CartPage() {
   const { data: session } = useSession();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //   const [loading, setLoading] = useState<boolean>(true);
+
+  
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -48,6 +54,41 @@ export default function CartPage() {
 
     fetchCartItems();
   }, [session]);
+
+
+  const handleDeleteCartItem = async (id: string): Promise<void> => {
+    console.log(id)
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response: DeleteResponse = await deleteCartItem({id});
+
+          if (response.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+            // fetchCartItems();
+            const result = cartItems.filter(item => item._id !== id);
+            setCartItems(result);
+          }
+        } catch (error) {
+          console.error("Error deleting food item:", error);
+        } 
+      }
+    });
+  };
+
+
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
@@ -112,7 +153,7 @@ export default function CartPage() {
                   <TableCell>{item.price.toFixed(2)}</TableCell>
                   <TableCell className="flex flex-col md:flex-row gap-2 mt-2">
                     {/* TODO: Delete order Food */}
-                    <button className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer">
+                    <button onClick={() => handleDeleteCartItem(item._id)} className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer">
                       <TiDelete />
                     </button>
                   </TableCell>
