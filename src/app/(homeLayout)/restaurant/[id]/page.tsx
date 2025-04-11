@@ -26,7 +26,7 @@ export default function Page(): JSX.Element {
       try {
         if (id) {
           const result = await getFoodByRestaurantId({ id });
-          console.log('Fetched foods:', result);
+          // console.log('Fetched foods:', result);
           setFoods(result as FoodItem[]);
         }
       } catch (error) {

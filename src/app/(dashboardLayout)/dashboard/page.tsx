@@ -12,12 +12,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/assets/logo.png";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 
 export function AppSidebar() {
   const pathName = usePathname();
-  const { data: session } = useSession();
-  console.log(session);
+  // const { data: session } = useSession();
+  // console.log(session);
   // const role = "Admin";
   return (
     <Sidebar className="">
@@ -38,7 +38,7 @@ export function AppSidebar() {
             </small> */}
           </SidebarGroupLabel>
           {/* all admin dashboard */}
-          {session?.user?.role === "Admin" && (
+          {/* {session?.user?.role === "Admin" && ( */}
             <SidebarGroupContent className="mt-2">
               <SidebarMenu className="">
                 <Link href="/dashboard/admin/allResturant">
@@ -100,10 +100,10 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenu>
             </SidebarGroupContent>
-          )}
+          {/* )} */}
 
           {/* resturant owner's dashboard */}
-          {session?.user?.role === "RestaurantOwner" && (
+          {/* {session?.user?.role === "RestaurantOwner" && ( */}
             <SidebarGroupContent className="my-10">
               <SidebarMenu>
                 <Link href="/dashboard/resturantOwner">
@@ -164,10 +164,10 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenu>
             </SidebarGroupContent>
-          )}
+          {/* )} */}
 
           {/* riders dashboard */}
-          {session?.user?.role === "Rider" && (
+          {/* {session?.user?.role === "Rider" && ( */}
             <SidebarGroupContent className="">
               <SidebarMenu>
                 <Link href="/dashboard/riders">
@@ -216,7 +216,7 @@ export function AppSidebar() {
                 </Link>
               </SidebarMenu>
             </SidebarGroupContent>
-          )}
+          {/* )} */}
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

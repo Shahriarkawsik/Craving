@@ -73,7 +73,7 @@ const Profile: React.FC = () => {
 
 
   const { data: session } = useSession();
-  console.log(session, "jfkjghjkfdhjkffgjk");
+  // console.log(session, "jfkjghjkfdhjkffgjk");
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-300">
       <Card

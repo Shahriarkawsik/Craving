@@ -29,6 +29,7 @@ interface FoodItem {
   is_available: boolean;
   created_at: string;
   owner_email: string;
+  user_email: string;
 }
 
 export default function AllFoodsPage() {

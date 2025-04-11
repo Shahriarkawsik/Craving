@@ -126,7 +126,7 @@ export default function AllFoodItems() {
                   </button>
                 </Link>
                 <button
-                  onClick={() => handleDeleteFood(food._id)}
+                  onClick={() => handleDeleteFood(food._id as string)}
                   className="bg-red-500 text-white px-3 py-1 rounded-md flex items-center justify-center transition hover:bg-red-600"
                   disabled={loading === food._id}
                 >
