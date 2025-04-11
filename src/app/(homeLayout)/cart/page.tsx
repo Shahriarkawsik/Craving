@@ -104,6 +104,7 @@ export default function CartPage() {
                 <div className="col-span-1 md:col-span-4 bg-gray-50 p-4 rounded-md shadow-sm flex flex-col justify-center">
                     <h3 className="text-lg md:text-xl font-semibold mb-2">Total Amount</h3>
                     <p className="text-2xl font-bold text-green-600">${totalAmount.toFixed(2)}</p>
+                    <button className="btn bg-blue-600 cursor-pointer text-white mt-4 py-2 rounded">Proceed to payment</button>
                 </div>
             </div>
         </div>
