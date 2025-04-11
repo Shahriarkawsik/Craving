@@ -139,7 +139,7 @@ const Navbar = () => {
             ) : (
               <>
                 <Link href="/signIn">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
+                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl mr-1.5">
                     SignIn
                   </Button>
                 </Link>
