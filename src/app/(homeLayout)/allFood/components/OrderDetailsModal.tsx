@@ -13,6 +13,7 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 interface FoodDetailsModalProps {
   food: {
@@ -24,15 +25,14 @@ interface FoodDetailsModalProps {
     is_available: boolean;
     created_at: string;
   };
+  children: React.ReactNode;
 }
 
-export default function OrderDetailsModal({ food }: FoodDetailsModalProps) {
+export default function OrderDetailsModal({ food, children }: FoodDetailsModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="bg-green-500 text-white px-3 py-1 rounded-md transition hover:bg-green-600">
-          Details
-        </button>
+        {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
