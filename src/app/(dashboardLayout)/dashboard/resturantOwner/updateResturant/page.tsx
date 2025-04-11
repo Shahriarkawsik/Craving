@@ -32,12 +32,12 @@ const AddResturant = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     // adding submit date
-    const resturantUpdatedDate = new Date().toISOString();
+    const resturantUpdatedDate = new Date();
     // restaurant data for database
     const restaurantData = { ...data, resturantUpdatedDate};
     // console.log(restaurantData)
     try {
-      const data = await updateRestaurant(restaurantData, 'shahriarkawsik@gmail.com');
+      const data = await updateRestaurant(restaurantData, session?.user?.email as string);
       console.log(data)
       if(data.modifiedCount > 0){
         toast.success("Resturant Updated Successfully!", {
