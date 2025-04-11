@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 import { MdMarkEmailRead } from "react-icons/md";
 import { FaPhoneSquareAlt, FaRegEdit } from "react-icons/fa";
 import Link from "next/link";
-
+import { useEffect } from "react";
+import { getUserDetails } from "@/app/action/auth/allApi";
 
 // Define TypeScript interface for user session?.user?
 // interface ProfileProps {
@@ -68,12 +69,19 @@ import Link from "next/link";
 // "Active"
 
 const Profile: React.FC = () => {
-
   // const [user, setUser] = React.useState({});
 
-
   const { data: session } = useSession();
-  console.log(session, "jfkjghjkfdhjkffgjk");
+  console.log(session, "data");
+  useEffect(() => {
+    const getUser = async () => {
+      const result = await getUserDetails(session?.user?.email as string);
+      console.log(result, "result");
+    };
+
+    getUser();
+  }, [session?.user?.email]);
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-300">
       <Card
