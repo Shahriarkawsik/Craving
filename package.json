@@ -55,7 +55,6 @@
     "@types/aos": "^3.0.7",
     "@types/lodash": "^4.17.16",
     "@types/node": "^20",
-    "@types/node": "^20.17.27",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
