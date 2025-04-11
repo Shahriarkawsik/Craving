@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useSearchParams } from "next/navigation";
 
 
 interface FoodItem {
@@ -32,17 +33,21 @@ interface FoodItem {
 }
 
 export default function AllFoodsPage() {
+  const searchParams = useSearchParams();
+  const queryCategory = searchParams.get("category") || "";
+
+
   const [foods, setFoods] = useState<FoodItem[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
-  const [foodCategory, setFoodCategory] = useState<string>('')
+  const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const fetchData = async (query = "", category = "", sort = ""): Promise<void> => {
+  const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
     try {
       setIsLoading(true);
       const data = await getAllFoods(query, category, sort) as FoodItem[];
@@ -167,7 +172,7 @@ export default function AllFoodsPage() {
         {isLoading ? (
           <p className="text-center text-blue-500 text-lg font-semibold">Loading...</p>
         ) : (
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 md:gap-16 my-10">
             {foods.length > 0 ? (
               foods?.map((food) => <FoodCard key={food._id} food={food} />)
             ) : (
