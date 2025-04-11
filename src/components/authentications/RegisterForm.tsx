@@ -22,13 +22,13 @@ const RegisterForm = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-    const image = (form.elements.namedItem("image") as HTMLInputElement).value;
+    // const image = (form.elements.namedItem("image") as HTMLInputElement).value;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
       .value;
     const userData = {
       name,
-      image,
+      // image,
       email,
       password,
       role: "User",
@@ -88,7 +88,7 @@ const RegisterForm = () => {
           className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
       </div>
-      <div>
+      {/* <div>
         <label className="text-gray-700">Image</label>
         <Input
           type="url"
@@ -97,7 +97,7 @@ const RegisterForm = () => {
           // required
           className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         />
-      </div>
+      </div> */}
 
       <div>
         <label className="text-gray-700">Email</label>

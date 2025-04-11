@@ -11,6 +11,7 @@ interface Order {
   payment_status: "paid" | "pending" | "failed";
   delivery_address: string;
   phone: string;
+  // phone: number;
   created_at: string;
 }
 

@@ -47,7 +47,7 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
   //     bestFood: "Szechuan Chicken Noodles",
   //   },
   // ];
-  console.log(restaurants)
+  // console.log(restaurants)
   return (
     <section className="w-11/12 mx-auto " id="nearby-restaurants">
     
@@ -66,7 +66,7 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
             <figure>
               {
                 restaurant.restaurantLogo ? <Image
-                className="w-full rounded-lg   rounded-b-none  h-full"
+                className="w-full rounded-lg rounded-b-none  h-full"
                 src={restaurant?.restaurantLogo}
                 width={250}
                 height={250}

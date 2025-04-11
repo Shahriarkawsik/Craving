@@ -1,4 +1,5 @@
 
+import { addToCart } from "@/app/action/auth/allApi";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,13 +11,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import { toast } from "react-toastify";
 
 interface FoodDetailsModalProps {
   food: {
+    _id: string;
+    restaurant_id: string;
     foodName: string;
     description: string;
     price: number;
@@ -24,11 +27,25 @@ interface FoodDetailsModalProps {
     image: string;
     is_available: boolean;
     created_at: string;
+    owner_email: string;
+    user_email: string
   };
   children: React.ReactNode;
 }
 
 export default function OrderDetailsModal({ food, children }: FoodDetailsModalProps) {
+
+  const data = useSession();
+  
+    const cartFood = { ...food, user_email: data.data?.user?.email, created_at: new Date(food.created_at) }
+
+
+  const handleClick = () => {
+    addToCart(cartFood);
+    toast.success("Added to cart")
+  }
+
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -55,7 +72,7 @@ export default function OrderDetailsModal({ food, children }: FoodDetailsModalPr
         </div>
 
         <DialogFooter className="sm:justify-start flex items-center gap-2">
-            <Link href="/cart"><Button type="button" variant="default">Add to Cart</Button></Link>
+          <Button onClick={handleClick} type="button" variant="default">Add to Cart</Button>
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Close

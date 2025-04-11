@@ -5,17 +5,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
+
 const EditProfile = () => {
-  const { data: session } = useSession();
-  console.log(session, "this is session update profile");
+  const router = useRouter();
+
+  const { data: session, update } = useSession();
+  // console.log(session, "this is session update profile");
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     const image = (form.elements.namedItem("image") as HTMLInputElement).value;
-    // const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const phone = (form.elements.namedItem("phone") as HTMLInputElement).value;
     const address = (form.elements.namedItem("address") as HTMLInputElement)
       .value;
@@ -23,14 +29,14 @@ const EditProfile = () => {
     const userData = {
       name,
       image,
-      phone,
+      phone: Number(phone),
+      email,
       address,
       role: "User",
-      status: "Active",
-      update_at: new Date(),
+      status: "Active",   
     };
-    
-    console.log(userData);
+
+    console.log(userData, "this is formm data");
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");
@@ -39,11 +45,13 @@ const EditProfile = () => {
     // }
 
     try {
-      await updateUser(userData );
+      await updateUser(userData);
+      await update();
+      router.push("/profile")
       toast.success("User update is successfully", {
         position: "top-center",
         autoClose: 1000,
-      });
+      }); 
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", {
@@ -84,16 +92,17 @@ const EditProfile = () => {
                   />
                 </div>
 
-                {/* <div>
+                <div>
                   <label className="text-gray-700">Email</label>
                   <Input
                     type="email"
                     name="email"
                     defaultValue={session?.user?.email as string}
+                    disabled
                     placeholder="Enter your email"
                     className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
-                </div> */}
+                </div>
 
                 <div className="w-full mb-3">
                   <label className="text-gray-700">Phone</label>
