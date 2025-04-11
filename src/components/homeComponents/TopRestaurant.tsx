@@ -1,5 +1,6 @@
 import { CommonPayload } from "@/app/action/auth/allApi";
 import Image from "next/image";
+import Link from "next/link";
 // import restaurantImg001 from "../../assets/restaurantsImg/restaurantImg-001.jpeg";
 import { FaLocationDot } from "react-icons/fa6";
 // import { MdFoodBank } from "react-icons/md";
@@ -57,7 +58,8 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {restaurants.map((restaurant, index) => (
-          <div
+          <Link
+            href={`/restaurant/${restaurant._id}`}
             key={index}
             className="border space-y-4 overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-103  rounded-lg hover:shadow-2xl "
           >
@@ -84,7 +86,7 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

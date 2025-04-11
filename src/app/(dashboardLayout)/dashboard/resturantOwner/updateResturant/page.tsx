@@ -32,7 +32,7 @@ const AddResturant = () => {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     // adding submit date
-    const resturantUpdatedDate = new Date().toISOString();
+    const resturantUpdatedDate = new Date();
     // restaurant data for database
     const restaurantData = { ...data, resturantUpdatedDate};
     // console.log(restaurantData)
