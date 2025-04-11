@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SocialLogin from "@/components/shared/SocialLogin";
 
+
 const SignInForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

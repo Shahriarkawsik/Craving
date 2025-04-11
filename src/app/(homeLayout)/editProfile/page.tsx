@@ -10,12 +10,21 @@ import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
 
+<<<<<<< HEAD
 const EditProfile = () => {
   const router = useRouter();
 
   const { data: session, update } = useSession();
   // console.log(session, "this is session update profile");
 
+=======
+
+const EditProfile = () => {
+  const router = useRouter();
+  
+  const { data:session, update } = useSession();
+  console.log(session, "this is session update profile");
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -29,11 +38,19 @@ const EditProfile = () => {
     const userData = {
       name,
       image,
+<<<<<<< HEAD
       phone: Number(phone),
+=======
+      phone,
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
       email,
       address,
       role: "User",
       status: "Active",
+<<<<<<< HEAD
+=======
+   
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
     };
 
     console.log(userData, "this is formm data");
@@ -47,13 +64,26 @@ const EditProfile = () => {
     try {
       await updateUser(userData);
       await update();
+<<<<<<< HEAD
       router.push("/profile");
+=======
+      router.push("/profile")
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
       toast.success("User update is successfully", {
         position: "top-center",
         autoClose: 1000,
       });
+<<<<<<< HEAD
 
       // console.log(userData,"this is user data");
+=======
+     
+
+
+      // console.log(userData,"this is user data");
+
+
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", {

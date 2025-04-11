@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FaRegUserCircle } from "react-icons/fa";
 
 const Navbar = () => {
   const pathName = usePathname();
@@ -39,13 +40,13 @@ const Navbar = () => {
         <div className="hidden md:flex">
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem className="flex items-center space-x-4">
+              <NavigationMenuItem className="flex   items-center space-x-5">
                 {/* <NavigationMenuLink> */}
                 <Link
                   href="/"
                   className={`${
                     pathName === "/"
-                      ? "font-bold border-b-2 border-orange-600"
+                      ? "font-bold  border-b-2 border-orange-600"
                       : "font-semibold"
                   }`}
                 >
@@ -58,9 +59,9 @@ const Navbar = () => {
                   href="/allFood"
                   className={`${
                     pathName === "/allFood"
-                      ? "font-bold border-b-2 border-orange-600"
+                      ? "font-bold  border-b-2 border-orange-600"
                       : "font-semibold"
-                  }`}
+                  } `}
                 >
                   All Food
                 </Link>
@@ -131,14 +132,16 @@ const Navbar = () => {
             <div>
               <Avatar>
                 <AvatarImage src={session?.user?.image as string | undefined} />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback className="text-2xl">
+                  <FaRegUserCircle />
+                </AvatarFallback>
               </Avatar>
             </div>
           )}
           <div className="hidden md:flex">
             {status == "authenticated" ? (
               <button
-                className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl"
+                className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
                 // variant="destructive"
                 onClick={() => signOut()}
               >
@@ -146,16 +149,18 @@ const Navbar = () => {
               </button>
             ) : (
               <>
-                <Link href="/signIn">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl mr-1.5">
-                    SignIn
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button className="hover:bg-amber-600 bg-amber-500 text-white font-semibold py-2 px-4 rounded-4xl">
-                    SignUp
-                  </Button>
-                </Link>
+                <div className="flex gap-2">
+                  <Link href="/signIn">
+                    <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
+                      SignIn
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
+                      SignUp
+                    </Button>
+                  </Link>
+                </div>
               </>
             )}
           </div>
@@ -182,6 +187,19 @@ const Navbar = () => {
                     Home
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href="/allFood"
+                    className={`${
+                      pathName === "/allFood"
+                        ? "font-bold border-b-2 border-orange-600"
+                        : "font-semibold"
+                    }`}
+                  >
+                    All Food
+                  </Link>
+                </DropdownMenuItem>
+
                 <DropdownMenuItem>
                   <Link
                     href="/allFood"
@@ -274,7 +292,6 @@ const Navbar = () => {
                     SignIn
                   </Link>
                 </DropdownMenuItem>
-               
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

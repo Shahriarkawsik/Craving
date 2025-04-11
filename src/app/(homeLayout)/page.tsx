@@ -101,8 +101,13 @@ export default function Home() {
       {/* bg-amber-100 */}
       {/* Banner section */}
       <div>
+<<<<<<< HEAD
         <Banner />
         <CountdownTimer targetDate="2025-04-12T00:00:00" />
+=======
+      <Banner />
+      <CountdownTimer targetDate="2025-04-13T00:00:00" />
+>>>>>>> d0350ed5553044c0cd504aaa9cab67d24a90c2e7
       </div>
       <EidCart />
 

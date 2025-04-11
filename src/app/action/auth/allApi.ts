@@ -98,7 +98,17 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
 export const updateUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and update user collection
   const userCollection = await dbConnect().then((db) => db.collection("users"));
-  await userCollection.updateOne({ email: payload.email }, { $set: payload });
+  await userCollection.updateOne({ email: payload.email },
+     { 
+    $set: {
+      name: payload.name,
+      image: payload.image,
+      phone: payload.phone,
+      address: payload.address
+
+    }
+  });
+  console.log(payload);
 };
 
 // Adding new restaurant information
