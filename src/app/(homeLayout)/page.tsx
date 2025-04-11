@@ -106,7 +106,7 @@ export default function Home() {
       {/* Banner section */}
       <div>
       <Banner />
-      <CountdownTimer targetDate="2025-04-10T00:00:00" />
+      <CountdownTimer targetDate="2025-04-13T00:00:00" />
       </div>
       <EidCart/>
    
