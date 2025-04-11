@@ -22,6 +22,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaRegUserCircle } from "react-icons/fa";
+import { CiHeart } from "react-icons/ci";
 
 const Navbar = () => {
   const pathName = usePathname();
@@ -165,8 +166,11 @@ const Navbar = () => {
               </>
             )}
           </div>
-          <div>
+          <div className="flex space-x-5">
             <IoIosNotificationsOutline size={25} />
+            <Link href={"/cart"}>
+              <CiHeart size={25} />
+            </Link>
           </div>
           {/* responsive mobile and tablet  */}
           <div className="md:hidden">
