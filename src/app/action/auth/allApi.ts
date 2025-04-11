@@ -468,7 +468,6 @@ export const getRestaurantByEmail = async (
   };
   console.log(formattedFoodData)
   return formattedFoodData;
-
 };
 
 
@@ -571,11 +570,6 @@ export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
 
   return serializedFood as FoodItem;
 };
-
-
-
-
-
 
 // Delete specific food
 export const deleteFood = async (

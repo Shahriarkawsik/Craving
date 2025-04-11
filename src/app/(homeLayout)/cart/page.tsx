@@ -24,7 +24,7 @@ interface CartItem {
     category: string;
     image: string;
     is_available: boolean;
-    created_at: string;
+    created_at: Date | null;
     owner_email: string | null;
     user_email: string;
 }
