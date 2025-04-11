@@ -134,6 +134,7 @@ const Navbar = () => {
                 <AvatarImage src={session?.user?.image as string | undefined} />
                 <AvatarFallback className="text-2xl">
                   <FaRegUserCircle />
+                  {/* {session?.user?.image} */}
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -199,20 +200,6 @@ const Navbar = () => {
                     All Food
                   </Link>
                 </DropdownMenuItem>
-
-                <DropdownMenuItem>
-                  <Link
-                    href="/allFood"
-                    className={`${
-                      pathName === "/allFood"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    All Food
-                  </Link>
-                </DropdownMenuItem>
-
                 <DropdownMenuItem>
                   <Link
                     href="/aboutUs"
@@ -280,18 +267,33 @@ const Navbar = () => {
                     Login
                   </Link>
                 </DropdownMenuItem> */}
-                <DropdownMenuItem>
-                  <Link
-                    href="/signIn"
-                    className={`${
-                      pathName === "/login"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    SignIn
-                  </Link>
-                </DropdownMenuItem>
+                {status == "authenticated" ? (
+                  <DropdownMenuItem>
+                    <button
+                      onClick={() => signOut()}
+                      className={`${
+                        pathName === "/logout"
+                          ? "font-bold border-b-2 border-orange-600"
+                          : "font-semibold"
+                      }`}
+                    >
+                      Logout
+                    </button>
+                  </DropdownMenuItem>
+                ) : (
+                  <DropdownMenuItem>
+                    <Link
+                      href="/signIn"
+                      className={`${
+                        pathName === "/login"
+                          ? "font-bold border-b-2 border-orange-600"
+                          : "font-semibold"
+                      }`}
+                    >
+                      SignIn
+                    </Link>
+                  </DropdownMenuItem>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
