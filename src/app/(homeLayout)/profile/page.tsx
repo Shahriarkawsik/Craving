@@ -71,8 +71,8 @@ import { getUserDetails } from "@/app/action/auth/allApi";
 const Profile: React.FC = () => {
   // const [user, setUser] = React.useState({});
 
-  const { data: session } = useSession();
-  console.log(session, "jfkjghjkfdhjkffgjk");
+  const { data: session   } = useSession();
+  console.log(session, "data");
   useEffect(() => {
     const getUser = async () => {
       const result = await getUserDetails(session?.user?.email as string);

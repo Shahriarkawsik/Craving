@@ -37,7 +37,7 @@ const EditProfile = () => {
    
     };
 
-    console.log(userData);
+    console.log(userData, "this is formm data");
 
     // if (!passwordRegex.test(password)) {
     //   toast.error("Register failed");
@@ -47,12 +47,13 @@ const EditProfile = () => {
 
     try {
       await updateUser(userData);
+      await update();
+      router.push("/profile")
       toast.success("User update is successfully", {
         position: "top-center",
         autoClose: 1000,
       });
-      await update();
-      router.push("/profile")
+     
 
 
       // console.log(userData,"this is user data");
