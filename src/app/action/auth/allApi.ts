@@ -678,8 +678,6 @@ export const getAllFoods = async (
     sortOption.price = -1;
   }
 
-  // console.log(filter);
-
   const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
 
   return foodData.map((food) => ({
