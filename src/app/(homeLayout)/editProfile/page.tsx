@@ -10,12 +10,12 @@ import { useRouter } from "next/navigation";
 import { FormEvent } from "react";
 import { toast } from "react-toastify";
 
-
 const EditProfile = () => {
   const router = useRouter();
-  
-  const { data:session, update } = useSession();
-  console.log(session, "this is session update profile");
+
+  const { data: session, update } = useSession();
+  // console.log(session, "this is session update profile");
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -29,12 +29,11 @@ const EditProfile = () => {
     const userData = {
       name,
       image,
-      phone,
+      phone: Number(phone),
       email,
       address,
       role: "User",
-      status: "Active",
-   
+      status: "Active",   
     };
 
     console.log(userData, "this is formm data");
@@ -52,13 +51,7 @@ const EditProfile = () => {
       toast.success("User update is successfully", {
         position: "top-center",
         autoClose: 1000,
-      });
-     
-
-
-      // console.log(userData,"this is user data");
-
-
+      }); 
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong", {

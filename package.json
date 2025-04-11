@@ -43,6 +43,8 @@
     "react-loading-skeleton": "^3.5.0",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.1",
+    "sslcommerz": "^1.7.0",
+    "sslcommerz-lts": "^1.1.0",
     "sweetalert2": "^11.17.2",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
