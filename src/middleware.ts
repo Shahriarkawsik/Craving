@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export const middleware = async (req: NextRequest) => {
+
+
   const token = await getToken({ req });
   // if(token) console.log("from middleware token", token)
   // const isTokenOk = Boolean(token)

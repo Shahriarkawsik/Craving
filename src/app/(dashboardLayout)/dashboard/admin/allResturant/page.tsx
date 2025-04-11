@@ -42,7 +42,6 @@ const AllResturant = () => {
       console.log(id);
     } catch {}
   };
-
   /* Handle Delete Restaurant */
   const handleDeleteRestaurant = async (id: string): Promise<void> => {
     try {
