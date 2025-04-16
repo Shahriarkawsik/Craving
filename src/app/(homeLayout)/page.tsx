@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Banner from "@/components/homeComponents/banner";
 import Category from "@/components/homeComponents/Category";
 import FeaturedFood from "@/components/homeComponents/FeaturedFood";
@@ -13,21 +13,20 @@ import EidCart from "@/components/homeComponents/EidCart";
 // import CountdownTimer from "@/components/homeComponents/CountdownTimer";
 import dynamic from "next/dynamic";
 
-
-const CountdownTimer = dynamic(() => import("@/components/homeComponents/CountdownTimer"), {
-  ssr: false,
-});
-
+const CountdownTimer = dynamic(
+  () => import("@/components/homeComponents/CountdownTimer"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Home() {
-
   const [showModal, setShowModal] = useState(false);
   const [restaurants, setRestaurants] = useState<CommonPayload[]>([]);
   const [locationCity, setLocation] = useState<string | null>("");
 
   useEffect(() => {
     const locationAllowed = localStorage.getItem("locationAllowed");
-
     if (!locationAllowed) {
       setShowModal(true);
     }
@@ -35,8 +34,8 @@ export default function Home() {
 
   const handleLocationAllow = async (position: GeolocationPosition) => {
     const { latitude, longitude } = position.coords;
-    
-    console.log("user Location", { latitude, longitude });
+
+    // console.log("user Location", { latitude, longitude });
 
     // ✅ Reverse Geocoding API call
     try {
@@ -44,30 +43,27 @@ export default function Home() {
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
       );
       const data = await res.json();
-      console.log("📍 Full Address:", data);
-      console.log("🏙️ District:", data.address?.city || data.address?.county);
+      // console.log("📍 Full Address:", data);
+      // console.log("🏙️ District:", data.address?.city || data.address?.county);
       localStorage.setItem("locationAllowed", data.address?.city);
       setLocation(data?.address?.city);
-      
     } catch (err) {
       console.error("location error:", err);
     }
 
     // modal close after set localstorage
-    
+
     setShowModal(false);
   };
   useEffect(() => {
     const locationAllowed = localStorage.getItem("locationAllowed");
 
     if (!locationAllowed && navigator.permissions) {
-      navigator.permissions
-        .query({ name: "geolocation" })
-        .then((result) => {
-          if (result.state !== "granted") {
-            setShowModal(true);
-          }
-        });
+      navigator.permissions.query({ name: "geolocation" }).then((result) => {
+        if (result.state !== "granted") {
+          setShowModal(true);
+        }
+      });
     }
   }, []);
 
@@ -75,26 +71,26 @@ export default function Home() {
     const storageCity = localStorage.getItem("locationAllowed");
     // console.log('city:', city)
     const fetchRestaurants = async () => {
-      
       let city = locationCity || storageCity;
-      if(!city){
-        city = 'all'
+      if (!city) {
+        city = "all";
       }
       try {
-        const restaurantsData: CommonPayload[] = await showRestaurantByCity({city: city.toLowerCase()});
+        const restaurantsData: CommonPayload[] = await showRestaurantByCity({
+          city: city.toLowerCase(),
+        });
         setRestaurants(restaurantsData);
-        console.log('result ======', restaurantsData);
+        console.log("result ======", restaurantsData);
       } catch (error) {
         console.log(error);
       }
     };
-  
+
     fetchRestaurants();
   }, [locationCity]);
 
   return (
     <section className="lg:space-y-20">
-
       {showModal && (
         <LocationModal
           onAllow={handleLocationAllow}
@@ -105,11 +101,10 @@ export default function Home() {
       {/* bg-amber-100 */}
       {/* Banner section */}
       <div>
-      <Banner />
-      <CountdownTimer targetDate="2025-04-13T00:00:00" />
+        <Banner />
+        <CountdownTimer targetDate="2025-06-12T00:00:00" />
       </div>
-      <EidCart/>
-   
+      <EidCart />
 
       {/* Category Section */}
       <Category />
@@ -118,7 +113,7 @@ export default function Home() {
       {/* Featured Food */}
       <FeaturedFood />
       {/* top restaurant */}
-      <TopRestaurant restaurants={restaurants}/>
+      <TopRestaurant restaurants={restaurants} />
       {/* faq section */}
       <FAQ></FAQ>
       {/* Support */}

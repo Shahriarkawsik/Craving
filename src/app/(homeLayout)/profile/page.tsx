@@ -71,16 +71,16 @@ import { getUserDetails } from "@/app/action/auth/allApi";
 const Profile: React.FC = () => {
   // const [user, setUser] = React.useState({});
 
-  const { data: session   } = useSession();
+  const { data: session } = useSession();
   console.log(session, "data");
   useEffect(() => {
     const getUser = async () => {
       const result = await getUserDetails(session?.user?.email as string);
-      console.log(result,"result");
+      console.log(result, "result");
     };
 
     getUser();
-  }, []);
+  }, [session?.user?.email]);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-300">

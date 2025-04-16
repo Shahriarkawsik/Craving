@@ -47,7 +47,7 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
   //     bestFood: "Szechuan Chicken Noodles",
   //   },
   // ];
-  console.log(restaurants)
+  // console.log(restaurants)
   return (
     <section className="w-11/12 mx-auto " id="nearby-restaurants">
     
@@ -56,17 +56,17 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
         Near by Restaurants
         </h1>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
         {restaurants.map((restaurant, index) => (
           <Link
             href={`/restaurant/${restaurant._id}`}
             key={index}
-            className="border space-y-4 overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-103  rounded-lg hover:shadow-2xl "
+            className="border space-y-4 overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-103 rounded-lg hover:shadow-2xl "
           >
             <figure>
               {
                 restaurant.restaurantLogo ? <Image
-                className="w-full rounded-lg   rounded-b-none  h-full"
+                className="w-full rounded-lg rounded-b-none h-full object-cover"
                 src={restaurant?.restaurantLogo}
                 width={250}
                 height={250}
