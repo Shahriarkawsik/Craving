@@ -744,7 +744,6 @@ export interface FeaturedFoodType {
   foodName: string;
   price: number;
   category: string;
-  description: string;
   image: string;
 }
 
@@ -783,9 +782,8 @@ export const getFeaturedFood = async (): Promise<FeaturedFoodType[]> => {
         reviewCount: 1,
         foodName: "$food_details.foodName",
         price: "$food_details.price",
-        image: "$food_details.image",
         category: "$food_details.category",
-        description: "$food_details.description"
+        image: "$food_details.image",
       }
     },
     {
@@ -807,7 +805,6 @@ export const getFeaturedFood = async (): Promise<FeaturedFoodType[]> => {
     foodName: item.foodName,
     price: item.price,
     category: item.category,
-    description: item.description,
     image: item.image
   }));
 };
