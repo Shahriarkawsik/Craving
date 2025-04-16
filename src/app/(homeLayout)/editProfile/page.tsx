@@ -29,7 +29,7 @@ const EditProfile = () => {
     const userData = {
       name,
       image,
-      phone,
+      phone: Number(phone),
       email,
       address,
       role: "User",
