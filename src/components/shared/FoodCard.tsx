@@ -1,5 +1,5 @@
 "use client";
-import { addToCart, FeaturedFoodType } from '@/app/action/auth/allApi';
+import { addToCart, FoodDetails } from '@/app/action/auth/allApi';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,10 +10,10 @@ import { FaStar } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
 interface Props {
-    food: FeaturedFoodType;
+    food: FoodDetails;
 };
 
-interface CartFood extends FeaturedFoodType {
+interface CartFood extends FoodDetails {
     user_email: string | undefined;
     created_at: Date;
 }
@@ -73,9 +73,9 @@ const FoodCard = ({ food }: Props) => {
 
                 {/* buttons */}
                 <div className="mt-3 flex items-center justify-between gap-2">
-                    <button onClick={handleAddToCart} className='text-white bg-orange-500 hover:bg-orange-600 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md transition-colors duration-300 cursor-pointer'>
+                    <button disabled={!food.is_available} onClick={handleAddToCart} className={`${food.is_available ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} text-white bg-orange-500 hover:bg-orange-600 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md transition-colors duration-300`}>
                         <FaShoppingCart size={20} />
-                        <span className="ml-1">Add to Cart</span>
+                        <span className="ml-1">{food.is_available ? 'Add To Cart' : 'Out Of Stock'}</span>
                     </button>
 
                     <Link href={`/cart`}><button className='text-orange-950 hover:text-white transition-all border border-orange-400 hover:bg-orange-500 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md duration-300 cursor-pointer'>

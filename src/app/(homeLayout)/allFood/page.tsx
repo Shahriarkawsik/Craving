@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import allFoodBannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
-import { getAllFoods } from "@/app/action/auth/allApi";
-import FoodCard from "./components/FoodCard";
+import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
 import { Search } from "lucide-react";
 import { debounce } from "lodash";
 import * as React from "react"
@@ -17,30 +16,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useSearchParams } from "next/navigation";
+import FoodCard from "@/components/shared/FoodCard";
 
-
-interface FoodItem {
-  _id: string;
-  restaurant_id: string;
-  foodName: string;
-  description: string;
-  price: number;
-  category: string;
-  image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
-  user_email: string;
-}
 
 export default function AllFoodsPage() {
   const searchParams = useSearchParams();
   const queryCategory = searchParams.get("category") || "";
 
 
-  const [foods, setFoods] = useState<FoodItem[]>([]);
+  const [foods, setFoods] = useState<FoodDetails[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false); // ✅ Loading state
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
@@ -51,7 +37,7 @@ export default function AllFoodsPage() {
   const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
     try {
       setIsLoading(true);
-      const data = await getAllFoods(query, category, sort) as FoodItem[];
+      const data = await getAllFoods(query, category, sort);
       setFoods(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -64,19 +50,19 @@ export default function AllFoodsPage() {
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
-    fetchData(query, foodCategory); // ✅ এখন search করলে category ও থাকবে
+    fetchData(query, foodCategory, foodSort); // ✅ এখন search করলে category ও থাকবে
   }, 500);
 
   const handleCategory = debounce((category: string) => {
     setFoodCategory(category);
-    fetchData(searchQuery, category); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, category, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
   }, 500);
 
 
   const handleSort = debounce((sort: string) => {
     // console.log(sort)
     setFoodSort(sort);
-    fetchData(searchQuery, foodCategory, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, foodCategory, sort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
   }, 500);
 
   return (
@@ -175,7 +161,7 @@ export default function AllFoodsPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 md:gap-16 my-10">
             {foods.length > 0 ? (
-              foods?.map((food) => <FoodCard key={food._id} food={food} />)
+              foods?.map((food) => <FoodCard key={food.food_id} food={food} />)
             ) : (
               <p className="text-center text-gray-500 col-span-full">
                 No matching food found.

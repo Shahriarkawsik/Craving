@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { FeaturedFoodType, getFeaturedFood } from "@/app/action/auth/allApi";
+import { FoodDetails, getFeaturedFood } from "@/app/action/auth/allApi";
 import FoodCard from "../shared/FoodCard";
 
 const FeaturedFood = () => {
 
-  const [featuredFoods, setFeaturedFoods] = useState<FeaturedFoodType[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [featuredFoods, setFeaturedFoods] = useState<FoodDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
