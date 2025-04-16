@@ -4,6 +4,7 @@ import { getFoodByRestaurantId } from '@/app/action/auth/allApi';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 // import { FaStar } from 'react-icons/fa6';
+
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaStar } from 'react-icons/fa6';
 
