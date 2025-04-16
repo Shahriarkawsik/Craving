@@ -4,8 +4,6 @@ import GoogleProvider from "next-auth/providers/google";
 import dbConnect from "@/lib/dbConnect";
 import bcrypt from "bcryptjs";
 
-// authOptions export only
-
 // Define NextAuth Options
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,7 +25,8 @@ export const authOptions: NextAuthOptions = {
         // if (!user || user.password !== credentials.password) {
         //   return null;
         // }
-
+        
+        // for has password check
         if(!user){
           return null
         }
