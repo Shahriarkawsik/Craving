@@ -99,15 +99,15 @@ export const updateUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and update user collection
   const userCollection = await dbConnect().then((db) => db.collection("users"));
   await userCollection.updateOne({ email: payload.email },
-     { 
-    $set: {
-      name: payload.name,
-      image: payload.image,
-      phone: payload.phone,
-      address: payload.address
+    {
+      $set: {
+        name: payload.name,
+        image: payload.image,
+        phone: payload.phone,
+        address: payload.address
 
-    }
-  });
+      }
+    });
   console.log(payload);
 };
 
@@ -734,4 +734,80 @@ export const deleteCartItem = async (
     console.error("Error deleting food item:", error);
     throw error;
   }
+};
+
+// aggregate food and reveiw collection and find 8 collection based on max rating but min price (For featured food section)
+export interface FeaturedFoodType {
+  food_id: string;
+  rating: number;
+  reviewCount: number;
+  foodName: string;
+  price: number;
+  category: string;
+  description: string;
+  image: string;
+}
+
+export const getFeaturedFood = async (): Promise<FeaturedFoodType[]> => {
+  const db = await dbConnect();
+  const reviewCollection = db.collection("reviews");
+
+  const featuredFoods = await reviewCollection.aggregate<FeaturedFoodType>([
+    {
+      $addFields: {
+        food_id: { $toObjectId: "$food_id" }
+      }
+    },
+    {
+      $group: {
+        _id: "$food_id",
+        avgRating: { $avg: "$rating" },
+        reviewCount: { $sum: 1 }
+      }
+    },
+    {
+      $lookup: {
+        from: "food",
+        localField: "_id",
+        foreignField: "_id",
+        as: "food_details"
+      }
+    },
+    {
+      $unwind: "$food_details"
+    },
+    {
+      $project: {
+        food_id: { $toString: "$_id" },
+        rating: { $round: ["$avgRating", 1] },
+        reviewCount: 1,
+        foodName: "$food_details.foodName",
+        price: "$food_details.price",
+        image: "$food_details.image",
+        category: "$food_details.category",
+        description: "$food_details.description"
+      }
+    },
+    {
+      $sort: {
+        rating: -1,
+        price: 1
+      }
+    },
+    {
+      $limit: 8
+    }
+  ]
+  ).toArray();
+
+  return featuredFoods.map((item) => ({
+    food_id: item.food_id,
+    rating: item.rating,
+    reviewCount: item.reviewCount,
+    foodName: item.foodName,
+    price: item.price,
+    category: item.category,
+    description: item.description,
+    image: item.image
+  }));
 };
