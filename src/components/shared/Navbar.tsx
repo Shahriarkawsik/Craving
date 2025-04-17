@@ -26,13 +26,8 @@ import { CiHeart } from "react-icons/ci";
 
 const Navbar = () => {
   const pathName = usePathname();
-<<<<<<< HEAD
-  const { data, status } = useSession();
-  console.log(data);
-=======
   const { data: session, status } = useSession();
 
->>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
   return (
     <header className=" shadow-md py-4">
       <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
@@ -98,11 +93,7 @@ const Navbar = () => {
                 </Link>
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
-<<<<<<< HEAD
-                {data && (
-=======
                 {session && (
->>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
                   <Link
                     href="/profile"
                     className={`${
@@ -114,20 +105,12 @@ const Navbar = () => {
                     Profile
                   </Link>
                 )}
-<<<<<<< HEAD
-                {/* </NavigationMenuLink> */}
-                {/* <NavigationMenuLink> */}
-                {(data?.user?.role === "Admin" ||
-                  data?.user?.role === "Rider" ||
-                  data?.user?.role === "RestaurantOwner") && (
-=======
 
                 {/* </NavigationMenuLink> */}
                 {/* <NavigationMenuLink> */}
                 {(session?.user?.role === "Admin" ||
                   session?.user?.role === "Rider" ||
                   session?.user?.role === "Owner") && (
->>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
                   <Link
                     href="/dashboard"
                     className={`${
@@ -139,10 +122,6 @@ const Navbar = () => {
                     Dashboard
                   </Link>
                 )}
-<<<<<<< HEAD
-=======
-
->>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
                 {/* </NavigationMenuLink> */}
               </NavigationMenuItem>
             </NavigationMenuList>
