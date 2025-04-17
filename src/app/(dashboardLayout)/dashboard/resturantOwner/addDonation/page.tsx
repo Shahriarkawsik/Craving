@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+console.log(image_hosting_key);
 
 const AddFood = () => {
   type Inputs = {
