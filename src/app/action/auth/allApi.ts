@@ -269,6 +269,17 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
+// Post Add donation food from restaurant owner
+export const addDonationFood = async (payload: CommonPayload): Promise<void> => {
+  const foodDonationCollection = await dbConnect().then((db)=> db.collection("donationFood"));
+  await foodDonationCollection.insertOne({
+    foodName:payload.foodName,
+    description:payload.description,
+    foodImage:payload.foodImage,
+    location:payload.location,
+    restaurantName:payload.restaurantName,
+  })
+};
 
 /*create Be Rider application Collection*/
 export const createBeRiderApplication = async (
