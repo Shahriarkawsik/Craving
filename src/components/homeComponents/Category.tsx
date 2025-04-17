@@ -16,7 +16,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/gZNtFHfY/vegetable.png",
     },
     {
-      name: "Organic food",
+      name: "Organic Food",
       image: "https://i.ibb.co.com/YFW48bv1/diet.png",
     },
     {
@@ -32,7 +32,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/LdXhfwgj/ice-cream.png",
     },
     {
-      name: "Sea food",
+      name: "Sea Food",
       image: "https://i.ibb.co.com/KjSDtPPb/lobster.png",
     },
     {
@@ -47,7 +47,7 @@ const Category = () => {
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4  justify-center items-center">
         {categories.map((category, index) => (
-          <Link key={index} href={`/category/${category.name}`}>
+          <Link key={index} href={`/allFood?category=${encodeURIComponent(category.name)}`}>
             <div className="border rounded-lg p-4 bg-white shadow-2xl hover:scale-105 hover:transition-all hover:border hover:border-orange-600">
               <figure>
                 <Image

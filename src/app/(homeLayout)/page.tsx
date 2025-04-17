@@ -43,8 +43,6 @@ export default function Home() {
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
       );
       const data = await res.json();
-      // console.log("📍 Full Address:", data);
-      // console.log("🏙️ District:", data.address?.city || data.address?.county);
       localStorage.setItem("locationAllowed", data.address?.city);
       setLocation(data?.address?.city);
     } catch (err) {
@@ -102,7 +100,7 @@ export default function Home() {
       {/* Banner section */}
       <div>
         <Banner />
-        <CountdownTimer targetDate="2025-04-12T00:00:00" />
+        <CountdownTimer targetDate="2025-05-12T00:00:00" />
       </div>
       <EidCart />
 

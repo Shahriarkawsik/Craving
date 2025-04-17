@@ -72,11 +72,9 @@ export default function OrderDetailsModal({ food, children }: FoodDetailsModalPr
         </div>
 
         <DialogFooter className="sm:justify-start flex items-center gap-2">
-          <Button onClick={handleClick} type="button" variant="default">Add to Cart</Button>
+          <Button onClick={handleClick} className="bg-orange-600 hover:bg-orange-400 text-white cursor-pointer w-full" type="button" variant="default">Add to Cart</Button>
           <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
+            
           </DialogClose>
         </DialogFooter>
       </DialogContent>
