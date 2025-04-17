@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import allFoodBannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
+import bannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
 import { Search } from "lucide-react";
 import { debounce } from "lodash";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select"
 import { useSearchParams } from "next/navigation";
 import FoodCard from "@/components/shared/FoodCard";
+import Banner from "@/components/shared/Banner";
 
 
 export default function AllFoodsPage() {
@@ -67,28 +68,8 @@ export default function AllFoodsPage() {
 
   return (
     <div>
-      <div
-        className="flex justify-center items-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${allFoodBannerImage.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "350px",
-          width: "100%",
-        }}
-      >
-        <div className="w-3xl mx-auto text-center z-50">
-          <h2 className="text-2xl md:text-4xl font-bold text-white">
-            Welcome to Our Food World
-          </h2>
-          <p className="mt-2 text-white">
-            Explore a variety of mouth-watering dishes from around the world.
-            From appetizers to desserts, discover meals that suit every taste
-            and occasion.
-          </p>
-        </div>
-      </div>
+      {/* banner section */}
+      <Banner image={bannerImage.src} title={`Welcome to Our Food World`} subtitle={`Explore a variety of mouth-watering dishes from around the world. From appetizers to desserts, discover meals that suit every taste and occasion.`} />
 
       {/* All Food Section */}
       <div className="text-center my-10">
