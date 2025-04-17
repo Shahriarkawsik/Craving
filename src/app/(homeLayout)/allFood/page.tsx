@@ -159,7 +159,7 @@ export default function AllFoodsPage() {
         {isLoading ? (
           <p className="text-center text-blue-500 text-lg font-semibold">Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 md:gap-16 my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-10 my-10">
             {foods.length > 0 ? (
               foods?.map((food) => <FoodCard key={food.food_id} food={food} />)
             ) : (

@@ -59,11 +59,10 @@ const FoodCard = ({ food }: Props) => {
                         {food.foodName}
                     </h1>
                     <p className="flex justify-center gap-1 items-center ">
-                        {" "}
                         <span className="text-orange-400">
                             <FaStar />
-                        </span>{" "}
-                        {food.rating} <span className=" text-sm">({food.reviewCount}+)</span>
+                        </span>
+                        {food.rating.toFixed(1)} <span className=" text-sm">({food.reviewCount}+)</span>
                     </p>
                 </div>
 
