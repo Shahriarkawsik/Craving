@@ -2,12 +2,7 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-<<<<<<< HEAD
-import { Sort } from "mongodb";
 import bcrypt from "bcryptjs";
-=======
-
->>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
 export interface CommonPayload {
   name?: string;
   image?: string;
