@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Swal from "sweetalert2";
-import FoodDetailsModal from "./components/FoodDetailsModal";
-import AvailableOrNot from "./components/AvailableOrNot";
+// import FoodDetailsModal from "./components/FoodDetailsModal";
+// import AvailableOrNot from "./components/AvailableOrNot";
 
 // interface CommonPayload {
 //   _id: string;
@@ -126,7 +126,7 @@ export default function AllFoodItems() {
                   </button>
                 </Link>
                 <button
-                  onClick={() => handleDeleteFood(food._id)}
+                  onClick={() => handleDeleteFood(food._id as string)}
                   className="bg-red-500 text-white px-3 py-1 rounded-md flex items-center justify-center transition hover:bg-red-600"
                   disabled={loading === food._id}
                 >
@@ -137,11 +137,11 @@ export default function AllFoodItems() {
                   )}
                 </button>
                 <div>
-                  <FoodDetailsModal food={food} />
+                  {/* <FoodDetailsModal food={food} /> */}
                 </div>
               </TableCell>
               <TableCell>
-                <AvailableOrNot food={food} />
+                {/* <AvailableOrNot food={food} /> */}
               </TableCell>
             </TableRow>
           ))}

@@ -2,8 +2,12 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
+<<<<<<< HEAD
 import { Sort } from "mongodb";
 import bcrypt from "bcryptjs";
+=======
+
+>>>>>>> 894656101bd8d5382d6548d03c58928db02bc51a
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -17,6 +21,7 @@ export interface CommonPayload {
   phone?: number;
   status?: string;
   address?: string;
+  user_email?: string;
   /*Add Food*/
   // restaurant_id: string;
   id?: string;
@@ -37,8 +42,11 @@ export interface CommonPayload {
   riderIdentification?: number;
   // Be Owner
   _id?: string; // get from the database after fetch.
+  // _id?: ObjectId;
   restaurantOwnerId?: string;
+  restaurant_id?: string;
   restaurantOwnerEmail?: string;
+  owner_email?: string;
   restaurantOwnerName?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -63,7 +71,22 @@ export interface CommonPayload {
   restaurantPhone?: number;
   restaurantRating?: number;
   ownerId?: string;
+  city?: string;
+  restaurantId?: string;
 }
+
+// FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
+export interface FoodDetails {
+  food_id: string;
+  restaurant_id: string;
+  rating: number;
+  reviewCount: number;
+  foodName: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+};
 
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and create user collection
@@ -95,13 +118,50 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
     created_at: new Date(),
   });
 };
+
+// update user
+export const updateUser = async (payload: CommonPayload): Promise<void> => {
+  // Connect to the database and update user collection
+  const userCollection = await dbConnect().then((db) => db.collection("users"));
+  await userCollection.updateOne({ email: payload.email },
+    {
+      $set: {
+        name: payload.name,
+        image: payload.image,
+        phone: payload.phone,
+        address: payload.address
+
+      }
+    });
+  console.log(payload);
+};
+
+// Adding new restaurant information
+// export const addRestaurant = async (payload: CommonPayload): Promise<void> => {}
+
+export const addRestaurant = async (payload: CommonPayload): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("allRestaurant");
+
+  await restaurantCollection.insertOne({
+    restaurantName: payload.restaurantName,
+    location: payload.location,
+    ownerName: payload.ownerName,
+    restaurantEmail: payload.restaurantEmail,
+    addedDate: payload.addedDate,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantPhone: payload.restaurantPhone,
+    restaurantRating: payload.restaurantRating,
+    ownerId: payload.ownerId,
+  });
+};
+
 /* Get Login user Details */
 export const getUserDetails = async (
   email: string
 ): Promise<CommonPayload | null> => {
   const db = await dbConnect();
   const userCollection: Collection<CommonPayload> = db.collection("users");
-
   const user = await userCollection.findOne({ email });
 
   if (!user) return null;
@@ -109,6 +169,8 @@ export const getUserDetails = async (
   return {
     ...user,
     _id: (user._id as unknown as ObjectId).toString(),
+    // _id: new ObjectId(user._id),
+
     created_at: user.created_at ? new Date(user.created_at) : undefined,
   };
 };
@@ -122,35 +184,17 @@ export const updateUserRole = async (
   await userCollection.updateOne({ email }, { $set: { role } });
 };
 
-// Adding new restaurant information
-// export const updateRestaurant = async (payload: CommonPayload): Promise<void> => {
-//   // const db = await dbConnect();
-//   // const restaurantCollection = db.collection("resturant");
-//   console.log(payload)
-
-//   // await restaurantCollection.insertOne({
-//   //   restaurantName: payload.restaurantName,
-//   //   location: payload.location,
-//   //   ownerName: payload.ownerName,
-//   //   restaurantEmail: payload.restaurantEmail,
-//   //   addedDate: payload.addedDate,
-//   //   restaurantLogo: payload.restaurantLogo,
-//   //   restaurantPhone: payload.restaurantPhone,
-//   //   restaurantRating: payload.restaurantRating,
-//   //   ownerId: payload.ownerId,
-//   // });
-// };
-
 export const updateRestaurant = async (
-  payload: CommonPayload, email: string
+  payload: CommonPayload,
+  email: string
 ): Promise<{
   acknowledged: boolean;
   matchedCount: number;
   modifiedCount: number;
 }> => {
   const db = await dbConnect();
-  const foodCollection = db.collection("resturant");
-console.log(email)
+  const foodCollection = db.collection("restaurant");
+
   const result = await foodCollection.updateOne(
     { restaurantOwnerEmail: email },
     {
@@ -174,6 +218,47 @@ console.log(email)
   };
 };
 
+export const showRestaurantByCity = async (
+  city: CommonPayload
+): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const restaurantCollection = db.collection("restaurant");
+  let query = {};
+  if (city.city === "all") {
+    query = {};
+  } else {
+    query = { restaurantAddress: city.city };
+  }
+  const result = await restaurantCollection.find(query).toArray();
+  // console.log("city api", city.city);
+  return result.map((restaurant) => ({
+    ...restaurant,
+    _id: (restaurant._id as unknown as ObjectId).toString(),
+  }));
+};
+
+export const getFoodByRestaurantId = async (
+  restaurantId: CommonPayload
+): Promise<FoodItem[]> => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const result = await foodCollection
+    .find({ restaurant_id: restaurantId.id })
+    .toArray();
+
+  return result.map((food) => ({
+    _id: (food._id as ObjectId).toString(),
+    restaurant_id: food.restaurant_id,
+    foodName: food.foodName,
+    description: food.description,
+    price: food.price,
+    category: food.category,
+    image: food.image,
+    is_available: food.is_available,
+    created_at: food.created_at,
+  }));
+};
 
 // Post Add food from resturant owner
 export const addFood = async (payload: CommonPayload): Promise<void> => {
@@ -190,29 +275,10 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
   });
 };
 
-/* Be Resturant Owner */
-export const addResturantOwner = async (
+/*create Be Rider application Collection*/
+export const createBeRiderApplication = async (
   payload: CommonPayload
 ): Promise<void> => {
-  // connect to the database and create add resturant owner collection
-  const resturantOwnerCollection = await dbConnect().then((db) =>
-    db.collection("beResturantOwner")
-  );
-  await resturantOwnerCollection.insertOne({
-    restaurantOwnerEmail: payload.restaurantOwnerEmail,
-    restaurantOwnerName: payload.restaurantOwnerName,
-    restaurantName: payload.restaurantName,
-    restaurantEmail: payload.restaurantEmail,
-    restaurantNumber: payload.restaurantNumber,
-    restaurantLogo: payload.restaurantLogo,
-    restaurantDescription: payload.restaurantDescription,
-    ownerIdentification: payload.ownerIdentification,
-    restaurantAddress: payload.restaurantAddress,
-    created_at: payload.created_at,
-  });
-};
-/*create Be Rider application */
-export const addRider = async (payload: CommonPayload): Promise<void> => {
   // connect to the database and create add rider collection
   const riderCollection = await dbConnect().then((db) =>
     db.collection("beRider")
@@ -229,36 +295,81 @@ export const addRider = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
-/* Approved and update rider status */
 
-/* Delete Be Resturant Owner Application */
-export const deleteResturantOwner = async (
-  resturantOwnerId: string
-): Promise<void> => {
-  const db = await dbConnect();
-  const resturantOwnerCollection: Collection<CommonPayload> =
-    db.collection("beResturantOwner");
-  await resturantOwnerCollection.deleteOne({
-    // _id: new ObjectId(resturantOwnerId),
-    _id: (resturantOwnerId as unknown as ObjectId).toString(),
+// add to cart
+export const addToCart = async (payload: CommonPayload): Promise<void> => {
+  const cartCollection = await dbConnect().then((db) => db.collection("cart"));
+  await cartCollection.insertOne({
+    restaurant_id: payload.restaurant_id,
+    foodName: payload.foodName,
+    description: payload.description,
+    price: payload.price,
+    category: payload.category,
+    image: payload.image,
+    is_available: payload.is_available,
+    created_at: payload.created_at,
+    owner_email: payload.owner_email,
+    user_email: payload.user_email,
   });
 };
 
+/* Get all rider Application request */
+export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
+  try {
+    const db = await dbConnect();
+    const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+    const riderData = await riderCollection.find({}).toArray();
+    // Convert created_at to Date object
+    const formattedRiderData = riderData.map((rider) => ({
+      ...rider,
+      _id: (rider._id as unknown as ObjectId).toString(),
+      created_at: rider.created_at ? new Date(rider.created_at) : undefined,
+    }));
+    return formattedRiderData;
+  } catch (error) {
+    console.error("Error fetching riders:", error);
+    throw new Error("Failed to fetch rider data");
+  }
+};
 /* Delete Be Rider Application */
-export const deleteRider = async (riderId: string): Promise<void> => {
+export const deleteRiderApplication = async (
+  riderId: string
+): Promise<void> => {
   const db = await dbConnect();
   const riderCollection: Collection<CommonPayload> = db.collection("beRider");
   await riderCollection.deleteOne({
-    // _id: new ObjectId(riderId)
-    _id: (riderId as unknown as ObjectId).toString(),
+    _id: new ObjectId(riderId).toString(),
+  });
+};
+/* Be Resturant Owner Application */
+export const createResturantOwnerApplication = async (
+  payload: CommonPayload
+): Promise<void> => {
+  // connect to the database and create add resturant owner collection
+  const resturantOwnerCollection = await dbConnect().then((db) =>
+    db.collection("beRestaurantOwner")
+  );
+  await resturantOwnerCollection.insertOne({
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
+    restaurantOwnerName: payload.restaurantOwnerName,
+    restaurantName: payload.restaurantName,
+    restaurantEmail: payload.restaurantEmail,
+    restaurantNumber: payload.restaurantNumber,
+    restaurantLogo: payload.restaurantLogo,
+    restaurantDescription: payload.restaurantDescription,
+    ownerIdentification: payload.ownerIdentification,
+    restaurantAddress: payload.restaurantAddress,
+    created_at: payload.created_at,
   });
 };
 /* Get all resturant owner Application */
-export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
+export const getRestaurantOwnerApplication = async (): Promise<
+  CommonPayload[]
+> => {
   try {
     const db = await dbConnect();
     const resturantOwnerCollection: Collection<CommonPayload> =
-      db.collection("beResturantOwner");
+      db.collection("beRestaurantOwner");
     const resturantOwnerData = await resturantOwnerCollection
       .find({})
       .toArray();
@@ -279,35 +390,25 @@ export const getAllResturantOwner = async (): Promise<CommonPayload[]> => {
     throw new Error("Failed to fetch resturant owner data");
   }
 };
-/* Resturant Payload */
-// export type ResturantPayload = {
-//   restaurantOwnerId: string;
-//   restaurantOwnerEmail: string;
-//   restaurantOwnerName: string;
-//   restaurantName: string;
-//   restaurantEmail: string;
-//   restaurantNumber: string;
-//   restaurantLogo: string;
-//   restaurantDescription: string;
-//   restaurantAddress: string;
-//   ownerIdentification: number;
-//   restaurantOpeningDate: Date;
-//   foodCategories: string[];
-//   restaurantRating: number;
-//   totalFoodItem: number;
-//   restaurantTotalSell: number;
-//   restaurantTotalOrder: number;
-//   restaurantCompleteOrder: number;
-//   restaurantPendingOrder: number;
-// };
+/* Delete Be Resturant Owner Application */
+export const deleteRestaurantOwnerApplication = async (
+  resturantOwnerId: string
+): Promise<void> => {
+  const db = await dbConnect();
+  const resturantOwnerCollection: Collection<CommonPayload> =
+    db.collection("beRestaurantOwner");
+  await resturantOwnerCollection.deleteOne({
+    _id: new ObjectId(resturantOwnerId).toString(),
+  });
+};
 
 /* Create Resturant Collection */
-export const createResturant = async (
+export const createRestaurant = async (
   payload: CommonPayload
 ): Promise<void> => {
   const db = await dbConnect();
   const resturantCollection: Collection<CommonPayload> =
-    db.collection("resturant");
+    db.collection("restaurant");
   await resturantCollection.insertOne({
     restaurantOwnerId: payload.restaurantOwnerId,
     restaurantOwnerEmail: payload.restaurantOwnerEmail,
@@ -330,11 +431,11 @@ export const createResturant = async (
   });
 };
 /* Get all Restaurant Data */
-export const getAllResturant = async (): Promise<CommonPayload[]> => {
+export const getRestaurant = async (): Promise<CommonPayload[]> => {
   try {
     const db = await dbConnect();
     const resturantCollection: Collection<CommonPayload> =
-      db.collection("resturant");
+      db.collection("restaurant");
     const resturantData = await resturantCollection.find({}).toArray();
     // Ensure all fields are returned exactly as CommonPayload expects
     const formattedResturantData: CommonPayload[] = resturantData.map(
@@ -366,33 +467,37 @@ export const getAllResturant = async (): Promise<CommonPayload[]> => {
     return []; // fallback return
   }
 };
+/* Delete Restaurant */
+export const deleteRestaurant = async (id: string): Promise<void> => {
+  const db = await dbConnect();
+  const restaurantCollection: Collection<CommonPayload> =
+    db.collection("restaurant");
+  await restaurantCollection.deleteOne({ _id: new ObjectId(id).toString() });
+};
 
 // get restaurant specific owner
 export const getRestaurantByEmail = async (
   email: string
 ): Promise<CommonPayload> => {
-    console.log(email)
-    const db = await dbConnect();
-    const foodCollection = db.collection("resturant");
 
-    const result = await foodCollection.findOne({
-      restaurantOwnerEmail: email,
-    });
-    
+  const db = await dbConnect();
+  const foodCollection = db.collection("resturant");
 
-    const formattedFoodData = {
-      ...result,
-      _id: (result?._id as unknown as ObjectId).toString(),
-    };
-    console.log(formattedFoodData)
-    return formattedFoodData;
+  const result = await foodCollection.findOne({
+    restaurantOwnerEmail: email,
+  });
 
+  const formattedFoodData = {
+    ...result,
+    _id: (result?._id as unknown as ObjectId).toString(),
+  };
+
+  return formattedFoodData;
 };
-
-
 
 /* Create Rider Collection*/
 export type RiderPayload = {
+  // _id?: string;
   riderImage?: string;
   riderIdentification?: number;
   riderName?: string;
@@ -413,6 +518,14 @@ export const createRider = async (payload: RiderPayload): Promise<void> => {
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   await riderCollection.insertOne(payload);
 };
+/* Delete Rider */
+export const deleteRider = async (riderId: string): Promise<void> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  await riderCollection.deleteOne({
+    _id: new ObjectId(riderId),
+  });
+};
 /* Get specific Rider */
 export const getActiveRider = async (
   riderEmail: string
@@ -420,42 +533,29 @@ export const getActiveRider = async (
   const db = await dbConnect();
   const riderCollection: Collection<RiderPayload> = db.collection("rider");
   const rider = await riderCollection.findOne({ riderEmail });
-  // console.log(rider);
-  return rider ?? null; // Ensures function always returns RiderPayload or null
+  return rider ?? null;
 };
 
-/* Get all rider Application request */
-export const getAllRider = async (): Promise<CommonPayload[]> => {
-  try {
-    const db = await dbConnect();
-    const riderCollection: Collection<CommonPayload> = db.collection("beRider");
-    const riderData = await riderCollection.find({}).toArray();
-    // Convert created_at to Date object
-    const formattedRiderData = riderData.map((rider) => ({
-      ...rider,
-      _id: (rider._id as unknown as ObjectId).toString(),
-      created_at: rider.created_at ? new Date(rider.created_at) : undefined,
-    }));
-
-    return formattedRiderData;
-  } catch (error) {
-    console.error("Error fetching riders:", error);
-    throw new Error("Failed to fetch rider data");
-  }
+/* Get All Rider */
+export const getAllRider = async (): Promise<RiderPayload[]> => {
+  const db = await dbConnect();
+  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const riderData = await riderCollection.find({}).toArray();
+  return riderData;
 };
 
 export interface FoodItem {
-  _id: string;
+  _id?: string;
   id?: string;
   restaurant_id?: string;
-  foodName: string;
+  foodName?: string;
   description: string;
   price: number;
   category: string;
   image: string;
-  is_available: boolean;
-  created_at: string;
-  owner_email: string;
+  is_available?: boolean;
+  created_at?: string;
+  owner_email?: string;
 }
 //  get all food specific owner
 export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
@@ -468,6 +568,27 @@ export const getAllFoodsData = async (email: string): Promise<FoodItem[]> => {
     _id: (food._id as unknown as ObjectId).toString(),
   }));
   return formattedFoodData;
+};
+
+// get food details dynamically
+export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
+  const db = await dbConnect();
+  const foodCollection: Collection<FoodItem> = db.collection("food");
+
+  const foodDetails = await foodCollection.findOne({
+    // _id: new ObjectId(id)
+    _id: (id as unknown as ObjectId).toString(),
+  });
+
+  if (!foodDetails) return null;
+
+  const serializedFood = {
+    ...foodDetails,
+    _id: foodDetails._id.toString(),
+    created_at: foodDetails.created_at?.toString(),
+  };
+
+  return serializedFood as FoodItem;
 };
 
 // Delete specific food
@@ -495,6 +616,7 @@ export const deleteFood = async (
   }
 };
 
+//update food
 export const updateFood = async (
   payload: CommonPayload
 ): Promise<{
@@ -528,7 +650,6 @@ export const updateFood = async (
 export const foodAvailableOrNot = async (
   payload: CommonPayload
 ): Promise<unknown> => {
-  // console.log(payload);
   // connect to the database and get the food collection
   const foodCollection = await dbConnect().then((db) => db.collection("food"));
 
@@ -542,45 +663,203 @@ export const foodAvailableOrNot = async (
     }
   );
 
-  // console.log(result);
+
   return result;
 };
 
+// signle food get by food id - added by Jakaria 
+export const getSingleFood = async (id: string) => {
+  const db = await dbConnect();
+  const foodCollection = db.collection("food");
+
+  const foodItem = await foodCollection.findOne({ _id: new ObjectId(id) });
+
+  return foodItem;
+};
+
+export const getOrderCartByEmail = async (email: string) => {
+  const db = await dbConnect();
+  const cartCollection = db.collection("cart");
+
+  const cartItems = await cartCollection.find({ user_email: email }).toArray();
+
+  return cartItems.map((item) => ({
+    _id: item._id.toString(),
+    restaurant_id: item.restaurant_id?.toString() || null,
+    foodName: item.foodName || "",
+    description: item.description || "",
+    price: item.price || 0,
+    category: item.category || "",
+    image: item.image || "",
+    is_available: item.is_available ?? true,
+    created_at: item.created_at ? new Date(item.created_at) : null,
+    owner_email: item.owner_email ?? null,
+    user_email: item.user_email || "",
+  }));
+};
+
+// Delete Cart Item
+export const deleteCartItem = async (
+  payload: CommonPayload
+): Promise<{ acknowledged: boolean; deletedCount: number }> => {
+  try {
+    const db = await dbConnect();
+    const cartCollection = db.collection("cart");
+    console.log(payload)
+    const result = await cartCollection.deleteOne({
+      _id: new ObjectId(payload.id),
+    });
+
+    if (result.deletedCount === 0) {
+      throw new Error("No item found to delete");
+    }
+    return {
+      acknowledged: result.acknowledged,
+      deletedCount: result.deletedCount,
+    };
+  } catch (error) {
+    console.error("Error deleting food item:", error);
+    throw error;
+  }
+};
+
+// aggregate food and reveiw collection and find 8 collection based on max rating but min price (For featured food section) - added by Jakaria
+export const getFeaturedFood = async (): Promise<FoodDetails[]> => {
+  const db = await dbConnect();
+  const reviewCollection = db.collection("reviews");
+
+  const featuredFoods = await reviewCollection.aggregate<FoodDetails>([
+    {
+      $addFields: {
+        food_id: { $toObjectId: "$food_id" }
+      }
+    },
+    {
+      $group: {
+        _id: "$food_id",
+        avgRating: { $avg: "$rating" },
+        reviewCount: { $sum: 1 }
+      }
+    },
+    {
+      $lookup: {
+        from: "food",
+        localField: "_id",
+        foreignField: "_id",
+        as: "food_details"
+      }
+    },
+    {
+      $unwind: "$food_details"
+    },
+    {
+      $match: {
+        "food_details.is_available": true
+      }
+    },
+    {
+      $project: {
+        food_id: { $toString: "$_id" },
+        restaurant_id: "$food_details.restaurant_id",
+        rating: { $round: ["$avgRating", 1] },
+        reviewCount: 1,
+        foodName: "$food_details.foodName",
+        price: "$food_details.price",
+        category: "$food_details.category",
+        image: "$food_details.image",
+        is_available: "$food_details.is_available",
+      }
+    },
+    {
+      $sort: {
+        rating: -1,
+        price: 1
+      }
+    },
+    {
+      $limit: 8
+    }
+  ]
+  ).toArray();
+
+  return featuredFoods.map((item) => ({
+    food_id: item.food_id,
+    restaurant_id: item.restaurant_id,
+    rating: item.rating,
+    reviewCount: item.reviewCount,
+    foodName: item.foodName,
+    price: item.price,
+    category: item.category,
+    image: item.image,
+    is_available: item.is_available,
+  }));
+};
+
+// aggregate food and review collection and find all data. Also add category base data find. It use in allFood page - added by Mahbub modified by jakaria
 export const getAllFoods = async (
   query?: string,
   category?: string,
   sort?: string
-): Promise<FoodItem[]> => {
+): Promise<FoodDetails[]> => {
   const db = await dbConnect();
-  const foodCollection: Collection<FoodItem> = db.collection("food");
-  let filter: Record<string, unknown> = {};
+  const foodCollection: Collection = db.collection("food");
 
-  if (category === "All Food") {
-    filter = {};
-  }
+  const matchStage: Record<string, unknown> = {};
 
   if (category && category !== "All Food") {
-    filter.category = category; // নির্দিষ্ট ক্যাটাগরির ফিল্টার
+    matchStage.category = category;
   }
 
   if (query) {
-    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
+    matchStage.foodName = { $regex: query, $options: "i" };
   }
 
-  const sortOption: Sort = {};
-
+  const sortStage: Record<string, 1 | -1> = {};
   if (sort === "Ascending") {
-    sortOption.price = 1;
+    sortStage.price = 1;
   } else if (sort === "Descending") {
-    sortOption.price = -1;
+    sortStage.price = -1;
   }
 
-  // console.log(filter);
+  const foods = await foodCollection.aggregate<FoodDetails>([
+    { $match: matchStage },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { foodIdStr: { $toString: "$_id" } },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$food_id", "$$foodIdStr"] }
+            }
+          }
+        ],
+        as: "review_data"
+      }
+    },
+    {
+      $addFields: {
+        rating: { $ifNull: [{ $avg: "$review_data.rating" }, 0] },
+        reviewCount: { $size: "$review_data" },
+        food_id: { $toString: "$_id" }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        food_id: 1,
+        restaurant_id: 1,
+        rating: 1,
+        reviewCount: 1,
+        foodName: 1,
+        price: 1,
+        category: 1,
+        image: 1,
+        is_available: 1,
+      }
+    },
+    { $sort: Object.keys(sortStage).length ? sortStage : { foodName: 1 } }
+  ]).toArray();
 
-  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
-
-  return foodData.map((food) => ({
-    ...food,
-    _id: (food._id as unknown as ObjectId).toString(),
-  }));
-};
+  return foods;
+}
