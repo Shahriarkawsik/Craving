@@ -2,7 +2,7 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-
+import bcrypt from "bcryptjs";
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -106,11 +106,18 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
       "This email is already registered. Please use a different email."
     );
   }
+
+   if (!payload.password) {
+    throw new Error("Password is Required");
+  }
+  const hashedPassword = await bcrypt.hash(payload.password, 10);
+  
   await userCollection.insertOne({
     name: payload.name,
     image: payload.image,
     email: payload.email,
-    password: payload.password,
+    // password: payload.password,
+    password: hashedPassword,
     role: payload.role,
     phone: payload.phone,
     status: payload.status,
@@ -273,6 +280,17 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     is_available: payload.is_available,
     created_at: payload.created_at,
   });
+};
+// Post Add donation food from restaurant owner
+export const addDonationFood = async (payload: CommonPayload): Promise<void> => {
+  const foodDonationCollection = await dbConnect().then((db)=> db.collection("donationFood"));
+  await foodDonationCollection.insertOne({
+    foodName:payload.foodName,
+    description:payload.description,
+    foodImage:payload.foodImage,
+    location:payload.location,
+    restaurantName:payload.restaurantName,
+  })
 };
 
 /*create Be Rider application Collection*/
