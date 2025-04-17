@@ -83,6 +83,18 @@ export interface FoodDetails {
   is_available: boolean;
 };
 
+export interface Reviews {
+  userName: string;
+  userImage: string;
+  rating: number;
+  review: string;
+};
+
+export interface SingleFoodDetails extends FoodDetails {
+  description: string;
+  reviews: Reviews[];
+}
+
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and create user collection
   const userCollection = await dbConnect().then((db) => db.collection("users"));
@@ -869,3 +881,119 @@ export const getAllFoods = async (
 
   return foods;
 }
+
+// signle food details find
+export const getSingleFoodDetails = async (
+  foodId: string
+): Promise<SingleFoodDetails | null> => {
+  const db = await dbConnect();
+  const foodCollection: Collection = db.collection("food");
+
+  const result = await foodCollection.aggregate([
+    {
+      $match: { _id: new ObjectId(foodId) }
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { foodIdStr: { $toString: "$_id" } },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$food_id", "$$foodIdStr"] }
+            }
+          },
+          {
+            $lookup: {
+              from: "users",
+              let: { userIdObj: { $toObjectId: "$user_id" } },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: { $eq: ["$_id", "$$userIdObj"] }
+                  }
+                },
+                {
+                  $project: {
+                    _id: 0,
+                    name: 1,
+                    image: 1
+                  }
+                }
+              ],
+              as: "user"
+            }
+          },
+          {
+            $unwind: {
+              path: "$user",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              rating: 1,
+              review: 1,
+              userName: "$user.name",
+              userImage: "$user.image"
+            }
+          }
+        ],
+        as: "reviews"
+      }
+    },
+    {
+      $addFields: {
+        averageRating: { $avg: "$reviews.rating" },
+        reviewCount: {
+          $size: {
+            $filter: {
+              input: "$reviews",
+              as: "r",
+              cond: { $ifNull: ["$$r.rating", false] }
+            }
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        food_id: { $toString: "$_id" },
+        foodName: 1,
+        description: 1,
+        price: 1,
+        category: 1,
+        image: 1,
+        is_available: 1,
+        restaurant_id: 1,
+        rating: { $round: ["$averageRating", 1] },
+        reviewCount: 1,
+        reviews: 1
+      }
+    }
+  ]).toArray();
+
+  const data = result[0];
+  if (!data) return null;
+
+  return {
+    food_id: data.food_id,
+    restaurant_id: data.restaurant_id,
+    rating: data.rating,
+    reviewCount: data.reviewCount,
+    foodName: data.foodName,
+    price: data.price,
+    category: data.category,
+    image: data.image || null,
+    is_available: data.is_available,
+    description: data.description,
+    reviews: (data.reviews || []).map((review: Reviews) => ({
+      userName: review.userName || "Anonymous",
+      userImage: review.userImage || null,
+      rating: review.rating,
+      review: review.review
+    }))
+  };
+};
