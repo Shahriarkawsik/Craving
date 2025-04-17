@@ -2,8 +2,9 @@
 import { addDonationFood } from "@/app/action/auth/allApi";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { addDonationFood } from "@/app/action/auth/allApi";
 import { toast } from "react-toastify";
+
+const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 
 const AddFood = () => {
   type Inputs = {
