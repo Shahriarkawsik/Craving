@@ -1,141 +1,164 @@
 "use client";
 
-// import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button";
-// import { FaLinkedin } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
-import { MdMarkEmailRead } from "react-icons/md";
-import { FaPhoneSquareAlt, FaRegEdit } from "react-icons/fa";
-import Link from "next/link";
-import { useEffect } from "react";
-import { getUserDetails } from "@/app/action/auth/allApi";
+import { FormEvent, useState } from "react";
+import { updateUser } from "@/app/action/auth/allApi";
+import Banner from "@/components/shared/Banner";
+import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { FaRegEdit } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-// Define TypeScript interface for user session?.user?
-// interface ProfileProps {
-//   id: number;
-//   name: string;
-//   role: string;
-//   image: string;
-//   fbUrl: string;
-//   linkedinUrl: string;
-// }
+const Profile = () => {
+  const { data: session, status, update } = useSession();
+  const [isEditable, setIsEditable] = useState(false);
 
-// User session?.user? data
-// const userProfile: ProfileProps[] = [
-//   {
-//     id: 1,
-//     name: "Rakib",
-//     role: "User",
-//     imageUrl: "https://i.ibb.co.com/BndR15C/IMG-9824.jpg",
-//     linkedinUrl: "https://www.linkedin.com/in/rakib-rkb",
-//     fbUrl: "https://www.facebook.com/session?.user?.php?id=100007789877647",
-//   },
-// ];
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    const image = (form.elements.namedItem("image") as HTMLInputElement).value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const phone = (form.elements.namedItem("phone") as HTMLInputElement).value;
+    const address = (form.elements.namedItem("address") as HTMLInputElement).value;
 
-// {user: {…}, expires: '2025-05-06T05:35:00.917Z'}
-// expires
-// :
-// "2025-05-06T05:35:00.917Z"
-// user
-// :
-// address
-// :
-// "Not provided"
-// created_at
-// :
-// "2025-04-05T05:26:04.787Z"
-// email
-// :
-// "admin@gmail.com"
-// id
-// :
-// "67f0beec9a1658ffa63e9c37"
-// image
-// :
-// "https://i.ibb.co.com/5xKLHQhF/global-admin-icon-color-outline-vector.jpg"
-// name
-// :
-// "Admin"
-// phone
-// :
-// 0
-// role
-// :
-// "Admin"
-// status
-// :
-// "Active"
-
-const Profile: React.FC = () => {
-  // const [user, setUser] = React.useState({});
-
-  const { data: session } = useSession();
-  console.log(session, "data");
-  useEffect(() => {
-    const getUser = async () => {
-      const result = await getUserDetails(session?.user?.email as string);
-      console.log(result, "result");
+    const userData = {
+      name,
+      image,
+      phone: Number(phone),
+      email,
+      address,
+      role: "User",
+      status: "Active",
     };
 
-    getUser();
-  }, [session?.user?.email]);
+    try {
+      await updateUser(userData);
+      await update();
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      toast.error(`${error}`);
+    } finally {
+      setIsEditable(false);
+    }
+  };
+
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-300">
-      <Card
-        key={session?.user?.id}
-        className="w-full max-w-lg rounded-2xl border-0 shadow-lg pt-0 bg-white relative"
-      >
-        <div className="absolute top-4 right-4 hover:bg-gray-200 bg-white rounded-full p-2 text-2xl cursor-pointer">
-          <Link href="/editProfile">
-            <FaRegEdit />{" "}
-          </Link>
-        </div>
+    <div>
+      {/* Banner section */}
+      <Banner image={bannerImage.src} title="Your Profile" subtitle="" />
 
-        <CardHeader className="flex flex-col rounded-t-2xl bg-amber-300 p-14 items-center">
-          {/* Profile Image */}
-          <Avatar className="w-32 h-32">
-            <AvatarImage
-              src={session?.user?.image as string}
-              alt={session?.user?.name}
-            />
-            <AvatarFallback>{session?.user?.name.charAt(0)}</AvatarFallback>
-          </Avatar>
-
-          <CardTitle className="mt-3 text-2xl font-semibold">
-            {session?.user?.name}
-          </CardTitle>
-          <p className="text-gray-500 text-[12px] bg-gray-200 px-2 rounded-full ">
-            {session?.user?.role}
-          </p>
-
-          {/* this is a email and phone number */}
-
-          <div className="flex gap-4 items-center text-md text-gray-700  ">
-            <div className="flex gap-2 items-center">
-              <span>
-                <MdMarkEmailRead />
-              </span>
-              <p>{session?.user?.email}</p>
-            </div>
-
-            <div className="flex gap-2 items-center">
-              <span>
-                <FaPhoneSquareAlt />
-              </span>
-              <p>{session?.user?.phone || "Not Provided"}</p>
-            </div>
+      {status === 'loading' ? <p className="text-center my-10">Profile is Loading...</p> : (
+        <>
+          {/* edit button */}
+          <div className="relative">
+            {session?.user?.image && (
+              <Image
+                src={session.user.image}
+                alt={session.user.name || "Profile Image"}
+                width={200}
+                height={200}
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-md ring-4 ring-white p-2 bg-white"
+              />
+            )}
           </div>
-        </CardHeader>
 
-        {/* Profile  */}
-        <CardContent className=" m-4">
-          Address : {session?.user?.address || "Not Provided"}
-        </CardContent>
-      </Card>
-    </div>
+          {/* form data */}
+          <div className="relative w-full mx-auto mt-28 mb-8 border-2 border-slate-200 max-w-lg p-8 space-y-6 bg-white shadow-lg rounded-2xl">
+
+            {/* Edit button */}
+            {!isEditable && <div className="absolute top-4 right-4">
+              <button onClick={() => setIsEditable(true)} className="size-10 bg-slate-200 hover:bg-slate-300 transition-colors duration-200 cursor-pointer rounded-full flex items-center justify-center p-2">
+                <FaRegEdit className="text-3xl text-black text-center" />
+              </button>
+            </div>}
+
+            {/* form title */}
+            <h3 className="text-2xl font-bold text-center text-gray-800 uppercase">
+              {isEditable ? 'Update Profile' : 'Profile Details'}
+            </h3>
+
+            {/* form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="text-gray-700">Name</label>
+                <Input
+                  type="text"
+                  name="name"
+                  readOnly={!isEditable}
+                  defaultValue={session?.user?.name}
+                  placeholder="Enter your name"
+                  className={`w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+                />
+              </div>
+              {isEditable && <div>
+                <label className="text-gray-700">Image</label>
+                <Input
+                  type="text"
+                  name="image"
+                  defaultValue={session?.user?.image as string}
+                  placeholder="Enter your Image"
+                  className={`w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+                />
+              </div>}
+
+              <div>
+                <label className="text-gray-700">Email</label>
+                <Input
+                  type="email"
+                  name="email"
+                  defaultValue={session?.user?.email as string}
+                  readOnly={true}
+                  placeholder="Enter your email"
+                  className={`w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+                />
+              </div>
+
+              <div className="w-full mb-3">
+                <label className="text-gray-700">Phone</label>
+                {/* <p className="text-xs text-red-500 mb-2 italic">{error}</p> */}
+                <Input
+                  type="text"
+                  name="phone"
+                  readOnly={!isEditable}
+                  defaultValue={(session?.user?.phone) || '01725-xxxxxx'}
+                  placeholder="Enter your phone number"
+                  required
+                  className={`w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+                />
+              </div>
+              <div className="w-full mb-3">
+                <label className="text-gray-700">Address</label>
+                {/* <p className="text-xs text-red-500 mb-2 italic">{error}</p> */}
+                <Textarea
+                  name="address"
+                  readOnly={!isEditable}
+                  defaultValue={session?.user?.address as string}
+                  placeholder="Enter your address"
+                  required
+                  className={`w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500`}
+                />
+              </div>
+
+              <div className="mt-6 text-center">
+                {isEditable && <Button
+                  variant="outline"
+                  type="submit"
+                  className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 hover:text-white cursor-pointer transition duration-300"
+                >
+                  Update Profile
+                </Button>}
+              </div>
+            </form>
+          </div>
+        </>
+      )}
+
+    </div >
   );
 };
 
