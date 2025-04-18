@@ -46,10 +46,10 @@ const ShowDonationCard = () => {
       {donations.map((donation) => (
         <div
           key={donation._id}
-          className="border rounded-xl shadow p-4 bg-white"
+          className="border rounded-xl p-4 bg-white"
         >
           <div>
-          <Image className="w-full h-full object-cover" src={donation.image} alt={donation.title} width={200} height={200}/>
+          <Image className="w-full h-[300px] object-cover" src={donation.image} alt={donation.title} width={200} height={200}/>
           </div>
           <h2 className="text-xl font-semibold mt-2">{donation.title}</h2>
           <p className="text-sm text-gray-600">{donation.description}</p>
