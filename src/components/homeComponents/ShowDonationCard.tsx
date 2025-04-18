@@ -1,0 +1,80 @@
+"use client"; 
+import { getFoodDonation } from "@/app/action/auth/allApi";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
+type FoodDonation = {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  location: string;
+  restaurantName: string;
+};
+
+const ShowDonationCard = () => {
+  const [donations, setDonations] = useState<FoodDonation[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      try {
+        const data = await getFoodDonation();
+        setDonations(data as FoodDonation[]);
+      } catch (error) {
+        console.error("Something went wrong", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDonations();
+  }, []);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <section className="w-11/12 mx-auto ">
+    
+      <div className="text-center">
+        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        Food Donations
+        </h1>
+      </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      {donations.map((donation) => (
+        <div
+          key={donation._id}
+          className="border rounded-xl shadow p-4 bg-white"
+        >
+          <div>
+          <Image className="w-full h-full object-cover" src={donation.image} alt={donation.title} width={200} height={200}/>
+          </div>
+          <h2 className="text-xl font-semibold mt-2">{donation.title}</h2>
+          <p className="text-sm text-gray-600">{donation.description}</p>
+          <p className="mt-1 text-sm text-gray-500">
+            Location: {donation.location}
+          </p>
+          <p className="mt-1 text-sm text-gray-500">
+            Restaurant: {donation.restaurantName}
+          </p>
+        </div>
+      ))}
+    </div>
+    </section>
+  );
+};
+
+export default ShowDonationCard;
+
+
+
+
+
+
+
+
+
+
+
