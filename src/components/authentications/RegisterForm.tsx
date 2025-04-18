@@ -89,7 +89,7 @@ const RegisterForm = () => {
             className="flex hover:font-semibold items-center gap-2 text-lg pt-6"
             href="/"
           >
-            <FaArrowLeft /> Back To Home
+            <FaArrowLeft className="mt-1"/> Back To Home
           </Link>
         </div>
         <div className="lg:flex items-center justify-center min-h-screen ">
