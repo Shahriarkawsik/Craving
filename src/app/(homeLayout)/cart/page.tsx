@@ -38,9 +38,6 @@ export default function CartPage() {
   const { data: session } = useSession();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //   const [loading, setLoading] = useState<boolean>(true);
-
-  
-
   useEffect(() => {
     const fetchCartItems = async () => {
       if (session?.user?.email) {
@@ -53,13 +50,10 @@ export default function CartPage() {
         }
       }
     };
-
     fetchCartItems();
   }, [session]);
-
-
   const handleDeleteCartItem = async (id: string): Promise<void> => {
-    console.log(id)
+    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -71,7 +65,7 @@ export default function CartPage() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response: DeleteResponse = await deleteCartItem({id});
+          const response: DeleteResponse = await deleteCartItem({ id });
 
           if (response.deletedCount > 0) {
             Swal.fire({
@@ -80,17 +74,15 @@ export default function CartPage() {
               icon: "success",
             });
             // fetchCartItems();
-            const result = cartItems.filter(item => item._id !== id);
+            const result = cartItems.filter((item) => item._id !== id);
             setCartItems(result);
           }
         } catch (error) {
           console.error("Error deleting food item:", error);
-        } 
+        }
       }
     });
   };
-
-
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
@@ -155,7 +147,10 @@ export default function CartPage() {
                   <TableCell>{item.price.toFixed(2)}</TableCell>
                   <TableCell className="flex flex-col md:flex-row gap-2 mt-2">
                     {/* TODO: Delete order Food */}
-                    <button onClick={() => handleDeleteCartItem(item._id)} className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer">
+                    <button
+                      onClick={() => handleDeleteCartItem(item._id)}
+                      className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer"
+                    >
                       <TiDelete />
                     </button>
                   </TableCell>
