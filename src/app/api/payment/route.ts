@@ -1,5 +1,6 @@
 // src > app > api > payment > route.ts
 import { NextRequest, NextResponse } from "next/server";
+import { useState } from "react";
 import { SslCommerzPayment } from "sslcommerz";
 
 const store_id = process.env.SSLCOMMERZ_STORE_ID!;
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { amount } = body;
 
-  const data = {
+   const data = {
     total_amount: amount,
     currency: "BDT",
     tran_id: tran_id, // use unique tran_id for each api call
@@ -43,6 +44,7 @@ export async function POST(req: NextRequest) {
     ship_state: "Dhaka",
     ship_postcode: 1000,
     ship_country: "Bangladesh",
+    is_sent_email: true, // Does not work in demo version.
   };
 
   try {

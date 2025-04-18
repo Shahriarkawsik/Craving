@@ -1,5 +1,5 @@
 "use client";
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import bannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
 import { Search } from "lucide-react";
@@ -23,15 +23,17 @@ import Banner from "@/components/shared/Banner";
 export default function AllFoodsPage() {
   const searchParams = useSearchParams();
   const queryCategory = searchParams.get("category") || "";
+
+
   const [foods, setFoods] = useState<FoodDetails[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
     try {
