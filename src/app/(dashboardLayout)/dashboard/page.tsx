@@ -17,7 +17,6 @@ import { useSession } from "next-auth/react";
 export function AppSidebar() {
   const pathName = usePathname();
   const { data: session } = useSession();
-
   return (
     <Sidebar className="">
       <SidebarContent>
@@ -28,8 +27,8 @@ export function AppSidebar() {
                 className="mx-auto "
                 src={logo}
                 alt="logo"
-                width={70}
-                height={70}
+                width={60}
+                height={60}
               />
             </Link>
             {/* <small className="text-xl font-semibold bg-green-500 text-white px-2  rounded-xl mb-2">
@@ -118,6 +117,16 @@ export function AppSidebar() {
                     } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                 >
                   Add Food
+                </SidebarMenuItem>
+              </Link>
+              <Link href="/dashboard/resturantOwner/addDonation">
+                <SidebarMenuItem
+                  className={`${pathName === "/dashboard/resturantOwner/addDonation"
+                      ? " font-semibold shadow-md shadow-gray-300"
+                      : "font-normal"
+                    } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                >
+                  Add Donation
                 </SidebarMenuItem>
               </Link>
               <Link href="/dashboard/resturantOwner/allFoodItem">

@@ -2,8 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import dbConnect from "@/lib/dbConnect";
-
-// authOptions export only
+import bcrypt from "bcryptjs";
 
 // Define NextAuth Options
 export const authOptions: NextAuthOptions = {
@@ -23,8 +22,20 @@ export const authOptions: NextAuthOptions = {
           .collection("users")
           .findOne({ email: credentials.email });
 
-        if (!user || user.password !== credentials.password) {
-          return null;
+        // if (!user || user.password !== credentials.password) {
+        //   return null;
+        // }
+        
+        // for has password check
+        if(!user){
+          return null
+        }
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password,
+          user.password,
+        )
+        if(!isPasswordValid){
+          return null
         }
 
         return {
