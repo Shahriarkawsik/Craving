@@ -1,25 +1,43 @@
+<<<<<<< HEAD
 import Image from "next/image";
 import { FaStar } from "react-icons/fa6";
 import { MdFavoriteBorder } from "react-icons/md";
 import Link from "next/link";
+=======
+import { useEffect, useState } from "react";
+import { FoodDetails, getFeaturedFood } from "@/app/action/auth/allApi";
+import FoodCard from "../shared/FoodCard";
+import { useRouter } from "next/navigation";
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
 
 const FeaturedFood = () => {
-  // interface featuredFood {
-  //   name: string;
-  //   description: string;
-  //   price: number;
-  //   rating: number;
-  // }
-  // const featuredFoods: featuredFood[] = [
-  //   {
-  //     name: "Barger",
-  //     description:
-  //       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, perspiciatis.",
-  //     price: 100, // Replace with the actual price
-  //     rating: 5, // Replace with the actual rating
-  //   },
-  // ];
+  const router = useRouter();
+
+  const [featuredFoods, setFeaturedFoods] = useState<FoodDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getFeaturedFood();
+        setFeaturedFoods(data);
+      } catch (err) {
+        console.error("Error fetching featured foods:", err);
+        setError("Failed to load featured foods.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   return (
+<<<<<<< HEAD
     <Link href="/allFood">
       <section className="w-11/12 mx-auto  space-y-5">
         <div className="text-center">
@@ -154,6 +172,34 @@ const FeaturedFood = () => {
         </div>
       </section>
     </Link>
+=======
+    <section className="w-11/12 mx-auto  space-y-5">
+      {/* heading */}
+      <div className="text-center">
+        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+          Featured Food
+        </h1>
+      </div>
+
+      {/* feature food content */}
+
+      {loading ? (
+        <p className="text-center text-lg font-medium py-6">Loading featured foods...</p>
+      ) : error ? (
+        <p className="text-center text-red-500 py-6">{error}</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-10">
+          {featuredFoods.map((food) => (
+            <FoodCard key={food.food_id} food={food} />
+          ))}
+        </div>
+      )}
+
+      <div className="text-black w-fit mx-auto mt-10">
+        <button onClick={() => router.push('/allFood')} className="px-4 py-2 border-2 border-orange-500 text-black hover:text-white hover:bg-orange-500 transition-colors duration-200 rounded-sm cursor-pointer">See All Food</button>
+      </div>
+    </section>
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
   );
 };
 

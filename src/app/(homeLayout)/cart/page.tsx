@@ -14,6 +14,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Swal from "sweetalert2";
+import Banner from "@/components/shared/Banner";
+import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
 
 interface CartItem {
   _id: string;
@@ -37,8 +39,6 @@ export default function CartPage() {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //   const [loading, setLoading] = useState<boolean>(true);
-
-
   useEffect(() => {
     const fetchCartItems = async () => {
       if (session?.user?.email) {
@@ -51,13 +51,10 @@ export default function CartPage() {
         }
       }
     };
-
     fetchCartItems();
   }, [session]);
-
-
   const handleDeleteCartItem = async (id: string): Promise<void> => {
-    console.log(id)
+    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -78,7 +75,7 @@ export default function CartPage() {
               icon: "success",
             });
             // fetchCartItems();
-            const result = cartItems.filter(item => item._id !== id);
+            const result = cartItems.filter((item) => item._id !== id);
             setCartItems(result);
           }
         } catch (error) {
@@ -87,8 +84,6 @@ export default function CartPage() {
       }
     });
   };
-
-
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
@@ -116,11 +111,11 @@ export default function CartPage() {
     }
   };
   return (
-    <div className="w-11/12 max-w-screen-xl mx-auto mt-12">
-      <h2 className="text-xl md:text-2xl font-bold mb-4">🛍️ Your Cart</h2>
+    <div>
+      <Banner image={bannerImage.src} title={`Your Cart`} subtitle={`See your added items.`} />
 
       {/* Responsive layout: mobile = column, desktop = grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+      <div className="w-11/12 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 my-10">
         {/* 🧾 Table Section */}
         <div className="col-span-1 md:col-span-8 overflow-x-auto bg-white rounded-md shadow-md p-2">
           <Table className="min-w-[700px]">
@@ -153,7 +148,10 @@ export default function CartPage() {
                   <TableCell>{item.price.toFixed(2)}</TableCell>
                   <TableCell className="flex flex-col md:flex-row gap-2 mt-2">
                     {/* TODO: Delete order Food */}
-                    <button onClick={() => handleDeleteCartItem(item._id)} className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer">
+                    <button
+                      onClick={() => handleDeleteCartItem(item._id)}
+                      className="text-black text-2xl px-3 py-1 rounded-md cursor-pointer"
+                    >
                       <TiDelete />
                     </button>
                   </TableCell>

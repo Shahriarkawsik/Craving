@@ -1,10 +1,16 @@
 
 
 "use client";
+<<<<<<< HEAD
 import { useEffect, useState, useCallback } from "react";
 import allFoodBannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { getAllFoods } from "@/app/action/auth/allApi";
 import FoodCard from "./components/FoodCard";
+=======
+import {  useState } from "react";
+import bannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
+import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
 import { Search } from "lucide-react";
 import { debounce } from "lodash";
 import * as React from "react";
@@ -17,6 +23,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
+<<<<<<< HEAD
 } from "@/components/ui/select";
 import { useSearchParams } from "next/navigation";
 
@@ -51,6 +58,31 @@ export default function AllFoodsPage() {
     try {
       setIsLoading(true);
       const data = await getAllFoods(searchQuery, foodCategory, foodSort) as FoodItem[];
+=======
+} from "@/components/ui/select"
+import { useSearchParams } from "next/navigation";
+import FoodCard from "@/components/shared/FoodCard";
+import Banner from "@/components/shared/Banner";
+
+
+export default function AllFoodsPage() {
+  const searchParams = useSearchParams();
+  const queryCategory = searchParams.get("category") || "";
+  const [foods, setFoods] = useState<FoodDetails[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
+  const [foodSort, setFoodSort] = useState<string>('')
+
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
+    try {
+      setIsLoading(true);
+      const data = await getAllFoods(query, category, sort);
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
       setFoods(data);
     } catch (error) {
       console.error("Error fetching food data:", error);
@@ -66,16 +98,28 @@ export default function AllFoodsPage() {
   // search functionality
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
+<<<<<<< HEAD
+=======
+    fetchData(query, foodCategory, foodSort); // ✅ এখন search করলে category ও থাকবে
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
   }, 500);
 
   // category functionality
   const handleCategory = debounce((category: string) => {
     setFoodCategory(category);
+<<<<<<< HEAD
+=======
+    fetchData(searchQuery, category, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
   }, 500);
 
   // sort functionality
   const handleSort = debounce((sort: string) => {
     setFoodSort(sort);
+<<<<<<< HEAD
+=======
+    fetchData(searchQuery, foodCategory, sort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
   }, 500);
 
 
@@ -84,28 +128,8 @@ export default function AllFoodsPage() {
 
   return (
     <div>
-      <div
-        className="flex justify-center items-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${allFoodBannerImage.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "350px",
-          width: "100%",
-        }}
-      >
-        <div className="w-3xl mx-auto text-center z-50">
-          <h2 className="text-2xl md:text-4xl font-bold text-white">
-            Welcome to Our Food World
-          </h2>
-          <p className="mt-2 text-white">
-            Explore a variety of mouth-watering dishes from around the world.
-            From appetizers to desserts, discover meals that suit every taste
-            and occasion.
-          </p>
-        </div>
-      </div>
+      {/* banner section */}
+      <Banner image={bannerImage.src} title={`Welcome to Our Food World`} subtitle={`Explore a variety of mouth-watering dishes from around the world. From appetizers to desserts, discover meals that suit every taste and occasion.`} />
 
       {/* All Food Section */}
       <div className="text-center my-10">
@@ -176,9 +200,13 @@ export default function AllFoodsPage() {
         {isLoading ? (
           <p className="text-center text-blue-500 text-lg font-semibold">Loading...</p>
         ) : (
+<<<<<<< HEAD
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 md:gap-7 my-10">
+=======
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-10 my-10">
+>>>>>>> 835f6fb979bb6abade129764afe17513b6f5c012
             {foods.length > 0 ? (
-              foods?.map((food) => <FoodCard key={food._id} food={food} />)
+              foods?.map((food) => <FoodCard key={food.food_id} food={food} />)
             ) : (
               <p className="text-center text-gray-500 col-span-full">
                 No matching food found.

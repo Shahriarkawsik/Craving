@@ -2,7 +2,7 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
-import { Sort } from "mongodb";
+import bcrypt from "bcryptjs";
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -70,6 +70,31 @@ export interface CommonPayload {
   restaurantId?: string;
 }
 
+// FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
+export interface FoodDetails {
+  food_id: string;
+  restaurant_id: string;
+  rating: number;
+  reviewCount: number;
+  foodName: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+};
+
+export interface Reviews {
+  userName: string;
+  userImage: string;
+  rating: number;
+  review: string;
+};
+
+export interface SingleFoodDetails extends FoodDetails {
+  description: string;
+  reviews: Reviews[];
+}
+
 export const registerUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and create user collection
   const userCollection = await dbConnect().then((db) => db.collection("users"));
@@ -81,11 +106,18 @@ export const registerUser = async (payload: CommonPayload): Promise<void> => {
       "This email is already registered. Please use a different email."
     );
   }
+
+   if (!payload.password) {
+    throw new Error("Password is Required");
+  }
+  const hashedPassword = await bcrypt.hash(payload.password, 10);
+  
   await userCollection.insertOne({
     name: payload.name,
     image: payload.image,
     email: payload.email,
-    password: payload.password,
+    // password: payload.password,
+    password: hashedPassword,
     role: payload.role,
     phone: payload.phone,
     status: payload.status,
@@ -99,15 +131,15 @@ export const updateUser = async (payload: CommonPayload): Promise<void> => {
   // Connect to the database and update user collection
   const userCollection = await dbConnect().then((db) => db.collection("users"));
   await userCollection.updateOne({ email: payload.email },
-     { 
-    $set: {
-      name: payload.name,
-      image: payload.image,
-      phone: payload.phone,
-      address: payload.address
+    {
+      $set: {
+        name: payload.name,
+        image: payload.image,
+        phone: payload.phone,
+        address: payload.address
 
-    }
-  });
+      }
+    });
   console.log(payload);
 };
 
@@ -249,6 +281,17 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
     created_at: payload.created_at,
   });
 };
+// Post Add donation food from restaurant owner
+export const addDonationFood = async (payload: CommonPayload): Promise<void> => {
+  const foodDonationCollection = await dbConnect().then((db)=> db.collection("donationFood"));
+  await foodDonationCollection.insertOne({
+    foodName:payload.foodName,
+    description:payload.description,
+    foodImage:payload.foodImage,
+    location:payload.location,
+    restaurantName:payload.restaurantName,
+  })
+};
 
 /*create Be Rider application Collection*/
 export const createBeRiderApplication = async (
@@ -311,9 +354,10 @@ export const deleteRiderApplication = async (
   riderId: string
 ): Promise<void> => {
   const db = await dbConnect();
-  const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+  const riderCollection = db.collection("beRider");
+  
   await riderCollection.deleteOne({
-    _id: new ObjectId(riderId).toString(),
+    _id: new ObjectId(riderId),
   });
 };
 /* Be Resturant Owner Application */
@@ -370,10 +414,10 @@ export const deleteRestaurantOwnerApplication = async (
   resturantOwnerId: string
 ): Promise<void> => {
   const db = await dbConnect();
-  const resturantOwnerCollection: Collection<CommonPayload> =
+  const resturantOwnerCollection =
     db.collection("beRestaurantOwner");
   await resturantOwnerCollection.deleteOne({
-    _id: new ObjectId(resturantOwnerId).toString(),
+    _id: new ObjectId(resturantOwnerId)
   });
 };
 
@@ -592,7 +636,6 @@ export const deleteFood = async (
 };
 
 //update food
-
 export const updateFood = async (
   payload: CommonPayload
 ): Promise<{
@@ -643,44 +686,7 @@ export const foodAvailableOrNot = async (
   return result;
 };
 
-export const getAllFoods = async (
-  query?: string,
-  category?: string,
-  sort?: string
-): Promise<FoodItem[]> => {
-  const db = await dbConnect();
-  const foodCollection: Collection<FoodItem> = db.collection("food");
-  let filter: Record<string, unknown> = {};
-
-  if (category === "All Food") {
-    filter = {};
-  }
-
-  if (category && category !== "All Food") {
-    filter.category = category;
-  }
-
-  if (query) {
-    filter.foodName = { $regex: query, $options: "i" }; // Case-insensitive search
-  }
-
-  const sortOption: Sort = {};
-
-  if (sort === "Ascending") {
-    sortOption.price = 1;
-  } else if (sort === "Descending") {
-    sortOption.price = -1;
-  }
-
-  const foodData = await foodCollection.find(filter).sort(sortOption).toArray();
-
-  return foodData.map((food) => ({
-    ...food,
-    _id: (food._id as unknown as ObjectId).toString(),
-  }));
-};
-
-// signle food get
+// signle food get by food id - added by Jakaria 
 export const getSingleFood = async (id: string) => {
   const db = await dbConnect();
   const foodCollection = db.collection("food");
@@ -736,4 +742,261 @@ export const deleteCartItem = async (
     console.error("Error deleting food item:", error);
     throw error;
   }
+};
+
+// aggregate food and reveiw collection and find 8 collection based on max rating but min price (For featured food section) - added by Jakaria
+export const getFeaturedFood = async (): Promise<FoodDetails[]> => {
+  const db = await dbConnect();
+  const reviewCollection = db.collection("reviews");
+
+  const featuredFoods = await reviewCollection.aggregate<FoodDetails>([
+    {
+      $addFields: {
+        food_id: { $toObjectId: "$food_id" }
+      }
+    },
+    {
+      $group: {
+        _id: "$food_id",
+        avgRating: { $avg: "$rating" },
+        reviewCount: { $sum: 1 }
+      }
+    },
+    {
+      $lookup: {
+        from: "food",
+        localField: "_id",
+        foreignField: "_id",
+        as: "food_details"
+      }
+    },
+    {
+      $unwind: "$food_details"
+    },
+    {
+      $match: {
+        "food_details.is_available": true
+      }
+    },
+    {
+      $project: {
+        food_id: { $toString: "$_id" },
+        restaurant_id: "$food_details.restaurant_id",
+        rating: { $round: ["$avgRating", 1] },
+        reviewCount: 1,
+        foodName: "$food_details.foodName",
+        price: "$food_details.price",
+        category: "$food_details.category",
+        image: "$food_details.image",
+        is_available: "$food_details.is_available",
+      }
+    },
+    {
+      $sort: {
+        rating: -1,
+        price: 1
+      }
+    },
+    {
+      $limit: 8
+    }
+  ]
+  ).toArray();
+
+  return featuredFoods.map((item) => ({
+    food_id: item.food_id,
+    restaurant_id: item.restaurant_id,
+    rating: item.rating,
+    reviewCount: item.reviewCount,
+    foodName: item.foodName,
+    price: item.price,
+    category: item.category,
+    image: item.image,
+    is_available: item.is_available,
+  }));
+};
+
+// aggregate food and review collection and find all data. Also add category base data find. It use in allFood page - added by Mahbub modified by jakaria
+export const getAllFoods = async (
+  query?: string,
+  category?: string,
+  sort?: string
+): Promise<FoodDetails[]> => {
+  const db = await dbConnect();
+  const foodCollection: Collection = db.collection("food");
+
+  const matchStage: Record<string, unknown> = {};
+
+  if (category && category !== "All Food") {
+    matchStage.category = category;
+  }
+
+  if (query) {
+    matchStage.foodName = { $regex: query, $options: "i" };
+  }
+
+  const sortStage: Record<string, 1 | -1> = {};
+  if (sort === "Ascending") {
+    sortStage.price = 1;
+  } else if (sort === "Descending") {
+    sortStage.price = -1;
+  }
+
+  const foods = await foodCollection.aggregate<FoodDetails>([
+    { $match: matchStage },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { foodIdStr: { $toString: "$_id" } },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$food_id", "$$foodIdStr"] }
+            }
+          }
+        ],
+        as: "review_data"
+      }
+    },
+    {
+      $addFields: {
+        rating: { $ifNull: [{ $avg: "$review_data.rating" }, 0] },
+        reviewCount: { $size: "$review_data" },
+        food_id: { $toString: "$_id" }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        food_id: 1,
+        restaurant_id: 1,
+        rating: 1,
+        reviewCount: 1,
+        foodName: 1,
+        price: 1,
+        category: 1,
+        image: 1,
+        is_available: 1,
+      }
+    },
+    { $sort: Object.keys(sortStage).length ? sortStage : { foodName: 1 } }
+  ]).toArray();
+
+  return foods;
+}
+
+// signle food details find
+export const getSingleFoodDetails = async (
+  foodId: string
+): Promise<SingleFoodDetails | null> => {
+  const db = await dbConnect();
+  const foodCollection: Collection = db.collection("food");
+
+  const result = await foodCollection.aggregate([
+    {
+      $match: { _id: new ObjectId(foodId) }
+    },
+    {
+      $lookup: {
+        from: "reviews",
+        let: { foodIdStr: { $toString: "$_id" } },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ["$food_id", "$$foodIdStr"] }
+            }
+          },
+          {
+            $lookup: {
+              from: "users",
+              let: { userIdObj: { $toObjectId: "$user_id" } },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: { $eq: ["$_id", "$$userIdObj"] }
+                  }
+                },
+                {
+                  $project: {
+                    _id: 0,
+                    name: 1,
+                    image: 1
+                  }
+                }
+              ],
+              as: "user"
+            }
+          },
+          {
+            $unwind: {
+              path: "$user",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              rating: 1,
+              review: 1,
+              userName: "$user.name",
+              userImage: "$user.image"
+            }
+          }
+        ],
+        as: "reviews"
+      }
+    },
+    {
+      $addFields: {
+        averageRating: { $avg: "$reviews.rating" },
+        reviewCount: {
+          $size: {
+            $filter: {
+              input: "$reviews",
+              as: "r",
+              cond: { $ifNull: ["$$r.rating", false] }
+            }
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        food_id: { $toString: "$_id" },
+        foodName: 1,
+        description: 1,
+        price: 1,
+        category: 1,
+        image: 1,
+        is_available: 1,
+        restaurant_id: 1,
+        rating: { $round: ["$averageRating", 1] },
+        reviewCount: 1,
+        reviews: 1
+      }
+    }
+  ]).toArray();
+
+  const data = result[0];
+  if (!data) return null;
+
+  return {
+    food_id: data.food_id,
+    restaurant_id: data.restaurant_id,
+    rating: data.rating,
+    reviewCount: data.reviewCount,
+    foodName: data.foodName,
+    price: data.price,
+    category: data.category,
+    image: data.image || null,
+    is_available: data.is_available,
+    description: data.description,
+    reviews: (data.reviews || []).map((review: Reviews) => ({
+      userName: review.userName || "Anonymous",
+      userImage: review.userImage || null,
+      rating: review.rating,
+      review: review.review
+    }))
+  };
 };
