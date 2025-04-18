@@ -9,6 +9,10 @@ import { toast } from "react-toastify";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
+import Lottie from "lottie-react";
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa6";
+import registerLottie from "@/assets/register.json"
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -77,61 +81,84 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="text-gray-700">Name</label>
-        <Input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          required
-          className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
-      {/* <div>
-        <label className="text-gray-700">Image</label>
-        <Input
-          type="url"
-          name="image"
-          placeholder="Enter your Image"
-          // required
-          className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div> */}
+    <div className="bg-gray-100">
+      <div className="w-11/12 mx-auto">
+        <div>
+          <Link
+            className="flex hover:font-semibold items-center gap-2 text-lg pt-6"
+            href="/"
+          >
+            <FaArrowLeft /> Back To Home
+          </Link>
+        </div>
+        <div className="lg:flex items-center justify-center min-h-screen ">
+          <div className="lg:w-1/2">
+          <Lottie animationData={registerLottie} loop={true} />
+        </div>
+          <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-2xl">
+            <h3 className="text-2xl font-bold text-center text-gray-800">
+              Sign Up
+            </h3>
+            <div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-gray-700">Name</label>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required
+                    className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="text-gray-700">Email</label>
+                  <Input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                    className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
 
-      <div>
-        <label className="text-gray-700">Email</label>
-        <Input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          required
-          className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
-      </div>
+                <div className="w-full mb-3">
+                  <label className="text-gray-700">Password</label>
+                  {/* <p className="text-xs text-red-500 mb-2 italic">{error}</p> */}
+                  <Input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                    className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
 
-      <div className="w-full mb-3">
-        <label className="text-gray-700">Password</label>
-        {/* <p className="text-xs text-red-500 mb-2 italic">{error}</p> */}
-        <Input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          required
-          className="w-full p-3 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
+                <div className="mt-6 text-center">
+                  <Button
+                    variant="outline"
+                    type="submit"
+                    className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 hover::text-white transition duration-300"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              </form>
+            </div>
+            <div className="relative flex items-center justify-center my-4">
+              <div className="w-full h-px bg-gray-300"></div>
+              <span className="absolute bg-white px-4 text-gray-500">or</span>
+            </div>
+            <p className="text-center text-gray-600 text-sm">
+              Already have an account?{" "}
+              <Link href="/signIn" className="text-green-600 hover:underline">
+                Sign In
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
-
-      <div className="mt-6 text-center">
-        <Button
-          variant="outline"
-          type="submit"
-          className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 hover::text-white transition duration-300"
-        >
-          Sign Up
-        </Button>
-      </div>
-    </form>
+    </div>
   );
 };
 
