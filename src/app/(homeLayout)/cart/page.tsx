@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
-import React, { useEffect, useState } from "react";
-import { deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
+import React, { use, useEffect, useState } from "react";
+import { CommonPayload, deleteCartItem, getOrderCartByEmail, getUserDetails } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -14,6 +14,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Swal from "sweetalert2";
+import { result } from "lodash";
 
 interface CartItem {
   _id: string;
@@ -34,6 +35,18 @@ interface DeleteResponse {
 
 export default function CartPage() {
   const { data: session } = useSession();
+  const [userDetail, setUserDetail] = useState<CommonPayload | null>(null);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const result = await getUserDetails(session?.user?.email as string);
+      setUserDetail(result);
+    };
+
+    getUser();
+  }, [session?.user?.email]);
+
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //   const [loading, setLoading] = useState<boolean>(true);
 
