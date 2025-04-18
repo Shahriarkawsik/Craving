@@ -22,7 +22,7 @@ const Navbar = () => {
   const handleOpenNave = () => setShowNav(true);
   const handleCloseNave = () => setShowNav(false);
 
-  const openNav = showNav ? 'translate-x-0' : 'translate-x-[100%]';
+  const openNav = showNav ? "translate-x-0" : "translate-x-[100%]";
 
   useEffect(() => {
     const handler = () => {
@@ -35,14 +35,20 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handler);
-    return () => window.removeEventListener('scroll', handler);
-  }, [])
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
 
   return (
     <header className="">
       {/* desktop menu */}
-      <section className={`${navBg ? 'bg-white text-black shadow-xl transition-all ease' : 'text-white'} h-[8vh] flex items-center fixed z-[999] w-full`}>
+      <section
+        className={`${
+          navBg
+            ? "bg-white text-black shadow-xl transition-all ease"
+            : "text-white"
+        } h-[8vh] flex items-center fixed z-[999] w-full`}
+      >
         <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
           {/* left logo  */}
           <div className="bg-white px-4 py-0.5 rounded-xs">
@@ -53,19 +59,73 @@ const Navbar = () => {
 
           {/* center content */}
           <div className="hidden lg:flex items-center justify-center space-x-5">
-            <Link href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Home</Link>
-            <Link href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>All Food</Link>
-            <Link href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>About Us</Link>
-            <Link href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Contact Us</Link>
+            <Link
+              href="/"
+              className={`${
+                pathName === "/"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              href="/allFood"
+              className={`${
+                pathName === "/allFood"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              }`}
+            >
+              All Food
+            </Link>
+            <Link
+              href="/aboutUs"
+              className={`${
+                pathName === "/aboutUs"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              }`}
+            >
+              About Us
+            </Link>
+            <Link
+              href="/contactUs"
+              className={`${
+                pathName === "/contactUs"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              }`}
+            >
+              Contact Us
+            </Link>
             {session && (
-              <Link href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Profile</Link>
+              <Link
+                href="/profile"
+                className={`${
+                  pathName === "/profile"
+                    ? "font-bold border-b-2 border-orange-600"
+                    : "font-semibold"
+                }`}
+              >
+                Profile
+              </Link>
             )}
 
             {(session?.user?.role === "Admin" ||
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
-                <Link href="/dashboard" className={`${pathName === "/dashboard" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Dashboard</Link>
-              )}
+              <Link
+                href="/dashboard"
+                className={`${
+                  pathName === "/dashboard"
+                    ? "font-bold border-b-2 border-orange-600"
+                    : "font-semibold"
+                }`}
+              >
+                Dashboard
+              </Link>
+            )}
           </div>
 
           {/* right content */}
@@ -73,7 +133,9 @@ const Navbar = () => {
             {session && (
               <div className="ring-1 ring-orange-500 p-0.5 bg-orange-200 rounded-full">
                 <Avatar>
-                  <AvatarImage src={session?.user?.image as string | undefined} />
+                  <AvatarImage
+                    src={session?.user?.image as string | undefined}
+                  />
                   <AvatarFallback className="text-2xl">
                     <FaRegUserCircle />
                   </AvatarFallback>
@@ -83,9 +145,11 @@ const Navbar = () => {
 
             <div className="hidden lg:flex">
               {status == "authenticated" ? (
-                <button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
+                <button
+                  className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
                   // variant="destructive"
-                  onClick={() => signOut()}>
+                  onClick={() => signOut()}
+                >
                   Logout
                 </button>
               ) : (
@@ -95,11 +159,12 @@ const Navbar = () => {
                       SignIn
                     </Button>
                   </Link>
+                  {/* 
                   <Link href="/register">
                     <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
                       SignUp
                     </Button>
-                  </Link>
+                  </Link> */}
                 </div>
               )}
             </div>
@@ -120,24 +185,88 @@ const Navbar = () => {
       {/* mobile menu */}
       <div>
         {/* overlay */}
-        <div className={`${openNav} fixed inset-0 transform transition-all duration-500 z-[1000] bg-black opacity-0`}></div>
+        <div
+          className={`${openNav} fixed inset-0 transform transition-all duration-500 z-[1000] bg-black opacity-0`}
+        ></div>
 
         {/* sidebar menu */}
-        <div className={`${openNav} right-0 fixed text-white flex justify-center flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}>
+        <div
+          className={`${openNav} right-0 fixed text-white flex justify-center flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}
+        >
           <div className="flex flex-col justify-center space-y-5 text-white p-8 mt-10">
-            <Link onClick={handleCloseNave} href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Home</Link>
-            <Link onClick={handleCloseNave} href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>All Food</Link>
-            <Link onClick={handleCloseNave} href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>About Us</Link>
-            <Link onClick={handleCloseNave} href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Contact Us</Link>
+            <Link
+              onClick={handleCloseNave}
+              href="/"
+              className={`${
+                pathName === "/"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              } w-fit`}
+            >
+              Home
+            </Link>
+            <Link
+              onClick={handleCloseNave}
+              href="/allFood"
+              className={`${
+                pathName === "/allFood"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              } w-fit`}
+            >
+              All Food
+            </Link>
+            <Link
+              onClick={handleCloseNave}
+              href="/aboutUs"
+              className={`${
+                pathName === "/aboutUs"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              } w-fit`}
+            >
+              About Us
+            </Link>
+            <Link
+              onClick={handleCloseNave}
+              href="/contactUs"
+              className={`${
+                pathName === "/contactUs"
+                  ? "font-bold border-b-2 border-orange-600"
+                  : "font-semibold"
+              } w-fit`}
+            >
+              Contact Us
+            </Link>
             {session && (
-              <Link onClick={handleCloseNave} href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Profile</Link>
+              <Link
+                onClick={handleCloseNave}
+                href="/profile"
+                className={`${
+                  pathName === "/profile"
+                    ? "font-bold border-b-2 border-orange-600"
+                    : "font-semibold"
+                } w-fit`}
+              >
+                Profile
+              </Link>
             )}
 
             {(session?.user?.role === "Admin" ||
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
-                <Link onClick={handleCloseNave} href="/dashboard" className={`${pathName === "/dashboard" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Dashboard</Link>
-              )}
+              <Link
+                onClick={handleCloseNave}
+                href="/dashboard"
+                className={`${
+                  pathName === "/dashboard"
+                    ? "font-bold border-b-2 border-orange-600"
+                    : "font-semibold"
+                } w-fit`}
+              >
+                Dashboard
+              </Link>
+            )}
           </div>
 
           <button onClick={handleCloseNave} className="absolute top-8 right-8">
