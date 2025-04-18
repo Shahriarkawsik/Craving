@@ -8,7 +8,7 @@ import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import Lottie from "lottie-react";
-import Marquee from "react-fast-marquee";
+// import Marquee from "react-fast-marquee";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -343,7 +343,7 @@ const AboutComponent: React.FC = () => {
             </section> */}
 
               {/* Testimonials (Optional) */}
-              <section className="mt-12">
+              {/* <section className="mt-12">
                 <h2 className="text-3xl font-semibold text-gray-800 text-center">
                   What Our Customers Say
                 </h2>
@@ -375,7 +375,7 @@ const AboutComponent: React.FC = () => {
                     ))}
                   </Marquee>
                 </div>
-              </section>
+              </section> */}
             </div>
           </div>
         </div>

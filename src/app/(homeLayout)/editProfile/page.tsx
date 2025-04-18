@@ -128,7 +128,9 @@ const EditProfile = () => {
                   />
                 </div>
 
-                <div className="mt-6 text-center">
+
+
+                <div className="flex  text-center">
                   <Button
                     variant="outline"
                     type="submit"
