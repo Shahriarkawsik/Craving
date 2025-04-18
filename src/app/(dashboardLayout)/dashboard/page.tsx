@@ -13,6 +13,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/assets/logo.png";
 import { useSession } from "next-auth/react";
+import { MdManageAccounts, MdWorkHistory } from "react-icons/md";
+import { LuListChecks } from "react-icons/lu";
+import { CiViewList } from "react-icons/ci";
 
 export function AppSidebar() {
   const pathName = usePathname();
@@ -175,7 +178,9 @@ export function AppSidebar() {
                         : "font-normal"
                       } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                   >
-                    Riders Profile
+                    <div className="flex items-center   gap-2">
+                    <MdManageAccounts  className="text-2xl" /> Rider Profile
+                    </div>
                   </SidebarMenuItem>
                 </Link>
                 <Link href="/dashboard/riders/availableOrders">
@@ -185,7 +190,10 @@ export function AppSidebar() {
                         : "font-normal"
                       } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                   >
-                    Available Orders
+                      <div className="flex items-center   gap-2">
+                    <CiViewList  className="text-2xl" />Available Orders
+                    </div>
+                    
                   </SidebarMenuItem>
                 </Link>
                 <Link href="/dashboard/riders/myOrders">
@@ -195,7 +203,10 @@ export function AppSidebar() {
                         : "font-normal"
                       } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                   >
-                    My Orders
+                      <div className="flex items-center   gap-2">
+                    <LuListChecks   className="text-2xl" /> My Orders
+                    </div>
+                   
                   </SidebarMenuItem>
                 </Link>
                 <Link href="/dashboard/riders/orderHistory">
@@ -205,7 +216,10 @@ export function AppSidebar() {
                         : "font-normal"
                       } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                   >
-                    Orders History
+                    <div className="flex items-center   gap-2">
+                    <MdWorkHistory   className="text-2xl" />   Orders History
+                    </div>
+                  
                   </SidebarMenuItem>
                 </Link>
               </SidebarMenu>
