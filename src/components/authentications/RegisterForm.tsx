@@ -13,6 +13,7 @@ import Lottie from "lottie-react";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
 import registerLottie from "@/assets/register.json"
+import SocialLogin from "../shared/SocialLogin";
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -143,6 +144,7 @@ const RegisterForm = () => {
                     Sign Up
                   </Button>
                 </div>
+                <SocialLogin></SocialLogin>
               </form>
             </div>
             <div className="relative flex items-center justify-center my-4">
