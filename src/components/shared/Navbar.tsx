@@ -123,7 +123,7 @@ const Navbar = () => {
         <div className={`${openNav} fixed inset-0 transform transition-all duration-500 z-[1000] bg-black opacity-0`}></div>
 
         {/* sidebar menu */}
-        <div className={`${openNav} right-0 fixed text-white flex justify-center flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}>
+        <div className={`${openNav} right-0 fixed text-white flex  flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}>
           <div className="flex flex-col justify-center space-y-5 text-white p-8 mt-10">
             <Link onClick={handleCloseNave} href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Home</Link>
             <Link onClick={handleCloseNave} href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>All Food</Link>
