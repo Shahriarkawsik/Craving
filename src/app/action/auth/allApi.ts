@@ -285,9 +285,9 @@ export const addFood = async (payload: CommonPayload): Promise<void> => {
 export const addDonationFood = async (payload: CommonPayload): Promise<void> => {
   const foodDonationCollection = await dbConnect().then((db)=> db.collection("donationFood"));
   await foodDonationCollection.insertOne({
-    foodName:payload.foodName,
+    title:payload.title,
     description:payload.description,
-    foodImage:payload.foodImage,
+    image:payload.image,
     location:payload.location,
     restaurantName:payload.restaurantName,
   })

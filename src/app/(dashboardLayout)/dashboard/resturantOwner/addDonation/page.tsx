@@ -3,16 +3,17 @@ import { addDonationFood } from "@/app/action/auth/allApi";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
+import axios from 'axios';
 
-const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
-console.log(image_hosting_key);
+const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
 
 const AddFood = () => {
   type Inputs = {
     id: string;
-    foodName: string;
+    title: string;
     description: string;
-    foodImage: string;
+    image: string;
     location: string;
     restaurantName: string;
   };
@@ -25,13 +26,29 @@ const AddFood = () => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const foodData = { ...data, restaurantName: "default"};
-    try {
-    await addDonationFood(foodData)
-      toast.success("Food Donation Added Successfully!");
-      reset();
-    } catch (error) {
-      toast.error("Something went wrong!" + error);
+    const imageFile = {image: data.image[0]}
+    const res = await axios.post(image_hosting_api, imageFile, {
+
+      headers: {
+        "Content-Type" : "multipart/form-data"
+      }
+    })
+    if(res.data.success){
+      //now send the food donation data to the server with the image url
+      const foodData = {
+        title: data.title,
+        description: data.description,
+        image: res.data.data.display_url,
+        location: data.location,
+        restaurantName: "default"
+      }
+      try {
+      await addDonationFood(foodData)
+        toast.success("Food Donation Added Successfully!");
+        reset();
+      } catch (error) {
+        toast.error("Something went wrong!" + error);
+      }
     }
   };
 
@@ -58,25 +75,25 @@ const AddFood = () => {
             <div className="space-y-3">
               {/* Food Name */}
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Food Name*
+                Title*
               </label>
               <input
                 type="text"
                 placeholder="Type here..."
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                {...register("foodName", { required: true })}
+                {...register("title", { required: true })}
                 required
               />
-              {errors.foodName && (
+              {errors.title && (
                 <span className="text-red-600 text-sm">
-                  Food Name is required
+                  Title is required
                 </span>
               )}
             </div>
             {/* Food Description */}
             <div className="space-y-3">
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Food Description*
+                description*
               </label>
               <input
                 type="text"
@@ -87,7 +104,7 @@ const AddFood = () => {
               />
               {errors.description && (
                 <span className="text-red-600 text-sm">
-                  Food Description is required
+                  Description is required
                 </span>
               )}
             </div>
@@ -95,16 +112,16 @@ const AddFood = () => {
             {/* Price */}
             <div className="space-y-3">
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Food Image*
+                Image*
               </label>
               <input
-                type="url"
+                type="file"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
-                {...register("foodImage", { required: true })}
+                {...register("image", { required: true })}
                 required
               />
-              {errors.foodImage && (
+              {errors.image && (
                 <span className="text-red-600 text-sm">Food Image is required</span>
               )}
             </div>
