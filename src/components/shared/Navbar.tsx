@@ -2,154 +2,93 @@
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  // NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import { IoIosNotificationsOutline, IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const pathName = usePathname();
   const { data: session, status } = useSession();
 
+  const [navBg, setNavBg] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+
+  const handleOpenNave = () => setShowNav(true);
+  const handleCloseNave = () => setShowNav(false);
+
+  const openNav = showNav ? 'translate-x-0' : 'translate-x-[100%]';
+
+  useEffect(() => {
+    const handler = () => {
+      if (window.scrollY >= 100) {
+        setNavBg(true);
+      }
+
+      if (window.scrollY < 100) {
+        setNavBg(false);
+      }
+    };
+
+    window.addEventListener('scroll', handler);
+    return () => window.removeEventListener('scroll', handler);
+  }, [])
+
   return (
-    <header className=" shadow-md py-4">
-      <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
-        {/* logo  */}
-        <div>
-          <Link href="/" className="text-2xl md:text-3xl font-semibold">
-            <Image src={logo} alt="logo" width={50} height={50} />
-          </Link>
-        </div>
-        {/* desktop menu  */}
-        <div className="hidden md:flex">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem className="flex   items-center space-x-5">
-                {/* <NavigationMenuLink> */}
-                <Link
-                  href="/"
-                  className={`${
-                    pathName === "/"
-                      ? "font-bold  border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Home
-                </Link>
-                {/* </NavigationMenuLink> */}
+    <header className="">
+      {/* desktop menu */}
+      <section className={`${navBg ? 'bg-white text-black shadow-xl transition-all ease' : 'text-white'} h-[8vh] flex items-center fixed z-[999] w-full`}>
+        <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
+          {/* left logo  */}
+          <div className="bg-white px-4 py-0.5 rounded-xs">
+            <Link href="/" className="text-2xl md:text-3xl font-semibold">
+              <Image src={logo} alt="logo" width={50} height={50} />
+            </Link>
+          </div>
 
-                {/* <NavigationMenuLink> */}
-                <Link
-                  href="/allFood"
-                  className={`${
-                    pathName === "/allFood"
-                      ? "font-bold  border-b-2 border-orange-600"
-                      : "font-semibold"
-                  } `}
-                >
-                  All Food
-                </Link>
-                {/* </NavigationMenuLink> */}
+          {/* center content */}
+          <div className="hidden lg:flex items-center justify-center space-x-5">
+            <Link href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Home</Link>
+            <Link href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>All Food</Link>
+            <Link href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>About Us</Link>
+            <Link href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Contact Us</Link>
+            {session && (
+              <Link href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Profile</Link>
+            )}
 
-                {/* <NavigationMenuLink> */}
-                <Link
-                  href="/aboutUs"
-                  className={`${
-                    pathName === "/aboutUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  About Us
-                </Link>
-                {/* </NavigationMenuLink> */}
-                {/* <NavigationMenuLink> */}
-                <Link
-                  href="/contactUs"
-                  className={`${
-                    pathName === "/contactUs"
-                      ? "font-bold border-b-2 border-orange-600"
-                      : "font-semibold"
-                  }`}
-                >
-                  Contact Us
-                </Link>
-                {/* </NavigationMenuLink> */}
-                {/* <NavigationMenuLink> */}
-                {session && (
-                  <Link
-                    href="/profile"
-                    className={`${
-                      pathName === "/profile"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Profile
-                  </Link>
-                )}
+            {(session?.user?.role === "Admin" ||
+              session?.user?.role === "Rider" ||
+              session?.user?.role === "Owner") && (
+                <Link href="/dashboard" className={`${pathName === "/dashboard" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Dashboard</Link>
+              )}
+          </div>
 
-                {/* </NavigationMenuLink> */}
-                {/* <NavigationMenuLink> */}
-                {(session?.user?.role === "Admin" ||
-                  session?.user?.role === "Rider" ||
-                  session?.user?.role === "Owner") && (
-                  <Link
-                    href="/dashboard"
-                    className={`${
-                      pathName === "/dashboard"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
-                )}
-                {/* </NavigationMenuLink> */}
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
-        <div className="flex items-center gap-3">
-          {session && (
-            <div>
-              <Avatar>
-                <AvatarImage src={session?.user?.image as string | undefined} />
-                <AvatarFallback className="text-2xl">
-                  <FaRegUserCircle />
-                  {/* {session?.user?.image} */}
-                </AvatarFallback>
-              </Avatar>
-            </div>
-          )}
-          <div className="hidden md:flex">
-            {status == "authenticated" ? (
-              <button
-                className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
-                // variant="destructive"
-                onClick={() => signOut()}
-              >
-                Logout
-              </button>
-            ) : (
-              <>
+          {/* right content */}
+          <div className="flex items-center gap-3">
+            {session && (
+              <div className="ring-1 ring-orange-500 p-0.5 bg-orange-200 rounded-full">
+                <Avatar>
+                  <AvatarImage src={session?.user?.image as string | undefined} />
+                  <AvatarFallback className="text-2xl">
+                    <FaRegUserCircle />
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            )}
+
+            <div className="hidden lg:flex">
+              {status == "authenticated" ? (
+                <button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
+                  // variant="destructive"
+                  onClick={() => signOut()}>
+                  Logout
+                </button>
+              ) : (
                 <div className="flex gap-2">
                   <Link href="/signIn">
                     <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
@@ -162,146 +101,50 @@ const Navbar = () => {
                     </Button>
                   </Link>
                 </div>
-              </>
-            )}
-          </div>
-          <div className="flex space-x-5">
-            <IoIosNotificationsOutline size={25} />
-            <Link href={"/cart"}>
-              <CiHeart size={25} />
-            </Link>
-          </div>
-          {/* responsive mobile and tablet  */}
-          <div className="md:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <GiHamburgerMenu size={20} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href="/"
-                    className={`${
-                      pathName === "/"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Home
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href="/allFood"
-                    className={`${
-                      pathName === "/allFood"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    All Food
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href="/aboutUs"
-                    className={`${
-                      pathName === "/aboutUs"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    About Us
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href="/contactUs"
-                    className={`${
-                      pathName === "/contactUs"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Contact Us
-                  </Link>
-                </DropdownMenuItem>
-                {session && (
-                  <DropdownMenuItem>
-                    <Link
-                      href="/profile"
-                      className={`${
-                        pathName === "/profile"
-                          ? "font-bold border-b-2 border-orange-600"
-                          : "font-semibold"
-                      }`}
-                    >
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-                {(session?.user?.role === "Admin" ||
-                  session?.user?.role === "Rider" ||
-                  session?.user?.role === "Owner") && (
-                  <DropdownMenuItem>
-                    <Link
-                      href="/dashboard"
-                      className={`${
-                        pathName === "/dashboard"
-                          ? "font-bold border-b-2 border-orange-600"
-                          : "font-semibold"
-                      }`}
-                    >
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                )}
+              )}
+            </div>
 
-                {/* <DropdownMenuItem>
-                  <Link
-                    href="/login"
-                    className={`${
-                      pathName === "/login"
-                        ? "font-bold border-b-2 border-orange-600"
-                        : "font-semibold"
-                    }`}
-                  >
-                    Login
-                  </Link>
-                </DropdownMenuItem> */}
-                {status == "authenticated" ? (
-                  <DropdownMenuItem>
-                    <button
-                      onClick={() => signOut()}
-                      className={`${
-                        pathName === "/logout"
-                          ? "font-bold border-b-2 border-orange-600"
-                          : "font-semibold"
-                      }`}
-                    >
-                      Logout
-                    </button>
-                  </DropdownMenuItem>
-                ) : (
-                  <DropdownMenuItem>
-                    <Link
-                      href="/signIn"
-                      className={`${
-                        pathName === "/login"
-                          ? "font-bold border-b-2 border-orange-600"
-                          : "font-semibold"
-                      }`}
-                    >
-                      SignIn
-                    </Link>
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex space-x-5">
+              <IoIosNotificationsOutline size={25} />
+              <Link href={"/cart"}>
+                <CiHeart size={25} />
+              </Link>
+              <button onClick={handleOpenNave} className="lg:hidden">
+                <GiHamburgerMenu size={20} />
+              </button>
+            </div>
           </div>
+        </nav>
+      </section>
+
+      {/* mobile menu */}
+      <div>
+        {/* overlay */}
+        <div className={`${openNav} fixed inset-0 transform transition-all duration-500 z-[1000] bg-black opacity-0`}></div>
+
+        {/* sidebar menu */}
+        <div className={`${openNav} right-0 fixed text-white flex justify-center flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}>
+          <div className="flex flex-col justify-center space-y-5 text-white p-8 mt-10">
+            <Link onClick={handleCloseNave} href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Home</Link>
+            <Link onClick={handleCloseNave} href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>All Food</Link>
+            <Link onClick={handleCloseNave} href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>About Us</Link>
+            <Link onClick={handleCloseNave} href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Contact Us</Link>
+            {session && (
+              <Link onClick={handleCloseNave} href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Profile</Link>
+            )}
+
+            {(session?.user?.role === "Admin" ||
+              session?.user?.role === "Rider" ||
+              session?.user?.role === "Owner") && (
+                <Link onClick={handleCloseNave} href="/dashboard" className={`${pathName === "/dashboard" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Dashboard</Link>
+              )}
+          </div>
+
+          <button onClick={handleCloseNave} className="absolute top-8 right-8">
+            <IoMdClose className="size-6 text-white cursor-pointer" />
+          </button>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

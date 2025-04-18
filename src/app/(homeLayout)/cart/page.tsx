@@ -14,6 +14,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Swal from "sweetalert2";
+import Banner from "@/components/shared/Banner";
+import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
 
 interface CartItem {
   _id: string;
@@ -108,11 +110,11 @@ export default function CartPage() {
     }
   };
   return (
-    <div className="w-11/12 max-w-screen-xl mx-auto mt-12">
-      <h2 className="text-xl md:text-2xl font-bold mb-4">🛍️ Your Cart</h2>
+    <div>
+      <Banner image={bannerImage.src} title={`Your Cart`} subtitle={`See your added items.`} />
 
       {/* Responsive layout: mobile = column, desktop = grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-6">
+      <div className="w-11/12 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 my-10">
         {/* 🧾 Table Section */}
         <div className="col-span-1 md:col-span-8 overflow-x-auto bg-white rounded-md shadow-md p-2">
           <Table className="min-w-[700px]">
