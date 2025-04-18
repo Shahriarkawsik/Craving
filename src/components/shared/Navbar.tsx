@@ -137,7 +137,7 @@ const Navbar = () => {
                     src={session?.user?.image as string | undefined}
                   />
                   <AvatarFallback className="text-2xl">
-                    <FaRegUserCircle />
+                    <FaRegUserCircle className="text-black"/>
                   </AvatarFallback>
                 </Avatar>
               </div>
