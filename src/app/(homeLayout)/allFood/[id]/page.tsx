@@ -41,6 +41,7 @@ const FoodDetails = () => {
     }
 
     // handle add to cart
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { reviews, ...updatedFood } = food;
     const cartFood: CartFood = { ...updatedFood, user_email: data?.user?.email, created_at: new Date() };
     const handleAddToCart = () => {
