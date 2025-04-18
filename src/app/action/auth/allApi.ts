@@ -354,9 +354,10 @@ export const deleteRiderApplication = async (
   riderId: string
 ): Promise<void> => {
   const db = await dbConnect();
-  const riderCollection: Collection<CommonPayload> = db.collection("beRider");
+  const riderCollection = db.collection("beRider");
+  
   await riderCollection.deleteOne({
-    _id: new ObjectId(riderId).toString(),
+    _id: new ObjectId(riderId),
   });
 };
 /* Be Resturant Owner Application */
@@ -413,10 +414,10 @@ export const deleteRestaurantOwnerApplication = async (
   resturantOwnerId: string
 ): Promise<void> => {
   const db = await dbConnect();
-  const resturantOwnerCollection: Collection<CommonPayload> =
+  const resturantOwnerCollection =
     db.collection("beRestaurantOwner");
   await resturantOwnerCollection.deleteOne({
-    _id: new ObjectId(resturantOwnerId).toString(),
+    _id: new ObjectId(resturantOwnerId)
   });
 };
 
