@@ -69,7 +69,7 @@ export default function AllFoodsPage() {
   return (
     <div>
       {/* banner section */}
-      <Banner image={bannerImage.src} title="Welcome to Our Food World" subtitle="Explore a variety of mouth-watering dishes from around the world. From appetizers to desserts, discover meals that suit every taste and occasion." />
+      <Banner image={bannerImage.src} title={`Welcome to Our Food World`} subtitle={`Explore a variety of mouth-watering dishes from around the world. From appetizers to desserts, discover meals that suit every taste and occasion.`} />
 
       {/* All Food Section */}
       <div className="text-center my-10">
