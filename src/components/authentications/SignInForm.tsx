@@ -11,6 +11,7 @@ import Lottie from "lottie-react";
 import loginLottie from "@/assets/login.json";
 import { FaArrowLeft } from "react-icons/fa6";
 import LoadingSpinner from "./loadingSpinner/LoadingSpinner";
+import { toast } from "react-toastify";
 
 const SignInForm = () => {
   const [loading, setLoading] = useState(false);
@@ -35,11 +36,12 @@ const SignInForm = () => {
       if (response?.ok) {
         router.push(callbackUrl);
         form.reset();
+        toast.success("Login successful");
       } else {
-        alert("Authentication failed");
+        toast.error("Authentication failed");
       }
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
     finally{
       setLoading(false);

@@ -55,7 +55,7 @@ const RegisterForm = () => {
 
     try {
       await registerUser(userData);
-      toast.success("User register is successfully", {
+      toast.success("Register is successfully as a User", {
         position: "top-center",
         autoClose: 1000,
       });
