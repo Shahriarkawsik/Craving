@@ -320,7 +320,6 @@ const AboutComponent: React.FC = () => {
               </div>
             </section> */}
 
-<<<<<<< HEAD
               {/* Testimonials (Optional) */}
               {/* <section className="mt-12">
                 <h2 className="text-3xl font-semibold text-gray-800 text-center">
@@ -356,46 +355,10 @@ const AboutComponent: React.FC = () => {
                 </div>
               </section> */}
             </div>
-=======
-            {/* Testimonials (Optional) */}
-            <section className="mt-12">
-              <h2 className="text-3xl font-semibold text-gray-800 text-center">
-                What Our Customers Say
-              </h2>
-              <div className=" mt-6">
-                <Marquee pauseOnHover>
-                  {teamMembers.map((member, index) => (
-                    <div
-                      className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg"
-                      key={index}
-                    >
-                      <div className="flex">
-                        <Image
-                          src={member.image}
-                          alt="customer"
-                          width={150}
-                          height={150}
-                          className="w-12 h-12 rounded-full mr-4"
-                        />
-                        <p className="text-gray-600 italic">
-                          Amazing service! The food was fresh, hot, and
-                          delivered on time. Highly recommended!
-                        </p>
-                      </div>
-
-                      <h4 className="text-orange-500 font-semibold mt-2">
-                        - {member.name}
-                      </h4>
-                    </div>
-                  ))}
-                </Marquee>
-              </div>
-            </section>
->>>>>>> 138d8ebd55cb0aabb5aee822356c4b60fffec1f1
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

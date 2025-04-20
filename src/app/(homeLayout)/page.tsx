@@ -9,7 +9,7 @@ import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
 import { useEffect, useState } from "react";
 import LocationModal from "@/components/homeComponents/location/LocationModal";
 import { CommonPayload, showRestaurantByCity } from "../action/auth/allApi";
-import EidCart from "@/components/homeComponents/EidCart";
+// import EidCart from "@/components/homeComponents/EidCart";
 // import CountdownTimer from "@/components/homeComponents/CountdownTimer";
 import dynamic from "next/dynamic";
 
@@ -104,16 +104,18 @@ export default function Home() {
         <Banner />
         <CountdownTimer targetDate="2025-06-10T00:00:00" />
       </div>
-      <EidCart />
+      {/* <EidCart /> */}
 
       {/* Category Section */}
       <Category />
-      {/* Cities We Serve Section */}
-      <CitiesWeServe></CitiesWeServe>
+      
+    
       {/* Featured Food */}
       <FeaturedFood />
       {/* top restaurant */}
       <TopRestaurant restaurants={restaurants} />
+      {/* Cities We Serve Section */}
+      <CitiesWeServe></CitiesWeServe>
       {/* faq section */}
       <FAQ></FAQ>
       {/* Support */}
