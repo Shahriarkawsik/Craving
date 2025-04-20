@@ -7,10 +7,10 @@ import React, { useEffect } from "react";
 const SuccessPage = () => {
   const session = useSession();
   useEffect(()=> {
-    const fetchCartItem = () => {
+    const fetchCartItem = async () => {
       if(session.data?.user.email){
         try {
-          const cartItems = getOrderCartByEmail(session.data?.user.email);
+          const cartItems = await getOrderCartByEmail(session.data?.user.email);
           console.log(cartItems);
         }
         catch(error){
