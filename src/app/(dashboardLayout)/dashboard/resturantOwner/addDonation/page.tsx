@@ -2,31 +2,32 @@
 import {
   addDonationFood,
   getRestaurantForDonation,
-  CommonPayload
+  CommonPayload,
 } from "@/app/action/auth/allApi";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
-import axios from "axios";
+// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+// const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
+// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 interface FormData {
   restaurantName: string;
 }
 const AddFood = () => {
   const [getRestaurant, setGetRestaurant] = useState<CommonPayload[]>([]);
+  const [image, setImage] = useState<string | null>(null);
   const { data: session } = useSession();
-//get restaurant from data base
+  //get restaurant from data base
   useEffect(() => {
     const fetchDonationsRestaurant = async () => {
       try {
         if (session?.user?.email) {
           const restaurantData = await getRestaurantForDonation({
-            email: session.user.email, 
+            email: session.user.email,
           });
           setGetRestaurant(restaurantData as FormData[]);
         }
@@ -56,19 +57,41 @@ const AddFood = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+  
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "first_time-using_cloudinary");
+  
+    try {
+      const res = await fetch("https://api.cloudinary.com/v1_1/dprd5ohlg/image/upload", {
+        method: "POST",
+        body: data
+      });
+  
+      const uploadedImageUrl = await res.json();
+      setImage(uploadedImageUrl?.url);
+    } catch (error) {
+      console.error("Image upload failed", error);
+    }
+  };
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const imageFile = { image: data.image[0] };
-    const res = await axios.post(image_hosting_api, imageFile, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    if (res.data.success) {
+    // const imageFile = { image: data.image[0] };
+    // const res = await axios.post(image_hosting_api, imageFile, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
+
+    // if (res.data.success) {
       //now send the food donation data to the server with the image url
       const foodData = {
         title: data.title,
         description: data.description,
-        image: res.data.data.display_url,
+        image: image as string,
         location: data.location,
         restaurantName: getRestaurant[0].restaurantName,
       };
@@ -79,7 +102,7 @@ const AddFood = () => {
       } catch (error) {
         toast.error("Something went wrong!" + error);
       }
-    }
+    // }
   };
 
   return (
@@ -103,7 +126,7 @@ const AddFood = () => {
             className="space-y-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4"
           >
             <div className="space-y-3">
-              {/* Food Name */}
+              {/* Name */}
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
                 Title*
               </label>
@@ -118,7 +141,7 @@ const AddFood = () => {
                 <span className="text-red-600 text-sm">Title is required</span>
               )}
             </div>
-            {/* Food Description */}
+            {/* Description */}
             <div className="space-y-3">
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
                 description*
@@ -137,8 +160,8 @@ const AddFood = () => {
               )}
             </div>
 
-            {/* Price */}
-            <div className="space-y-3">
+            {/* image */}
+            {/* <div className="space-y-3">
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
                 Image*
               </label>
@@ -150,13 +173,29 @@ const AddFood = () => {
                 required
               />
               {errors.image && (
-                <span className="text-red-600 text-sm">
-                  Food Image is required
-                </span>
+                <span className="text-red-600 text-sm">Image is required</span>
+              )}
+            </div> */}
+
+            {/* image */}
+            <div className="space-y-3">
+              <label className="font-semibold text-sm sm:text-base lg:text-lg">
+                Image*
+              </label>
+              <input
+                type="file"
+                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
+                placeholder="Type here..."
+                // {...register("image", { required: true })}
+                onChange={handleImageChange}
+                required
+              />
+              {errors.image && (
+                <span className="text-red-600 text-sm">Image is required</span>
               )}
             </div>
 
-            {/* Category */}
+            {/* location */}
             <div className="space-y-3">
               <label className="font-semibold text-sm sm:text-base lg:text-lg">
                 Location*
@@ -175,7 +214,7 @@ const AddFood = () => {
               )}
             </div>
 
-            {/* Food Image URL */}
+            {/* restaurant name */}
             <div className="space-y-3">
               <label className="fieldset-label font-Inter font-semibold text-xl leading-6">
                 Restaurant Name*
@@ -185,7 +224,7 @@ const AddFood = () => {
                 type="text"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
-                defaultValue={getRestaurant[0]?.restaurantName || "Loading..."}
+                defaultValue={getRestaurant[0]?.restaurantName}
                 disabled
               />
             </div>
