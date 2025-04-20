@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import React from "react";
 import { MdOutlineLogout } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const DashNavbar = () => {
   const router = useRouter()
@@ -13,6 +14,7 @@ const DashNavbar = () => {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    toast.success("Logout Successfully!");
     router.push("/");
   };
   

@@ -12,6 +12,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const router = useRouter();
@@ -43,6 +44,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
+    toast.success("Logout Successfully!");
     router.push("/");
   };
   
