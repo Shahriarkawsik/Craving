@@ -107,138 +107,86 @@ const AddFood = () => {
 
   return (
     <section
-      style={{
-        backgroundImage: `url(${BGImg.src})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
-        {/* Page Title */}
-        <h1 className="text-2xl sm:text-3xl lg:text-5xl leading-tight  font-semibold text-center mb-6">
-          Add Donation Food
-        </h1>
+    style={{
+      backgroundImage: `url(${BGImg.src})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  >
+    <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
+      <h1 className="text-2xl sm:text-3xl lg:text-5xl leading-tight font-semibold text-center mb-6">
+        Add Donation Food
+      </h1>
 
-        {/* Form Container */}
-        <div className="m-4 sm:m-8 lg:m-12 bg-white max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 shadow-2xl rounded-3xl">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4"
-          >
-            <div className="space-y-3">
-              {/* Name */}
-              <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Title*
-              </label>
-              <input
-                type="text"
-                placeholder="Type here..."
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                {...register("title", { required: true })}
-                required
-              />
-              {errors.title && (
-                <span className="text-red-600 text-sm">Title is required</span>
-              )}
-            </div>
-            {/* Description */}
-            <div className="space-y-3">
-              <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                description*
-              </label>
-              <input
-                type="text"
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                placeholder="Type here..."
-                {...register("description", { required: true })}
-                required
-              />
-              {errors.description && (
-                <span className="text-red-600 text-sm">
-                  Description is required
-                </span>
-              )}
-            </div>
-
-            {/* image */}
-            {/* <div className="space-y-3">
-              <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Image*
-              </label>
-              <input
-                type="file"
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                placeholder="Type here..."
-                {...register("image", { required: true })}
-                required
-              />
-              {errors.image && (
-                <span className="text-red-600 text-sm">Image is required</span>
-              )}
-            </div> */}
-
-            {/* image */}
-            <div className="space-y-3">
-              <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Image*
-              </label>
-              <input
-                type="file"
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                placeholder="Type here..."
-                // {...register("image", { required: true })}
-                onChange={handleImageChange}
-                required
-              />
-              {errors.image && (
-                <span className="text-red-600 text-sm">Image is required</span>
-              )}
-            </div>
-
-            {/* location */}
-            <div className="space-y-3">
-              <label className="font-semibold text-sm sm:text-base lg:text-lg">
-                Location*
-              </label>
-              <input
-                type=""
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                placeholder="Type here..."
-                {...register("location", { required: true })}
-                required
-              />
-              {errors.location && (
-                <span className="text-red-600 text-sm">
-                  Location is required
-                </span>
-              )}
-            </div>
-
-            {/* restaurant name */}
-            <div className="space-y-3">
-              <label className="fieldset-label font-Inter font-semibold text-xl leading-6">
-                Restaurant Name*
-              </label>
-              <input
-                // type="file"
-                type="text"
-                className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
-                placeholder="Type here..."
-                defaultValue={getRestaurant[0]?.restaurantName}
-                disabled
-              />
-            </div>
-
+      <div className="m-4 sm:m-8 lg:m-12 bg-white max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 shadow-2xl rounded-3xl">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4"
+        >
+          <div className="space-y-3">
+            <label className="font-semibold text-sm sm:text-base lg:text-lg">Title*</label>
             <input
-              type="submit"
-              value={"Add Food"}
-              className="bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
+              type="text"
+              placeholder="Type here..."
+              className="w-full input bg-gray-100 rounded-md p-2"
+              {...register("title", { required: true })}
             />
-          </form>
-        </div>
+            {errors.title && <span className="text-red-600 text-sm">Title is required</span>}
+          </div>
+
+          <div className="space-y-3">
+            <label className="font-semibold text-sm sm:text-base lg:text-lg">Description*</label>
+            <input
+              type="text"
+              className="w-full input bg-gray-100 rounded-md p-2"
+              placeholder="Type here..."
+              {...register("description", { required: true })}
+            />
+            {errors.description && <span className="text-red-600 text-sm">Description is required</span>}
+          </div>
+
+          <div className="space-y-3">
+            <label className="font-semibold text-sm sm:text-base lg:text-lg">Image*</label>
+            <input
+              type="file"
+              className="w-full input bg-gray-100 rounded-md p-2"
+              onChange={handleImageChange}
+            />
+            {!image && <span className="text-red-600 text-sm">Image is required</span>}
+          </div>
+
+          <div className="space-y-3">
+            <label className="font-semibold text-sm sm:text-base lg:text-lg">Location*</label>
+            <input
+              type="text"
+              className="w-full input bg-gray-100 rounded-md p-2"
+              placeholder="Type here..."
+              {...register("location", { required: true })}
+            />
+            {errors.location && <span className="text-red-600 text-sm">Location is required</span>}
+          </div>
+
+          <div className="space-y-3">
+            <label className="font-semibold text-sm sm:text-base lg:text-lg">Restaurant Name*</label>
+            <input
+              type="text"
+              className="w-full input bg-gray-100 rounded-md p-2"
+              placeholder="Type here..."
+              defaultValue={getRestaurant[0]?.restaurantName}
+              disabled
+            />
+          </div>
+
+          <input
+            type="submit"
+            value="Add Food"
+            className="bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
+          />
+        </form>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 };
 
 export default AddFood;
