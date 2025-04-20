@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SocialLogin from "@/components/shared/SocialLogin";
@@ -10,13 +10,16 @@ import Link from "next/link";
 import Lottie from "lottie-react";
 import loginLottie from "@/assets/login.json";
 import { FaArrowLeft } from "react-icons/fa6";
+import LoadingSpinner from "./loadingSpinner/LoadingSpinner";
 
 const SignInForm = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const password = (form.elements.namedItem("password") as HTMLInputElement)
@@ -37,6 +40,9 @@ const SignInForm = () => {
       }
     } catch (error) {
       alert(error);
+    }
+    finally{
+      setLoading(false);
     }
   };
   return (
@@ -90,12 +96,13 @@ const SignInForm = () => {
                   </Link>
                 </div>
                 <div className="mt-6 text-center">
-                  <Button
+                <Button
                     variant="outline"
                     type="submit"
-                    className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 hover::text-white transition duration-300"
+                    disabled={loading}
+                    className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-300"
                   >
-                    Sign In
+                    {loading ? <LoadingSpinner></LoadingSpinner> : "Sign In"}
                   </Button>
                 </div>
                 <SocialLogin></SocialLogin>
