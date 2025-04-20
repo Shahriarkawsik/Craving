@@ -10,7 +10,7 @@ const DashNavbar = () => {
   const { data: session } = useSession();
   // console.log(session);
   return (
-    <div className="flex shadow-lg rounded-2xl items-center p-2 md:p-3 justify-between">
+    <div className="flex shadow-lg rounded-2xl border-2 bg-amber-100 items-center p-2 md:p-3 justify-between">
       <div className="flex gap-2 ">
         {session?.user?.image && (
           <Image
@@ -31,8 +31,9 @@ const DashNavbar = () => {
          </div>
         </div>
       </div>
-      <div className="flex items-center gap-2">
-        <Button onClick={() => signOut()} variant="outline">
+      <div className="flex cursor-pointer  items-center gap-2">
+        <Button 
+        className="bg-amber-500 cursor-pointer hover:bg-amber-600 text-white" onClick={() => signOut()} variant="outline">
           Logout{" "}
           <span>
             <MdOutlineLogout />

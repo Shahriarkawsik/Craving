@@ -27,11 +27,43 @@ const FoodDetails = () => {
 
   const [food, setFood] = useState<SingleFoodDetails | null>(null);
 
+<<<<<<< HEAD
+    useEffect(() => {
+        const fetchFoodDetails = async () => {
+            if (!foodId) return;
+            const data = await getSingleFoodDetails(foodId);
+            setFood(data);
+        };
+
+        fetchFoodDetails();
+    }, [foodId]);
+
+    if (!food) {
+        return (
+            <div className="w-11/12 mx-auto my-20 text-center text-lg font-semibold">
+                Loading food details...
+            </div>
+        );
+    }
+
+    // handle add to cart
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { reviews, ...updatedFood } = food;
+    const cartFood: CartFood = { ...updatedFood, user_email: data?.user?.email, created_at: new Date() };
+    const handleAddToCart = () => {
+        if (data?.user.email) {
+            addToCart(cartFood);
+            toast.success("Food added in the cart.");
+        } else {
+            router.push("/signIn");
+        }
+=======
   useEffect(() => {
     const fetchFoodDetails = async () => {
       if (!foodId) return;
       const data = await getSingleFoodDetails(foodId);
       setFood(data);
+>>>>>>> 04ef27a36bb82bebc66a32429dd2a7d379e50823
     };
 
     fetchFoodDetails();

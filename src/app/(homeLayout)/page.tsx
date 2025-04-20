@@ -12,6 +12,7 @@ import { CommonPayload, showRestaurantByCity } from "../action/auth/allApi";
 // import EidCart from "@/components/homeComponents/EidCart";
 // import CountdownTimer from "@/components/homeComponents/CountdownTimer";
 import dynamic from "next/dynamic";
+import ShowDonationCard from "@/components/homeComponents/ShowDonationCard";
 
 const CountdownTimer = dynamic(
   () => import("@/components/homeComponents/CountdownTimer"),
@@ -114,8 +115,11 @@ export default function Home() {
       <FeaturedFood />
       {/* top restaurant */}
       <TopRestaurant restaurants={restaurants} />
-      {/* Cities We Serve Section */}
-      <CitiesWeServe></CitiesWeServe>
+  
+      {/* food donation  */}
+      <ShowDonationCard></ShowDonationCard>
+          {/* Cities We Serve Section */}
+          <CitiesWeServe></CitiesWeServe>
       {/* faq section */}
       <FAQ></FAQ>
       {/* Support */}

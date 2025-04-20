@@ -11,21 +11,23 @@ import {
   RiderPayload,
   updateUserRole,
 } from "@/app/action/auth/allApi";
-import Image from "next/image";
 import { useEffect, useState } from "react";
-import { FaLocationDot } from "react-icons/fa6";
-import { FcContacts } from "react-icons/fc";
-import { PiIdentificationCardFill } from "react-icons/pi";
-import { MdEmail, MdEmojiTransportation } from "react-icons/md";
-import { TbListDetails } from "react-icons/tb";
 import Swal from "sweetalert2";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ApplicationTable from "./components/ApplicationTable";
+
+export interface ApplicationInfo {
+  id: string;
+  name: string;
+  email: string
+  image: string;
+  identification: string;
+  date: Date;
+}
 
 const Applications = () => {
-  const [riderApplications, setRiderApplications] = useState<CommonPayload[]>(
-    []
-  );
-  const [restaurantOwnerApplications, setRestaurantOwnerApplications] =
-    useState<CommonPayload[]>([]);
+  const [riderApplications, setRiderApplications] = useState<CommonPayload[]>([]);
+  const [restaurantOwnerApplications, setRestaurantOwnerApplications] = useState<CommonPayload[]>([]);
   // console.log(restaurantOwnerApplications);
 
   // Fetch restaurant owner applications
@@ -183,6 +185,7 @@ const Applications = () => {
       });
     }
   };
+
   const handleRejectRider = async (riderId: string) => {
     try {
       Swal.fire({
@@ -248,145 +251,189 @@ const Applications = () => {
     }
   };
 
+  const riderApplication: ApplicationInfo[] = riderApplications.map(app => ({
+    id: app._id!,
+    name: app.riderName!,
+    email: app.riderEmail!,
+    image: app.riderImage!,
+    identification: app.riderIdentification!.toString(),
+    date: new Date(app.created_at!)
+  }));
+
+  const ownerApplication: ApplicationInfo[] = restaurantOwnerApplications.map(app => {
+    return {
+      id: app._id!,
+      name: app.restaurantOwnerName!,
+      email: app.restaurantOwnerEmail!,
+      image: app.restaurantLogo!,
+      identification: app.ownerIdentification!.toString(),
+      date: new Date(app.created_at!)
+    }
+  })
+
   return (
-    <section>
-      <div className="w-11/12 mx-auto space-y-10">
-        {/* Owner applications */}
-        <div className="space-y-8">
-          <h1 className="text-center text-5xl text-red-400">
-            This is restaurant owner applications
-          </h1>
-          <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {restaurantOwnerApplications.map((owner) => (
-              <div
-                key={owner._id}
-                className="shadow-2xl rounded-2xl p-6 space-y-4 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
-              >
-                <figure className="flex justify-center">
-                  <Image
-                    src={owner?.restaurantLogo as string}
-                    alt="Owner Image"
-                    width={400}
-                    height={400}
-                    className="w-1/2 h-1/2 rounded-full"
-                  />
-                </figure>
-                <h1 className="text-2xl font-bold text-center">
-                  {owner.restaurantName}
-                </h1>
-                <p>
-                  <strong>Restaurant Email: </strong> {owner.restaurantEmail}
-                </p>
-                <p>
-                  <strong>Restaurant Contact Number: </strong>
-                  {owner.restaurantNumber}
-                </p>
-                <p>
-                  <strong>Restaurant Owner Name: </strong>
-                  {owner.restaurantOwnerName}
-                </p>
-                <p>
-                  <strong>Restaurant Owner Email: </strong>
-                  {owner.restaurantOwnerEmail}
-                </p>
-                <p>
-                  <strong>Restaurant NID number: </strong>
-                  {owner.ownerIdentification}
-                </p>
-                <p>
-                  <strong>Restaurant Address: </strong>
-                  {owner.restaurantAddress}
-                </p>
+    <div>
+      <section>
+        <h1 className="uppercase text-2xl">Applications</h1>
+        <p>Rider and Restaurant owner applications.</p>
+      </section>
 
-                <p>
-                  <strong>About Restaurant: </strong>
-                  {owner.restaurantDescription}
-                </p>
+      {/* tabs */}
+      <section className="my-5">
+        <Tabs defaultValue="rider" className="w-full">
+          <TabsList className="mb-5 w-full">
+            <TabsTrigger value="rider" className="cursor-pointer">Rider</TabsTrigger>
+            <TabsTrigger value="owner" className="cursor-pointer">Restaurent Owner</TabsTrigger>
+          </TabsList>
 
-                <div className="flex justify-center gap-4">
-                  <button
-                    onClick={() => handleApproveOwner(owner._id as string)}
-                    className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => handleRejectOwner(owner._id as string)}
-                    className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
-                  >
-                    Reject
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <hr />
-        {/* Rider applications */}
-        <h1 className="text-center text-5xl text-red-400">
-          This is rider applications
-        </h1>
-        <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {riderApplications.map((rider) => (
-            <div
-              key={rider._id}
-              className="shadow-2xl rounded-2xl p-6 space-y-2 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
-            >
-              <figure className="flex justify-center">
-                <Image
-                  src={rider.riderImage as string}
-                  alt={rider.riderName as string}
-                  width={300}
-                  height={300}
-                />
-              </figure>
-              <h1 className="text-2xl font-bold text-center">
-                {rider.riderName}
-              </h1>
-              <p className="flex items-center gap-2 text-xl">
-                <MdEmail className="text-2xl text-orange-500" />
-                <span>{rider.riderEmail}</span>
-              </p>
-              <p className="flex items-center gap-2 text-xl">
-                <FcContacts className="text-2xl text-orange-500" />
-                <span>{rider.riderNumber}</span>
-              </p>
-              <p className="flex items-center gap-2 text-xl">
-                <MdEmojiTransportation className="text-2xl text-orange-500" />
-                <span>{rider.vehicleType}</span>
-              </p>
-              <p className="flex items-center gap-2 text-xl">
-                <FaLocationDot className="text-2xl text-orange-500" />
-                <span>{rider.riderAddress}</span>
-              </p>
-              <p className="flex items-center gap-2 text-xl">
-                <PiIdentificationCardFill className="text-2xl text-orange-500" />
-                <span>{rider.riderIdentification}</span>
-              </p>
-              <p className="flex items-center gap-2 text-xl">
-                <TbListDetails className="text-2xl text-orange-500" />
-                <span>{rider.description}</span>
-              </p>
-              <div className="flex justify-center items-center gap-5">
-                <button
-                  onClick={() => handleApproveRider(rider._id as string)}
-                  className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={() => handleRejectRider(rider._id as string)}
-                  className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
-                >
-                  Reject
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          <TabsContent value="rider">
+            <ApplicationTable applications={riderApplication} acceptApplication={handleApproveRider} rejectedApplication={handleRejectRider} allData={riderApplications}/>
+          </TabsContent>
+          <TabsContent value="owner">
+            <ApplicationTable applications={ownerApplication} acceptApplication={handleApproveOwner} rejectedApplication={handleRejectOwner} allData={restaurantOwnerApplications}/>
+          </TabsContent>
+        </Tabs>
+      </section>
+    </div>
   );
 };
 
 export default Applications;
+
+
+// {/* Owner applications */}
+// <div className="space-y-8">
+// <h1 className="text-center text-5xl text-red-400">
+//   This is restaurant owner applications
+// </h1>
+// <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
+//   {restaurantOwnerApplications.map((owner) => (
+//     <div
+//       key={owner._id}
+//       className="shadow-2xl rounded-2xl p-6 space-y-4 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
+//     >
+//       <figure className="flex justify-center">
+//         <Image
+//           src={owner?.restaurantLogo as string}
+//           alt="Owner Image"
+//           width={400}
+//           height={400}
+//           className="w-1/2 h-1/2 rounded-full"
+//         />
+//       </figure>
+//       <h1 className="text-2xl font-bold text-center">
+//         {owner.restaurantName}
+//       </h1>
+//       <p>
+//         <strong>Restaurant Email: </strong> {owner.restaurantEmail}
+//       </p>
+//       <p>
+//         <strong>Restaurant Contact Number: </strong>
+//         {owner.restaurantNumber}
+//       </p>
+//       <p>
+//         <strong>Restaurant Owner Name: </strong>
+//         {owner.restaurantOwnerName}
+//       </p>
+//       <p>
+//         <strong>Restaurant Owner Email: </strong>
+//         {owner.restaurantOwnerEmail}
+//       </p>
+//       <p>
+//         <strong>Restaurant NID number: </strong>
+//         {owner.ownerIdentification}
+//       </p>
+//       <p>
+//         <strong>Restaurant Address: </strong>
+//         {owner.restaurantAddress}
+//       </p>
+
+//       <p>
+//         <strong>About Restaurant: </strong>
+//         {owner.restaurantDescription}
+//       </p>
+
+//       <div className="flex justify-center gap-4">
+//         <button
+//           onClick={() => handleApproveOwner(owner._id as string)}
+//           className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
+//         >
+//           Accept
+//         </button>
+//         <button
+//           onClick={() => handleRejectOwner(owner._id as string)}
+//           className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
+//         >
+//           Reject
+//         </button>
+//       </div>
+//     </div>
+//   ))}
+// </div>
+// </div>
+
+// <hr />
+
+// {/* Rider applications */}
+// <h1 className="text-center text-5xl text-red-400">
+// This is rider applications
+// </h1>
+
+// <div className="space-y-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
+// {riderApplications.map((rider) => (
+//   <div
+//     key={rider._id}
+//     className="shadow-2xl rounded-2xl p-6 space-y-2 hover:border hover:border-orange-300 hover:transition-all hover:scale-95"
+//   >
+//     <figure className="flex justify-center">
+//       <Image
+//         src={rider.riderImage as string}
+//         alt={rider.riderName as string}
+//         width={300}
+//         height={300}
+//       />
+//     </figure>
+//     <h1 className="text-2xl font-bold text-center">
+//       {rider.riderName}
+//     </h1>
+//     <p className="flex items-center gap-2 text-xl">
+//       <MdEmail className="text-2xl text-orange-500" />
+//       <span>{rider.riderEmail}</span>
+//     </p>
+//     <p className="flex items-center gap-2 text-xl">
+//       <FcContacts className="text-2xl text-orange-500" />
+//       <span>{rider.riderNumber}</span>
+//     </p>
+//     <p className="flex items-center gap-2 text-xl">
+//       <MdEmojiTransportation className="text-2xl text-orange-500" />
+//       <span>{rider.vehicleType}</span>
+//     </p>
+//     <p className="flex items-center gap-2 text-xl">
+//       <FaLocationDot className="text-2xl text-orange-500" />
+//       <span>{rider.riderAddress}</span>
+//     </p>
+//     <p className="flex items-center gap-2 text-xl">
+//       <PiIdentificationCardFill className="text-2xl text-orange-500" />
+//       <span>{rider.riderIdentification}</span>
+//     </p>
+//     <p className="flex items-center gap-2 text-xl">
+//       <TbListDetails className="text-2xl text-orange-500" />
+//       <span>{rider.description}</span>
+//     </p>
+//     <div className="flex justify-center items-center gap-5">
+//       <button
+//         onClick={() => handleApproveRider(rider._id as string)}
+//         className="bg-green-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-green-700"
+//       >
+//         Accept
+//       </button>
+//       <button
+//         onClick={() => handleRejectRider(rider._id as string)}
+//         className="bg-red-500 text-xl text-white px-4 py-1 rounded-lg hover:transition-all hover:bg-red-700"
+//       >
+//         Reject
+//       </button>
+//     </div>
+//   </div>
+// ))}
+// </div>
