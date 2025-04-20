@@ -1,10 +1,25 @@
-import React from "react";
+"use client";
+
+import { getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { useSession } from "next-auth/react";
+import React, { useEffect } from "react";
 
 const SuccessPage = () => {
-
-  // export const getData = (data) => {
-  //   console.log(data);
-  // }
+  const session = useSession();
+  useEffect(()=> {
+    const fetchCartItem = () => {
+      if(session.data?.user.email){
+        try {
+          const cartItems = getOrderCartByEmail(session.data?.user.email);
+          console.log(cartItems);
+        }
+        catch(error){
+          console.log("ERROR", error);
+        }
+      }
+    }
+    fetchCartItem();
+  }, [session])
 
 
   return <section>✅ Payment Successful!</section>;
