@@ -1,14 +1,45 @@
 "use client";
-import { addDonationFood } from "@/app/action/auth/allApi";
+import {
+  addDonationFood,
+  getRestaurantForDonation,
+  CommonPayload
+} from "@/app/action/auth/allApi";
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
-const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
+interface FormData {
+  restaurantName: string;
+}
 const AddFood = () => {
+  const [getRestaurant, setGetRestaurant] = useState<CommonPayload[]>([]);
+  const { data: session } = useSession();
+//get restaurant from data base
+  useEffect(() => {
+    const fetchDonationsRestaurant = async () => {
+      try {
+        if (session?.user?.email) {
+          const restaurantData = await getRestaurantForDonation({
+            email: session.user.email, 
+          });
+          setGetRestaurant(restaurantData as FormData[]);
+        }
+      } catch (error) {
+        console.error("Something went wrong", error);
+      }
+    };
+
+    fetchDonationsRestaurant();
+  }, [session]);
+
+  console.log(getRestaurant[0]?.restaurantName);
+
   type Inputs = {
     id: string;
     title: string;
@@ -26,24 +57,23 @@ const AddFood = () => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const imageFile = {image: data.image[0]}
+    const imageFile = { image: data.image[0] };
     const res = await axios.post(image_hosting_api, imageFile, {
-
       headers: {
-        "Content-Type" : "multipart/form-data"
-      }
-    })
-    if(res.data.success){
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    if (res.data.success) {
       //now send the food donation data to the server with the image url
       const foodData = {
         title: data.title,
         description: data.description,
         image: res.data.data.display_url,
         location: data.location,
-        restaurantName: "default"
-      }
+        restaurantName: getRestaurant[0].restaurantName,
+      };
       try {
-      await addDonationFood(foodData)
+        await addDonationFood(foodData);
         toast.success("Food Donation Added Successfully!");
         reset();
       } catch (error) {
@@ -85,9 +115,7 @@ const AddFood = () => {
                 required
               />
               {errors.title && (
-                <span className="text-red-600 text-sm">
-                  Title is required
-                </span>
+                <span className="text-red-600 text-sm">Title is required</span>
               )}
             </div>
             {/* Food Description */}
@@ -122,7 +150,9 @@ const AddFood = () => {
                 required
               />
               {errors.image && (
-                <span className="text-red-600 text-sm">Food Image is required</span>
+                <span className="text-red-600 text-sm">
+                  Food Image is required
+                </span>
               )}
             </div>
 
@@ -155,7 +185,7 @@ const AddFood = () => {
                 type="text"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
-                defaultValue={"default"}
+                defaultValue={getRestaurant[0]?.restaurantName || "Loading..."}
                 disabled
               />
             </div>
