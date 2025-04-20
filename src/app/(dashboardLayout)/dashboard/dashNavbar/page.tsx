@@ -2,13 +2,20 @@
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import React from "react";
 import { MdOutlineLogout } from "react-icons/md";
 
 const DashNavbar = () => {
+  const router = useRouter()
   const { data: session } = useSession();
-  // console.log(session);
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push("/");
+  };
+  
   return (
     <div className="flex shadow-lg items-center p-2 md:p-4 justify-between">
       <div className="flex gap-2 ">
@@ -30,7 +37,7 @@ const DashNavbar = () => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <Button onClick={() => signOut()} variant="outline">
+        <Button onClick={handleLogout} variant="outline">
           Logout{" "}
           <span>
             <MdOutlineLogout />
