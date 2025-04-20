@@ -12,10 +12,13 @@ import Swal from "sweetalert2";
 import Lottie from "lottie-react";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa6";
-import registerLottie from "@/assets/register.json"
+import registerLottie from "@/assets/register.json";
 import SocialLogin from "../shared/SocialLogin";
+import { useState } from "react";
+import LoadingSpinner from "./loadingSpinner/LoadingSpinner";
 
 const RegisterForm = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
@@ -25,6 +28,7 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement).value;
     // const image = (form.elements.namedItem("image") as HTMLInputElement).value;
@@ -78,6 +82,8 @@ const RegisterForm = () => {
         position: "top-center",
         autoClose: 1000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,13 +95,13 @@ const RegisterForm = () => {
             className="flex hover:font-semibold items-center gap-2 text-lg pt-6"
             href="/"
           >
-            <FaArrowLeft className="mt-1"/> Back To Home
+            <FaArrowLeft className="mt-1" /> Back To Home
           </Link>
         </div>
         <div className="lg:flex items-center justify-center min-h-screen ">
           <div className="lg:w-1/2">
-          <Lottie animationData={registerLottie} loop={true} />
-        </div>
+            <Lottie animationData={registerLottie} loop={true} />
+          </div>
           <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-2xl">
             <h3 className="text-2xl font-bold text-center text-gray-800">
               Sign Up
@@ -139,9 +145,10 @@ const RegisterForm = () => {
                   <Button
                     variant="outline"
                     type="submit"
-                    className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 hover::text-white transition duration-300"
+                    disabled={loading}
+                    className="w-full p-3 text-white bg-green-600 rounded-lg hover:bg-green-700 transition duration-300"
                   >
-                    Sign Up
+                    {loading ? <LoadingSpinner></LoadingSpinner> : "Sign Up"}
                   </Button>
                 </div>
                 <SocialLogin></SocialLogin>

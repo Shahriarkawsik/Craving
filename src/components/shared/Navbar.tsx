@@ -11,8 +11,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathName = usePathname();
   const { data: session, status } = useSession();
 
@@ -39,6 +41,11 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    router.push("/");
+  };
+  
   return (
     <header className="">
       {/* desktop menu */}
@@ -148,7 +155,7 @@ const Navbar = () => {
                 <button
                   className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
                   // variant="destructive"
-                  onClick={() => signOut()}
+                  onClick={handleLogout}
                 >
                   Logout
                 </button>
