@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 import { Button } from "@/components/ui/button";
-import { IoIosNotificationsOutline, IoMdClose } from "react-icons/io";
+import {  IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { signOut, useSession } from "next-auth/react";
@@ -130,8 +130,10 @@ const Navbar = () => {
             </div>
 
             <div className="flex space-x-5">
-              <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} />
-              <Link className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full"
+              {/* <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} /> */}
+              <Link 
+               className={`${pathName === "/cart" ? " bg-amber-500" : "font-semibold"} w-fit p-0.5 cursor-pointer hover:bg-amber-500 rounded-full`}
+               
                href={"/cart"}>
                 <CiHeart size={27} />
               </Link>
@@ -180,7 +182,9 @@ const Navbar = () => {
             )}
           </div>
 
-          <button onClick={handleCloseNave} className="absolute top-8 right-8">
+          <button 
+           onClick={handleCloseNave}  
+            className="absolute top-8 right-8">
             <IoMdClose className="size-6 text-white cursor-pointer" />
           </button>
         </div>
