@@ -8,7 +8,7 @@ import { CiFacebook } from "react-icons/ci";
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import Lottie from "lottie-react";
-import Marquee from "react-fast-marquee";
+// import Marquee from "react-fast-marquee";
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -320,44 +320,45 @@ const AboutComponent: React.FC = () => {
               </div>
             </section> */}
 
-            {/* Testimonials (Optional) */}
-            <section className="mt-12">
-              <h2 className="text-3xl font-semibold text-gray-800 text-center">
-                What Our Customers Say
-              </h2>
-              <div className=" mt-6">
-                <Marquee pauseOnHover>
-                  {teamMembers.map((member, index) => (
-                    <div
-                      className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg"
-                      key={index}
-                    >
-                      <div className="flex">
-                        <Image
-                          src={member.image}
-                          alt="customer"
-                          width={150}
-                          height={150}
-                          className="w-12 h-12 rounded-full mr-4"
-                        />
-                        <p className="text-gray-600 italic">
-                          Amazing service! The food was fresh, hot, and
-                          delivered on time. Highly recommended!
-                        </p>
-                      </div>
+              {/* Testimonials (Optional) */}
+              {/* <section className="mt-12">
+                <h2 className="text-3xl font-semibold text-gray-800 text-center">
+                  What Our Customers Say
+                </h2>
+                <div className=" mt-6">
+                  <Marquee pauseOnHover>
+                    {teamMembers.map((member, index) => (
+                      <div
+                        className="p-6 mx-3 bg-gray-100 max-w-xl shadow-lg rounded-lg"
+                        key={index}
+                      >
+                        <div className="flex">
+                          <Image
+                            src={member.image}
+                            alt="customer"
+                            width={150}
+                            height={150}
+                            className="w-12 h-12 rounded-full mr-4"
+                          />
+                          <p className="text-gray-600 italic">
+                            Amazing service! The food was fresh, hot, and
+                            delivered on time. Highly recommended!
+                          </p>
+                        </div>
 
-                      <h4 className="text-orange-500 font-semibold mt-2">
-                        - {member.name}
-                      </h4>
-                    </div>
-                  ))}
-                </Marquee>
-              </div>
-            </section>
+                        <h4 className="text-orange-500 font-semibold mt-2">
+                          - {member.name}
+                        </h4>
+                      </div>
+                    ))}
+                  </Marquee>
+                </div>
+              </section> */}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

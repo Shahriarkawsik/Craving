@@ -104,7 +104,7 @@ const RestaurantOwner: FC = () => {
       </Card>
 
       {/* statistics cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Food Items</h3>
@@ -131,14 +131,16 @@ const RestaurantOwner: FC = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         {/* bar chart */}
-        <Card className="p-4 border border-blue-300">
+        <Card className=" flex flex-col items-center lg:p-4 border border-blue-300">
           <CardContent>
             <h3 className="text-xl font-semibold text-center mb-4">
               Weekly Sales
             </h3>
-            <BarChart width={400} height={250} data={weeklySales}>
+           
+            <BarChart className="max-w-[300px] lg:max-w-[350px]  " 
+             width={350} height={250} data={weeklySales}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="day" />
               <YAxis />
@@ -146,15 +148,20 @@ const RestaurantOwner: FC = () => {
               <Legend />
               <Bar dataKey="sales" fill="#8884d8" />
             </BarChart>
+
+            
+           
           </CardContent>
         </Card>
         {/* pie chart */}
-        <Card className="p-4 border border-green-300">
+        <Card className=" flex flex-col items-center lg:p-4 border border-green-300">
           <CardContent>
             <h3 className="text-xl font-semibold text-center mb-4">
               Food Categories
             </h3>
-            <PieChart width={400} height={250}>
+           
+           <PieChart className="max-w-[300px] lg:max-w-[350px] "
+            width={300} height={300}>
               <Pie
                 data={foodCategory}
                 dataKey="value"
@@ -167,6 +174,7 @@ const RestaurantOwner: FC = () => {
               />
               <Tooltip />
             </PieChart>
+         
           </CardContent>
         </Card>
       </div>

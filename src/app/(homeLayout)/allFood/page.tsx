@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import bannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
 import { Search } from "lucide-react";
@@ -31,7 +31,7 @@ export default function AllFoodsPage() {
   const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchData();
   }, []);
 

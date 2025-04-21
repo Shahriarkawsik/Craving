@@ -297,7 +297,7 @@ export const addDonationFood = async (
     restaurantName: payload.restaurantName,
   });
 };
-//get foodDonation from data base
+//get foodDonation from data base for showFoodDonation page
 export const getFoodDonation = async (): Promise<CommonPayload[]> => {
   const foodDonationCollection = await dbConnect().then((db) =>
     db.collection("donationFood")
@@ -310,6 +310,22 @@ export const getFoodDonation = async (): Promise<CommonPayload[]> => {
     image: foodDonation.image,
     location: foodDonation.location,
     restaurantName: foodDonation.restaurantName,
+  }));
+};
+
+//get restaurant from data base for showFoodDonation page
+export const getRestaurantForDonation = async (query: { email: string }): Promise<CommonPayload[]> => {
+  const email = query.email;
+  const db = await dbConnect();
+  const foodDonationCollection = db.collection("restaurant");
+
+  const result = await foodDonationCollection.find({
+    restaurantOwnerEmail: email
+  }).toArray();
+
+  return result.map((restaurant) => ({
+    _id: (restaurant._id as ObjectId).toString(),
+    restaurantName: restaurant.restaurantName,
   }));
 };
 
