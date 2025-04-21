@@ -49,7 +49,7 @@ const AddFood = () => {
     >
       <div className="w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
         {/* Page Title */}
-        <h1 className="  text-xl  lg:text-3xl    leading-tight  font-semibold text-center mb-6">
+        <h1 className="  text-xl  lg:text-3xl leading-tight  font-semibold text-center mb-6">
           Add New Food
         </h1>
 
@@ -58,9 +58,9 @@ const AddFood = () => {
         <div className="m-4 sm:m-8 lg:m-12 bg-amber-100/50  max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 shadow-2xl rounded-3xl">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="space-y-6 grid grid-cols-1  lg:grid-cols-2 gap-4"
+            className="space-y-6 grid grid-cols-1 lg:grid-cols-2 gap-4"
           >
-            <div className="space-y-3">
+            <div className="space-y-3 col-span-1 lg:col-span-2">
               {/* Food Name */}
               <label className="font-semibold  ">
                 Food Name <span className="text-red-600">*</span>
@@ -81,7 +81,7 @@ const AddFood = () => {
           
 
             {/* Price */}
-            <div className="space-y-3">
+            <div className="space-y-3 col-span-1 lg:col-span-2">
               <label className="font-semibold">
                 Price<span className="text-red-600">*</span>
               </label>
@@ -98,7 +98,7 @@ const AddFood = () => {
             </div>
 
             {/* Category */}
-            <div className="space-y-3">
+            <div className="space-y-3 col-span-1 lg:col-span-2">
               <label className="font-semibold">
                 Category<span className="text-red-600">*</span>
               </label>
@@ -117,7 +117,7 @@ const AddFood = () => {
             </div>
 
             {/* Food Image URL */}
-            <div className="space-y-3  col-span-2 ">
+            <div className="space-y-3 col-span-1 lg:col-span-2">
               <label className="fieldset-label  font-semibold leading-6">
                 Image file
               </label>

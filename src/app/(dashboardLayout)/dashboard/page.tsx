@@ -48,6 +48,20 @@ export function AppSidebar() {
             {session?.user?.role === "Admin" && (
               <SidebarGroupContent className="mt-2">
                 <SidebarMenu className="">
+
+              {/* statistics */}
+                <Link href="/dashboard/admin/statistics">
+                    <SidebarMenuItem
+                      className={`${
+                        pathName === "/dashboard/admin/statistics"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
+                          : "font-normal"
+                      } py-2  px-5  hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                    >
+                      Statistics
+                    </SidebarMenuItem>
+                  </Link>
+
                   <Link href="/dashboard/admin/allResturant">
                     <SidebarMenuItem
                       className={`${
@@ -72,17 +86,7 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                   </Link>
 
-                  <Link href="/dashboard/admin/statistics">
-                    <SidebarMenuItem
-                      className={`${
-                        pathName === "/dashboard/admin/statistics"
-                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
-                          : "font-normal"
-                      } py-2  px-5  hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
-                    >
-                      Statistics
-                    </SidebarMenuItem>
-                  </Link>
+                  
                   <Link href="/dashboard/admin/applications">
                     <SidebarMenuItem
                       className={`${
@@ -94,7 +98,7 @@ export function AppSidebar() {
                       Applications
                     </SidebarMenuItem>
                   </Link>
-                  <Link href="/dashboard/admin/reviewApplication">
+                  {/* <Link href="/dashboard/admin/reviewApplication">
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/reviewApplication"
@@ -104,7 +108,7 @@ export function AppSidebar() {
                     >
                       Review Applications
                     </SidebarMenuItem>
-                  </Link>
+                  </Link> */}
                 </SidebarMenu>
               </SidebarGroupContent>
             )}

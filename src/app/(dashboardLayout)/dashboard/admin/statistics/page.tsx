@@ -1,26 +1,18 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { FC } from "react";
 import restaurantLogo from "@/assets/images/rider.png";
 import Image from "next/image";
 import {
     Bar,
     BarChart,
     CartesianGrid,
-    Cell,
     Legend,
-    Pie,
-    ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
 } from "recharts";
 import { useSession } from "next-auth/react";
-import { PieChart } from "lucide-react";
-interface FoodCategoryData {
-    name: string;
-    value: number;
-}
+
 
 interface EarningData {
     Month: string;
@@ -77,15 +69,6 @@ const AdminStatics = () => {
     const totalRestaurant = 15
     const totalUser = 20
 
-    const foodCategory: FoodCategoryData[] = [
-        { name: "Burgers", value: 10 },
-        { name: "Pizzas", value: 5 },
-        { name: "Drinks", value: 7 },
-        { name: "Desserts", value: 8 },
-    ];
-
-
-    const COLORS = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'];
 
     return (
         <div className="p-6 mx-auto">
@@ -110,19 +93,19 @@ const AdminStatics = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
                     <CardContent>
-                        <h3 className="text-xl font-semibold">totalRider</h3>
-                        <p className="text-2xl font-bold">{totalRider} BDT</p>
+                        <h3 className="text-xl font-semibold">Total Rider</h3>
+                        <p className="text-2xl font-bold">{totalRider}</p>
                     </CardContent>
                 </Card>
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-teal-100">
                     <CardContent>
-                        <h3 className="text-xl font-semibold">totalRestaurant</h3>
+                        <h3 className="text-xl font-semibold">Total Restaurant</h3>
                         <p className="text-2xl font-bold">{totalRestaurant}</p>
                     </CardContent>
                 </Card>
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-rose-100">
                     <CardContent>
-                        <h3 className="text-xl font-semibold">totalUser</h3>
+                        <h3 className="text-xl font-semibold">Total User</h3>
                         <p className="text-2xl font-bold">{totalUser}</p>
                     </CardContent>
                 </Card>
