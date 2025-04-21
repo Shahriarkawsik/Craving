@@ -53,7 +53,7 @@ const AddResturant = () => {
   return (
     <div className="w-10/12 mx-auto">
       <h3 className="text-center mb-7 text-2xl md:text-3xl font-bold">
-        Add Resturant
+        Add Restaurant
       </h3>
       <div className="px-5 lg:px-10 py-10 bg-gray-50 shadow-md rounded-3xl">
         <form onSubmit={handleSubmit(onSubmit)}>
