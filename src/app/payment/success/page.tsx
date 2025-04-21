@@ -1,5 +1,5 @@
 import React from "react";
-type PaymentData = {
+interface PaymentData {
   total_amount: number;
   currency: string;
   tran_id: string;
@@ -29,12 +29,10 @@ type PaymentData = {
   ship_postcode: string | number;
   ship_country: string;
   is_sent_email: boolean;
-};
-export function paymentDetails(data: PaymentData) {
-  return data;
 }
-const SuccessPage = () => {
-  console.log(paymentDetails);
+
+const SuccessPage = ({ data }: { data: PaymentData }) => {
+  console.log(data);
   return <section>✅ Payment Successful!</section>;
 };
 export default SuccessPage;

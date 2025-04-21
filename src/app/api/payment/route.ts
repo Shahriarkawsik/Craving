@@ -1,7 +1,8 @@
 // src > app > api > payment > route.ts
-import { paymentDetails } from "@/app/payment/success/page";
+// import { paymentDetails } from "@/app/payment/success/page";
 import { NextRequest, NextResponse } from "next/server";
 import { SslCommerzPayment } from "sslcommerz";
+// import SuccessPage from './../../payment/success/page';
 
 const store_id = process.env.SSLCOMMERZ_STORE_ID!;
 const store_passwd = process.env.SSLCOMMERZ_STORE_PASSWORD!;
@@ -83,7 +84,7 @@ export async function POST(req: NextRequest) {
     ship_country: "Bangladesh",
     is_sent_email: true, // Does not work in demo version.
   };
-  paymentDetails(data);
+
   try {
     const apiResponse = await sslcz.init(data);
     if (apiResponse?.GatewayPageURL) {
