@@ -2,13 +2,22 @@
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import React from "react";
 import { MdOutlineLogout } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const DashNavbar = () => {
+  const router = useRouter()
   const { data: session } = useSession();
-  // console.log(session);
+
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    toast.success("Logout Successfully!");
+    router.push("/");
+  };
+  
   return (
     <div className="flex shadow-lg rounded-2xl border-2 bg-amber-100 items-center p-2 md:p-3 justify-between">
       <div className="flex gap-2 ">
@@ -31,9 +40,8 @@ const DashNavbar = () => {
          </div>
         </div>
       </div>
-      <div className="flex cursor-pointer  items-center gap-2">
-        <Button 
-        className="bg-amber-500 cursor-pointer hover:bg-amber-600 text-white" onClick={() => signOut()} variant="outline">
+      <div className="flex items-center gap-2">
+        <Button onClick={handleLogout} variant="outline">
           Logout{" "}
           <span>
             <MdOutlineLogout />
