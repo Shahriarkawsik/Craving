@@ -74,7 +74,13 @@ const Navbar = () => {
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
               <Link
-                href="/dashboard"
+                href={`
+                  ${session?.user?.role === "Admin" 
+                  ? "/dashboard/admin/statistics" 
+                  : session?.user?.role === "Rider" 
+                  ? "/dashboard/riders" 
+                  : session?.user?.role === "Owner"
+                  ? "/dashboard/resturantOwner" : ''}`}
                 className={`${
                   pathName === "/dashboard"
                     ? "font-bold border-b-2 border-orange-600"
