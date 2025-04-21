@@ -16,7 +16,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/gZNtFHfY/vegetable.png",
     },
     {
-      name: "Organic food",
+      name: "Organic Food",
       image: "https://i.ibb.co.com/YFW48bv1/diet.png",
     },
     {
@@ -32,7 +32,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/LdXhfwgj/ice-cream.png",
     },
     {
-      name: "Sea food",
+      name: "Sea Food",
       image: "https://i.ibb.co.com/KjSDtPPb/lobster.png",
     },
     {
