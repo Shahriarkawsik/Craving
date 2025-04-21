@@ -52,9 +52,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/allResturant"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold shadow-md text-orange-600 shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       All Restaurant
                     </SidebarMenuItem>
@@ -64,9 +64,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/allRiders"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       All Riders
                     </SidebarMenuItem>
@@ -76,9 +76,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/statistics"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       Statistics
                     </SidebarMenuItem>
@@ -87,9 +87,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/applications"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       Applications
                     </SidebarMenuItem>
@@ -98,9 +98,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/admin/reviewApplication"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       Review Applications
                     </SidebarMenuItem>
@@ -117,9 +117,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/resturantOwner"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     > 
                    
                       
@@ -132,9 +132,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/resturantOwner/addFood"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                        <div className="flex items-center   gap-2">
                         <IoFastFoodSharp className="text-2xl" /> Add Food
@@ -146,9 +146,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/resturantOwner/addDonation"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                        <div className="flex items-center   gap-2">
                         <FaMoneyCheckDollar className="text-2xl" />    Add Donation
@@ -160,9 +160,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/resturantOwner/allFoodItem"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold hover:text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                         <div className="flex items-center   gap-2">
                         <BiFoodMenu className="text-2xl" />    All Food Item
@@ -173,10 +173,10 @@ export function AppSidebar() {
                   <Link href="/dashboard/resturantOwner/updateResturant">
                     <SidebarMenuItem
                       className={`${
-                        pathName === "/dashboard/resturantOwner/addResturant"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                        pathName === "/dashboard/resturantOwner/updateResturant"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     > 
                      <div className="flex items-center   gap-2">
                         <FaHouseDamage className="text-2xl" />   Update Restaurant
@@ -189,9 +189,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/resturantOwner/orderHistory"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold  text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     > 
                      <div className="flex items-center   gap-2">
                         <VscListUnordered className="text-2xl" />    Order History
@@ -211,9 +211,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/riders"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       <div className="flex items-center   gap-2">
                         <MdManageAccounts className="text-2xl" /> Rider Profile
@@ -224,9 +224,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/riders/availableOrders"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       <div className="flex items-center   gap-2">
                         <CiViewList className="text-2xl" />
@@ -238,9 +238,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/riders/myOrders"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5  hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       <div className="flex items-center   gap-2">
                         <LuListChecks className="text-2xl" /> My Orders
@@ -251,9 +251,9 @@ export function AppSidebar() {
                     <SidebarMenuItem
                       className={`${
                         pathName === "/dashboard/riders/orderHistory"
-                          ? " font-semibold shadow-md shadow-gray-300"
+                          ? " font-semibold text-orange-600 shadow-md shadow-gray-300"
                           : "font-normal"
-                      } py-2  px-5   bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                      } py-2  px-5 hover:text-orange-600 bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     >
                       <div className="flex items-center   gap-2">
                         <MdWorkHistory className="text-2xl" /> Orders History
