@@ -4,37 +4,56 @@ import BGImg from "@/assets/bgImg.jpg";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
-import { addResturantOwner } from "@/app/action/auth/allApi";
+import {
+  createResturantOwnerApplication,
+  CommonPayload,
+} from "@/app/action/auth/allApi";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
+import { Textarea } from "@/components/ui/textarea";
 
 const BeOwner = () => {
-  type Inputs = {
-    restaurantOwnerEmail: string;
-    restaurantName: string;
-    restaurantEmail: string;
-    restaurantNumber: number;
-    restaurantDescription: string;
-    restaurantAddress: string;
-    ownerNIDPhoto: string;
-    created_at: Date;
-  };
+  // type Inputs = {
+  //   _id: string;
+  //   restaurantOwnerEmail: string;
+  //   restaurantOwnerName: string;
+  //   restaurantName: string;
+  //   restaurantEmail: string;
+  //   restaurantNumber: number;
+  //   restaurantLogo: string;
+  //   restaurantDescription: string;
+  //   restaurantAddress: string;
+  //   ownerIdentification: number;
+  //   created_at: Date;
+  // };
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<CommonPayload>();
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const { data } = useSession();
+
+  const onSubmit: SubmitHandler<CommonPayload> = async (data) => {
     const beRestaurantOwner = { ...data, created_at: new Date() };
-    // console.log(beRestaurantOwner);
     try {
-      await addResturantOwner(beRestaurantOwner);
-      toast.success("Application Submitted Successfully!");
+      await createResturantOwnerApplication(beRestaurantOwner);
+      Swal.fire({
+        icon: "success",
+        title: "Application Submitted Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       reset();
     } catch (error) {
-      toast.error("Something went wrong!" + error);
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong! ${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (
@@ -55,10 +74,10 @@ const BeOwner = () => {
           >
             {/* Restaurant Owner Email */}
             <div className="space-y-3">
-              <Label className="font-semibold">Email</Label>
+              <Label className="font-semibold">Restaurant Owner Email</Label>
               <Input
                 readOnly
-                value={"restaurantowner@gmail.com"}
+                value={data?.user?.email}
                 type="email"
                 id="email"
                 placeholder="Type your email"
@@ -68,6 +87,42 @@ const BeOwner = () => {
               {errors.restaurantOwnerEmail && (
                 <span className="text-red-600 text-sm">
                   {errors.restaurantOwnerEmail.message}
+                </span>
+              )}
+            </div>
+            {/* Restaurant Owner Name */}
+            <div className="space-y-3">
+              <Label className="font-semibold">Restaurant Owner Name*</Label>
+              <Input
+                readOnly
+                value={data?.user?.name}
+                type="text"
+                id="name"
+                placeholder="Type restaurant owner name"
+                {...register("restaurantOwnerName", { required: true })}
+                required
+              />
+              {errors.restaurantOwnerName && (
+                <span className="text-red-600 text-sm">
+                  {errors.restaurantOwnerName.message}
+                </span>
+              )}
+            </div>
+            {/* Restaurant Owner Identification */}
+            <div className="space-y-3">
+              <Label className="font-semibold">
+                Restaurant Owner NID Number/ Birth Certificate Number*
+              </Label>
+              <Input
+                placeholder="1234567890"
+                type="number"
+                id="ownerIdentification"
+                {...register("ownerIdentification", { required: true })}
+                required
+              />
+              {errors.ownerIdentification && (
+                <span className="text-red-600 text-sm">
+                  {errors.ownerIdentification.message}
                 </span>
               )}
             </div>
@@ -125,19 +180,22 @@ const BeOwner = () => {
                 </span>
               )}
             </div>
-            {/* Restaurant Description */}
+            {/* Restaurant Logo */}
             <div className="space-y-3">
-              <Label className="font-semibold">Description*</Label>
+              <Label className="font-semibold">Restaurant Logo*</Label>
               <Input
-                type="text"
-                id="description"
-                placeholder="Type restaurant description"
-                {...register("restaurantDescription", { required: true })}
+                type="url"
+                //TODO:  type="file"
+                id="restaurant_logo"
+                placeholder="Type here restaurant logo url"
+                {...register("restaurantLogo", {
+                  required: "Rider logo is required",
+                })}
                 required
               />
-              {errors.restaurantDescription && (
+              {errors.restaurantLogo && (
                 <span className="text-red-600 text-sm">
-                  {errors.restaurantDescription.message}
+                  {errors.restaurantLogo.message}
                 </span>
               )}
             </div>
@@ -157,21 +215,19 @@ const BeOwner = () => {
                 </span>
               )}
             </div>
-            {/* Restaurant Owner NID photo */}
-            <div className="space-y-3">
-              <Label className="font-semibold">NID Photo*</Label>
-              <Input
-                // type="file"
-                // className="border-none"
-                placeholder="Type restaurant owner NID photo"
-                type="url"
-                id="restaurant_address"
-                {...register("ownerNIDPhoto", { required: true })}
+            {/* Restaurant Description */}
+            <div className="space-y-3 col-span-2">
+              <Label className="font-semibold">Description*</Label>
+              <Textarea
+                style={{ resize: "none" }}
+                id="description"
+                placeholder="Type restaurant description"
+                {...register("restaurantDescription", { required: true })}
                 required
               />
-              {errors.ownerNIDPhoto && (
+              {errors.restaurantDescription && (
                 <span className="text-red-600 text-sm">
-                  {errors.ownerNIDPhoto.message}
+                  {errors.restaurantDescription.message}
                 </span>
               )}
             </div>

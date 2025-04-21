@@ -11,9 +11,10 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import restaurantLogo from "@/assets/categoryImg/fast-food.png";
+import restaurantLogoPublic from "@/assets/logo.png";
 import Image from "next/image";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import { getRestaurantByEmail } from "@/app/action/auth/allApi";
 
 interface SalesData {
   day: string;
@@ -25,7 +26,43 @@ interface FoodCategoryData {
   value: number;
 }
 
+interface RestaurantInfo {
+  _id?: string;
+  restaurantName: string;
+  restaurantAddress: string;
+  restaurantDescription: string;
+  restaurantEmail: string;
+  restaurantLogo: string;
+  restaurantPhone: string;
+  restaurantOwnerName: string;
+  restaurantOwnerEmail: string;
+  restaurantOwnerId: string;
+  restaurantOpeningDate: Date;
+  restaurantTotalSell: number;
+  restaurantTotalOrder: number;
+  restaurantCompleteOrder: number;
+  restaurantPendingOrder: number;
+  restaurantRating: number;
+  totalFoodItem: number;
+  foodCategories: string[];
+  ownerIdentification: string;
+  ownerName: string;
+  restaurantNumber: string;
+}
+
 const RestaurantOwner: FC = () => {
+  const [restaurant, setRestaurant] = useState<RestaurantInfo | null>(null);
+  const getRestaurantSpecificOwner = async (): Promise<void> => {
+    const specificRestaurant = await getRestaurantByEmail(
+      "shahriarkawsik@gmail.com"
+    );
+    setRestaurant(specificRestaurant as unknown as RestaurantInfo);
+  };
+  // console.log(restaurant)
+  useEffect(() => {
+    getRestaurantSpecificOwner();
+  }, []);
+
   const weeklySales: SalesData[] = [
     { day: "Mon", sales: 1200 },
     { day: "Tue", sales: 900 },
@@ -50,26 +87,28 @@ const RestaurantOwner: FC = () => {
         <CardContent>
           <div className="flex items-center space-x-4">
             <Image
-              src={restaurantLogo}
+              src={restaurant?.restaurantLogo || restaurantLogoPublic}
               alt="Restaurant Logo"
+              width={50}
+              height={50}
               className="w-16 h-16 rounded-full"
             />
             <div>
-              <h2 className="text-2xl font-bold">Delicious Bites</h2>
-              <p className="text-gray-500">
-                Emperor Building, Gulshan-2, Dhaka
-              </p>
+              <h2 className="text-2xl font-bold">
+                {restaurant?.restaurantName}
+              </h2>
+              <p className="text-gray-500">{restaurant?.restaurantAddress}</p>
             </div>
           </div>
         </CardContent>
       </Card>
 
       {/* statistics cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
           <CardContent>
             <h3 className="text-xl font-semibold">Total Food Items</h3>
-            <p className="text-2xl font-bold">30</p>
+            <p className="text-2xl font-bold">{restaurant?.totalFoodItem}</p>
           </CardContent>
         </Card>
         <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-teal-100">
@@ -92,14 +131,16 @@ const RestaurantOwner: FC = () => {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
         {/* bar chart */}
-        <Card className="p-4 border border-blue-300">
+        <Card className=" flex flex-col items-center lg:p-4 border border-blue-300">
           <CardContent>
             <h3 className="text-xl font-semibold text-center mb-4">
               Weekly Sales
             </h3>
-            <BarChart width={400} height={250} data={weeklySales}>
+           
+            <BarChart className="max-w-[300px] lg:max-w-[350px]  " 
+             width={350} height={250} data={weeklySales}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="day" />
               <YAxis />
@@ -107,15 +148,20 @@ const RestaurantOwner: FC = () => {
               <Legend />
               <Bar dataKey="sales" fill="#8884d8" />
             </BarChart>
+
+            
+           
           </CardContent>
         </Card>
         {/* pie chart */}
-        <Card className="p-4 border border-green-300">
+        <Card className=" flex flex-col items-center lg:p-4 border border-green-300">
           <CardContent>
             <h3 className="text-xl font-semibold text-center mb-4">
               Food Categories
             </h3>
-            <PieChart width={400} height={250}>
+           
+           <PieChart className="max-w-[300px] lg:max-w-[350px] "
+            width={300} height={300}>
               <Pie
                 data={foodCategory}
                 dataKey="value"
@@ -128,6 +174,7 @@ const RestaurantOwner: FC = () => {
               />
               <Tooltip />
             </PieChart>
+         
           </CardContent>
         </Card>
       </div>

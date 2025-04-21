@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { updateFood } from "@/app/action/auth/allApi";
 import Swal from "sweetalert2";
 
-
 interface Inputs {
   foodName: string;
   description: string;
@@ -17,13 +16,16 @@ interface Inputs {
 }
 
 export default function UpdateFood() {
-  const { id } = useParams<{ id: string }>(); 
+  const { id } = useParams<{ id: string }>();
 
-  console.log("Food ID:", id);
+  // console.log("Food ID:", id);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<Inputs>();
-
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!id) {
@@ -39,17 +41,17 @@ export default function UpdateFood() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Update it!"
+      confirmButtonText: "Yes, Update it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const result = await updateFood(allData);
-          console.log(result)
+          // console.log(result)
           if (result.modifiedCount > 0) {
             Swal.fire({
               title: "Update Successfully!",
               text: "Your Food has been Updated.",
-              icon: "success"
+              icon: "success",
             });
             reset();
           }
@@ -141,7 +143,7 @@ export default function UpdateFood() {
                 Category*
               </label>
               <input
-                type="number"
+                type="text"
                 className="w-full input bg-gray-100 text-sm sm:text-base lg:text-lg rounded-md p-2 sm:p-3"
                 placeholder="Type here..."
                 {...register("category", { required: true })}

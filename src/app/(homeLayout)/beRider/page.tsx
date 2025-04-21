@@ -6,18 +6,22 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { addRider } from "@/app/action/auth/allApi";
-import { toast } from "react-toastify";
+import { createBeRiderApplication } from "@/app/action/auth/allApi";
+import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 
 const BeRider = () => {
+  const { data } = useSession();
+
   type Inputs = {
-    // restaurant_id: string;
-    id: string;
+    _id: string;
     riderEmail: string;
     riderName: string;
+    riderImage: string;
     riderNumber: number;
     riderAddress: string;
     description: string;
+    riderIdentification: number;
     vehicleType: string;
     created_at: Date;
   };
@@ -32,11 +36,21 @@ const BeRider = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const beRider = { ...data, created_at: new Date() };
     try {
-      await addRider(beRider);
-      toast.success("Rider Added Successfully!");
+      await createBeRiderApplication(beRider);
+      Swal.fire({
+        icon: "success",
+        title: "Rider Added Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       reset();
     } catch (error) {
-      toast.error("Something went wrong!" + error);
+      Swal.fire({
+        icon: "error",
+        text: `Something went wrong! ${error}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   return (
@@ -61,7 +75,7 @@ const BeRider = () => {
               <Label className="font-semibold">Rider Email</Label>
               <Input
                 readOnly
-                value={"rider@gmail.com"}
+                value={data?.user?.email}
                 type="email"
                 id="email"
                 placeholder="Type your email"
@@ -78,6 +92,8 @@ const BeRider = () => {
             <div className="space-y-3">
               <Label className="font-semibold">Rider Name*</Label>
               <Input
+                readOnly
+                value={data?.user?.name}
                 type="text"
                 id="name"
                 placeholder="Type your name"
@@ -87,6 +103,23 @@ const BeRider = () => {
               {errors.riderName && (
                 <span className="text-red-600 text-sm">
                   Rider Name is required
+                </span>
+              )}
+            </div>
+            {/* Rider Image */}
+            <div className="space-y-3">
+              <Label className="font-semibold">Rider Image*</Label>
+              <Input
+                type="url"
+                // type="file"
+                id="name"
+                placeholder="Type your Image URL"
+                {...register("riderImage", { required: true })}
+                required
+              />
+              {errors.riderImage && (
+                <span className="text-red-600 text-sm">
+                  Rider image is required
                 </span>
               )}
             </div>
@@ -108,6 +141,30 @@ const BeRider = () => {
               {errors.riderNumber && (
                 <span className="text-red-600 text-sm">
                   {errors.riderNumber.message}
+                </span>
+              )}
+            </div>
+            {/* Rider Identification */}
+            <div className="space-y-3">
+              <Label className="font-semibold">
+                NID Number/ Birth Certificate Number*
+              </Label>
+              <Input
+                type="number"
+                id="rider_number"
+                placeholder="1234567890"
+                {...register("riderIdentification", {
+                  required:
+                    "Rider NID Number/ Birth Certificate Number is required",
+                  // pattern: {
+                  //   value: /^\d{11,}$/,
+                  //   message: "Rider number must be at least 11 digits",
+                  // },
+                })}
+              />
+              {errors.riderIdentification && (
+                <span className="text-red-600 text-sm">
+                  {errors.riderIdentification.message}
                 </span>
               )}
             </div>
