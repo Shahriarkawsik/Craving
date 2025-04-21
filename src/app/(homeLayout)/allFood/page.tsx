@@ -29,9 +29,9 @@ export default function AllFoodsPage() {
   const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
     try {
@@ -49,19 +49,19 @@ export default function AllFoodsPage() {
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
-    fetchData(query, foodCategory, foodSort); // ✅ এখন search করলে category ও থাকবে
+    fetchData(query, foodCategory, foodSort); 
   }, 500);
 
   const handleCategory = debounce((category: string) => {
     setFoodCategory(category);
-    fetchData(searchQuery, category, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, category, foodSort); 
   }, 500);
 
 
   const handleSort = debounce((sort: string) => {
     // console.log(sort)
     setFoodSort(sort);
-    fetchData(searchQuery, foodCategory, sort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, foodCategory, sort); 
   }, 500);
 
   return (
