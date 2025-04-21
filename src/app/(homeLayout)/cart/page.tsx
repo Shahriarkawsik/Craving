@@ -167,11 +167,11 @@ export default function CartPage() {
             Total Amount
           </h3>
           <p className="text-2xl font-bold text-green-600">
-            ${totalAmount.toFixed(2)}
+            BDT{totalAmount.toFixed(2)}
           </p>
           <button
             onClick={initiatePayment}
-            className="btn bg-blue-600 cursor-pointer text-white mt-4 py-2 rounded"
+            className="btn bg-orange-600 cursor-pointer text-white mt-4 py-2 rounded"
           >
             Proceed to payment
           </button>

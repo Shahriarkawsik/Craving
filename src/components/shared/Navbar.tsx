@@ -123,7 +123,7 @@ const Navbar = () => {
               )}
             </div>
 
-            <div className="flex space-x-5">
+            <div className="flex space-x-3">
               <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} />
               <Link className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full"
                href={"/cart"}>
