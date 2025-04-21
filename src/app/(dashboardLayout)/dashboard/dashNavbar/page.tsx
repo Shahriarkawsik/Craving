@@ -40,14 +40,8 @@ const DashNavbar = () => {
          </div>
         </div>
       </div>
-<<<<<<< HEAD
       <div className="flex items-center gap-2">
         <Button onClick={handleLogout} variant="outline">
-=======
-      <div className="flex cursor-pointer  items-center gap-2">
-        <Button 
-        className="bg-amber-500 cursor-pointer hover:bg-amber-600 text-white" onClick={() => signOut()} variant="outline">
->>>>>>> efb6e5992789aa09bc6becbc977f65e16cd6ec14
           Logout{" "}
           <span>
             <MdOutlineLogout />
