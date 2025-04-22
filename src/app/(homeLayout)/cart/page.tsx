@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
 import React, { useEffect, useState } from "react";
-import { addToOrder, deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { addToOrder, deleteCartItem, deleteOrderCartByEmail, getOrderCartByEmail } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -102,10 +102,17 @@ export default function CartPage() {
       const data = await res.json(); // Ensure backend responds with JSON
 
       if (data?.url) {
-        // Save order before redirect if needed
-        await addToOrder(cartItems); // Ensure cartItems is of type CommonPayload[]
+        // cart item saved in order collection
+        await addToOrder(cartItems); 
   
         window.location.href = data.url;
+
+        if (!session?.user?.email) {
+          throw new Error("User email not found in session.");
+        }
+        // delete the cart items after payment
+        await deleteOrderCartByEmail(session.user.email);
+
       } else {
         console.error("No URL received from payment gateway.");
       }
