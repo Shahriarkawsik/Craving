@@ -61,7 +61,7 @@ const ShowDonationCard = () => {
           <p className="text-sm text-gray-600">{donation.description} this is a description</p>
 
          <div className="flex justify-end">
-        <Link href="/donationCart">
+        <Link href={`/donationCart/${donation._id}`}>
         <button  className="hover:bg-amber-600 font-semibold bg-amber-500 text-white cursor-pointer  py-1 px-4 rounded-4xl"
           >Donation</button>
         </Link>
