@@ -2,6 +2,7 @@
 import { getFoodDonation } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 
 type FoodDonation = {
@@ -60,13 +61,11 @@ const ShowDonationCard = () => {
           <p className="text-sm text-gray-600">{donation.description} this is a description</p>
 
          <div className="flex justify-end">
-         <button  className="hover:bg-amber-600 font-semibold bg-amber-500 text-white cursor-pointer  py-1 px-4 rounded-4xl"
+        <Link href="/donationCart">
+        <button  className="hover:bg-amber-600 font-semibold bg-amber-500 text-white cursor-pointer  py-1 px-4 rounded-4xl"
           >Donation</button>
+        </Link>
          </div>
-         
-          {/* <p className="mt-1 text-sm text-gray-500">
-            Restaurant: {donation.restaurantName}
-          </p> */}
         </div>
       ))}
     </div>
