@@ -2,11 +2,15 @@
 import Banner from "@/components/shared/Banner";
 import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 const Page = () => {
+  const {id} = useParams()
+  console.log(id)
   const [amount, setAmount] = useState(0);
-  console.log(amount);
+
+  useEffect(()=> {}, [])
 
   const initiatePayment = async () => {
     try {
