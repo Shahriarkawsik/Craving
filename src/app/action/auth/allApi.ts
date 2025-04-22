@@ -350,6 +350,22 @@ export const getRestaurantForDonation = async (query: { email: string }): Promis
     restaurantName: restaurant.restaurantName,
   }));
 };
+
+// post all donation data for restaurant owner history page 
+export const allDonationDataForOwnerHistory = async (
+  payload: CommonPayload
+): Promise<void> => {
+  const allDonationCollection = await dbConnect().then((db) =>
+    db.collection("donationDataForOwnerHistory")
+  );
+  await allDonationCollection.insertOne({
+    title: payload.title,
+    description: payload.description,
+    image: payload.image,
+    location: payload.location,
+    restaurantName: payload.restaurantName,
+  });
+};
  
 /*create Be Rider application Collection*/
 export const createBeRiderApplication = async (

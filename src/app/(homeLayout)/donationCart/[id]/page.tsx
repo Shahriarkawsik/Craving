@@ -1,13 +1,13 @@
 "use client";
-// import Banner from "@/components/shared/Banner";
-// import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { CommonPayload, getFoodDonationData } from "@/app/action/auth/allApi";
+import { CommonPayload, getFoodDonationData, allDonationDataForOwnerHistory } from "@/app/action/auth/allApi";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
   const { id } = useParams();
+  const {data:session} = useSession()
   console.log(id);
   const [amount, setAmount] = useState(0);
   const [donationData, setDonationData] = useState<CommonPayload[]>([]);
@@ -23,7 +23,6 @@ const Page = () => {
     };
     fetchDonationsData();
   }, [id]);
-  console.log(donationData, "========================donationData");
 
   const initiatePayment = async () => {
     try {
@@ -47,6 +46,39 @@ const Page = () => {
     } catch (err) {
       console.error("Payment initiation error:", err);
     }
+
+    
+    // const allDonationData = {
+    //   // ...donationData[0],
+    //   // amount: amount,
+    //   // ...session?.user,
+    //   title: donationData[0]?.title,
+    //   description: donationData[0]?.description,
+    //   image: donationData[0]?.image,
+    //   location: donationData[0]?.location,
+    //   restaurantName: donationData[0]?.restaurantName,
+    //   email: session?.user?.email,  
+    //   userImage: session?.user?.image,
+    //   amount: amount
+    // }
+
+    const allDonationData = {
+      title: donationData[0]?.title ?? "Untitled",
+      description: donationData[0]?.description ?? "",
+      image: donationData[0]?.image ?? undefined,
+      location: donationData[0]?.location ?? "",
+      restaurantName: donationData[0]?.restaurantName ?? "",
+      email: session?.user?.email ?? "unknown@example.com",
+      userImage: session?.user?.image ?? undefined,
+      amount: amount ?? 0,
+    };
+    
+    console.log(allDonationData, "===============================allDonationData")
+     try {
+          await allDonationDataForOwnerHistory(allDonationData);
+        } catch (error) {
+          console.error("Something went wrong", error);
+        }
   };
 
   return (
@@ -64,8 +96,8 @@ const Page = () => {
         }}
       >
         <div className="w-3xl mx-auto text-center z-50">
-          <h2 className="text-2xl md:text-4xl font-bold text-white">{donationData[0].title}</h2>
-          <p className="mt-2 text-white">{donationData[0].location}</p>
+          <h2 className="text-2xl md:text-4xl font-bold text-white">{donationData[0]?.title}</h2>
+          <p className="mt-2 text-white">{donationData[0]?.location}</p>
         </div>
       </div>
       {/* payment part  */}
