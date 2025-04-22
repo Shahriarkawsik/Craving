@@ -750,6 +750,8 @@ export const getSingleFood = async (id: string) => {
   return foodItem;
 };
 
+
+// showing cart item by email
 export const getOrderCartByEmail = async (email: string) => {
   const db = await dbConnect();
   const cartCollection = db.collection("cart");
@@ -770,6 +772,22 @@ export const getOrderCartByEmail = async (email: string) => {
     user_email: item.user_email || "",
   }));
 };
+
+
+// delete cart item by email
+export const deleteOrderCartByEmail = async (email: string) => {
+  const db = await dbConnect();
+  const cartCollection = db.collection("cart");
+
+  const result = await cartCollection.deleteMany({ user_email: email });
+
+  if (result.deletedCount === 0) {
+    throw new Error("No item found to delete");
+  }
+
+  return result;
+}
+
 
 
 
