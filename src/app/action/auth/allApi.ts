@@ -26,7 +26,7 @@ export interface CommonPayload {
   category?: string;
   foodImage?: string;
   is_available?: boolean;
-  created_at?: Date;
+  created_at?: Date | null;
   // Be Rider
   riderEmail?: string;
   riderName?: string;
@@ -41,7 +41,7 @@ export interface CommonPayload {
   restaurantOwnerId?: string;
   restaurant_id?: string;
   restaurantOwnerEmail?: string;
-  owner_email?: string;
+  owner_email?: string | null;
   restaurantOwnerName?: string;
   restaurantName?: string;
   restaurantEmail?: string;
@@ -369,21 +369,21 @@ export const addToCart = async (payload: CommonPayload): Promise<void> => {
 
 
 // add to order
-// export const addToOrder = async (payload: CommonPayload): Promise<void> => {
-//   const orderCollection = await dbConnect().then((db) => db.collection("order"));
-//   await orderCollection.insertOne({
-//     restaurant_id: payload.restaurant_id,
-//     foodName: payload.foodName,
-//     description: payload.description,
-//     price: payload.price,
-//     category: payload.category,
-//     image: payload.image,
-//     is_available: payload.is_available,
-//     created_at: payload.created_at,
-//     owner_email: payload.owner_email,
-//     user_email: payload.user_email,
-//   });
-// };
+export const addToOrder = async (payload: CommonPayload[]): Promise<void> => {
+  const orderCollection = await dbConnect().then((db) => db.collection("order"));
+  await orderCollection.insertMany(payload.map(item => ({
+    restaurant_id: item.restaurant_id,
+    foodName: item.foodName,
+    description: item.description,
+    price: item.price,
+    category: item.category,
+    image: item.image,
+    is_available: item.is_available,
+    created_at: item.created_at,
+    owner_email: item.owner_email,
+    user_email: item.user_email,
+  })));
+};
 
 
 
@@ -750,6 +750,8 @@ export const getSingleFood = async (id: string) => {
   return foodItem;
 };
 
+
+// showing cart item by email
 export const getOrderCartByEmail = async (email: string) => {
   const db = await dbConnect();
   const cartCollection = db.collection("cart");
@@ -770,6 +772,22 @@ export const getOrderCartByEmail = async (email: string) => {
     user_email: item.user_email || "",
   }));
 };
+
+
+// delete cart item by email
+export const deleteOrderCartByEmail = async (email: string) => {
+  const db = await dbConnect();
+  const cartCollection = db.collection("cart");
+
+  const result = await cartCollection.deleteMany({ user_email: email });
+
+  if (result.deletedCount === 0) {
+    throw new Error("No item found to delete");
+  }
+
+  return result;
+}
+
 
 
 
