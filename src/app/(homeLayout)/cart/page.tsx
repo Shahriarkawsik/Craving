@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
 import React, { useEffect, useState } from "react";
-import { deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { addToOrder, deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -102,7 +102,10 @@ export default function CartPage() {
       const data = await res.json(); // Ensure backend responds with JSON
 
       if (data?.url) {
-        window.location.href = data.url; // Redirect to the payment gateway
+        // Save order before redirect if needed
+        await addToOrder(cartItems); // Ensure cartItems is of type CommonPayload[]
+  
+        window.location.href = data.url;
       } else {
         console.error("No URL received from payment gateway.");
       }
