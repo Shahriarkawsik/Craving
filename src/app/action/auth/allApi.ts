@@ -2,7 +2,9 @@
 import { ObjectId } from "mongodb";
 import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
+// import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
+
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -313,6 +315,26 @@ export const getFoodDonation = async (): Promise<CommonPayload[]> => {
   }));
 };
 
+// get donation data by id for donation cat page 
+export const getFoodDonationData = async (query: {id:string}): Promise<CommonPayload[]> => {
+  const id = query.id;
+  const db = await dbConnect();
+  const   foodDonationCollection = db.collection("donationFood");
+  const result = await foodDonationCollection.find({
+    _id: new ObjectId(id)
+  }).toArray(); 
+  return result.map((foodDonation) => {
+    return ({
+    _id: (foodDonation._id as unknown as ObjectId).toString(),
+    title: foodDonation.title,
+    description: foodDonation.description,
+    image: foodDonation.image,
+    location: foodDonation.location,
+    restaurantName: foodDonation.restaurantName,
+  })
+  })
+}
+
 //get restaurant from data base for showFoodDonation page
 export const getRestaurantForDonation = async (query: { email: string }): Promise<CommonPayload[]> => {
   const email = query.email;
@@ -328,7 +350,7 @@ export const getRestaurantForDonation = async (query: { email: string }): Promis
     restaurantName: restaurant.restaurantName,
   }));
 };
-
+ 
 /*create Be Rider application Collection*/
 export const createBeRiderApplication = async (
   payload: CommonPayload

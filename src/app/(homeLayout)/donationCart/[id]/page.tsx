@@ -1,16 +1,29 @@
 "use client";
-import Banner from "@/components/shared/Banner";
-import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
+// import Banner from "@/components/shared/Banner";
+// import bannerImage from "@/assets/bannerImg/aboutBanner1.jpg";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { CommonPayload, getFoodDonationData } from "@/app/action/auth/allApi";
 
 const Page = () => {
-  const {id} = useParams()
-  console.log(id)
+  const { id } = useParams();
+  console.log(id);
   const [amount, setAmount] = useState(0);
+  const [donationData, setDonationData] = useState<CommonPayload[]>([]);
 
-  useEffect(()=> {}, [])
+  useEffect(() => {
+    const fetchDonationsData = async () => {
+      try {
+        const data = await getFoodDonationData({ id: id as string });
+        setDonationData(data);
+      } catch (error) {
+        console.error("Something went wrong", error);
+      }
+    };
+    fetchDonationsData();
+  }, [id]);
+  console.log(donationData, "========================donationData");
 
   const initiatePayment = async () => {
     try {
@@ -38,11 +51,24 @@ const Page = () => {
 
   return (
     <div>
-      <Banner
-        image={bannerImage.src}
-        title={`Your Cart`}
-        subtitle={`See your added items.`}
-      />
+      {/* background image part  */}
+      <div
+        className="flex justify-center items-center"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(${donationData[0]?.image})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          height: "350px",
+          width: "100%",
+        }}
+      >
+        <div className="w-3xl mx-auto text-center z-50">
+          <h2 className="text-2xl md:text-4xl font-bold text-white">{donationData[0].title}</h2>
+          <p className="mt-2 text-white">{donationData[0].location}</p>
+        </div>
+      </div>
+      {/* payment part  */}
       <div className="w-11/12 mx-auto my-10">
         <div className="flex justify-center items-center flex-col">
           <h1 className="text-3xl my-2 mb-5">Payment</h1>
