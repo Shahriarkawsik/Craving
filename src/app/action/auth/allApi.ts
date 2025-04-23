@@ -850,8 +850,6 @@ export const getOrderCartByEmail = async (email: string) => {
   }));
 };
 
-<<<<<<< HEAD
-=======
 
 // delete cart item by email
 export const deleteOrderCartByEmail = async (email: string) => {
@@ -870,7 +868,6 @@ export const deleteOrderCartByEmail = async (email: string) => {
 
 
 
->>>>>>> bc40da70b1dc5dd2fef42be4667cfb83dfc63983
 // Delete Cart Item
 export const deleteCartItem = async (
   payload: CommonPayload
