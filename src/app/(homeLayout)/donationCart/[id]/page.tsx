@@ -35,7 +35,6 @@ const Page = () => {
       userImage: session?.user?.image ?? undefined,
       amount: amount.toString(),
     };
-    console.log(allDonationData, "==========================");
      try {
           await allDonationDataForOwnerHistory(allDonationData);
         } catch (error) {

@@ -1,17 +1,18 @@
 "use client";
 
-import { getDonationsHistoryData } from "@/app/action/auth/allApi";
+import { CommonPayload, getDonationsHistoryData } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const DonationsHistory = () => {
     const {data:session} = useSession()
+    const [allDonationData, setAllDonationData] = useState<CommonPayload[]>([])
     useEffect(()=> {
         const fetchDonationsAllData = async () => {
             try {
                 if(session?.user?.email) {
-                    const data = await getDonationsHistoryData({email:session?.user?.email})
-                    console.log(data)
+                    const data = await getDonationsHistoryData({restaurantOwnerEmail:session?.user?.email})
+                    setAllDonationData(data)
                 }
             } catch (error) {
                 console.log(error)
@@ -19,6 +20,7 @@ const DonationsHistory = () => {
         }
         fetchDonationsAllData()
     }, [session?.user?.email])
+    console.log(allDonationData)
     return (
         <div>
             <h1>kflskdfslkd</h1>

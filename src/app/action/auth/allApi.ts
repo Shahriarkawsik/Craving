@@ -388,13 +388,13 @@ export const allDonationDataForOwnerHistory = async (
 
 // get all donations history data for owner donations history page
 export const getDonationsHistoryData = async (query: {
-  email: string;
+  restaurantOwnerEmail: string;
 }): Promise<CommonPayload[]> => {
-  const email = query.email;
+  // const restaurantOwnerEmail = query.email;
   const db = await dbConnect();
   const allDonationsHistoryData = db.collection("donationDataForOwnerHistory");
 
-  const result = await allDonationsHistoryData.find({ email }).toArray();
+  const result = await allDonationsHistoryData.find({ restaurantOwnerEmail: query.restaurantOwnerEmail }).toArray();
 
   return result.map((restaurant) => ({
     _id: (restaurant._id as ObjectId).toString(),
