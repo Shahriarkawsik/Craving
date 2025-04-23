@@ -62,11 +62,11 @@ const CitiesWeServe = () => {
                 {cities.map((city) => (
                     <div
                         key={city.id}
-                        className="relative group cursor-pointer">
+                        className="relative group ">
                         <Image
                             src={city.image}
                             alt={city.city_name}
-                            className="w-full h-64 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-64 object-cover rounded-lg transition-transform duration-300 "
                         />
                         <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-bold rounded-lg">
                             <p className="bg-black px-4 py-1 rounded-md">{city.city_name}</p>

@@ -36,6 +36,7 @@ interface DeleteResponse {
 
 export default function CartPage() {
   const { data: session } = useSession();
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   //   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {

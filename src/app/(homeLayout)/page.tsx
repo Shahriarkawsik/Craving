@@ -9,7 +9,7 @@ import CitiesWeServe from "@/components/homeComponents/CitiesWeServe";
 import { useEffect, useState } from "react";
 import LocationModal from "@/components/homeComponents/location/LocationModal";
 import { CommonPayload, showRestaurantByCity } from "../action/auth/allApi";
-import EidCart from "@/components/homeComponents/EidCart";
+// import EidCart from "@/components/homeComponents/EidCart";
 // import CountdownTimer from "@/components/homeComponents/CountdownTimer";
 import dynamic from "next/dynamic";
 import ShowDonationCard from "@/components/homeComponents/ShowDonationCard";
@@ -44,8 +44,6 @@ export default function Home() {
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
       );
       const data = await res.json();
-      // console.log("📍 Full Address:", data);
-      // console.log("🏙️ District:", data.address?.city || data.address?.county);
       localStorage.setItem("locationAllowed", data.address?.city);
       setLocation(data?.address?.city);
     } catch (err) {
@@ -103,20 +101,23 @@ export default function Home() {
       {/* Banner section */}
       <div>
         <Banner />
-        <CountdownTimer targetDate="2025-04-12T00:00:00" />
+        <CountdownTimer targetDate="2025-06-10T00:00:00" />
       </div>
-      <EidCart />
+      {/* <EidCart /> */}
 
       {/* Category Section */}
       <Category />
-      {/* Cities We Serve Section */}
-      <CitiesWeServe></CitiesWeServe>
+      
+    
       {/* Featured Food */}
       <FeaturedFood />
       {/* top restaurant */}
       <TopRestaurant restaurants={restaurants} />
+  
       {/* food donation  */}
       <ShowDonationCard></ShowDonationCard>
+          {/* Cities We Serve Section */}
+          <CitiesWeServe></CitiesWeServe>
       {/* faq section */}
       <FAQ></FAQ>
       {/* Support */}

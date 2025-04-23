@@ -8,6 +8,8 @@ import owner from "@/assets/images/owner.jpg";
 import { useState } from "react";
 import Link from "next/link";
 import Banner from "@/components/shared/Banner";
+import { useSession } from "next-auth/react";
+import { toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -16,7 +18,11 @@ interface FormData {
 }
 
 const ContactUs = () => {
-  const [formData, setFormData] = useState<FormData>({
+
+  const {data : session }=useSession();
+  console.log(session,"this is a session form")
+
+   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     query: "",
@@ -30,10 +36,58 @@ const ContactUs = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Form submitted!"); // submission functionality and toast will be added later
+
+  
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+   
+    // formData.append("access_key", accessKey);
+    // const accessKey =process.env.EMAIL_ACCESS_KEY_HERE;
+    formData.append("access_key","85802a92-148d-4af4-9df0-48804d5ed65e");
+  
+    // console.log(formData, "this is form data");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const result = await res.json();
+  
+      if (result.success) {
+
+         toast.success("Message sent successfully", {
+                position: "top-center",
+                autoClose: 1000,
+              });
+              form.reset(); // resets native form fields
+              setFormData({
+                name: "",
+                email: "",
+                query: "",
+              }); 
+     // console.log("Success:", result);
+      } else {
+        toast.error("Message not sent", {
+          position: "top-center",
+          autoClose: 1000,
+        });
+        // console.log("Error:", result);
+
+
+      }
+    } catch  {
+      toast.error("Message not sent try again ", {
+        position: "top-center",
+        autoClose: 1000,
+      })
+      // console.error("Network error:", error);
+    }
   };
+
 
   return (
     <div className="   ">
@@ -105,6 +159,7 @@ const ContactUs = () => {
               <input
                 type="text"
                 name="name"
+                
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleChange}
@@ -115,6 +170,8 @@ const ContactUs = () => {
                 type="email"
                 name="email"
                 placeholder="Your Email"
+                defaultValue={session?.user?.email}
+              
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"

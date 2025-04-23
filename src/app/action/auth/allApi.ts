@@ -297,7 +297,7 @@ export const addDonationFood = async (
     restaurantName: payload.restaurantName,
   });
 };
-//get foodDonation from data base
+//get foodDonation from data base for showFoodDonation page
 export const getFoodDonation = async (): Promise<CommonPayload[]> => {
   const foodDonationCollection = await dbConnect().then((db) =>
     db.collection("donationFood")
@@ -310,6 +310,22 @@ export const getFoodDonation = async (): Promise<CommonPayload[]> => {
     image: foodDonation.image,
     location: foodDonation.location,
     restaurantName: foodDonation.restaurantName,
+  }));
+};
+
+//get restaurant from data base for showFoodDonation page
+export const getRestaurantForDonation = async (query: { email: string }): Promise<CommonPayload[]> => {
+  const email = query.email;
+  const db = await dbConnect();
+  const foodDonationCollection = db.collection("restaurant");
+
+  const result = await foodDonationCollection.find({
+    restaurantOwnerEmail: email
+  }).toArray();
+
+  return result.map((restaurant) => ({
+    _id: (restaurant._id as ObjectId).toString(),
+    restaurantName: restaurant.restaurantName,
   }));
 };
 
@@ -350,6 +366,26 @@ export const addToCart = async (payload: CommonPayload): Promise<void> => {
     user_email: payload.user_email,
   });
 };
+
+
+// add to order
+// export const addToOrder = async (payload: CommonPayload): Promise<void> => {
+//   const orderCollection = await dbConnect().then((db) => db.collection("order"));
+//   await orderCollection.insertOne({
+//     restaurant_id: payload.restaurant_id,
+//     foodName: payload.foodName,
+//     description: payload.description,
+//     price: payload.price,
+//     category: payload.category,
+//     image: payload.image,
+//     is_available: payload.is_available,
+//     created_at: payload.created_at,
+//     owner_email: payload.owner_email,
+//     user_email: payload.user_email,
+//   });
+// };
+
+
 
 /* Get all rider Application request */
 export const getBeRiderApplication = async (): Promise<CommonPayload[]> => {
@@ -734,6 +770,8 @@ export const getOrderCartByEmail = async (email: string) => {
     user_email: item.user_email || "",
   }));
 };
+
+
 
 // Delete Cart Item
 export const deleteCartItem = async (

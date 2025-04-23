@@ -38,12 +38,12 @@ const FoodCard = ({ food }: Props) => {
         <div className="rounded-lg shadow-2xl space-y-5">
             {/* image content */}
             <Link href={`/allFood/${food.food_id}`}>
-                <div className="relative h-[300px] overflow-hidden rounded-t-lg cursor-pointer group">
+                <div className="relative h-[200px] overflow-hidden rounded-t-lg cursor-pointer group">
                     <Image
                         src={food.image}
                         alt={food.foodName}
                         width={300}
-                        height={300}
+                        height={200}
                         className="w-full h-full object-cover rounded-t-lg"
                     />
 
@@ -57,30 +57,33 @@ const FoodCard = ({ food }: Props) => {
             {/* text content */}
             <div className="mx-5 mb-5">
                 <div className="flex justify-between items-center mt-3">
-                    <h1 className="text-md lg:text-xl font-bold">
-                        {food.foodName}
+                    <h1 className="text-md lg:text-lg font-semibold">
+                        {food.foodName}  
                     </h1>
-                    <p className="flex justify-center gap-1 items-center ">
+                   
+                </div>
+
+                <div className="mt-3 flex justify-between items-center ">
+                <p className="flex justify-center gap-1 items-center ">
                         <span className="text-orange-400">
                             <FaStar />
                         </span>
                         {food.rating.toFixed(1)} <span className=" text-sm">({food.reviewCount})</span>
                     </p>
-                </div>
-
-                <div className="mt-3 mx-auto size">
                     <p className="flex items-center justify-end text-md text-black font-bold">{food.price} BDT</p>
+                    
                 </div>
 
                 {/* buttons */}
                 <div className="mt-3 flex items-center justify-between gap-2">
                     <button disabled={!food.is_available} onClick={handleAddToCart} className={`${food.is_available ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'} text-white bg-orange-500 hover:bg-orange-600 flex items-center justify-center space-x-1 py-2 px-2 sm:px-4 rounded-sm shadow-md transition-colors duration-300`}>
                         <FaShoppingCart size={20} />
-                        <span className="ml-1">{food.is_available ? 'Add To Cart' : 'Out Of Stock'}</span>
+                       
                     </button>
 
                     <Link href={`/cart`}><button className='text-orange-950 hover:text-white transition-all border border-orange-400 hover:bg-orange-500 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md duration-300 cursor-pointer'>
-                        Order Now
+                       
+                        <span className="ml-1">{food.is_available ? ' Order Now' : 'Out Of Stock'}</span>
                     </button></Link>
                 </div>
             </div>

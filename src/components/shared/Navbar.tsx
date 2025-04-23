@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 import { Button } from "@/components/ui/button";
-import { IoIosNotificationsOutline, IoMdClose } from "react-icons/io";
+import {  IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { signOut, useSession } from "next-auth/react";
@@ -11,8 +11,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaRegUserCircle } from "react-icons/fa";
 import { CiHeart } from "react-icons/ci";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathName = usePathname();
   const { data: session, status } = useSession();
 
@@ -39,19 +42,19 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const handleLogout = async () => {
+    await signOut({ redirect: false });
+    toast.success("Logout Successfully!");
+    router.push("/");
+  };
+  
   return (
     <header className="">
       {/* desktop menu */}
-      <section
-        className={`${
-          navBg
-            ? "bg-white text-black shadow-xl transition-all ease"
-            : "text-white"
-        } h-[8vh] flex items-center fixed z-[999] w-full`}
-      >
+      <section className={`${navBg ? 'bg-white  text-black shadow-xl transition-all ease' : 'text-white'} h-[10vh] flex items-center fixed z-[999] w-full`}>
         <nav className="flex justify-between items-center w-11/12 mx-auto px-4 md:px-8">
           {/* left logo  */}
-          <div className="bg-white px-4 py-0.5 rounded-xs">
+          <div className=" px-4 py-0.5 rounded-xs">
             <Link href="/" className="text-2xl md:text-3xl font-semibold">
               <Image src={logo} alt="logo" width={50} height={50} />
             </Link>
@@ -59,64 +62,25 @@ const Navbar = () => {
 
           {/* center content */}
           <div className="hidden lg:flex items-center justify-center space-x-5">
-            <Link
-              href="/"
-              className={`${
-                pathName === "/"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              }`}
-            >
-              Home
-            </Link>
-            <Link
-              href="/allFood"
-              className={`${
-                pathName === "/allFood"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              }`}
-            >
-              All Food
-            </Link>
-            <Link
-              href="/aboutUs"
-              className={`${
-                pathName === "/aboutUs"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              }`}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/contactUs"
-              className={`${
-                pathName === "/contactUs"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              }`}
-            >
-              Contact Us
-            </Link>
+            <Link href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Home</Link>
+            <Link href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>All Food</Link>
+            <Link href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>About Us</Link>
+            <Link href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Contact Us</Link>
             {session && (
-              <Link
-                href="/profile"
-                className={`${
-                  pathName === "/profile"
-                    ? "font-bold border-b-2 border-orange-600"
-                    : "font-semibold"
-                }`}
-              >
-                Profile
-              </Link>
+              <Link href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Profile</Link>
             )}
 
             {(session?.user?.role === "Admin" ||
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
               <Link
-                href="/dashboard"
+                href={`
+                  ${session?.user?.role === "Admin" 
+                  ? "/dashboard/admin/statistics" 
+                  : session?.user?.role === "Rider" 
+                  ? "/dashboard/riders" 
+                  : session?.user?.role === "Owner"
+                  ? "/dashboard/resturantOwner" : ''}`}
                 className={`${
                   pathName === "/dashboard"
                     ? "font-bold border-b-2 border-orange-600"
@@ -131,13 +95,11 @@ const Navbar = () => {
           {/* right content */}
           <div className="flex items-center gap-3">
             {session && (
-              <div className="ring-1 ring-orange-500 p-0.5 bg-orange-200 rounded-full">
+              <div className=" cursor-pointer p-0.5 hover:bg-amber-500 rounded-full">
                 <Avatar>
-                  <AvatarImage
-                    src={session?.user?.image as string | undefined}
-                  />
-                  <AvatarFallback className="text-2xl">
-                    <FaRegUserCircle className="text-black"/>
+                  <AvatarImage src={session?.user?.image as string | undefined} />
+                  <AvatarFallback className="text-2xl text-black">
+                    <FaRegUserCircle />
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -145,22 +107,20 @@ const Navbar = () => {
 
             <div className="hidden lg:flex">
               {status == "authenticated" ? (
-                <button
-                  className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl"
+                <button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white cursor-pointer  py-1 px-4 rounded-4xl"
                   // variant="destructive"
-                  onClick={() => signOut()}
+                  onClick={handleLogout}
                 >
                   Logout
                 </button>
               ) : (
                 <div className="flex gap-2">
                   <Link href="/signIn">
-                    <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
+                    <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  cursor-pointer py-1 px-4 rounded-4xl">
                       SignIn
                     </Button>
                   </Link>
-                  {/* 
-                  <Link href="/register">
+                  {/* <Link href="/register">
                     <Button className="hover:bg-amber-600 font-semibold bg-amber-500 text-white  py-1 px-4 rounded-4xl">
                       SignUp
                     </Button>
@@ -170,9 +130,12 @@ const Navbar = () => {
             </div>
 
             <div className="flex space-x-5">
-              <IoIosNotificationsOutline size={25} />
-              <Link href={"/cart"}>
-                <CiHeart size={25} />
+              {/* <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} /> */}
+              <Link 
+               className={`${pathName === "/cart" ? " bg-amber-500" : "font-semibold"} w-fit p-0.5 cursor-pointer hover:bg-amber-500 rounded-full`}
+               
+               href={"/cart"}>
+                <CiHeart size={27} />
               </Link>
               <button onClick={handleOpenNave} className="lg:hidden">
                 <GiHamburgerMenu size={20} />
@@ -194,62 +157,12 @@ const Navbar = () => {
           className={`${openNav} right-0 fixed text-white flex justify-center flex-col h-full w-[80%] sm:w-[60%] bg-gray-600 space-y-6 z-[1006] transform transition-all duration-500`}
         >
           <div className="flex flex-col justify-center space-y-5 text-white p-8 mt-10">
-            <Link
-              onClick={handleCloseNave}
-              href="/"
-              className={`${
-                pathName === "/"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              } w-fit`}
-            >
-              Home
-            </Link>
-            <Link
-              onClick={handleCloseNave}
-              href="/allFood"
-              className={`${
-                pathName === "/allFood"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              } w-fit`}
-            >
-              All Food
-            </Link>
-            <Link
-              onClick={handleCloseNave}
-              href="/aboutUs"
-              className={`${
-                pathName === "/aboutUs"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              } w-fit`}
-            >
-              About Us
-            </Link>
-            <Link
-              onClick={handleCloseNave}
-              href="/contactUs"
-              className={`${
-                pathName === "/contactUs"
-                  ? "font-bold border-b-2 border-orange-600"
-                  : "font-semibold"
-              } w-fit`}
-            >
-              Contact Us
-            </Link>
+            <Link onClick={handleCloseNave} href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Home</Link>
+            <Link onClick={handleCloseNave} href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>All Food</Link>
+            <Link onClick={handleCloseNave} href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>About Us</Link>
+            <Link onClick={handleCloseNave} href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Contact Us</Link>
             {session && (
-              <Link
-                onClick={handleCloseNave}
-                href="/profile"
-                className={`${
-                  pathName === "/profile"
-                    ? "font-bold border-b-2 border-orange-600"
-                    : "font-semibold"
-                } w-fit`}
-              >
-                Profile
-              </Link>
+              <Link onClick={handleCloseNave} href="/profile" className={`${pathName === "/profile" ? "font-bold border-b-2 border-orange-600" : "font-semibold"} w-fit`}>Profile</Link>
             )}
 
             {(session?.user?.role === "Admin" ||
@@ -269,7 +182,9 @@ const Navbar = () => {
             )}
           </div>
 
-          <button onClick={handleCloseNave} className="absolute top-8 right-8">
+          <button 
+           onClick={handleCloseNave}  
+            className="absolute top-8 right-8">
             <IoMdClose className="size-6 text-white cursor-pointer" />
           </button>
         </div>

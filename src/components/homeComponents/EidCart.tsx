@@ -35,7 +35,7 @@ export default function EidCart() {
         {isExpired ? (
           <p className="text-red-500 mt-4">⏳ Your Eid offer has expired!</p>
         ) : (
-          <div className="mt-4 grid grid-cols-4 gap-5 ">
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 ">
             {cart.map((item) => (
            
                 <div key={item.id} className=" rounded-lg shadow-2xl ">
