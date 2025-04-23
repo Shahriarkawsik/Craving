@@ -30,10 +30,12 @@ const Page = () => {
       image: donationData[0]?.image ?? undefined,
       location: donationData[0]?.location ?? "",
       restaurantName: donationData[0]?.restaurantName ?? "",
+      restaurantOwnerEmail: donationData[0]?.restaurantOwnerEmail ?? "",
       email: session?.user?.email ?? "No Available",
       userImage: session?.user?.image ?? undefined,
       amount: amount.toString(),
     };
+    console.log(allDonationData, "==========================");
      try {
           await allDonationDataForOwnerHistory(allDonationData);
         } catch (error) {

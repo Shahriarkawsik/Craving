@@ -340,6 +340,7 @@ export const getFoodDonationData = async (query: {
       image: foodDonation.image,
       location: foodDonation.location,
       restaurantName: foodDonation.restaurantName,
+      restaurantOwnerEmail: foodDonation.restaurantOwnerEmail,
     };
   });
 };
@@ -378,6 +379,7 @@ export const allDonationDataForOwnerHistory = async (
     image: payload.image,
     location: payload.location,
     restaurantName: payload.restaurantName,
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
     email: payload.email,
     userImage: payload.userImage,
     amount: payload.amount,
@@ -401,6 +403,7 @@ export const getDonationsHistoryData = async (query: {
     image: restaurant.image,
     location: restaurant.location,
     restaurantName: restaurant.restaurantName,
+    restaurantOwnerEmail: restaurant.restaurantOwnerEmail,
     email: restaurant.email,
     userImage: restaurant.userImage,
     amount: restaurant.amount,
