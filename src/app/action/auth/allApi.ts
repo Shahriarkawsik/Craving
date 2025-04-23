@@ -300,6 +300,7 @@ export const addDonationFood = async (
     image: payload.image,
     location: payload.location,
     restaurantName: payload.restaurantName,
+    restaurantOwnerEmail: payload.restaurantOwnerEmail,
   });
 };
 //get foodDonation from data base for showFoodDonation page
@@ -315,6 +316,7 @@ export const getFoodDonation = async (): Promise<CommonPayload[]> => {
     image: foodDonation.image,
     location: foodDonation.location,
     restaurantName: foodDonation.restaurantName,
+    restaurantOwnerEmail: foodDonation.restaurantOwnerEmail,
   }));
 };
 
@@ -359,6 +361,7 @@ export const getRestaurantForDonation = async (query: {
   return result.map((restaurant) => ({
     _id: (restaurant._id as ObjectId).toString(),
     restaurantName: restaurant.restaurantName,
+    restaurantOwnerEmail: restaurant.restaurantOwnerEmail, // extra add
   }));
 };
 
@@ -377,8 +380,31 @@ export const allDonationDataForOwnerHistory = async (
     restaurantName: payload.restaurantName,
     email: payload.email,
     userImage: payload.userImage,
-    amount: payload.amount, 
+    amount: payload.amount,
   });
+};
+
+// get all donations history data for owner donations history page
+export const getDonationsHistoryData = async (query: {
+  email: string;
+}): Promise<CommonPayload[]> => {
+  const email = query.email;
+  const db = await dbConnect();
+  const allDonationsHistoryData = db.collection("donationDataForOwnerHistory");
+
+  const result = await allDonationsHistoryData.find({ email }).toArray();
+
+  return result.map((restaurant) => ({
+    _id: (restaurant._id as ObjectId).toString(),
+    title: restaurant.title,
+    description: restaurant.description,
+    image: restaurant.image,
+    location: restaurant.location,
+    restaurantName: restaurant.restaurantName,
+    email: restaurant.email,
+    userImage: restaurant.userImage,
+    amount: restaurant.amount,
+  }));
 };
 
 /*create Be Rider application Collection*/

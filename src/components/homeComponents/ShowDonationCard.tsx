@@ -11,6 +11,7 @@ type FoodDonation = {
   image: string;
   location: string;
   restaurantName: string;
+  restaurantOwnerEmail: string;
 };
 
 const ShowDonationCard = () => {
@@ -31,6 +32,7 @@ const ShowDonationCard = () => {
 
     fetchDonations();
   }, []);
+  console.log(donations)
   
   if (loading) {
     return <p>Loading...</p>;

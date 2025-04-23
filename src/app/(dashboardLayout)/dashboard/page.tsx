@@ -199,6 +199,20 @@ export function AppSidebar() {
                     
                     </SidebarMenuItem>
                   </Link>
+                  <Link href="/dashboard/resturantOwner/donationsHistory">
+                    <SidebarMenuItem
+                      className={`${
+                        pathName === "/dashboard/resturantOwner/donationsHistory"
+                          ? " font-semibold  text-orange-600 shadow-md shadow-gray-300"
+                          : "font-normal"
+                      } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
+                    > 
+                     <div className="flex items-center   gap-2">
+                        <VscListUnordered className="text-2xl" />    Donations History
+                      </div>
+                    
+                    </SidebarMenuItem>
+                  </Link>
                 </SidebarMenu>
               </SidebarGroupContent>
             )}
