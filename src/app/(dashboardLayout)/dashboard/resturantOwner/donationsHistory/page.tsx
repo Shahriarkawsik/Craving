@@ -32,11 +32,11 @@ const DonationsHistory = () => {
       <table className="table w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
-            <th className="p-4 text-left">User Image</th>
-            <th className="p-4 text-left">User Email</th>
-            <th className="p-4 text-left">Payment Amount</th>
-            <th className="p-4 text-left">Owner Image</th>
-            <th className="p-4 text-left">Restaurant Name</th>
+            <th className="p-4 text-left"></th>
+            <th className="p-4 text-left">Campaign Name</th>
+            <th className="p-4 text-left">Organized by</th>
+            <th className="p-4 text-left">Donated by</th>
+            <th className="p-4 text-left">Amount(BDT)</th>
           </tr>
         </thead>
         <tbody>
@@ -44,26 +44,20 @@ const DonationsHistory = () => {
             <tr key={donation._id} className="border-b border-gray-200">
               <td className="p-4 whitespace-nowrap">
                 <Image
-                  src={donation.userImage || "/default-user.png"}
-                  alt="User profile picture"
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
-              </td>
-              <td className="p-4 whitespace-nowrap">{donation.email}</td>
-              <td className="p-4 whitespace-nowrap">${donation.amount}</td>
-              <td className="p-4 whitespace-nowrap">
-                <Image
                   src={donation.image || "/default-user.png"}
                   alt="User profile picture"
-                  width={50}
-                  height={50}
-                  className="rounded-full"
+                  width={60}
+                  height={60}
+                  className="rounded-sm"
                 />
               </td>
+              <td className="p-4 whitespace-nowrap">Donate for {donation.location}</td>
+              <td className="p-4 whitespace-nowrap">{donation.restaurantName}</td>
               <td className="p-4 whitespace-nowrap">
-                {donation.restaurantName}
+                {donation.email}
+              </td>
+              <td className="p-4 whitespace-nowrap">
+                ${donation.amount}
               </td>
             </tr>
           ))}

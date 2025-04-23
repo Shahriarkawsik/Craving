@@ -80,7 +80,7 @@ const Page = () => {
       >
         <div className="w-3xl mx-auto text-center z-50">
           <h2 className="text-2xl md:text-4xl font-bold text-white">{donationData[0]?.title}</h2>
-          <p className="mt-2 text-white">{donationData[0]?.location}</p>
+          <p className="mt-2 text-white">{donationData[0]?.description}</p>
         </div>
       </div>
       {/* payment part  */}
