@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 const Page = () => {
   const { id } = useParams();
   const {data:session} = useSession()
-  console.log(id);
   const [amount, setAmount] = useState(0);
   const [donationData, setDonationData] = useState<CommonPayload[]>([]);
 
@@ -25,6 +24,21 @@ const Page = () => {
   }, [id]);
 
   const initiatePayment = async () => {
+    const allDonationData = {
+      title: donationData[0]?.title ?? "Untitled",
+      description: donationData[0]?.description ?? "",
+      image: donationData[0]?.image ?? undefined,
+      location: donationData[0]?.location ?? "",
+      restaurantName: donationData[0]?.restaurantName ?? "",
+      email: session?.user?.email ?? "No Available",
+      userImage: session?.user?.image ?? undefined,
+      amount: amount.toString(),
+    };
+     try {
+          await allDonationDataForOwnerHistory(allDonationData);
+        } catch (error) {
+          console.error("Something went wrong", error);
+        }
     try {
       const res = await fetch("/api/payment", {
         method: "POST",
@@ -47,38 +61,6 @@ const Page = () => {
       console.error("Payment initiation error:", err);
     }
 
-    
-    // const allDonationData = {
-    //   // ...donationData[0],
-    //   // amount: amount,
-    //   // ...session?.user,
-    //   title: donationData[0]?.title,
-    //   description: donationData[0]?.description,
-    //   image: donationData[0]?.image,
-    //   location: donationData[0]?.location,
-    //   restaurantName: donationData[0]?.restaurantName,
-    //   email: session?.user?.email,  
-    //   userImage: session?.user?.image,
-    //   amount: amount
-    // }
-
-    const allDonationData = {
-      title: donationData[0]?.title ?? "Untitled",
-      description: donationData[0]?.description ?? "",
-      image: donationData[0]?.image ?? undefined,
-      location: donationData[0]?.location ?? "",
-      restaurantName: donationData[0]?.restaurantName ?? "",
-      email: session?.user?.email ?? "unknown@example.com",
-      userImage: session?.user?.image ?? undefined,
-      amount: amount ?? 0,
-    };
-    
-    console.log(allDonationData, "===============================allDonationData")
-     try {
-          await allDonationDataForOwnerHistory(allDonationData);
-        } catch (error) {
-          console.error("Something went wrong", error);
-        }
   };
 
   return (
