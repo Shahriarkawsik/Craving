@@ -1,15 +1,20 @@
 "use client";
-import SignInForm from "@/components/authentications/SignInForm";
 
-import { Suspense } from "react"
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+// Dynamically import SignInForm with SSR turned off
+const SignInForm = dynamic(() => import("@/components/authentications/SignInForm"), {
+  ssr: false,
+});
 
 const SignIn = () => {
   return (
     <div>
-    <Suspense fallback={<div>Loading...</div>}>
-      <SignInForm />
-    </Suspense>
-  </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <SignInForm />
+      </Suspense>
+    </div>
   );
 };
 

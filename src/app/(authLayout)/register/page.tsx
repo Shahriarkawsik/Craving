@@ -1,6 +1,12 @@
 "use client";
-import RegisterForm from "@/components/authentications/RegisterForm";
+
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
+
+// Dynamically import RegisterForm with SSR disabled
+const RegisterForm = dynamic(() => import("@/components/authentications/RegisterForm"), {
+  ssr: false,
+});
 
 const Register = () => {
   return (
@@ -13,3 +19,4 @@ const Register = () => {
 };
 
 export default Register;
+
