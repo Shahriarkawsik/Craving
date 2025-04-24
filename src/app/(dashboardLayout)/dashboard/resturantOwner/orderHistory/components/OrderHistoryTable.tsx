@@ -1,22 +1,24 @@
 import Image from "next/image";
 import imgSrc from "../../../../../../assets/images/whatsappQR.jpg";
+import { CommonPayload } from "@/app/action/auth/allApi";
 
-interface Order {
-  id: number;
-  user_id: number;
-  restaurant_id: number;
-  rider_id: number;
-  total_amount: number;
-  status: "pending" | "preparing" | "in transit" | "delivered" | "cancelled";
-  payment_status: "paid" | "pending" | "failed";
-  delivery_address: string;
-  phone: string;
-  // phone: number;
-  created_at: string;
-}
+// interface ItemData {
+//   // id: number;
+//   // user_id: number;
+//   // restaurant_id: number;
+//   // rider_id: number;
+//   // total_amount: number;
+//   // status: "pending" | "preparing" | "in transit" | "delivered" | "cancelled";
+//   // payment_status: "paid" | "pending" | "failed";
+//   // delivery_address: string;
+//   // phone: string;
+//   // // phone: number;
+//   // created_at: string;
+//   foodName: string;
+// }
 
 interface OrderHistory {
-  orderHistory: Order[];
+  orderHistory: CommonPayload[];
 }
 
 const statusColors: Record<string, string> = {
@@ -35,10 +37,8 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
         <thead>
           <tr className="bg-gray-100">
             <th className="p-4 text-left">Order by</th>
-            <th className="p-4 text-left">Address</th>
-            <th className="p-4 text-left">Order ID</th>
-            <th className="p-4 text-left">Price</th>
-            <th className="p-4 text-left">Date</th>
+            <th className="p-4 text-left">Food Item</th>
+            <th className="p-4 text-left">Total Price</th>
             <th className="p-4 text-left">Status</th>
           </tr>
         </thead>
@@ -63,35 +63,38 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
                 </div>
               </td>
 
-              <td className="p-4 whitespace-nowrap">{order.delivery_address}</td>
-              <td className="p-4 whitespace-nowrap">{order.id}</td>
-              <td className="p-4 whitespace-nowrap">${order.total_amount}</td>
-              <td className="p-4 whitespace-nowrap">{order.created_at}</td>
+              <td className="p-4 whitespace-nowrap">{order.userName}</td>
+              <td className="p-4 whitespace-nowrap">{order.orderItems?.map((item, index) => <li key={index}>{item.foodName}</li>)}</td>
+              <td className="p-4 whitespace-nowrap">${order.totalAmount}</td>
+              <td className="p-4 whitespace-nowrap">{order.status}</td>
 
               <td className="p-4">
                 {
-                  order.status === 'delivered' || order.status === 'cancelled' ? <p className={`${order.status === 'delivered' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'} rounded-full px-2 py-1 inline-block capitalize w-24`}>
-                  {order.status}
-                </p> : <select
-                  defaultValue={order.status}
-                  className={`px-2 py-1 w-24 rounded-full text-sm font-medium ${statusColors[order.status]}`}
-                >
-                  <option value="pending" className="bg-yellow-200 text-yellow-700">
-                    Pending
-                  </option>
-                  <option value="preparing" className="bg-blue-200 text-blue-700">
-                    Preparing
-                  </option>
-                  <option value="in transit" className="bg-orange-200 text-orange-700">
-                    In Transit
-                  </option>
-                  <option value="delivered" className="bg-green-200 text-green-700">
-                    Delivered
-                  </option>
-                  <option value="cancelled" className="bg-red-200 text-red-700">
-                    Cancelled
-                  </option>
-                </select> 
+                  order.status === 'Delivered' || order.status === 'Cancelled' ? (
+                    <p className={`${order.status === 'Delivered' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700'} rounded-full px-2 py-1 inline-block capitalize w-24`}>
+                      {order.status}
+                    </p>)
+                    :
+                    <select
+                      defaultValue={order.status}
+                      className={`px-2 py-1 w-24 rounded-full text-sm font-medium ${statusColors[order?.status ?? "Pending"]}`}
+                    >
+                      <option value="pending" className="bg-yellow-200 text-yellow-700">
+                        Pending
+                      </option>
+                      <option value="preparing" className="bg-blue-200 text-blue-700">
+                        Preparing
+                      </option>
+                      <option value="in transit" className="bg-orange-200 text-orange-700">
+                        In Transit
+                      </option>
+                      <option value="delivered" className="bg-green-200 text-green-700">
+                        Delivered
+                      </option>
+                      <option value="cancelled" className="bg-red-200 text-red-700">
+                        Cancelled
+                      </option>
+                    </select>
                 }
               </td>
             </tr>
