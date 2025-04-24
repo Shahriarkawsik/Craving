@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     total_amount: amount,
     currency: "BDT",
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: "https://craving-six.vercel.app/payment/success",
+    success_url: "http://localhost:3000/payment/success",
     fail_url: "https://craving-six.vercel.app/payment/fail",
     cancel_url: "https://craving-six.vercel.app/payment/cancel",
     ipn_url: "https://craving-six.vercel.app/payment/ipn",

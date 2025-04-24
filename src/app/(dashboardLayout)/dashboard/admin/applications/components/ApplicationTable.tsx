@@ -36,7 +36,7 @@ const ApplicationTable = ({ applications, acceptApplication, rejectedApplication
 
     return (
         <Dialog>
-            <div className="overflow-auto w-full">
+            <div className="overflow-auto w-full bg-white">
                 <table className="table w-full border-collapse border border-gray-300">
                     {/* Table Head */}
                     <thead>
@@ -49,10 +49,11 @@ const ApplicationTable = ({ applications, acceptApplication, rejectedApplication
                             <th className="p-4 w-[25%]">Actions</th>
                         </tr>
                     </thead>
-
+                    
+                    {/* table body */}
                     <tbody>
-                        {applications.map((application, indx) => (
-                            <tr key={application.id} className="border-b border-gray-200 text-center even:bg-gray-100">
+                        {applications.length > 0 ? applications.map((application, indx) => (
+                            <tr key={application.id} className="border-b border-gray-300 text-center even:bg-gray-100">
                                 <td className='font-semibold px-4'>{indx + 1}</td>
 
                                 <td className="p-4">
@@ -81,11 +82,10 @@ const ApplicationTable = ({ applications, acceptApplication, rejectedApplication
                                     <button onClick={() => rejectedApplication(application.id)} className='w-fit font-medium px-4 py-1.5 border border-gray-200 cursor-pointer bg-red-300 hover:bg-red-400 transition-colors duration-200 ease-in-out'>Reject</button>
                                 </td>
                             </tr>
-                        ))}
+                        )) : <tr><td colSpan={6} className='text-xl py-5 font-medium text-center text-red-400'>Application is not found!</td></tr>}
                     </tbody>
                 </table>
             </div>
-
 
             {/* modal for owner */}
             {

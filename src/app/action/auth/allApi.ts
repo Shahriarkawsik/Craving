@@ -73,7 +73,13 @@ export interface CommonPayload {
   //for restaurant history
   amount?: string;
   userImage?: string;
-}
+
+  // new types for order collection
+  totalAmount?: number;
+  paymentStatus?: string;
+  deliveryAddress?: string;
+  orderItems?: string[];
+};
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
 export interface FoodDetails {
@@ -453,15 +459,14 @@ export const addToOrder = async (payload: CommonPayload[]): Promise<void> => {
   const orderCollection = await dbConnect().then((db) => db.collection("order"));
   await orderCollection.insertMany(payload.map(item => ({
     restaurant_id: item.restaurant_id,
-    foodName: item.foodName,
-    description: item.description,
-    price: item.price,
-    category: item.category,
-    image: item.image,
-    is_available: item.is_available,
-    created_at: item.created_at,
-    owner_email: item.owner_email,
-    user_email: item.user_email,
+    userEmail: item.email,
+    totalAmount: item.totalAmount,
+    restaurantEmail: item.owner_email,
+    status: item.status,
+    date: item.addedDate,
+    paymentStatus: item.paymentStatus,
+    deliveryAddress: item.deliveryAddress,
+    orderItems: item.orderItems
   })));
 };
 
@@ -648,7 +653,7 @@ export const getRestaurantByEmail = async (
 
 /* Create Rider Collection*/
 export type RiderPayload = {
-  // _id?: string;
+  _id?: string;
   riderImage?: string;
   riderIdentification?: number;
   riderName?: string;
@@ -662,6 +667,7 @@ export type RiderPayload = {
   riderTotalRating: number;
   riderAvgRating: number;
   riderTotalTransaction: number;
+  riderStatus: string;
 };
 /* Create Rider collection */
 export const createRider = async (payload: RiderPayload): Promise<void> => {
@@ -672,7 +678,7 @@ export const createRider = async (payload: RiderPayload): Promise<void> => {
 /* Delete Rider */
 export const deleteRider = async (riderId: string): Promise<void> => {
   const db = await dbConnect();
-  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const riderCollection = db.collection("rider");
   await riderCollection.deleteOne({
     _id: new ObjectId(riderId),
   });
@@ -694,6 +700,22 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
   const riderData = await riderCollection.find({}).toArray();
   return riderData;
 };
+
+// update rider status - added by jakaria
+export const updateRiderStatus = async (id: string, status: string) => {
+  const db = await dbConnect();
+  const riderCollection = db.collection("rider");
+  const result = await riderCollection.updateOne(
+    {_id: new ObjectId(id)},
+    {
+      $set: {
+        riderStatus: status
+      }
+    }
+  );
+
+  return result;
+}
 
 export interface FoodItem {
   _id?: string;

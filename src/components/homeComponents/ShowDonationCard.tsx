@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Spinner from "../shared/Spinner";
 
 type FoodDonation = {
   _id: string;
@@ -37,7 +38,7 @@ const ShowDonationCard = () => {
   console.log(donations);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="flex items-center justify-center"><Spinner /></div>
   }
 
   return (
