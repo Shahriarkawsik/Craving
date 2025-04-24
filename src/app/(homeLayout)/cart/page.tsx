@@ -88,8 +88,9 @@ export default function CartPage() {
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
-  const placedOrder = {
-    email: session?.user?.email,
+  // order collection data for payment
+  const placedOrder: object = {
+    userEmail: session?.user?.email,
     totalAmount: totalAmount,
     restaurantEmail: cartItems[0]?.owner_email,
     status: "Pending",
@@ -117,7 +118,7 @@ export default function CartPage() {
 
       if (data?.url) {
         // cart item saved in order collection
-        await addToOrder(cartItems);
+        await addToOrder([placedOrder]);
 
         window.location.href = data.url;
 
@@ -189,7 +190,7 @@ export default function CartPage() {
         <div className="col-span-1 md:col-span-4 bg-gray-50 p-4 rounded-md shadow-sm flex flex-col justify-center">
           {/* delivery address */}
           <form>
-            <input placeholder="Enter your address" onChange={(e) => setAddress(e.target.value)} className="input input-bordered w-full max-w-xs" type="text" />
+            <input placeholder="Enter your address" onChange={(e) => setAddress(e.target.value)} className="input input-bordered w-full max-w-sm p-2 border-2 rounded-md border-orange-300 mb-5" type="text" />
           </form>
 
           {/* total amount to pay */}

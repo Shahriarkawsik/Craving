@@ -73,7 +73,13 @@ export interface CommonPayload {
   //for restaurant history
   amount?: string;
   userImage?: string;
-}
+
+  // new types for order collection
+  totalAmount?: number;
+  paymentStatus?: string;
+  deliveryAddress?: string;
+  orderItems?: string[];
+};
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
 export interface FoodDetails {
@@ -453,15 +459,14 @@ export const addToOrder = async (payload: CommonPayload[]): Promise<void> => {
   const orderCollection = await dbConnect().then((db) => db.collection("order"));
   await orderCollection.insertMany(payload.map(item => ({
     restaurant_id: item.restaurant_id,
-    foodName: item.foodName,
-    description: item.description,
-    price: item.price,
-    category: item.category,
-    image: item.image,
-    is_available: item.is_available,
-    created_at: item.created_at,
-    owner_email: item.owner_email,
-    user_email: item.user_email,
+    userEmail: item.email,
+    totalAmount: item.totalAmount,
+    restaurantEmail: item.owner_email,
+    status: item.status,
+    date: item.addedDate,
+    paymentStatus: item.paymentStatus,
+    deliveryAddress: item.deliveryAddress,
+    orderItems: item.orderItems
   })));
 };
 
