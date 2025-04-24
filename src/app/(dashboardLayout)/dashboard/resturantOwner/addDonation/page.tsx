@@ -13,6 +13,7 @@ import LoadingSpinner from "@/components/authentications/loadingSpinner/LoadingS
 
 interface FormData {
   restaurantName: string;
+  restaurantOwnerEmail: string 
 }
 const AddFood = () => {
   const [loading, setLoading] = useState(false);
@@ -38,6 +39,7 @@ const AddFood = () => {
   }, [session]);
 
   console.log(getRestaurant[0]?.restaurantName);
+  console.log(getRestaurant[0]?.restaurantOwnerEmail);
 
   type Inputs = {
     id: string;
@@ -46,6 +48,7 @@ const AddFood = () => {
     image: string;
     location: string;
     restaurantName: string;
+    restaurantOwnerEmail: string;
   };
 
   const {
@@ -89,6 +92,7 @@ const AddFood = () => {
       image: image as string,
       location: data.location,
       restaurantName: getRestaurant[0].restaurantName,
+      restaurantOwnerEmail: getRestaurant[0].restaurantOwnerEmail,
     };
     try {
       await addDonationFood(foodData);
