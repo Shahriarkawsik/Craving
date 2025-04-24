@@ -2,6 +2,7 @@
 import { getFoodDonation } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Spinner from "../shared/Spinner";
 
 
 type FoodDonation = {
@@ -33,7 +34,7 @@ const ShowDonationCard = () => {
   }, []);
   
   if (loading) {
-    return <p>Loading...</p>;
+    return <div className="flex items-center justify-center"><Spinner /></div>
   }
 
   return (
