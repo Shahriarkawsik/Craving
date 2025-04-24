@@ -45,7 +45,7 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
 
         <tbody>
           {orderHistory.map((order) => (
-            <tr key={order.id} className="border-b border-gray-200">
+            <tr key={order._id} className="border-b border-gray-200">
               <td className="p-4">
                 <div className="flex items-center gap-2">
                   <div className="h-10 w-10">

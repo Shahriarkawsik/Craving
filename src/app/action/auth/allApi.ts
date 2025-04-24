@@ -79,7 +79,7 @@ export interface CommonPayload {
   paymentStatus?: string;
   deliveryAddress?: string;
   orderItems?: {
-    foodName?: string
+    foodName: string
   }[];
   userName?: string
 
@@ -759,7 +759,7 @@ export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
 export const getAllOrder = async (email: string): Promise<CommonPayload[]> => {
   const db = await dbConnect();
   const orderCollection: Collection<CommonPayload> = db.collection("order");
-  const orderData = await orderCollection.find({ owner_email: email }).toArray();
+  const orderData = await orderCollection.find({ restaurantEmail: email }).toArray();
   const formattedOrderData = orderData.map((order) => ({
     ...order,
     _id: (order._id as unknown as ObjectId).toString(),

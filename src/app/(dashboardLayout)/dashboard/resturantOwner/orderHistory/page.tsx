@@ -1,3 +1,5 @@
+"use client"
+
 import { CommonPayload, getAllOrder } from "@/app/action/auth/allApi";
 import OrderHistoryTable from "./components/OrderHistoryTable";
 
@@ -5,25 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-// Define the type for each order
-// interface Order {
-//   id: number;
-//   user_id: number;
-//   restaurant_id: number;
-//   rider_id: number;
-//   total_amount: number;
-//   status: "pending" | "preparing" | "in transit" | "delivered" | "cancelled";
-//   payment_status: "paid" | "pending" | "failed";
-//   delivery_address: string;
-//   phone: string;
-// //   phone: number;
-//   created_at: string;
-
-//   totalAmount?: number;
-//   paymentStatus?: string;
-//   deliveryAddress?: string;
-//   orderItems?: string[];
-// }
 
 const OrderHistory: React.FC = () => {
 
@@ -37,7 +20,8 @@ const OrderHistory: React.FC = () => {
     }
     fetchData();
   }, [session]);
-  console.log(orderData);
+
+  console.log(session?.user?.email);
 
   // separate based on status
   const pendingOrders = orderData.filter((order) => order.status === "Pending");
