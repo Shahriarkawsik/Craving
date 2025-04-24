@@ -18,6 +18,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import FoodCard from "@/components/shared/FoodCard";
 import Banner from "@/components/shared/Banner";
+import Spinner from "@/components/shared/Spinner";
 
 
 export default function AllFoodsPage() {
@@ -138,7 +139,7 @@ export default function AllFoodsPage() {
 
         {/* Show Loading */}
         {isLoading ? (
-          <p className="text-center text-orange-500 py-[300px] text-lg font-semibold ">Loading...</p>
+          <div className="flex items-center justify-center h-[30vh]"><Spinner /></div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-10 my-10">
             {foods.length > 0 ? (
