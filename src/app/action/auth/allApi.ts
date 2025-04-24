@@ -571,7 +571,7 @@ export const getRestaurantByEmail = async (
 
 /* Create Rider Collection*/
 export type RiderPayload = {
-  // _id?: string;
+  _id?: string;
   riderImage?: string;
   riderIdentification?: number;
   riderName?: string;
@@ -585,6 +585,7 @@ export type RiderPayload = {
   riderTotalRating: number;
   riderAvgRating: number;
   riderTotalTransaction: number;
+  riderStatus: string;
 };
 /* Create Rider collection */
 export const createRider = async (payload: RiderPayload): Promise<void> => {
@@ -595,7 +596,7 @@ export const createRider = async (payload: RiderPayload): Promise<void> => {
 /* Delete Rider */
 export const deleteRider = async (riderId: string): Promise<void> => {
   const db = await dbConnect();
-  const riderCollection: Collection<RiderPayload> = db.collection("rider");
+  const riderCollection = db.collection("rider");
   await riderCollection.deleteOne({
     _id: new ObjectId(riderId),
   });
@@ -617,6 +618,22 @@ export const getAllRider = async (): Promise<RiderPayload[]> => {
   const riderData = await riderCollection.find({}).toArray();
   return riderData;
 };
+
+// update rider status - added by jakaria
+export const updateRiderStatus = async (id: string, status: string) => {
+  const db = await dbConnect();
+  const riderCollection = db.collection("rider");
+  const result = await riderCollection.updateOne(
+    {_id: new ObjectId(id)},
+    {
+      $set: {
+        riderStatus: status
+      }
+    }
+  );
+
+  return result;
+}
 
 export interface FoodItem {
   _id?: string;

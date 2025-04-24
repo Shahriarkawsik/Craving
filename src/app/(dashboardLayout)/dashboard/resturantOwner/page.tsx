@@ -81,7 +81,7 @@ const RestaurantOwner: FC = () => {
   ];
 
   return (
-    <div className="p-6 mx-auto">
+    <div className="mx-auto">
       {/* restaurant information */}
       <Card className="p-4 shadow-lg bg-orange-100">
         <CardContent>

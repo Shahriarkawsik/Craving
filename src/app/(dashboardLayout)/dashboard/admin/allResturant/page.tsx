@@ -4,6 +4,7 @@ import {
   deleteRestaurant,
   getRestaurant,
 } from "@/app/action/auth/allApi";
+import Spinner from "@/components/shared/Spinner";
 import {
   Table,
   TableBody,
@@ -75,7 +76,9 @@ const AllResturant = () => {
   return (
     <section className="w-11/12 mx-auto ">
       {!restaurants || restaurants.length === 0 ? (
-        <p className="text-center text-2xl text-red-500">No restaurant found</p>
+        <div className="w-full h-[70vh] flex items-center justify-center">
+          <Spinner />
+        </div>
       ) : (
         <Table>
           <TableHeader>

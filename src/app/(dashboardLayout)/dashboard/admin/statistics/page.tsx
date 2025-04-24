@@ -1,7 +1,5 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
-import restaurantLogo from "@/assets/images/rider.png";
-import Image from "next/image";
 import {
     Bar,
     BarChart,
@@ -11,7 +9,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { useSession } from "next-auth/react";
+
 
 
 interface EarningData {
@@ -20,7 +18,7 @@ interface EarningData {
 }
 
 const AdminStatics = () => {
-    const { data: session } = useSession();
+    // const { data: session } = useSession();
     const weeklyEarnings: EarningData[] = [
         { Month: "Jan", restaurants: 220 },
         { Month: "Feb", restaurants: 318 },
@@ -35,62 +33,17 @@ const AdminStatics = () => {
         { Month: "Nov", restaurants: 350 },
         { Month: "Dec", restaurants: 350 },
     ];
-    /* Current User */
-    //   const { data } = useSession();
-    //   const [rider, setRider] = useState<RiderPayload | null>(null);
-    //   const {
-    //     riderName,
-    //     riderAddress,
-    //     riderTotalEarning,
-    //     riderTotalOrder,
-    //     riderTotalRating,
-    //     riderTotalTransaction,
-    //   } = rider ?? {};
-    //   useEffect(() => {
-    //     const fetchRider = async () => {
-    //       try {
-    //         const email = data?.user?.email;
-    //         if (!email) {
-    //           console.warn("No email found. Skipping fetch.");
-    //           return;
-    //         }
-    //         const response = await getActiveRider(email);
-
-    //         if (response) {
-    //           setRider(response);
-    //         }
-    //       } catch (error) {
-    //         console.error("Error fetching rider:", error);
-    //       }
-    //     };
-    //     fetchRider();
-    //   }, [data?.user?.email]); // ✅ add dependency
+    
     const totalRider = 10
     const totalRestaurant = 15
     const totalUser = 20
 
 
     return (
-        <div className="p-6 mx-auto">
-            {/* restaurant information */}
-            <Card className="p-4 shadow-lg bg-orange-200">
-                <CardContent>
-                    <div className="flex items-center space-x-4">
-                        <Image
-                            src={restaurantLogo}
-                            alt="Restaurant Logo"
-                            className="w-16 h-16 rounded-full"
-                        />
-                        <div>
-                            <h2 className="text-2xl font-bold">{session?.user?.name}</h2>
-                            <p className="text-gray-500">{session?.user?.address}</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
+        <div className="mx-auto">
 
             {/* statistics cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="p-4 text-center transition-transform hover:scale-105 duration-300 ease-in-out bg-amber-100">
                     <CardContent>
                         <h3 className="text-xl font-semibold">Total Rider</h3>
