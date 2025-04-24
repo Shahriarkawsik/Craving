@@ -10,13 +10,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   <NextAuthSessionProvider>
     <SidebarProvider className="">
       <AppSidebar />
-      <SidebarTrigger className="text-amber-400 hover:text-amber-400 hover:bg-amber-100" />
-      <div className="flex w-11/12 flex-col md:mx-5   gap-4">
-        <nav>
-          {" "}
+      <SidebarTrigger className="text-black cursor-pointer" />
+      <div className="flex w-11/12 flex-col md:mx-8 gap-4">
+        <nav className="my-5">
           <DashNavbar />
         </nav>
-        <main className="  ">{children}</main>
+        <main>{children}</main>
       </div>
     </SidebarProvider>
     </NextAuthSessionProvider>

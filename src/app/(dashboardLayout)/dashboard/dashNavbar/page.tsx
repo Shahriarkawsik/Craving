@@ -19,7 +19,7 @@ const DashNavbar = () => {
   };
   
   return (
-    <div className="flex shadow-lg rounded-2xl border-2 bg-amber-100 items-center p-2 md:p-3 justify-between">
+    <div className="bg-white flex shadow-lg rounded-sm border-2 bg-white-100 items-center px-8 py-4 justify-between">
       <div className="flex gap-2 ">
         {session?.user?.image && (
           <Image

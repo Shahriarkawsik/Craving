@@ -32,9 +32,11 @@ export function AppSidebar() {
   return (
     <Sidebar className="">
       <SidebarContent className="bg-white">
-        <SidebarGroup className="mt-2 mb-10 ">
-          <SidebarGroupLabel className="text-center border-2  py-7 flex justify-center">
-            <Link href="/" className=" pb-2 ">
+        <SidebarGroup className="my-4">
+
+          {/* logo */}
+          <SidebarGroupLabel className="text-center border-2 py-9 flex justify-center">
+            <Link href="/" className="pb-2 ">
               <Image
                 className="mx-auto "
                 src={logo}
@@ -43,11 +45,10 @@ export function AppSidebar() {
                 height={60}
               />
             </Link>
-            {/* <small className="text-xl font-semibold bg-green-500 text-white px-2  rounded-xl mb-2">
-            {role}
-            </small> */}
           </SidebarGroupLabel>
-          <div className=" mt-5 p-5">
+
+          {/* role base routing */}
+          <div className="p-5">
             {/* all admin dashboard */}
             {session?.user?.role === "Admin" && (
               <SidebarGroupContent className="mt-2">
