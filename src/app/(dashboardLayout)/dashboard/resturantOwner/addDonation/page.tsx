@@ -7,17 +7,16 @@ import {
 import BGImg from "@/assets/addFoodBG.png";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
-// import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
-// const image_hosting_key = process.env.NEXT_PUBLIC_IMAGE_HOSTING_KEY;
-// const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
+import LoadingSpinner from "@/components/authentications/loadingSpinner/LoadingSpinner";
 
 interface FormData {
   restaurantName: string;
+  restaurantOwnerEmail: string 
 }
 const AddFood = () => {
+  const [loading, setLoading] = useState(false);
   const [getRestaurant, setGetRestaurant] = useState<CommonPayload[]>([]);
   const [image, setImage] = useState<string | null>(null);
   const { data: session } = useSession();
@@ -40,6 +39,7 @@ const AddFood = () => {
   }, [session]);
 
   console.log(getRestaurant[0]?.restaurantName);
+  console.log(getRestaurant[0]?.restaurantOwnerEmail);
 
   type Inputs = {
     id: string;
@@ -48,6 +48,7 @@ const AddFood = () => {
     image: string;
     location: string;
     restaurantName: string;
+    restaurantOwnerEmail: string;
   };
 
   const {
@@ -84,21 +85,14 @@ const AddFood = () => {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    // const imageFile = { image: data.image[0] };
-    // const res = await axios.post(image_hosting_api, imageFile, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // });
-
-    // if (res.data.success) {
-    //now send the food donation data to the server with the image url
+    setLoading(true);
     const foodData = {
       title: data.title,
       description: data.description,
       image: image as string,
       location: data.location,
       restaurantName: getRestaurant[0].restaurantName,
+      restaurantOwnerEmail: getRestaurant[0].restaurantOwnerEmail,
     };
     try {
       await addDonationFood(foodData);
@@ -106,8 +100,9 @@ const AddFood = () => {
       reset();
     } catch (error) {
       toast.error("Something went wrong!" + error);
+    } finally {
+      setLoading(false);
     }
-    // }
   };
 
   return (
@@ -136,7 +131,9 @@ const AddFood = () => {
                 {...register("title", { required: true })}
               />
               {errors.title && (
-                <span className="text-red-600 italic text-sm">Title is required</span>
+                <span className="text-red-600 italic text-sm">
+                  Title is required
+                </span>
               )}
             </div>
             <div className="space-y-3 grid grid-cols-2  gap-4">
@@ -173,23 +170,11 @@ const AddFood = () => {
                 )}
               </div>
             </div>
-
-            {/* <div className="space-y-3">
-            <label className="font-semibold  ">Restaurant Name<span className="text-red-600">*</span></label>
-            <input
-              type="text"
-              className="w-full input bg-gray-100  rounded-md p-2"
-              placeholder="Type here..."
-              defaultValue={getRestaurant[0]?.restaurantName}
-              disabled
-            />
-          </div> */}
             <div className="space-y-3">
               <label className="font-semibold  ">
                 Description<span className="text-red-600">*</span>
               </label>
               <textarea
-               
                 className="w-full input bg-gray-100  rounded-md p-2"
                 placeholder="Type here..."
                 {...register("description", { required: true })}
@@ -200,13 +185,14 @@ const AddFood = () => {
                 </span>
               )}
             </div>
-
             <div className="md:col-span-2 flex justify-center">
-              <input
+              <button
                 type="submit"
-                value="Add Donation Campaign"
-                className="bg-orange-400  hover:bg-orange-300 text-white font-semibold rounded-lg py-2 px-4 col-span-1 sm:col-span-2"
-              />
+                disabled={loading}
+                className="w-full bg-orange-400 hover:bg-orange-300 text-white text-lg font-bold rounded-lg py-2 px-4 col-span-1 sm:col-span-2 flex items-center justify-center gap-2"
+              >
+                {loading ? <LoadingSpinner /> : "Add Campaign"}
+              </button>
             </div>
           </form>
         </div>

@@ -83,7 +83,7 @@ const FoodCard = ({ food }: Props) => {
 
                     <Link href={`/cart`}><button className='text-orange-950 hover:text-white transition-all border border-orange-400 hover:bg-orange-500 flex items-center justify-center space-x-2 py-2 px-4 rounded-sm shadow-md duration-300 cursor-pointer'>
                        
-                        <span className="ml-1">{food.is_available ? ' Order Now' : 'Out Of Stock'}</span>
+                        <span className="ml-1">{food.is_available ? 'Order Now' : 'Out of Stock'}</span>
                     </button></Link>
                 </div>
             </div>

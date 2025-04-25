@@ -19,9 +19,9 @@ export async function POST(req: NextRequest) {
     currency: "BDT",
     tran_id: tran_id, // use unique tran_id for each api call
     success_url: "http://localhost:3000/payment/success",
-    fail_url: "http://localhost:3000/payment/fail",
-    cancel_url: "http://localhost:3000/payment/cancel",
-    ipn_url: "http://localhost:3000/payment/ipn",
+    fail_url: "https://craving-six.vercel.app/payment/fail",
+    cancel_url: "https://craving-six.vercel.app/payment/cancel",
+    ipn_url: "https://craving-six.vercel.app/payment/ipn",
     shipping_method: "Home Delivery",
     product_name: "Computer",
     product_category: "Food",

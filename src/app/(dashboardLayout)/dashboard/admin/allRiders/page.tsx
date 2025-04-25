@@ -1,139 +1,115 @@
 "use client";
-import {
-  CommonPayload,
-  deleteRider,
-  getAllRider,
-} from "@/app/action/auth/allApi";
+import { getAllRider, RiderPayload, updateRiderStatus } from "@/app/action/auth/allApi";
 import { useEffect, useState } from "react";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import Image from "next/image";
-import Swal from "sweetalert2";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "react-toastify";
+
 const AllRiders = () => {
-  const [riders, setRiders] = useState<CommonPayload[]>([]);
-  // console.log(riders);
-  useEffect(() => {
-    const fetchAllRiders = async () => {
-      try {
-        const response = await getAllRider();
-        if (Array.isArray(response)) {
-          setRiders(response);
-        } else {
-          setRiders([]);
-        }
-      } catch (error) {
-        console.error("Error fetching rider applications:", error);
-        setRiders([]); // ensure it's always an array
+  const [riders, setRiders] = useState<RiderPayload[]>([]);
+
+  const fetchAllRiders = async () => {
+    try {
+      const response = await getAllRider();
+      if (Array.isArray(response)) {
+        setRiders(response);
+      } else {
+        setRiders([]);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching rider applications:", error);
+      setRiders([]); // ensure it's always an array
+    }
+  };
+
+
+  // handle block and unblock
+  const handleToggleRiderStatus = async (e: boolean, id: string, indx: number) => {
+    const status: string = e ? 'Blocked' : 'Active';
+
+    // update ui
+    setRiders(prev =>
+      prev.map((rider, i) =>
+        i === indx ? { ...rider, riderStatus: status } : rider
+      )
+    );
+
+    const result = await updateRiderStatus(id, status);
+    
+    if(result.acknowledged){
+      if(e){
+        toast.success('Rider is Blocked!');
+      }else{
+        toast.success('Rider is Unblocked!');
+      }
+    }else{
+      toast.error('Something went wrong!');
+    }
+  }
+
+  useEffect(() => {
     fetchAllRiders();
   }, []);
 
-  /* Handle Details */
-  const handleRiderDetails = async (id: string): Promise<void> => {
-    try {
-      console.log(id);
-    } catch {}
-  };
-
-  /* Handle Delete */
-  const handleRiderDelete = async (riderId: string): Promise<void> => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await deleteRider(riderId);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-          setRiders((prev) => prev.filter((rider) => rider._id !== riderId));
-        }
-      });
-    } catch (error) {
-      console.error("Error deleting rider:", error);
-      Swal.fire({
-        icon: "error",
-        text: `Error deleting rider ${error}`,
-        title: "Error",
-      });
-    }
-  };
   return (
-    <section className="w-11/12 mx-auto ">
-      {!riders || riders.length === 0 ? (
-        <p className="text-center text-2xl text-red-500">No riders found</p>
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow className=" text-center">
-              <TableHead className="w-[100px]">Rider Image</TableHead>
-              <TableHead className="font-semibold">Rider Name</TableHead>
-              <TableHead className="font-semibold">Rider Email</TableHead>
-              <TableHead>Rider Address</TableHead>
-              <TableHead>Rider Identification</TableHead>
-              <TableHead>Rider Number</TableHead>
-              <TableHead>Vehicle Type</TableHead>
-              <TableHead className="text-right"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {riders.map((rider) => (
-              <TableRow key={rider._id}>
-                <TableCell className="font-medium">
-                  <Image
-                    src={rider.riderImage as string}
-                    alt={rider.riderName as string}
-                    width={100}
-                    height={100}
-                    className="rounded-full w-16 h-16 shadow-2xl"
-                  />
-                </TableCell>
-                <TableCell className="font-semibold">
-                  {rider.riderName}
-                </TableCell>
-                <TableCell className="font-semibold">
-                  {rider.riderEmail}
-                </TableCell>
-                <TableCell>{rider.riderAddress}</TableCell>
-                <TableCell>{rider.riderIdentification}</TableCell>
-                <TableCell>{rider.riderNumber}</TableCell>
-                <TableCell>{rider.vehicleType}</TableCell>
-                <TableCell className="text-right space-x-4">
-                  <button
-                    onClick={() => handleRiderDetails(rider._id as string)}
-                    className="px-3 py-1 hover:bg-green-50 rounded-lg text-green-400 font-bold text-xl border"
-                  >
-                    Details
-                  </button>
-                  <button
-                    className="px-3 py-1 hover:bg-red-50 rounded-lg text-red-400 font-bold text-xl border"
-                    onClick={() => handleRiderDelete(rider._id as string)}
-                  >
-                    Delete
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </section>
+    <div className="space-y-5">
+      <section>
+        <h1 className="uppercase text-2xl">All Riders</h1>
+      </section>
+
+      <section className="overflow-auto w-full bg-white">
+        <table className="table w-full border-collapse border border-gray-300">
+          {/* Table Head */}
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="p-4 whitespace-nowrap w-[10%]">SL NO</th>
+              <th className="p-4 text-left w-[20%]">Rider</th>
+              <th className="p-4 text-left w-[20%]">Contact</th>
+              <th className="p-4 whitespace-nowrap w-[20%]">Identification</th>
+              <th className="p-4 whitespace-nowrap w-[10%]">Vehicle Type</th>
+              <th className="p-4 w-[20%]">Actions</th>
+            </tr>
+          </thead>
+
+          {/* table body */}
+          <tbody>
+            {riders.length > 0 ? riders.map((rider, indx) => (
+              <tr key={rider._id} className="border-b border-gray-300 text-center even:bg-gray-100">
+                <td className='font-semibold px-4'>{indx + 1}</td>
+                <td className="p-4">
+                  <div className="flex items-center gap-2">
+                    <div className="h-10 w-10">
+                      <Image
+                        src={rider.riderImage!}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                        alt="Image"
+                      />
+                    </div>
+                    <div>
+                      <h1 className="font-medium whitespace-nowrap capitalize">{rider.riderName}</h1>
+                    </div>
+                  </div>
+                </td>
+                <td className="p-4 text-left">
+                  <p className="whitespace-nowrap">Email: {rider.riderEmail}</p>
+                  <p className="whitespace-nowrap">Number: {rider.riderNumber}</p>
+                </td>
+                <td className="p-4 whitespace-nowrap">{rider.riderIdentification}</td>
+                <td className="p-4 whitespace-nowrap capitalize">{rider.vehicleType}</td>
+                <td className='p-4 whitespace-nowrap'>
+                  Unblock <div className="mx-2 inline-block">
+                    <Switch onCheckedChange={(e) => handleToggleRiderStatus(e, rider._id!, indx)} checked={rider.riderStatus !== 'Active'} id="airplane-mode" className="data-[state=checked]:bg-amber-500 transition-colors cursor-pointer" />
+                  </div> Block
+                </td>
+              </tr>
+            )) : <tr><td colSpan={6} className='text-xl py-5 font-medium text-center text-red-400'>Rider is not found!</td></tr>}
+          </tbody>
+
+        </table>
+      </section>
+    </div>
   );
 };
 

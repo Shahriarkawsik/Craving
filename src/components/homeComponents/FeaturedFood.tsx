@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FoodDetails, getFeaturedFood } from "@/app/action/auth/allApi";
 import FoodCard from "../shared/FoodCard";
 import { useRouter } from "next/navigation";
+import Spinner from "../shared/Spinner";
 
 const FeaturedFood = () => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const FeaturedFood = () => {
       {/* feature food content */}
 
       {loading ? (
-        <p className="text-center text-lg font-medium py-6">Loading featured foods...</p>
+        <div className="flex items-center justify-center"><Spinner /></div>
       ) : error ? (
         <p className="text-center text-red-500 py-6">{error}</p>
       ) : (

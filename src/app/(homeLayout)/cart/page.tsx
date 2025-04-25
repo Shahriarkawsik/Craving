@@ -1,7 +1,7 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
 import React, { useEffect, useState } from "react";
-import { deleteCartItem, getOrderCartByEmail } from "@/app/action/auth/allApi";
+import { addToOrder, deleteCartItem, deleteOrderCartByEmail, getOrderCartByEmail } from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -38,6 +38,7 @@ export default function CartPage() {
   const { data: session } = useSession();
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [address, setAddress] = useState<string>("");
   //   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -87,6 +88,20 @@ export default function CartPage() {
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
 
+  // order collection data for payment
+  const placedOrder: object = {
+    userEmail: session?.user?.email,
+    totalAmount: totalAmount,
+    restaurantEmail: cartItems[0]?.owner_email,
+    status: "Pending",
+    date: new Date(),
+    paymentStatus: "Pending",
+    deliveryAddress: address,
+    orderItems: cartItems
+  }
+
+
+
   const initiatePayment = async () => {
     try {
       const res = await fetch("/api/payment", {
@@ -102,7 +117,17 @@ export default function CartPage() {
       const data = await res.json(); // Ensure backend responds with JSON
 
       if (data?.url) {
-        window.location.href = data.url; // Redirect to the payment gateway
+        // cart item saved in order collection
+        await addToOrder([placedOrder]);
+
+        window.location.href = data.url;
+
+        if (!session?.user?.email) {
+          throw new Error("User email not found in session.");
+        }
+        // delete the cart items after payment
+        await deleteOrderCartByEmail(session.user.email);
+
       } else {
         console.error("No URL received from payment gateway.");
       }
@@ -163,15 +188,21 @@ export default function CartPage() {
 
         {/* 🧾 Total Amount Section */}
         <div className="col-span-1 md:col-span-4 bg-gray-50 p-4 rounded-md shadow-sm flex flex-col justify-center">
+          {/* delivery address */}
+          <form>
+            <input placeholder="Enter your address" onChange={(e) => setAddress(e.target.value)} className="input input-bordered w-full max-w-sm p-2 border-2 rounded-md border-orange-300 mb-5" type="text" />
+          </form>
+
+          {/* total amount to pay */}
           <h3 className="text-lg md:text-xl font-semibold mb-2">
             Total Amount
           </h3>
           <p className="text-2xl font-bold text-green-600">
-            ${totalAmount.toFixed(2)}
+            BDT{totalAmount.toFixed(2)}
           </p>
           <button
             onClick={initiatePayment}
-            className="btn bg-blue-600 cursor-pointer text-white mt-4 py-2 rounded"
+            className="btn bg-orange-600 cursor-pointer text-white mt-4 py-2 rounded"
           >
             Proceed to payment
           </button>
@@ -180,3 +211,4 @@ export default function CartPage() {
     </div>
   );
 }
+
