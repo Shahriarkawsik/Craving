@@ -89,7 +89,7 @@ export default function Home() {
   }, [locationCity]);
 
   return (
-    <section className="lg:space-y-20">
+    <section className="lg:space-y-5">
       {showModal && (
         <LocationModal
           onAllow={handleLocationAllow}
