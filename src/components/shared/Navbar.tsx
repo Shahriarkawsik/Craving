@@ -94,7 +94,7 @@ const Navbar = () => {
 
           {/* center content */}
           <div className="hidden lg:flex items-center justify-center space-x-5">
-            <Link href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Home</Link>
+           
             <Link href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>All Food</Link>
             <Link href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>About Us</Link>
             <Link href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Contact Us</Link>

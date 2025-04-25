@@ -31,10 +31,10 @@ const FeaturedFood = () => {
 
 
   return (
-    <section className="w-11/12 mx-auto  space-y-5">
+    <section className="w-11/12 mx-auto  py-7">
       {/* heading */}
       <div className="text-center">
-        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        <h1 className=" text-2xl mb-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
           Featured Food
         </h1>
       </div>

@@ -46,17 +46,17 @@ const Footer = () => {
               Social Media{" "}
             </h4>
             <ul className="flex space-x-3 gap-4 justify-between items-start ">
-              <li className="text-2xl text-blue-600 hover:opacity-70">
+              <li className="text-2xl hover:text-blue-600 ">
                 <Link href="https://www.facebook.com" target="_blank">
                   <FaFacebook />
                 </Link>
               </li>
-              <li className="text-2xl bg-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] rounded hover:opacity-70 ">
+              <li className="text-2xl hover:text-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] rounded  ">
                 <Link href="http://instagram.com" target="_blank">
                   <FaSquareInstagram />
                 </Link>
               </li>
-              <li className="text-2xl bg-gradient-to-r from-[#0A66C2] to-[#084B99] rounded hover:opacity-70">
+              <li className="text-2xl hover:text-blue-600 rounded ">
                 <Link href="https://bd.linkedin.com" target="_blank">
                   <FaLinkedin />
                 </Link>
