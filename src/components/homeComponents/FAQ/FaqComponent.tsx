@@ -42,11 +42,17 @@ const FaqComponent: React.FC = () => {
       answer:
         "Currently, you can place orders from one restaurant per transaction. If you want to order from multiple restaurants, you’ll need to place separate orders.",
     },
+    {
+      value: "item-6",
+      question: " Are your service professionals background-checked?",
+      answer:
+        "Yes, all of our professionals go through a strict background check and are verified for your safety and peace of mind.",
+    },
   ];
 
   return (
     <section className="w-11/12 mx-auto space-y-10 my-5">
-      <div className="flex flex-col md:flex-row justify-between gap-5">
+      <div className="flex flex-col md:flex-row justify-between gap-5 lg:gap-10">
         {/* Lottie Animation Section */}
         <div className="max-w-lg flex justify-center items-center mx-auto rounded-lg border-2 border-slate-500 border-dashed">
           <Lottie animationData={faqAnimation} />
@@ -54,11 +60,12 @@ const FaqComponent: React.FC = () => {
 
         {/* Accordion Section */}
         <div className="w-full">
-          <h1 className="flex-grow text-2xl lg:text-4xl text-orange-600 uppercase">
+          <h1 className="flex-grow mb-5 text-2xl lg:text-4xl text-orange-600 uppercase">
             Frequently Asked Questions
           </h1>
 
-          <Accordion type="single" collapsible>
+          <Accordion 
+           type="single" collapsible>
             {faqItems.map((item) => (
               <AccordionItem key={item.value} value={item.value}>
                 <AccordionTrigger className="hover:no-underline cursor-pointer">
