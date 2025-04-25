@@ -9,7 +9,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Banner from "@/components/shared/Banner";
 import { useSession } from "next-auth/react";
-import { toast } from "react-toastify";
+import { Slide, toast } from "react-toastify";
 
 interface FormData {
   name: string;
@@ -62,6 +62,7 @@ const ContactUs = () => {
          toast.success("Message sent successfully", {
                 position: "top-center",
                 autoClose: 1000,
+                transition: Slide
               });
               form.reset(); // resets native form fields
               setFormData({
