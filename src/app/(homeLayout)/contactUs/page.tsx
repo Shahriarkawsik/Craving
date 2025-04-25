@@ -100,6 +100,7 @@ const ContactUs = () => {
         <h3 className="text-4xl font-bold mb-4">
           Get in <span className="text-amber-500">Touch</span>
         </h3>
+        
 
         <div className="grid lg:grid-cols-2 gap-3">
           {/* contact information */}

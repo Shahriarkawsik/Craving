@@ -1,5 +1,4 @@
 import Image from "next/image";
-import imgSrc from "../../../../../../assets/images/whatsappQR.jpg";
 import { CommonPayload } from "@/app/action/auth/allApi";
 
 // interface ItemData {
@@ -35,38 +34,34 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
       <table className="table w-full border-collapse border border-gray-300">
         {/* Table Head */}
         <thead>
-          <tr className="bg-gray-100">
-            <th className="p-4 text-left">Order by</th>
-            <th className="p-4 text-left">Food Item</th>
-            <th className="p-4 text-left">Total Price</th>
-            <th className="p-4 text-left">Status</th>
+          <tr className="bg-gray-100 text-center">
+            <th className="p-4">Order by</th>
+            <th className="p-4">Food Item</th>
+            <th className="p-4">Total Price</th>
+            <th className="p-4">Status</th>
           </tr>
         </thead>
 
-        <tbody>
+        <tbody className="text-center">
           {orderHistory.map((order) => (
             <tr key={order._id} className="border-b border-gray-200">
               <td className="p-4">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center gap-2">
                   <div className="h-10 w-10">
                     <Image
-                      src={imgSrc}
+                      src={order.userImage ?? "User Image"}
                       width={40}
                       height={40}
                       className="rounded-full"
                       alt="User Image"
                     />
                   </div>
-                  <div>
-                    <h1 className="font-medium whitespace-nowrap">{"Gulam Jakaria"}</h1>
-                  </div>
+                  <h2 className="p-4 whitespace-nowrap">{order.userName}</h2>
                 </div>
               </td>
 
-              <td className="p-4 whitespace-nowrap">{order.userName}</td>
-              <td className="p-4 whitespace-nowrap">{order.orderItems?.map((item, index) => <li key={index}>{item.foodName}</li>)}</td>
-              <td className="p-4 whitespace-nowrap">${order.totalAmount}</td>
-              <td className="p-4 whitespace-nowrap">{order.status}</td>
+              <td className="p-4 whitespace-nowrap">{order.orderItems?.map((item, index) => <li className="list-decimal" key={index}>{item.foodName}</li>)}</td>
+              <td className="p-4 whitespace-nowrap">{order.totalAmount} BDT</td>
 
               <td className="p-4">
                 {
@@ -84,15 +79,6 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
                       </option>
                       <option value="preparing" className="bg-blue-200 text-blue-700">
                         Preparing
-                      </option>
-                      <option value="in transit" className="bg-orange-200 text-orange-700">
-                        In Transit
-                      </option>
-                      <option value="delivered" className="bg-green-200 text-green-700">
-                        Delivered
-                      </option>
-                      <option value="cancelled" className="bg-red-200 text-red-700">
-                        Cancelled
                       </option>
                     </select>
                 }
