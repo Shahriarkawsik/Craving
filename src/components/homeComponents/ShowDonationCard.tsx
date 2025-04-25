@@ -42,17 +42,17 @@ const ShowDonationCard = () => {
   }
 
   return (
-    <section className="w-11/12 mx-auto ">
+    <section className="w-11/12 mx-auto  py-7">
       <div className="text-center">
-        <h1 className=" text-2xl my-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        <h1 className=" text-2xl mb-10  lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
           Food Donations
         </h1>
       </div>
-      <div className="grid grid-cols-1  lg:grid-cols-2 gap-4 p-4">
+      <div className="grid grid-cols-1  lg:grid-cols-2 gap-4 px-4">
         {donations.map((donation) => (
           <div
             key={donation?._id}
-            className="border rounded-xl p-4 bg-white space-y-2"
+            className="border rounded-xl px-4 bg-white space-y-2"
           >
             <div>
               <Image
@@ -68,7 +68,7 @@ const ShowDonationCard = () => {
               {donation.location}
             </address>
             <p className="text-sm text-gray-600">
-              {donation.description} this is a description
+              {donation.description} 
             </p>
 
             <div className="flex justify-end">

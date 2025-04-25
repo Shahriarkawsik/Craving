@@ -51,7 +51,7 @@ const FaqComponent: React.FC = () => {
   ];
 
   return (
-    <section className="w-11/12 mx-auto space-y-10 my-5">
+    <section className="w-11/12 mx-auto  py-5">
       <div className="flex flex-col md:flex-row justify-between gap-5 lg:gap-10">
         {/* Lottie Animation Section */}
         <div className="max-w-lg flex justify-center items-center mx-auto rounded-lg border-2 border-slate-500 border-dashed">
