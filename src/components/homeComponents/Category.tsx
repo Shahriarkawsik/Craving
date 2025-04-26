@@ -16,7 +16,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/gZNtFHfY/vegetable.png",
     },
     {
-      name: "Organic food",
+      name: "Organic Food",
       image: "https://i.ibb.co.com/YFW48bv1/diet.png",
     },
     {
@@ -32,7 +32,7 @@ const Category = () => {
       image: "https://i.ibb.co.com/LdXhfwgj/ice-cream.png",
     },
     {
-      name: "Sea food",
+      name: "Sea Food",
       image: "https://i.ibb.co.com/KjSDtPPb/lobster.png",
     },
     {
@@ -41,8 +41,8 @@ const Category = () => {
     },
   ];
   return (
-    <section className="w-11/12 mx-auto  space-y-5 text-center">
-      <h1 className=" text-2xl lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+    <section className="w-11/12 mx-auto py-7 text-center">
+      <h1 className=" text-2xl lg:text-4xl mb-10  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
         Food Categories
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4  justify-center items-center">

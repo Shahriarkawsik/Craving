@@ -3,16 +3,33 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
 import { Button } from "@/components/ui/button";
-import { IoIosNotificationsOutline, IoMdClose } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { signOut, useSession } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaRegUserCircle } from "react-icons/fa";
-import { CiHeart } from "react-icons/ci";
+import { CiShoppingCart } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { getOrderCartByEmail } from "@/app/action/auth/allApi";
+
+interface CartItem {
+  _id: string;
+  restaurant_id: string;
+  foodName: string;
+  description: string;
+  price: number;
+  category: string;
+  image: string;
+  is_available: boolean;
+  created_at: Date | null;
+  owner_email: string | null;
+  user_email: string;
+}
+
+
 
 const Navbar = () => {
   const router = useRouter();
@@ -21,6 +38,7 @@ const Navbar = () => {
 
   const [navBg, setNavBg] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const handleOpenNave = () => setShowNav(true);
   const handleCloseNave = () => setShowNav(false);
@@ -38,16 +56,30 @@ const Navbar = () => {
       }
     };
 
+    // fetch cart items by email
+    const fetchCartItems = async () => {
+      if (session?.user?.email) {
+        try {
+          const items = await getOrderCartByEmail(session.user.email);
+          setCartItems(items);
+          //   setLoading(false);
+        } catch (error) {
+          console.error("🚨 Error fetching cart items:", error);
+        }
+      }
+    };
+    fetchCartItems();
+
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
-  }, []);
+  }, [session, cartItems]);
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
     toast.success("Logout Successfully!");
     router.push("/");
   };
-  
+
   return (
     <header className="">
       {/* desktop menu */}
@@ -62,7 +94,7 @@ const Navbar = () => {
 
           {/* center content */}
           <div className="hidden lg:flex items-center justify-center space-x-5">
-            <Link href="/" className={`${pathName === "/" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Home</Link>
+           
             <Link href="/allFood" className={`${pathName === "/allFood" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>All Food</Link>
             <Link href="/aboutUs" className={`${pathName === "/aboutUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>About Us</Link>
             <Link href="/contactUs" className={`${pathName === "/contactUs" ? "font-bold border-b-2 border-orange-600" : "font-semibold"}`}>Contact Us</Link>
@@ -73,17 +105,22 @@ const Navbar = () => {
             {(session?.user?.role === "Admin" ||
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
-              <Link
-                href="/dashboard"
-                className={`${
-                  pathName === "/dashboard"
-                    ? "font-bold border-b-2 border-orange-600"
-                    : "font-semibold"
-                }`}
-              >
-                Dashboard
-              </Link>
-            )}
+                <Link
+                  href={`
+                  ${session?.user?.role === "Admin"
+                      ? "/dashboard/admin/statistics"
+                      : session?.user?.role === "Rider"
+                        ? "/dashboard/riders"
+                        : session?.user?.role === "Owner"
+                          ? "/dashboard/resturantOwner" : ''}`}
+                  className={`${pathName === "/dashboard"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                    }`}
+                >
+                  Dashboard
+                </Link>
+              )}
           </div>
 
           {/* right content */}
@@ -124,10 +161,13 @@ const Navbar = () => {
             </div>
 
             <div className="flex space-x-5">
-              <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} />
-              <Link className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full"
-               href={"/cart"}>
-                <CiHeart size={27} />
+              {/* <IoIosNotificationsOutline className="p-0.5 cursor-pointer hover:bg-amber-500 rounded-full" size={30} /> */}
+              <Link
+                className={`${pathName === "/cart" ? " bg-amber-500" : "font-semibold"} w-fit p-0.5 cursor-pointer hover:bg-amber-500 rounded-full flex items-center`}
+
+                href={"/cart"}>
+                <CiShoppingCart size={27} />
+                <sup>{cartItems.length}</sup>
               </Link>
               <button onClick={handleOpenNave} className="lg:hidden">
                 <GiHamburgerMenu size={20} />
@@ -160,21 +200,22 @@ const Navbar = () => {
             {(session?.user?.role === "Admin" ||
               session?.user?.role === "Rider" ||
               session?.user?.role === "Owner") && (
-              <Link
-                onClick={handleCloseNave}
-                href="/dashboard"
-                className={`${
-                  pathName === "/dashboard"
-                    ? "font-bold border-b-2 border-orange-600"
-                    : "font-semibold"
-                } w-fit`}
-              >
-                Dashboard
-              </Link>
-            )}
+                <Link
+                  onClick={handleCloseNave}
+                  href="/dashboard"
+                  className={`${pathName === "/dashboard"
+                      ? "font-bold border-b-2 border-orange-600"
+                      : "font-semibold"
+                    } w-fit`}
+                >
+                  Dashboard
+                </Link>
+              )}
           </div>
 
-          <button onClick={handleCloseNave} className="absolute top-8 right-8">
+          <button
+            onClick={handleCloseNave}
+            className="absolute top-8 right-8">
             <IoMdClose className="size-6 text-white cursor-pointer" />
           </button>
         </div>

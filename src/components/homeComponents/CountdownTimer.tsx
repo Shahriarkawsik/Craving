@@ -32,9 +32,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   }, [calculateTimeLeft]);
 
   return (
-    <div className="  mx-auto  space-y-4">
+    <div className="  mx-auto ">
       <div
-        className="flex-col flex space-y-4 justify-center items-center"
+        className="flex-col flex  justify-center items-center"
         style={{
           backgroundImage: `url(${eid.src})`,
           backgroundSize: "cover",

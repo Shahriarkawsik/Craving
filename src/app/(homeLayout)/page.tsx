@@ -44,8 +44,6 @@ export default function Home() {
         `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
       );
       const data = await res.json();
-      // console.log("📍 Full Address:", data);
-      // console.log("🏙️ District:", data.address?.city || data.address?.county);
       localStorage.setItem("locationAllowed", data.address?.city);
       setLocation(data?.address?.city);
     } catch (err) {
@@ -91,7 +89,7 @@ export default function Home() {
   }, [locationCity]);
 
   return (
-    <section className="lg:space-y-20">
+    <section className="lg:space-y-5">
       {showModal && (
         <LocationModal
           onAllow={handleLocationAllow}

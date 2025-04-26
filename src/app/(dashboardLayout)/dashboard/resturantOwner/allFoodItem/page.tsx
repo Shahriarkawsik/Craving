@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 // import FoodDetailsModal from "./components/FoodDetailsModal";
 // import AvailableOrNot from "./components/AvailableOrNot";
 
@@ -39,11 +40,12 @@ interface DeleteResponse {
 export default function AllFoodItems() {
   const [foodData, setFoodData] = useState<FoodItem[]>([]);
   const [loading, setLoading] = useState<string | null>(null);
-  const email = "mhbabu2002@gmail.com";
+  // const email = "mhbabu2002@gmail.com";
+  const { data: session } = useSession();
 
   const fetchData = async (): Promise<void> => {
     try {
-      const data = await getAllFoodsData(email) as FoodItem[];
+      const data = await getAllFoodsData(session?.user?.email as string);
       setFoodData(data);
     } catch (error) {
       console.error("Error fetching food data:", error);

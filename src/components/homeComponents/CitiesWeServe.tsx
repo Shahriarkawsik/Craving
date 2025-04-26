@@ -53,8 +53,8 @@ const CitiesWeServe = () => {
     ];
 
     return (
-        <section className="w-11/12 mx-auto  space-y-5 text-center">
-            <h1 className="text-2xl lg:text-4xl  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
+        <section className="w-11/12 mx-auto  py-7 text-center">
+            <h1 className="text-2xl lg:text-4xl mb-10  text-orange-600  uppercase border-t-2 border-b-2 border-orange-300 p-4 inline-block">
                 Cities We Serve
             </h1>
 
@@ -68,7 +68,7 @@ const CitiesWeServe = () => {
                             alt={city.city_name}
                             className="w-full h-64 object-cover rounded-lg transition-transform duration-300 "
                         />
-                        <div className="absolute inset-0 flex items-center justify-center text-white text-lg font-bold rounded-lg">
+                        <div className="absolute bottom-3 right-3 text-white  font-semibold rounded-lg">
                             <p className="bg-black px-4 py-1 rounded-md">{city.city_name}</p>
                         </div>
                     </div>

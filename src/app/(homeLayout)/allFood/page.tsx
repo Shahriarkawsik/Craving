@@ -1,5 +1,5 @@
 "use client";
-import {  useState } from "react";
+import { useState } from "react";
 import bannerImage from "../../../assets/bannerImg/dish-banner-001.jpg";
 import { FoodDetails, getAllFoods } from "@/app/action/auth/allApi";
 import { Search } from "lucide-react";
@@ -18,11 +18,14 @@ import {
 import { useSearchParams } from "next/navigation";
 import FoodCard from "@/components/shared/FoodCard";
 import Banner from "@/components/shared/Banner";
+import Spinner from "@/components/shared/Spinner";
 
 
 export default function AllFoodsPage() {
   const searchParams = useSearchParams();
   const queryCategory = searchParams.get("category") || "";
+
+
   const [foods, setFoods] = useState<FoodDetails[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,19 +52,19 @@ export default function AllFoodsPage() {
   // Debounced Search Query Update
   const handleSearch = debounce((query: string) => {
     setSearchQuery(query);
-    fetchData(query, foodCategory, foodSort); // ✅ এখন search করলে category ও থাকবে
+    fetchData(query, foodCategory, foodSort); 
   }, 500);
 
   const handleCategory = debounce((category: string) => {
     setFoodCategory(category);
-    fetchData(searchQuery, category, foodSort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, category, foodSort); 
   }, 500);
 
 
   const handleSort = debounce((sort: string) => {
     // console.log(sort)
     setFoodSort(sort);
-    fetchData(searchQuery, foodCategory, sort); // ✅ এখন category চেঞ্জ করলে searchQuery ও থাকবে
+    fetchData(searchQuery, foodCategory, sort); 
   }, 500);
 
   return (
@@ -136,7 +139,7 @@ export default function AllFoodsPage() {
 
         {/* Show Loading */}
         {isLoading ? (
-          <p className="text-center text-blue-500 text-lg font-semibold">Loading...</p>
+          <div className="flex items-center justify-center h-[30vh]"><Spinner /></div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 md:gap-10 my-10">
             {foods.length > 0 ? (

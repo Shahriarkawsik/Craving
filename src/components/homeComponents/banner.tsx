@@ -21,11 +21,11 @@ const Banner = () => {
 
       {/* Content on top of the video (Optional) */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full w-full bg-black/40 text-white text-center">
-        <h1 className="text-4xl lg:text-6xl font-bold mb-4">
-          Welcome to Craving 
+        <h1 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4">
+        Crave It. Click It. Enjoy It!
         </h1>
         <p className="text-lg text-gray-200 lg:text-xl mb-8">
-          Taste the best dishes made with love!
+        Order your favorite meals in seconds — hot, fresh, and delivered to your door.
         </p>
 
         <ButtonComponent title="Explore Now" onClick={handleClick} />

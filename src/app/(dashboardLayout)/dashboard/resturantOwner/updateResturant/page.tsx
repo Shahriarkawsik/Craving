@@ -8,6 +8,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Slide, toast } from "react-toastify";
 import { updateRestaurant } from "@/app/action/auth/allApi";
 import { useSession } from 'next-auth/react';
+import BGImg from "@/assets/addFoodBG.png";
+import { Textarea } from "@/components/ui/textarea";
+
 
 const AddResturant = () => {
 
@@ -40,12 +43,12 @@ const AddResturant = () => {
       const data = await updateRestaurant(restaurantData, session?.user?.email as string);
       console.log(data)
       if(data.modifiedCount > 0){
-        toast.success("Resturant Updated Successfully!", {
+        toast.success("Restaurant Updated Successfully!", {
           position: "top-center",
           transition: Slide,
         });
       }else{
-        toast.error("Resturant Update unsuccessful!", {
+        toast.error("Restaurant Update unsuccessful!", {
           position: "top-center",
           transition: Slide,
         });
@@ -62,19 +65,29 @@ const AddResturant = () => {
   };
 
   return (
-    <div className="w-8/12 mx-auto">
+   <section  style={{
+    backgroundImage: `url(${BGImg.src})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+ 
+  }}>
+     <div 
+    className="p-4 w-11/12 lg:w-9/12 mx-auto py-8 sm:py-12">
       <h3 className="text-center mb-5 text-2xl md:text-3xl font-semibold">
-        Update Resturant
+        Update Restaurant
       </h3>
-      <div className="px-5 lg:px-8 py-6">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <div className=" bg-amber-100/50  max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6 shadow-2xl rounded-3xl">
+        <form  onSubmit={handleSubmit(onSubmit)}>
           {/* Restaurant Name and location */}
-          <div className="lg:flex gap-3 mb-3">
+          <div className=" lg:flex gap-3 mb-3">
+
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantName">
+              <label className="font-semibold" htmlFor="restaurantName">
                 Restaurant Name
               </label>
-              <Input
+              <Input 
+              className="w-full input bg-gray-100  rounded-md p-2"
                 type="text"
                 {...register("restaurantName", { required: true })}
                 id="restaurantName"
@@ -87,10 +100,10 @@ const AddResturant = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="location">
+              <label className="font-semibold" htmlFor="location">
                 Location
               </label>
-              <Input
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
                 type="text"
                 {...register("location", { required: true })}
                 id="location"
@@ -107,10 +120,10 @@ const AddResturant = () => {
           {/* Owner name and restaurant email */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="ownerName">
+              <label className="font-semibold" htmlFor="ownerName">
                 Owner Name
               </label>
-              <Input
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
                 type="text"
                 {...register("ownerName", { required: true })}
                 id="ownerName"
@@ -123,10 +136,10 @@ const AddResturant = () => {
               )}
             </div>
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantEmail">
+              <label className="font-semibold" htmlFor="restaurantEmail">
                 Restaurant Email
               </label>
-              <Input
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
                 type="email"
                 {...register("restaurantEmail", { required: true })}
                 id="restaurantEmail"
@@ -143,10 +156,10 @@ const AddResturant = () => {
           {/* Restaurant logo and phone number */}
           <div className="lg:flex gap-3 mb-3">
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantPhone">
+              <label className="font-semibold" htmlFor="restaurantPhone">
                 Restaurant Number
               </label>
-              <Input
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
                 type="number"
                 {...register("restaurantPhone", { required: true })}
                 id="restaurantPhone"
@@ -160,10 +173,10 @@ const AddResturant = () => {
             </div>
 
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantLogo">
+              <label className="font-semibold" htmlFor="restaurantLogo">
                 Restaurant Logo
               </label>
-              <Input
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
                 type="url"
                 {...register("restaurantLogo", { required: true })}
                 id="restaurantLogo"
@@ -179,17 +192,39 @@ const AddResturant = () => {
 
           </div>
 
-          <div className="lg:flex gap-3 mb-3">
-            {/* Restaurant Description */}
+           <div className="lg:flex gap-3 mb-3">
+           
+
+            {/* Restaurant Address */}
             <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantDescription">
+              <label className="font-semibold" htmlFor="restaurantAddress">
+                Restaurant Address
+              </label>
+              <Input className="w-full input bg-gray-100  rounded-md p-2"
+                type="text"
+                {...register("restaurantAddress", { required: true })}
+                id="restaurantAddress"
+                placeholder="Address"
+              />
+              {errors.restaurantAddress && (
+                <p className="text-red-500 text-xs italic">
+                  Please enter restaurant logo link
+                </p>
+              )}
+            </div>
+          </div> 
+
+
+           {/* Restaurant Description */}
+           <div className="w-full">
+              <label className="font-semibold" htmlFor="restaurantDescription">
                 Restaurant Description
               </label>
-              <Input
-                type="text"
+              <Textarea  className="w-full input bg-gray-100  rounded-md p-2"
+                
                 {...register("restaurantDescription", { required: true })}
                 id="restaurantDescription"
-                placeholder="https://example.com"
+                placeholder="Restaurant Description"
               />
               {errors.restaurantDescription && (
                 <p className="text-red-500 text-xs italic">
@@ -198,33 +233,15 @@ const AddResturant = () => {
               )}
             </div>
 
-            {/* Restaurant Address */}
-            <div className="w-full">
-              <label className="text-gray-700 " htmlFor="restaurantAddress">
-                Restaurant Address
-              </label>
-              <Input
-                type="text"
-                {...register("restaurantAddress", { required: true })}
-                id="restaurantAddress"
-                placeholder="https://example.com"
-              />
-              {errors.restaurantAddress && (
-                <p className="text-red-500 text-xs italic">
-                  Please enter restaurant logo link
-                </p>
-              )}
-            </div>
-          </div>
-
           <div className="mt-6 text-center">
-            <Button type="submit" variant="outline">
+            <Button className="bg-orange-400 hover:bg-orange-300 text-white font-semibold rounded-lg py-2 px-4 col-span-1 sm:col-span-2" type="submit" variant="outline">
               Update Restaurant
             </Button>
           </div>
         </form>
       </div>
     </div>
+   </section>
   );
 };
 
