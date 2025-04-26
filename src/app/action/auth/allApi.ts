@@ -78,7 +78,12 @@ export interface CommonPayload {
   totalAmount?: number;
   paymentStatus?: string;
   deliveryAddress?: string;
-  orderItems?: string[];
+  orderItems?: {
+    foodName: string
+  }[];
+  userName?: string
+
+  
 };
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
@@ -326,6 +331,7 @@ export const getFoodDonation = async (): Promise<CommonPayload[]> => {
   }));
 };
 
+
 // get donation data by id for donation cat page
 export const getFoodDonationData = async (query: {
   id: string;
@@ -453,6 +459,7 @@ export const addToCart = async (payload: CommonPayload): Promise<void> => {
     user_email: payload.user_email,
   });
 };
+
 
 // add to order
 export const addToOrder = async (payload: CommonPayload[]): Promise<void> => {
@@ -763,6 +770,22 @@ export const getFoodDetails = async (id: string): Promise<FoodItem | null> => {
 
   return serializedFood as FoodItem;
 };
+
+
+// get all order by specific owner
+export const getAllOrder = async (email: string): Promise<CommonPayload[]> => {
+  const db = await dbConnect();
+  const orderCollection: Collection<CommonPayload> = db.collection("order");
+  const orderData = await orderCollection.find({ restaurantEmail: email }).toArray();
+  const formattedOrderData = orderData.map((order) => ({
+    ...order,
+    _id: (order._id as unknown as ObjectId).toString(),
+  }));
+  return formattedOrderData;
+}
+
+
+
 
 // Delete specific food
 export const deleteFood = async (

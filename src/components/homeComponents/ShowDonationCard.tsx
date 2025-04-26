@@ -48,7 +48,7 @@ const ShowDonationCard = () => {
           Food Donations
         </h1>
       </div>
-      <div className="grid grid-cols-1  lg:grid-cols-2 gap-4 px-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 px-4">
         {donations.map((donation) => (
           <div
             key={donation?._id}
@@ -63,8 +63,8 @@ const ShowDonationCard = () => {
                 height={200}
               />
             </div>
-            <h2 className="text-xl font-semibold mt-2">{donation.title}</h2>
-            <address className="mt-1 text-sm text-gray-500">
+            <h2 className="text-2xl font-semibold mt-2">{donation.title}</h2>
+            <address className="mt-1 text-md text-gray-800">
               {donation.location}
             </address>
             <p className="text-sm text-gray-600">

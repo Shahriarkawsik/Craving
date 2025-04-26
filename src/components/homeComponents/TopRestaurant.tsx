@@ -61,25 +61,25 @@ const TopRestaurant = ({ restaurants }: TopRestaurantProps) => {
           <Link
             href={`/restaurant/${restaurant._id}`}
             key={index}
-            className="border space-y-4 overflow-hidden  transition-transform duration-300 ease-in-out transform hover:scale-103 rounded-lg hover:shadow-2xl "
+            className="border space-y-4 overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-103 rounded-lg hover:shadow-2xl "
           >
             <figure>
               {
                 restaurant.restaurantLogo ? <Image
-                className="w-full rounded-lg rounded-b-none h-full object-cover"
+                className="w-full rounded-lg rounded-b-none h-[250px] object-cover"
                 src={restaurant?.restaurantLogo}
-                width={250}
+                width={300}
                 height={250}
                 alt="this is a noodles platter."
                 unoptimized
               /> : ""
               }
             </figure>
-            <div className="space-y-3  m-3 pb-2">
-              <h1 className="text-xl font-semibold">{restaurant.restaurantName}</h1>
+            <div className="space-y-3 m-3 pb-2">
+              <h1 className="text-2xl font-semibold">{restaurant.restaurantName}</h1>
               <div>
-                <p className="flex mb-1 gap-2">
-                  <FaLocationDot className="text-2xl" /> {restaurant.restaurantAddress}
+                <p className="flex mb-1 gap-2 items-center">
+                  <FaLocationDot className="text-lg" /> {restaurant.restaurantAddress}
                 </p>
                 <p className="flex gap-2">
                   {/* <MdFoodBank className="text-2xl" /> {restaurant.bestFood} */}
