@@ -51,7 +51,7 @@ const Footer = () => {
                   <FaFacebook />
                 </Link>
               </li>
-              <li className="text-2xl hover:text-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] rounded  ">
+              <li className="text-2xl hover:text-blue-600 rounded  ">
                 <Link href="http://instagram.com" target="_blank">
                   <FaSquareInstagram />
                 </Link>
