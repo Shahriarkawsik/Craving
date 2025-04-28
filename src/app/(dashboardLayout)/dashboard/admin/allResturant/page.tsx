@@ -1,28 +1,20 @@
 "use client";
-import {
-  CommonPayload,
-  deleteRestaurant,
-  getRestaurant,
-} from "@/app/action/auth/allApi";
+import {CommonPayload,  getRestaurant} from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Switch } from "@/components/ui/switch";
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 
 const AllResturant = () => {
   const [restaurants, setRestaurants] = useState<CommonPayload[]>([]);
+  const [isLoading, setIsLoading] = useState(false);  
   //   console.log(restaurants);
+
   useEffect(() => {
     const fetchAllRestaurants = async () => {
       try {
+        setIsLoading(true);
         const response = await getRestaurant();
         if (Array.isArray(response)) {
           setRestaurants(response);
@@ -32,119 +24,88 @@ const AllResturant = () => {
       } catch (error) {
         console.error("Error fetching rider applications:", error);
         setRestaurants([]); // ensure it's always an array
+      } finally{
+        setIsLoading(false);
       }
     };
     fetchAllRestaurants();
   }, []);
 
-  /* Handle Details */
-  const handleRiderDetails = async (id: string): Promise<void> => {
-    try {
-      console.log(id);
-    } catch {}
-  };
-  /* Handle Delete Restaurant */
-  const handleDeleteRestaurant = async (id: string): Promise<void> => {
-    try {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await deleteRestaurant(id);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-          setRestaurants((prev) => prev.filter((owner) => owner._id !== id));
-        }
-      });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "ERROR",
-        text: `Error ${error}`,
-      });
-    }
-  };
-  return (
-    <section className="w-11/12 mx-auto ">
-      {!restaurants || restaurants.length === 0 ? (
-        <div className="w-full h-[70vh] flex items-center justify-center">
-          <Spinner />
-        </div>
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow className="text-center">
-              <TableHead className="w-[100px]"></TableHead>
-              <TableHead className="font-semibold">Restaurant Name</TableHead>
-              <TableHead>Restaurant Email</TableHead>
-              <TableHead className="font-semibold">
-                Restaurant Address
-              </TableHead>
-              <TableHead className="font-semibold">
-                Restaurant Owner Name
-              </TableHead>
-              <TableHead>Restaurant Owner Email</TableHead>
-              <TableHead>Restaurant Number</TableHead>
-              {/* <TableHead>Owner Identification</TableHead> */}
-              <TableHead className="text-right"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {restaurants.map((restaurant) => (
-              <TableRow key={restaurant._id}>
-                <TableCell>
-                  <Image
-                    src={restaurant.restaurantLogo as string}
-                    alt={restaurant.restaurantName as string}
-                    width={100}
-                    height={100}
-                    className="rounded-full w-16 h-16"
-                  />
-                </TableCell>
-                <TableCell className="font-semibold">
-                  {restaurant.restaurantName}
-                </TableCell>
-                <TableCell>{restaurant.restaurantEmail}</TableCell>
-                <TableCell className="font-semibold">
-                  {restaurant.restaurantAddress}
-                </TableCell>
-                <TableCell className="font-semibold">
-                  {restaurant.restaurantOwnerName}
-                </TableCell>
-                <TableCell>{restaurant.restaurantOwnerEmail}</TableCell>
-                <TableCell>{restaurant.restaurantNumber}</TableCell>
+  if(isLoading){
+    return <div className="w-full min-h-screen flex items-center justify-center">
+      <Spinner />;
+    </div>
+  }
 
-                <TableCell className="text-right space-x-4">
-                  <button
-                    onClick={() => handleRiderDetails(restaurant._id as string)}
-                    className="px-3 py-1 hover:bg-green-50 rounded-lg text-green-400 font-bold text-xl border"
-                  >
-                    Details
-                  </button>
-                  <button
-                    className="px-3 py-1 hover:bg-red-50 rounded-lg text-red-400 font-bold text-xl border"
-                    onClick={() =>
-                      handleDeleteRestaurant(restaurant._id as string)
-                    }
-                  >
-                    Delete
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </section>
+  // toggle restaurent status
+  const handleToggleRestaurantStatus = (e: boolean, id: string, indx: number): void => {
+    console.log(e, id, indx);
+  }
+
+  return (
+    <div className="space-y-5">
+          <section>
+            <h1 className="uppercase text-2xl">All Restaurant</h1>
+          </section>
+    
+          <section className="overflow-auto w-full bg-white">
+            <table className="table w-full border-collapse border border-gray-300">
+              {/* Table Head */}
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-4 whitespace-nowrap w-[10%]">SL NO</th>
+                  <th className="p-4 text-left w-[20%]">Restaurant</th>
+                  <th className="p-4 text-left w-[25%]">Restaurant Information</th>
+                  <th className="p-4 text-left w-[25%]">Owner Infromation</th>
+                  <th className="p-4 w-[20%]">Actions</th>
+                </tr>
+              </thead>
+    
+              {/* table body */}
+              <tbody>
+                {restaurants.length > 0 ? restaurants.map((restaurant, indx) => (
+                  <tr key={restaurant._id} className="border-b border-gray-300 text-center even:bg-gray-100">
+                    <td className='font-semibold px-4'>{indx + 1}</td>
+
+                    <td className="p-4">
+                      <div className="flex items-center gap-2">
+                        <div className="h-10 w-10">
+                          <Image
+                            src={restaurant.restaurantLogo!}
+                            width={40}
+                            height={40}
+                            className="rounded-full object-cover"
+                            alt="Image"
+                          />
+                        </div>
+                        <div>
+                          <h1 className="font-medium whitespace-nowrap capitalize">{restaurant.restaurantName}</h1>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="p-4 text-left">
+                      <p className="whitespace-nowrap">Email: {restaurant.restaurantEmail}</p>
+                      <p className="whitespace-nowrap">Number: {restaurant.restaurantNumber}</p>
+                    </td>
+
+                    <td className="p-4 text-left">
+                      <p className="whitespace-nowrap">Name: {restaurant.restaurantOwnerName}</p>
+                      <p className="whitespace-nowrap">Email: {restaurant.restaurantOwnerEmail}</p>
+                    </td>
+
+                    <td className='p-4 whitespace-nowrap'>
+                      Unblock <div className="mx-2 inline-block">
+                        <Switch onCheckedChange={(e) => handleToggleRestaurantStatus(e, restaurant._id!, indx)} checked={restaurant.restaurantStatus !== 'Active'} id="airplane-mode" className="data-[state=checked]:bg-amber-500 transition-colors cursor-pointer" />
+                      </div> Block
+                    </td>
+                  </tr>
+                )) : <tr><td colSpan={6} className='text-xl py-5 font-medium text-center text-red-400'>Restaurant is not found!</td></tr>}
+              </tbody>
+    
+            </table>
+          </section>
+        </div>
   );
 };
 

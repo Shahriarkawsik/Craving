@@ -59,6 +59,7 @@ export interface CommonPayload {
   restaurantTotalOrder?: number;
   restaurantCompleteOrder?: number;
   restaurantPendingOrder?: number;
+  restaurantStatus?: string;
   // food available or not
   isAvailable?: boolean;
   // restaurant information
@@ -623,6 +624,7 @@ export const getRestaurant = async (): Promise<CommonPayload[]> => {
         restaurantTotalOrder: resturant.restaurantTotalOrder || 0,
         restaurantCompleteOrder: resturant.restaurantCompleteOrder || 0,
         restaurantPendingOrder: resturant.restaurantPendingOrder || 0,
+        restaurantStatus: resturant.restaurantStatus
       })
     );
     return formattedResturantData;
