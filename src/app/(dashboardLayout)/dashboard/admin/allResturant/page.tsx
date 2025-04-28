@@ -1,10 +1,11 @@
 "use client";
-import {CommonPayload,  getRestaurant} from "@/app/action/auth/allApi";
+import {CommonPayload,  getRestaurant, updateRestaurantStatus} from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 import { Switch } from "@/components/ui/switch";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const AllResturant = () => {
   const [restaurants, setRestaurants] = useState<CommonPayload[]>([]);
@@ -37,10 +38,29 @@ const AllResturant = () => {
     </div>
   }
 
-  // toggle restaurent status
-  const handleToggleRestaurantStatus = (e: boolean, id: string, indx: number): void => {
-    console.log(e, id, indx);
-  }
+  // handle block and unblock
+    const handleToggleRestaurantStatus = async (e: boolean, id: string, indx: number) => {
+      const status: string = e ? 'Blocked' : 'Active';
+  
+      // update ui
+      setRestaurants(prev =>
+        prev.map((restaurant, i) =>
+          i === indx ? { ...restaurant, restaurantStatus: status } : restaurant
+        )
+      );
+  
+      const result = await updateRestaurantStatus(id, status);
+      
+      if(result.acknowledged){
+        if(e){
+          toast.success('Restaurant is Blocked!');
+        }else{
+          toast.success('Restaurant is Unblocked!');
+        }
+      }else{
+        toast.error('Something went wrong!');
+      }
+    }
 
   return (
     <div className="space-y-5">

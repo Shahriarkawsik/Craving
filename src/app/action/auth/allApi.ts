@@ -642,6 +642,23 @@ export const deleteRestaurant = async (id: string): Promise<void> => {
   await restaurantCollection.deleteOne({ _id: new ObjectId(id).toString() });
 };
 
+// update restaurent status - added by jakaria
+export const updateRestaurantStatus = async (id: string, status: string) => {
+  const db = await dbConnect();
+  const riderCollection = db.collection("restaurant");
+
+  const result = await riderCollection.updateOne(
+    {_id: new ObjectId(id)},
+    {
+      $set: {
+        restaurantStatus: status
+      }
+    }
+  );
+
+  return result;
+}
+
 // get restaurant specific owner
 export const getRestaurantByEmail = async (
   email: string
