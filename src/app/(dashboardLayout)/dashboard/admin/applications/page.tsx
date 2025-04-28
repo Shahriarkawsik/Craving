@@ -163,6 +163,7 @@ const Applications = () => {
         restaurantTotalOrder: 0,
         restaurantCompleteOrder: 0,
         restaurantPendingOrder: 0,
+        restaurantStatus: 'Active'
       };
       await createRestaurant(restaurant);
       // 3. Delete the application

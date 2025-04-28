@@ -593,6 +593,7 @@ export const createRestaurant = async (
     restaurantTotalOrder: payload.restaurantTotalOrder,
     restaurantCompleteOrder: payload.restaurantCompleteOrder,
     restaurantPendingOrder: payload.restaurantPendingOrder,
+    restaurantStatus: payload.restaurantStatus
   });
 };
 /* Get all Restaurant Data */
