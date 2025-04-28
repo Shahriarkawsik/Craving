@@ -1,5 +1,6 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
+
 import {
     Bar,
     BarChart,
@@ -18,6 +19,9 @@ interface EarningData {
 }
 
 const AdminStatics = () => {
+    // const [isLoading, setIsLoading] = useState(false);
+
+
     // const { data: session } = useSession();
     const weeklyEarnings: EarningData[] = [
         { Month: "Jan", restaurants: 220 },
@@ -33,11 +37,16 @@ const AdminStatics = () => {
         { Month: "Nov", restaurants: 350 },
         { Month: "Dec", restaurants: 350 },
     ];
-    
+
     const totalRider = 10
     const totalRestaurant = 15
     const totalUser = 20
 
+    // if (isLoading) {
+    //     return <div className="w-full min-h-screen flex items-center justify-center">
+    //         <Spinner />;
+    //     </div>
+    // }
 
     return (
         <div className="mx-auto">
@@ -90,7 +99,7 @@ const AdminStatics = () => {
                     </CardContent>
                 </Card>
 
-            
+
             </div>
         </div>
     );

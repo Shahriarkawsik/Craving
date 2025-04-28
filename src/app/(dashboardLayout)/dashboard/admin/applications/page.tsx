@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ApplicationTable from "./components/ApplicationTable";
+import Spinner from "@/components/shared/Spinner";
 
 export interface ApplicationInfo {
   id: string;
@@ -28,12 +29,14 @@ export interface ApplicationInfo {
 const Applications = () => {
   const [riderApplications, setRiderApplications] = useState<CommonPayload[]>([]);
   const [restaurantOwnerApplications, setRestaurantOwnerApplications] = useState<CommonPayload[]>([]);
+  const [isLoading, setIsLoading] = useState(false);  
   // console.log(restaurantOwnerApplications);
 
   // Fetch restaurant owner applications
   useEffect(() => {
     const fetchOwnerApplications = async () => {
       try {
+        setIsLoading(true);
         const response = await getRestaurantOwnerApplication();
         if (Array.isArray(response)) {
           setRestaurantOwnerApplications(response);
@@ -43,6 +46,8 @@ const Applications = () => {
       } catch (error) {
         console.error("Error fetching owner applications:", error);
         setRestaurantOwnerApplications([]); // ensure it's always an array
+      } finally{
+        setIsLoading(false);
       }
     };
     fetchOwnerApplications();
@@ -65,6 +70,12 @@ const Applications = () => {
     };
     fetchRiderApplications();
   }, []);
+
+  if(isLoading){
+    return <div className="w-full min-h-screen flex items-center justify-center">
+    <Spinner />;
+  </div>
+  }
 
   const handleApproveRider = async (riderId: string) => {
     try {
