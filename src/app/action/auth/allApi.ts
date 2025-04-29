@@ -1310,6 +1310,7 @@ export const getRevenueExpenseData = async (): Promise<CravingRevenueDataTypes[]
   }));
 };
 
+// total user count get base on role - added by jakaria
 export const getUserCounts = async (): Promise<UserCountTypes> => {
   const db = await dbConnect();
   const users = db.collection("users");
@@ -1336,4 +1337,36 @@ export const getUserCounts = async (): Promise<UserCountTypes> => {
   return { total_customer, total_owner, total_rider };
 };
 
+// total sales get - added by jakaria
+export const getTotalSales = async () => {
+  const db = await dbConnect();
+  const order = db.collection("order");
 
+  const result = await order.aggregate([
+    {
+      $group: {
+        _id: null,
+        total_sales: { $sum: "$totalAmount" }
+      }
+    }
+  ]).toArray();
+
+  return { total_sales: result[0]?.total_sales || 0 };
+};
+
+// total owner balance  get - added by jakaria
+export const getTotalOwnerBalance = async () => {
+  const db = await dbConnect();
+  const restaurant = db.collection("restaurant");
+
+  const result = await restaurant.aggregate([
+    {
+      $group: {
+        _id: null,
+        total_sales: { $sum: "$restaurantTotalSell" }
+      }
+    }
+  ]).toArray();
+
+  return { total_sales: result[0]?.total_sales || 0 };
+};

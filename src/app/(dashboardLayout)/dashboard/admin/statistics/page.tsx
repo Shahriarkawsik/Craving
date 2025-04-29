@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
-import { getRevenueExpenseData, getTopCategory, getUserCounts } from "@/app/action/auth/allApi";
+import { getRevenueExpenseData, getTopCategory, getTotalOwnerBalance, getTotalSales, getUserCounts } from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
@@ -28,6 +28,7 @@ const AdminStatics = () => {
     const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
     const [cravingTopFoodCategoryData, setCravingTopFoodCategoryData] = useState<CravingTopFoodCategoryDataTypes[]>([]);
     const [userCount, setUserCount] = useState<UserCountTypes>();
+    const [totalSales, setTotalSales] = useState<{total_sales: number}>();
 
     useEffect(() => {
         const fetchTopCategories = async () => {
@@ -65,8 +66,22 @@ const AdminStatics = () => {
             }finally{
                 setIsLoading(false);
             }
+        };
+
+        const fetchTotalBalance = async () => {
+            try{
+                setIsLoading(true);
+                // const data1 = await getTotalSales();
+                const data2 = await getTotalOwnerBalance();
+                setTotalSales(data2);
+            }catch(e){
+                console.log('Something went wrong', e);
+            }finally{
+                setIsLoading(false);
+            }
         }
 
+        fetchTotalBalance();
         fetchUserCount();
         fetchRevenueExpense();
         fetchTopCategories();
@@ -88,7 +103,7 @@ const AdminStatics = () => {
             {/* statistic in card */}
             <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000 BDT</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{totalSales?.total_sales || 0} BDT</p>
                     <p className="text-md font-light">Total Sales</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
