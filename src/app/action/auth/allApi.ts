@@ -5,6 +5,7 @@ import { Collection } from "mongodb";
 // import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
 
+
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -83,7 +84,7 @@ export interface CommonPayload {
   }[];
   userName?: string
 
-  
+
 };
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
@@ -713,7 +714,7 @@ export const updateRiderStatus = async (id: string, status: string) => {
   const db = await dbConnect();
   const riderCollection = db.collection("rider");
   const result = await riderCollection.updateOne(
-    {_id: new ObjectId(id)},
+    { _id: new ObjectId(id) },
     {
       $set: {
         riderStatus: status
@@ -1199,3 +1200,43 @@ export const getSingleFoodDetails = async (
     })),
   };
 };
+
+// Update Restaurant Order History Status and insert order in availableOrders collection
+export const restaurantOrderHistoryStatus = async (updateStatus: string, orderId: string | ObjectId) => {
+  const db = await dbConnect();
+  const orderCollection = db.collection("order");
+  const availableOrderCollection = db.collection("availableOrders");
+  const result = await orderCollection.updateOne(
+    { _id: new ObjectId(orderId) },
+    { $set: { status: updateStatus } }
+  );
+
+  if (result.modifiedCount > 0) {
+    const findOrder = await orderCollection.findOne({ _id: new ObjectId(orderId) });
+    if (findOrder) {
+      const orderData = {
+        orderId: findOrder._id.toString(),
+        restaurant_id: findOrder.restaurant_id,
+        userEmail: findOrder.userEmail,
+        totalAmount: findOrder.totalAmount,
+        restaurantEmail: findOrder.restaurantEmail,
+        status: findOrder.status,
+        orderDate: findOrder.date,
+        paymentStatus: findOrder.paymentStatus,
+        deliveryAddress: findOrder.deliveryAddress,
+        orderItems: findOrder.orderItems,
+        userName: findOrder.userName,
+        userImage: findOrder.userImage,
+      }
+
+      const insertData = await availableOrderCollection.insertOne(orderData);
+      console.log("Order inserted into availableOrders:", insertData);
+
+    }
+      
+
+    return result;
+    // console.log(updateStatus, orderId);
+  }
+}
+
