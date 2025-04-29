@@ -8,13 +8,18 @@ export interface CravingTopFoodCategoryDataTypes {
     value: number;
 };
 
+export interface CravingRevenueDataTypes {
+    month: string;
+    revenue: number;
+    expense: number;
+};
 
 
 const AdminStatics = () => {
     // const [isLoading, setIsLoading] = useState(false);
 
     // craving revenue data format
-    const cravingRevenueData = [
+    const cravingRevenueData: CravingRevenueDataTypes[] = [
         {
             "month": "January",
             "revenue": 4000,

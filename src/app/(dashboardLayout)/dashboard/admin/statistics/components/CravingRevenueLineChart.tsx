@@ -7,10 +7,13 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
+import { CravingRevenueDataTypes } from '../page';
 
+type CravingRevenueLineChartProps = {
+    data: CravingRevenueDataTypes[];
+}
 
-
-const CravingRevenueLineChart = ({data}) => {
+const CravingRevenueLineChart = ({data}: CravingRevenueLineChartProps) => {
     return (
         <LineChart width={1100} height={300} data={data}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
