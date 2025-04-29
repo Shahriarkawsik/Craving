@@ -4,7 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 // import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
-import { CravingRevenueDataTypes, CravingTopFoodCategoryDataTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
+import { CravingRevenueDataTypes, CravingTopFoodCategoryDataTypes, UserCountTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
 
 export interface CommonPayload {
   name?: string;
@@ -1261,8 +1261,7 @@ export const getTopCategory = async (): Promise<CravingTopFoodCategoryDataTypes[
   return result as CravingTopFoodCategoryDataTypes[];
 };
 
-
-// get revenue expense data
+// get revenue expense data - added by jakaria
 export const getRevenueExpenseData = async (): Promise<CravingRevenueDataTypes[]> => {
   const db = await dbConnect();  
   const revenues = db.collection("revenues");
@@ -1310,4 +1309,31 @@ export const getRevenueExpenseData = async (): Promise<CravingRevenueDataTypes[]
     expense: item.expense
   }));
 };
+
+export const getUserCounts = async (): Promise<UserCountTypes> => {
+  const db = await dbConnect();
+  const users = db.collection("users");
+
+  const result = await users.aggregate([
+    {
+      $group: {
+        _id: "$role",
+        count: { $sum: 1 }
+      }
+    }
+  ]).toArray();
+
+  let total_customer = 0;
+  let total_rider = 0;
+  let total_owner = 0;
+
+  result.forEach(item => {
+    if (item._id === "User") total_customer = item.count;
+    else if (item._id === "Owner") total_owner = item.count;
+    else if (item._id === "Rider") total_rider = item.count;
+  });
+
+  return { total_customer, total_owner, total_rider };
+};
+
 

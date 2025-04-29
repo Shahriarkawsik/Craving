@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
-import { getRevenueExpenseData, getTopCategory } from "@/app/action/auth/allApi";
+import { getRevenueExpenseData, getTopCategory, getUserCounts } from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
@@ -17,11 +17,17 @@ export interface CravingRevenueDataTypes {
     expense: number;
 };
 
+export interface UserCountTypes {
+    total_customer: number;
+    total_owner: number;
+    total_rider: number;
+}
 
 const AdminStatics = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
     const [cravingTopFoodCategoryData, setCravingTopFoodCategoryData] = useState<CravingTopFoodCategoryDataTypes[]>([]);
+    const [userCount, setUserCount] = useState<UserCountTypes>();
 
     useEffect(() => {
         const fetchTopCategories = async () => {
@@ -49,6 +55,19 @@ const AdminStatics = () => {
             }
         };
 
+        const fetchUserCount = async () => {
+            try{
+                setIsLoading(true);
+                const data = await getUserCounts();
+                setUserCount(data);
+            }catch(e){
+                console.log('Something went wrong', e);
+            }finally{
+                setIsLoading(false);
+            }
+        }
+
+        fetchUserCount();
         fetchRevenueExpense();
         fetchTopCategories();
     }, [])
@@ -81,23 +100,27 @@ const AdminStatics = () => {
                     <p className="text-md font-light">Rider Balance</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000 BDT</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{cravingRevenueData.reduce((acc, item) => {
+                        return acc + item.revenue;
+                    }, 0)} BDT</p>
                     <p className="text-md font-light">Craving Revenue</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{userCount?.total_customer || 0}</p>
                     <p className="text-md font-light">Total Customer</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000</p>
-                    <p className="text-md font-light">Total Restaurant</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{userCount?.total_owner || 0}</p>
+                    <p className="text-md font-light">Total Owner</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{userCount?.total_rider || 0}</p>
                     <p className="text-md font-light">Total Rider</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000 BTD</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{cravingRevenueData.reduce((acc, item) => {
+                        return acc + item.expense;
+                    }, 0)} BTD</p>
                     <p className="text-md font-light">Craving Expens</p>
                 </div>
             </section>
