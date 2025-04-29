@@ -1370,3 +1370,20 @@ export const getTotalOwnerBalance = async () => {
 
   return { total_sales: result[0]?.total_sales || 0 };
 };
+
+// total rider balance  get - added by jakaria
+export const getTotalRiderBalance = async () => {
+  const db = await dbConnect();
+  const rider = db.collection("rider");
+
+  const result = await rider.aggregate([
+    {
+      $group: {
+        _id: null,
+        total_sales: { $sum: "$riderTotalEarning" }
+      }
+    }
+  ]).toArray();
+
+  return { total_sales: result[0]?.total_sales || 0 };
+};

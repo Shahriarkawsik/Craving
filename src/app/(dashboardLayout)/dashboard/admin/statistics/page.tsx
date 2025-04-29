@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
-import { getRevenueExpenseData, getTopCategory, getTotalOwnerBalance, getTotalSales, getUserCounts } from "@/app/action/auth/allApi";
+import { getRevenueExpenseData, getTopCategory, getTotalOwnerBalance, getTotalRiderBalance, getTotalSales, getUserCounts } from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
@@ -72,8 +72,9 @@ const AdminStatics = () => {
             try{
                 setIsLoading(true);
                 // const data1 = await getTotalSales();
-                const data2 = await getTotalOwnerBalance();
-                setTotalSales(data2);
+                // const data2 = await getTotalOwnerBalance();
+                const data3 = await getTotalRiderBalance();
+                setTotalSales(data3);
             }catch(e){
                 console.log('Something went wrong', e);
             }finally{
