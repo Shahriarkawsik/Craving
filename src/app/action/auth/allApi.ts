@@ -6,6 +6,7 @@ import { Collection } from "mongodb";
 import bcrypt from "bcryptjs";
 import { CravingRevenueDataTypes, CravingTopFoodCategoryDataTypes, UserCountTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
 
+
 export interface CommonPayload {
   name?: string;
   image?: string;
@@ -1353,3 +1354,42 @@ export const getTotalBalanceByField = async (collectionName: string, sumField: s
 
   return result[0]?.total || 0;
 };
+// Update Restaurant Order History Status and insert order in availableOrders collection
+export const restaurantOrderHistoryStatus = async (updateStatus: string, orderId: string | ObjectId) => {
+  const db = await dbConnect();
+  const orderCollection = db.collection("order");
+  const availableOrderCollection = db.collection("availableOrders");
+  const result = await orderCollection.updateOne(
+    { _id: new ObjectId(orderId) },
+    { $set: { status: updateStatus } }
+  );
+
+  if (result.modifiedCount > 0) {
+    const findOrder = await orderCollection.findOne({ _id: new ObjectId(orderId) });
+    if (findOrder) {
+      const orderData = {
+        orderId: findOrder._id.toString(),
+        restaurant_id: findOrder.restaurant_id,
+        userEmail: findOrder.userEmail,
+        totalAmount: findOrder.totalAmount,
+        restaurantEmail: findOrder.restaurantEmail,
+        status: findOrder.status,
+        orderDate: findOrder.date,
+        paymentStatus: findOrder.paymentStatus,
+        deliveryAddress: findOrder.deliveryAddress,
+        orderItems: findOrder.orderItems,
+        userName: findOrder.userName,
+        userImage: findOrder.userImage,
+      }
+
+      const insertData = await availableOrderCollection.insertOne(orderData);
+      console.log("Order inserted into availableOrders:", insertData);
+
+    }
+      
+
+    return result;
+    // console.log(updateStatus, orderId);
+  }
+}
+
