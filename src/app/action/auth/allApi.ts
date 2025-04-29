@@ -1337,53 +1337,19 @@ export const getUserCounts = async (): Promise<UserCountTypes> => {
   return { total_customer, total_owner, total_rider };
 };
 
-// total sales get - added by jakaria
-export const getTotalSales = async () => {
+// reusable function for total balance - added by jakarai
+export const getTotalBalanceByField = async (collectionName: string, sumField: string): Promise<number> => {
   const db = await dbConnect();
-  const order = db.collection("order");
+  const collection = db.collection(collectionName);
 
-  const result = await order.aggregate([
+  const result = await collection.aggregate([
     {
       $group: {
         _id: null,
-        total_sales: { $sum: "$totalAmount" }
+        total: { $sum: `$${sumField}` }
       }
     }
   ]).toArray();
 
-  return { total_sales: result[0]?.total_sales || 0 };
-};
-
-// total owner balance  get - added by jakaria
-export const getTotalOwnerBalance = async () => {
-  const db = await dbConnect();
-  const restaurant = db.collection("restaurant");
-
-  const result = await restaurant.aggregate([
-    {
-      $group: {
-        _id: null,
-        total_sales: { $sum: "$restaurantTotalSell" }
-      }
-    }
-  ]).toArray();
-
-  return { total_sales: result[0]?.total_sales || 0 };
-};
-
-// total rider balance  get - added by jakaria
-export const getTotalRiderBalance = async () => {
-  const db = await dbConnect();
-  const rider = db.collection("rider");
-
-  const result = await rider.aggregate([
-    {
-      $group: {
-        _id: null,
-        total_sales: { $sum: "$riderTotalEarning" }
-      }
-    }
-  ]).toArray();
-
-  return { total_sales: result[0]?.total_sales || 0 };
+  return result[0]?.total || 0;
 };

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
-import { getRevenueExpenseData, getTopCategory, getTotalOwnerBalance, getTotalRiderBalance, getTotalSales, getUserCounts } from "@/app/action/auth/allApi";
+import { getRevenueExpenseData, getTopCategory, getTotalBalanceByField, getUserCounts } from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
@@ -23,12 +23,18 @@ export interface UserCountTypes {
     total_rider: number;
 }
 
+interface BalaneTypes {
+    total_balance: number;
+    owner_balance: number;
+    rider_balance: number;
+}
+
 const AdminStatics = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
     const [cravingTopFoodCategoryData, setCravingTopFoodCategoryData] = useState<CravingTopFoodCategoryDataTypes[]>([]);
     const [userCount, setUserCount] = useState<UserCountTypes>();
-    const [totalSales, setTotalSales] = useState<{total_sales: number}>();
+    const [totalSales, setTotalSales] = useState<BalaneTypes>();
 
     useEffect(() => {
         const fetchTopCategories = async () => {
@@ -71,10 +77,11 @@ const AdminStatics = () => {
         const fetchTotalBalance = async () => {
             try{
                 setIsLoading(true);
-                // const data1 = await getTotalSales();
-                // const data2 = await getTotalOwnerBalance();
-                const data3 = await getTotalRiderBalance();
-                setTotalSales(data3);
+                const data1 = await getTotalBalanceByField('order', 'totalAmount');
+                const data2 = await getTotalBalanceByField('restaurant', 'restaurantTotalSell');
+                const data3 = await getTotalBalanceByField('rider', 'riderTotalEarning');
+                
+                setTotalSales({total_balance: data1, owner_balance: data2, rider_balance: data3});
             }catch(e){
                 console.log('Something went wrong', e);
             }finally{
@@ -104,15 +111,15 @@ const AdminStatics = () => {
             {/* statistic in card */}
             <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">{totalSales?.total_sales || 0} BDT</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{totalSales?.total_balance || 0} BDT</p>
                     <p className="text-md font-light">Total Sales</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000 BDT</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{totalSales?.owner_balance || 0} BDT</p>
                     <p className="text-md font-light">Owner Balance</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
-                    <p className="text-3xl font-extrabold text-orange-400">45000 BDT</p>
+                    <p className="text-3xl font-extrabold text-orange-400">{totalSales?.rider_balance || 0} BDT</p>
                     <p className="text-md font-light">Rider Balance</p>
                 </div>
                 <div className="flex flex-col items-center justify-center p-5 gap-1 bg-white rounded-md shadow-md">
