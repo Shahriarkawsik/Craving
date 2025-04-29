@@ -19,7 +19,7 @@ const CravingRevenueLineChart = ({data}: CravingRevenueLineChartProps) => {
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <XAxis dataKey="month" />
-            <YAxis ticks={[1000, 2000, 3000, 4000, 5000, 6000]}/>
+            <YAxis ticks={[10000, 20000, 30000, 40000, 50000]}/>
             <Tooltip />
             <Legend iconType="square" formatter={(value) => value.charAt(0).toUpperCase() + value.slice(1)}/>
             <Line type="monotone" dataKey="revenue" strokeWidth={2.5} stroke="#F97316" />

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
-import { getTopCategory } from "@/app/action/auth/allApi";
+import { getRevenueExpenseData, getTopCategory } from "@/app/action/auth/allApi";
 import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
@@ -20,90 +20,39 @@ export interface CravingRevenueDataTypes {
 
 const AdminStatics = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    // const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
+    const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
     const [cravingTopFoodCategoryData, setCravingTopFoodCategoryData] = useState<CravingTopFoodCategoryDataTypes[]>([]);
-
-    // craving revenue data format
-    const cravingRevenueData: CravingRevenueDataTypes[] = [
-        {
-            "month": "January",
-            "revenue": 4000,
-            "expense": 2400
-        },
-        {
-            "month": "February",
-            "revenue": 2000,
-            "expense": 3000
-        },
-        {
-            "month": "March",
-            "revenue": 3000,
-            "expense": 1000
-        },
-        {
-            "month": "April",
-            "revenue": 5000,
-            "expense": 2500
-        },
-        {
-            "month": "May",
-            "revenue": 1500,
-            "expense": 1000
-        },
-        {
-            "month": "June",
-            "revenue": 5000,
-            "expense": 2500
-        },
-        {
-            "month": "July",
-            "revenue": 1000,
-            "expense": 3000
-        },
-        {
-            "month": "August",
-            "revenue": 4500,
-            "expense": 3000
-        },
-        {
-            "month": "September",
-            "revenue": 5000,
-            "expense": 5000
-        },
-        {
-            "month": "October",
-            "revenue": 3000,
-            "expense": 1000
-        },
-        {
-            "month": "November",
-            "revenue": 1000,
-            "expense": 2000
-        },
-        {
-            "month": "December",
-            "revenue": 2000,
-            "expense": 1000
-        },
-    ];
 
     useEffect(() => {
         const fetchTopCategories = async () => {
-            try{
+            try {
                 setIsLoading(true);
                 const data = await getTopCategory();
                 setCravingTopFoodCategoryData(data);
-            }catch(e){
+            } catch (e) {
                 console.log('Something went wrong', e);
-            }finally{
+            } finally {
                 setIsLoading(false);
             }
-        }
+        };
 
+        const fetchRevenueExpense = async () => {
+            try {
+                setIsLoading(true);
+                const data = await getRevenueExpenseData();
+                setCravingRevenueData(data);
+                console.log(data);
+            } catch (e) {
+                console.log('Something went wrong', e);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchRevenueExpense();
         fetchTopCategories();
     }, [])
 
-    console.log(cravingTopFoodCategoryData);
     if (isLoading) {
         return <div className="w-full min-h-screen flex items-center justify-center">
             <Spinner />;
@@ -156,7 +105,9 @@ const AdminStatics = () => {
             {/* craving revenue statistics in line graph */}
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div className="col-span-2 bg-white p-5 space-y-5 overflow-x-auto rounded-md shadow-md">
-                    <h2 className="text-xl font-bold">Total Revenue: 45000 BDT</h2>
+                    <h2 className="text-xl font-bold">Total Revenue: {cravingRevenueData.reduce((acc, item) => {
+                        return acc + item.revenue;
+                    }, 0)} BDT</h2>
                     <CravingRevenueLineChart data={cravingRevenueData} />
                 </div>
                 <div className="col-span-1 bg-white p-5 rounded-md shadow-md">

@@ -4,7 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 // import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
-import { CravingTopFoodCategoryDataTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
+import { CravingRevenueDataTypes, CravingTopFoodCategoryDataTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
 
 export interface CommonPayload {
   name?: string;
@@ -1260,3 +1260,54 @@ export const getTopCategory = async (): Promise<CravingTopFoodCategoryDataTypes[
 
   return result as CravingTopFoodCategoryDataTypes[];
 };
+
+
+// get revenue expense data
+export const getRevenueExpenseData = async (): Promise<CravingRevenueDataTypes[]> => {
+  const db = await dbConnect();  
+  const revenues = db.collection("revenues");
+
+  const result = await revenues.aggregate([
+    {
+      $addFields: {
+        createdAtDate: { $toDate: "$created_at" }
+      }
+    },
+    {
+      $project: {
+        monthNum: { $month: "$createdAtDate" },
+        monthName: { $dateToString: { format: "%B", date: "$createdAtDate" } },
+        revenue: 1,
+        expense: 1
+      }
+    },
+    {
+      $group: {
+        _id: "$monthNum",
+        month: { $first: "$monthName" },
+        revenue: { $sum: "$revenue" },
+        expense: { $sum: "$expense" }
+      }
+    },
+    {
+      $sort: {
+        _id: 1 // Sort by numeric month
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        month: 1,
+        revenue: 1,
+        expense: 1
+      }
+    }
+  ]).toArray();
+
+  return result.map(item => ({
+    month: item.month,
+    revenue: item.revenue,
+    expense: item.expense
+  }));
+};
+
