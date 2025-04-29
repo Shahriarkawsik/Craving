@@ -35,8 +35,11 @@ const CravingTopCategoryPieChart = ({ data }: CravingTopCategoryPieChartProps) =
                 iconType="square"
                 formatter={(value) => {
                     const item = data.find((d) => d.category === value);
-                    return `${value} (${item?.value || 0}%)`;
-                }} />
+                    const total = data.reduce((sum, d) => sum + d.value, 0); 
+                    const percent = ((item?.value || 0) / total) * 100; 
+                    return `${value} (${percent.toFixed(0)}%)`;
+                }}
+            />
         </PieChart>
     );
 };

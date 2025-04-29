@@ -4,6 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 // import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
+import { CravingTopFoodCategoryDataTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
 
 export interface CommonPayload {
   name?: string;
@@ -84,7 +85,7 @@ export interface CommonPayload {
   }[];
   userName?: string
 
-  
+
 };
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
@@ -648,7 +649,7 @@ export const updateRestaurantStatus = async (id: string, status: string) => {
   const riderCollection = db.collection("restaurant");
 
   const result = await riderCollection.updateOne(
-    {_id: new ObjectId(id)},
+    { _id: new ObjectId(id) },
     {
       $set: {
         restaurantStatus: status
@@ -733,7 +734,7 @@ export const updateRiderStatus = async (id: string, status: string) => {
   const db = await dbConnect();
   const riderCollection = db.collection("rider");
   const result = await riderCollection.updateOne(
-    {_id: new ObjectId(id)},
+    { _id: new ObjectId(id) },
     {
       $set: {
         riderStatus: status
@@ -1218,4 +1219,44 @@ export const getSingleFoodDetails = async (
       review: review.review,
     })),
   };
+};
+
+// for top catagory pie chart in dashboard - added by jakaria
+export const getTopCategory = async (): Promise<CravingTopFoodCategoryDataTypes[]> => {
+  const db = await dbConnect();
+  const reviewCollection = db.collection("reviews");
+
+  const result = await reviewCollection.aggregate([
+    {
+      $addFields: {
+        foodObjectId: { $toObjectId: "$food_id" }
+      }
+    },
+    {
+      $lookup: {
+        from: "food",
+        localField: "foodObjectId",
+        foreignField: "_id",
+        as: "foodDetails"
+      }
+    },
+    { $unwind: "$foodDetails" },
+    {
+      $group: {
+        _id: "$foodDetails.category",
+        value: { $sum: 1 }
+      }
+    },
+    { $sort: { value: -1 } },
+    { $limit: 4 },
+    {
+      $project: {
+        _id: 0,
+        category: "$_id",
+        value: 1
+      }
+    }
+  ]).toArray();
+
+  return result as CravingTopFoodCategoryDataTypes[];
 };

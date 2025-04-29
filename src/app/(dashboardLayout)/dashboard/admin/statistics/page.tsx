@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CravingRevenueLineChart from "./components/CravingRevenueLineChart";
 import CravingTopCategoryPieChart from "./components/CravingTopCategoryPieChart";
+import { getTopCategory } from "@/app/action/auth/allApi";
+import Spinner from "@/components/shared/Spinner";
 
 export interface CravingTopFoodCategoryDataTypes {
     category: string;
@@ -16,7 +19,9 @@ export interface CravingRevenueDataTypes {
 
 
 const AdminStatics = () => {
-    // const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    // const [cravingRevenueData, setCravingRevenueData] = useState<CravingRevenueDataTypes[]>([]);
+    const [cravingTopFoodCategoryData, setCravingTopFoodCategoryData] = useState<CravingTopFoodCategoryDataTypes[]>([]);
 
     // craving revenue data format
     const cravingRevenueData: CravingRevenueDataTypes[] = [
@@ -82,33 +87,28 @@ const AdminStatics = () => {
         },
     ];
 
-    //   for pie chart
-    const cravingTopFoodCategoryData: CravingTopFoodCategoryDataTypes[] = [
-        {
-            "category": "Fast Food",
-            "value": 20
-        },
-        {
-            "category": "See Food",
-            "value": 40
-        },
-        {
-            "category": "Chinese",
-            "value": 30
-        },
-        {
-            "category": "Desert",
-            "value": 10
-        },
-    ];
+    useEffect(() => {
+        const fetchTopCategories = async () => {
+            try{
+                setIsLoading(true);
+                const data = await getTopCategory();
+                setCravingTopFoodCategoryData(data);
+            }catch(e){
+                console.log('Something went wrong', e);
+            }finally{
+                setIsLoading(false);
+            }
+        }
 
+        fetchTopCategories();
+    }, [])
 
-
-    // if (isLoading) {
-    //     return <div className="w-full min-h-screen flex items-center justify-center">
-    //         <Spinner />;
-    //     </div>
-    // }
+    console.log(cravingTopFoodCategoryData);
+    if (isLoading) {
+        return <div className="w-full min-h-screen flex items-center justify-center">
+            <Spinner />;
+        </div>
+    }
 
     return (
         <div className="space-y-5">
