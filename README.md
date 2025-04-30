@@ -21,4 +21,12 @@ CRAVING </h1>
       </ul>
 </div>
 
-
+<div>
+  <h3 className="font-semibold">Purpose</h3>
+  <ul>
+    <li>Connecting People with Their Favorite Meals</li>
+    <li>Providing a Seamless Food Ordering Experience</li>
+    <li>Supporting Local Restaurants and Vendors</li>
+    <li>Delivering Food Quickly and Reliably</li>
+  </ul>
+</div>
