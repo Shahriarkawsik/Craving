@@ -38,6 +38,12 @@ const Footer = () => {
               <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
                 <Link href="/contactUs">Contact Us</Link>
               </li>
+              <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
+                <Link href="/profile">Profile</Link>
+              </li>
+              {/* <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
+                <Link href="/contactUs"></Link>
+              </li> */}
             </ul>
           </div>
           {/* this is a social media part  */}
