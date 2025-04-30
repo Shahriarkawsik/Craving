@@ -10,3 +10,17 @@ CRAVING </h1>
  </div>
 
 </div>
+
+<div>
+    <h3 className="font-semibold"> Technologies</h3>
+      <ul>
+        <li>Html</li>
+        <li>Css</li>
+        <li>Shadcn</li>
+        <li>Vercel</li>
+        <li>NextAuth.js</li>
+        <li>TypeScript</li>
+        <li>Next.js</li>
+        <li>MongoDB</li>
+      </ul>
+</div>

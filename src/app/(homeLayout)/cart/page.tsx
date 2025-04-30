@@ -29,6 +29,7 @@ interface CartItem {
   created_at: Date | null;
   owner_email: string | null;
   user_email: string;
+  userImage?: string;  
 }
 interface DeleteResponse {
   deletedCount: number;
@@ -97,6 +98,7 @@ export default function CartPage() {
     date: new Date(),
     paymentStatus: "Pending",
     deliveryAddress: address,
+    userImage: session?.user?.image,
     orderItems: cartItems
   }
 
