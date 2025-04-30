@@ -75,4 +75,27 @@ CRAVING </h1>
     </ul>
 </div>
 
+<div>
+  <h3 className="font-semibold">Key Pages</h3>
+
+  <h5>1. Home Page:</h5>
+  <p>Dynamic content showcasing featured restaurants, food categories, promotional banners, Donation Campaigns FAQs, and contact information.</p>
+
+  <h5>2. Food:</h5>
+  <p>This page displays all available food items or restaurants. Each card includes an image, name, category, price, and a short description, along with options to view more details or add to cart.</p>
+
+
+  <h5>3. About Page:</h5>
+  <p>This page outlines the mission and vision of Craving, introduces the team, and highlights how the platform supports both customers and local food providers.</p>
+
+  <h5>4. Contact Page:</h5>
+  <p>Includes a contact form and essential contact details so users can get in touch with the support team regarding orders, donations, or technical help.</p>
+
+  <h5>5. Profile Page:</h5>
+  <p>Allows users to view and update their personal information, including name, email, password, order preferences, and saved addresses.</p>
+
+  <h5>6. Dashboard:</h5>
+  <p>The dashboard provides an overview of platform activity based on user roles. Restaurant owners can manage their menu and track sales. Riders can view assigned deliveries. Admins have full control to manage users, food listings, orders, and campaigns.</p>
+</div>
+
 
