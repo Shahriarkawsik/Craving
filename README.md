@@ -14,13 +14,11 @@ CRAVING </h1>
 <div>
     <h3 className="font-semibold"> Technologies</h3>
       <ul>
-        <li>Html</li>
-        <li>Css</li>
-        <li>Shadcn</li>
-        <li>Vercel</li>
-        <li>NextAuth.js</li>
-        <li>TypeScript</li>
-        <li>Next.js</li>
-        <li>MongoDB</li>
+        <li>Frontend: HTML, CSS, Tailwind.CSS, Shadcn, NextAuth, TypeScript, Next.js </li>
+        <li>Backend: Node.js</li>
+        <li>Database: MongoDB </li>
+        <li>Deployment: Vercel </li>
       </ul>
 </div>
+
+
