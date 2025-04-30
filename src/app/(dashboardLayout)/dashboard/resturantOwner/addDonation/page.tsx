@@ -15,7 +15,7 @@ interface FormData {
   restaurantName: string;
   restaurantOwnerEmail: string 
 }
-const AddFood = () => {
+const AddDonation = () => {
   const [loading, setLoading] = useState(false);
   const [getRestaurant, setGetRestaurant] = useState<CommonPayload[]>([]);
   const [image, setImage] = useState<string | null>(null);
@@ -38,8 +38,8 @@ const AddFood = () => {
     fetchDonationsRestaurant();
   }, [session]);
 
-  console.log(getRestaurant[0]?.restaurantName);
-  console.log(getRestaurant[0]?.restaurantOwnerEmail);
+  // console.log(getRestaurant[0]?.restaurantName);
+  // console.log(getRestaurant[0]?.restaurantOwnerEmail);
 
   type Inputs = {
     id: string;
@@ -65,6 +65,7 @@ const AddFood = () => {
     if (!file) return;
 
     const data = new FormData();
+    console.log(data, "this is data")
     data.append("file", file);
     data.append("upload_preset", "first_time-using_cloudinary");
 
@@ -201,4 +202,4 @@ const AddFood = () => {
   );
 };
 
-export default AddFood;
+export default AddDonation;

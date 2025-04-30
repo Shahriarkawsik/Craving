@@ -19,7 +19,7 @@ import { CiViewList } from "react-icons/ci";
 import { FaMoneyCheckDollar, FaUserTie } from "react-icons/fa6";
 import { IoFastFoodSharp } from "react-icons/io5";
 import { BiFoodMenu, BiSolidFile } from "react-icons/bi";
-import { FaHouseDamage } from "react-icons/fa";
+import { FaHouseDamage, FaRegListAlt } from "react-icons/fa";
 import { VscListUnordered } from "react-icons/vsc";
 import { GoGraph } from "react-icons/go";
 import { FaHotel } from "react-icons/fa";
@@ -198,7 +198,7 @@ export function AppSidebar() {
                       } py-2  px-5 hover:text-orange-600  bg-base-50 hover:shadow-gray-300 hover:shadow-md  `}
                     > 
                      <div className="flex items-center   gap-2">
-                        <VscListUnordered className="text-2xl" />    Donations History
+                        <FaRegListAlt className="text-2xl" />    Donations History
                       </div>
                     
                     </SidebarMenuItem>
