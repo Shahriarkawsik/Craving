@@ -62,3 +62,17 @@ CRAVING </h1>
   </ul>
 </div>
 
+<div>
+    <h3 className="font-semibold">NPM Packages</h3>
+    <ul>
+     <li>React-icons</li>
+     <li>React-hook form </li>
+     <li>Date-fns </li>
+     <li>React-select </li>
+     <li>React Toastify </li>
+     <li>Sweet alert </li>
+     <li>others </li>
+    </ul>
+</div>
+
+
