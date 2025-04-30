@@ -30,3 +30,35 @@ CRAVING </h1>
     <li>Delivering Food Quickly and Reliably</li>
   </ul>
 </div>
+
+<div>
+  <h3 className="font-semibold">Key Features</h3>
+  <ul>
+    <li>Food Browsing by Category and Restaurant</li>
+    <li>Quick and Secure Online Ordering</li>
+    <li>User Authentication</li>
+    <li>Role-Based Access Control:
+      <ul className="list-disc list-inside ml-4">
+        <li><strong>Admin:</strong> Full platform access, manage users, items, orders, and donations</li>
+        <li><strong>Owner:</strong> Manage their restaurant's menu, orders, and donations</li>
+        <li><strong>User:</strong> Browse food, place orders, donate, and manage profile</li>
+        <li><strong>Rider:</strong> View assigned orders and update delivery status</li>
+      </ul>
+    </li>
+       <li>Order Management:
+      <ul className="list-disc list-inside ml-4">
+        <li>Place and Track Orders in Real-Time</li>
+        <li>Order History and Status Updates</li>
+        <li>Rider Order Assignment and Delivery Updates</li>
+      </ul>
+    </li>
+      <li>Donation System:
+      <ul className="list-disc list-inside ml-4">
+        <li>Start and Manage Donation Campaigns</li>
+        <li>Donate to Support Community or Delivery Workers</li>
+        <li>Track Donation History</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
