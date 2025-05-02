@@ -38,6 +38,12 @@ const Footer = () => {
               <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
                 <Link href="/contactUs">Contact Us</Link>
               </li>
+              <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
+                <Link href="/profile">Profile</Link>
+              </li>
+              {/* <li className=" border-b-2 border-transparent  hover:border-b-white  hover:inline-block  ">
+                <Link href="/contactUs"></Link>
+              </li> */}
             </ul>
           </div>
           {/* this is a social media part  */}
@@ -51,7 +57,7 @@ const Footer = () => {
                   <FaFacebook />
                 </Link>
               </li>
-              <li className="text-2xl hover:text-gradient-to-r from-[#feda75] via-[#fa7e1e] to-[#d62976] rounded  ">
+              <li className="text-2xl hover:text-blue-600 rounded  ">
                 <Link href="http://instagram.com" target="_blank">
                   <FaSquareInstagram />
                 </Link>

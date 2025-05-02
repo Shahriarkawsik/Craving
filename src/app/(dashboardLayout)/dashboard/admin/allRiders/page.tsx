@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "react-toastify";
+import Spinner from "@/components/shared/Spinner";
 
 const AllRiders = () => {
   const [riders, setRiders] = useState<RiderPayload[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchAllRiders = async () => {
     try {
+      setIsLoading(true);
       const response = await getAllRider();
       if (Array.isArray(response)) {
         setRiders(response);
@@ -19,6 +22,8 @@ const AllRiders = () => {
     } catch (error) {
       console.error("Error fetching rider applications:", error);
       setRiders([]); // ensure it's always an array
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -50,6 +55,12 @@ const AllRiders = () => {
   useEffect(() => {
     fetchAllRiders();
   }, []);
+
+  if(isLoading){
+    return <div className="w-full min-h-screen flex items-center justify-center">
+    <Spinner />;
+  </div>
+  }
 
   return (
     <div className="space-y-5">
