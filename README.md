@@ -1,101 +1,180 @@
-<div> 
-   <h1 className="font-bold">
-CRAVING </h1>
+# 🍽️ CRAVING – Food Delivery Web Application
 
-   <h2>
-   Live Link : https://craving-six.vercel.app </h2> 
-   <div> 
- <h3 className="font-semibold">Description</h3>
- <p>  Craving is your ultimate destination for delicious meals delivered straight to your door. Whether you're in the mood for comforting classics or exciting new flavors, Craving connects you with a wide range of restaurants ready to satisfy every appetite. With a focus on speed, quality, and customer satisfaction, we make sure your cravings are fulfilled—fast and fresh.</p>
- </div>
+**Live Link:** [https://craving-six.vercel.app](https://craving-six.vercel.app)
 
-</div>
+Craving is your ultimate destination for delicious meals delivered straight to your door. Whether you're in the mood for comforting classics or exciting new flavors, Craving connects you with a wide range of restaurants ready to satisfy every appetite.
 
-<div>
-    <h3 className="font-semibold"> Technologies</h3>
-      <ul>
-        <li>Frontend: HTML, CSS, Tailwind.CSS, Shadcn, NextAuth, TypeScript, Next.js </li>
-        <li>Backend: Node.js</li>
-        <li>Database: MongoDB </li>
-        <li>Deployment: Vercel </li>
-      </ul>
-</div>
+<br>
+<br>
 
-<div>
-  <h3 className="font-semibold">Purpose</h3>
-  <ul>
-    <li>Connecting People with Their Favorite Meals</li>
-    <li>Providing a Seamless Food Ordering Experience</li>
-    <li>Supporting Local Restaurants and Vendors</li>
-    <li>Delivering Food Quickly and Reliably</li>
-  </ul>
-</div>
+---
 
-<div>
-  <h3 className="font-semibold">Key Features</h3>
-  <ul>
-    <li>Food Browsing by Category and Restaurant</li>
-    <li>Quick and Secure Online Ordering</li>
-    <li>User Authentication</li>
-    <li>Role-Based Access Control:
-      <ul className="list-disc list-inside ml-4">
-        <li><strong>Admin:</strong> Full platform access, manage users, items, orders, and donations</li>
-        <li><strong>Owner:</strong> Manage their restaurant's menu, orders, and donations</li>
-        <li><strong>User:</strong> Browse food, place orders, donate, and manage profile</li>
-        <li><strong>Rider:</strong> View assigned orders and update delivery status</li>
-      </ul>
-    </li>
-       <li>Order Management:
-      <ul className="list-disc list-inside ml-4">
-        <li>Place and Track Orders in Real-Time</li>
-        <li>Order History and Status Updates</li>
-        <li>Rider Order Assignment and Delivery Updates</li>
-      </ul>
-    </li>
-      <li>Donation System:
-      <ul className="list-disc list-inside ml-4">
-        <li>Start and Manage Donation Campaigns</li>
-        <li>Donate to Support Community or Delivery Workers</li>
-        <li>Track Donation History</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+## 📝 Description
 
-<div>
-    <h3 className="font-semibold">NPM Packages</h3>
-    <ul>
-     <li>React-icons</li>
-     <li>React-hook form </li>
-     <li>Date-fns </li>
-     <li>React-select </li>
-     <li>React Toastify </li>
-     <li>Sweet alert </li>
-     <li>others </li>
-    </ul>
-</div>
+Craving is a modern full-stack food delivery platform built with Next.js, TypeScript, and MongoDB. It allows users to browse restaurants and meals, place and track orders, donate to causes, and much more. With role-based access control and a clean UI, it’s designed to offer a seamless experience for customers, restaurant owners, riders, and admins.
 
-<div>
-  <h3 className="font-semibold">Key Pages</h3>
+<br>
+<br>
 
-  <h5>1. Home Page:</h5>
-  <p>Dynamic content showcasing featured restaurants, food categories, promotional banners, Donation Campaigns FAQs, and contact information.</p>
+---
 
-  <h5>2. Food:</h5>
-  <p>This page displays all available food items or restaurants. Each card includes an image, name, category, price, and a short description, along with options to view more details or add to cart.</p>
+## 🚀 Features
+
+### ✅ Key Features
+- **Food Browsing** by category and restaurant
+- **Quick and Secure Ordering**
+- **User Authentication** with NextAuth
+- **Role-Based Access Control**:
+  - **Admin**: Full platform access, manage users, items, orders, and donations
+  - **Owner**: Manage their restaurant's menu, orders, and donations
+  - **User**: Browse food, place orders, donate, manage profile
+  - **Rider**: View assigned orders and update delivery status
+- **Order Management**:
+  - Real-time order tracking
+  - Order history & delivery updates
+  - Rider order assignment
+- **Donation System**:
+  - Create/manage donation campaigns
+  - Support community or delivery workers
+  - Track donation history
+
+<br>
+<br>
+
+---
+
+## 📑 Key Pages
+
+1. **Home Page** – Highlights featured restaurants, categories, banners, campaigns, FAQs, and contact info.
+2. **Food Page** – Lists all food items and restaurants with filters, description, price, and cart options.
+3. **About Page** – Describes the platform’s mission, vision, and team.
+4. **Contact Page** – Includes support form and contact details.
+5. **Profile Page** – Allows users to manage their personal info, orders, and addresses.
+6. **Dashboard** – Dynamic dashboard based on user roles (admin, owner, rider, user).
+
+<br>
+<br>
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** HTML, CSS, Tailwind CSS, Shadcn, TypeScript, Next.js
+- **Authentication:** NextAuth
+- **Backend:** Node.js, Express
+- **Database:** MongoDB
+- **Deployment:** Vercel
 
 
-  <h5>3. About Page:</h5>
-  <p>This page outlines the mission and vision of Craving, introduces the team, and highlights how the platform supports both customers and local food providers.</p>
+<br>
+<br>
 
-  <h5>4. Contact Page:</h5>
-  <p>Includes a contact form and essential contact details so users can get in touch with the support team regarding orders, donations, or technical help.</p>
+---
 
-  <h5>5. Profile Page:</h5>
-  <p>Allows users to view and update their personal information, including name, email, password, order preferences, and saved addresses.</p>
+## 📦 Dependencies
 
-  <h5>6. Dashboard:</h5>
-  <p>The dashboard provides an overview of platform activity based on user roles. Restaurant owners can manage their menu and track sales. Riders can view assigned deliveries. Admins have full control to manage users, food listings, orders, and campaigns.</p>
-</div>
 
-</div>
+### Core Dependencies:
+```json
+{
+  "@radix-ui/react-*": "^1.x.x",
+  "@types/next-auth": "^3.15.0",
+  "aos": "^2.3.4",
+  "axios": "^1.8.4",
+  "bcryptjs": "^3.0.2",
+  "class-variance-authority": "^0.7.1",
+  "clsx": "^2.1.1",
+  "express": "^5.1.0",
+  "lottie-react": "^2.4.1",
+  "lucide-react": "^0.479.0",
+  "mongodb": "^6.14.2",
+  "mongoose": "^8.12.1",
+  "next": "^15.2.3",
+  "next-auth": "^4.24.11",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0",
+  "react-fast-marquee": "^1.6.5",
+  "react-hook-form": "^7.54.2",
+  "react-icons": "^5.5.0",
+  "react-is": "^19.0.0",
+  "react-loading-skeleton": "^3.5.0",
+  "react-spinners": "^0.16.1",
+  "react-toastify": "^11.0.5",
+  "recharts": "^2.15.1",
+  "sslcommerz": "^1.7.0",
+  "sslcommerz-lts": "^1.1.0",
+  "sweetalert2": "^11.17.2",
+  "tailwind-merge": "^3.0.2",
+  "tailwindcss-animate": "^1.0.7"
+}
+```
+
+### Dev Dependencies:
+```json
+{
+  "@eslint/eslintrc": "^3",
+  "@tailwindcss/postcss": "^4.0.15",
+  "@types/aos": "^3.0.7",
+  "@types/lodash": "^4.17.16",
+  "@types/node": "^20",
+  "@types/nodemailer": "^6.4.17",
+  "@types/react": "^19",
+  "@types/react-dom": "^19",
+  "eslint": "^9",
+  "eslint-config-next": "15.2.2",
+  "tailwindcss": "^4.0.15",
+  "typescript": "^5.8.2"
+}
+```
+<br>
+<br>
+
+---
+
+## 🔐 Environment Variables
+NEXTAUTH_PUBLIC_MONGODB_URI="mongodb+srv://craving:xvho15QFnWY2BrAq@cluster0.gv7qc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+DB_USER="craving"
+DB_PASSWORD="xvho15QFnWY2BrAq"
+DB_NAME="CRAVING"
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=sfdlksfdlk-dskfdlksf-dsfldkjj
+
+GOOGLE_CLIENT_ID=456747794380-hos6n6q4oqsrthno40lnqbgvklpbir0o.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
+
+SSLCOMMERZ_STORE_ID=cravi67f759bca951d
+SSLCOMMERZ_STORE_PASSWORD=cravi67f759bca951d@ssl
+
+<br>
+<br>
+
+---
+
+## 🧑‍💻 How to Run Locally
+### 1. Clone the repository:
+`git clone https://github.com/your-username/craving.git`
+
+`cd craving`
+
+### 2. Install dependencies:
+`npm install`
+### 3. Configure environment variables:
+- Create a `.env.local` file
+
+- Copy and paste the environment variables from the section above
+### 4. Run the development server:
+`npm run dev`
+### 5. Open in browser:
+http://localhost:3000
+<br>
+<br>
+
+---
+## 📸 Screenshots
+
+![Home page of Craving](https://i.ibb.co.com/j964Zz2C/craving-pied-vercel-app.png)
+
+
+
