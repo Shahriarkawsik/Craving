@@ -174,7 +174,7 @@ http://localhost:3000
 ---
 ## 📸 Screenshots
 
-![Home page of Craving](https://i.ibb.co.com/j964Zz2C/craving-pied-vercel-app.png)
+![https://i.ibb.co.com/B2JCsRm7/craving-SS.jpg)
 
 
 
