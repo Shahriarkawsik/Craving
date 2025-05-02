@@ -79,7 +79,7 @@ export default function Home() {
           city: city.toLowerCase(),
         });
         setRestaurants(restaurantsData);
-        console.log("result ======", restaurantsData);
+        // console.log("result ======", restaurantsData);
       } catch (error) {
         console.log(error);
       }

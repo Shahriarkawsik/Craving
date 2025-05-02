@@ -56,8 +56,7 @@ export default function CartPage() {
     fetchCartItems();
   }, [session]);
   const handleDeleteCartItem = async (id: string): Promise<void> => {
-    console.log(id);
-    Swal.fire({
+      Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -200,7 +199,7 @@ export default function CartPage() {
             Total Amount
           </h3>
           <p className="text-2xl font-bold text-green-600">
-            BDT{totalAmount.toFixed(2)}
+            {totalAmount.toFixed(2)} BDT 
           </p>
           <button
             onClick={initiatePayment}

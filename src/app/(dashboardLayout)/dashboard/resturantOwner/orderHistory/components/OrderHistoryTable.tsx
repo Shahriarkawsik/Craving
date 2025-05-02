@@ -1,5 +1,7 @@
 import Image from "next/image";
-import { CommonPayload } from "@/app/action/auth/allApi";
+import { CommonPayload, restaurantOrderHistoryStatus } from "@/app/action/auth/allApi";
+import { toast } from "react-toastify";
+import { ObjectId } from "mongodb";
 
 // interface ItemData {
 //   // id: number;
@@ -29,6 +31,21 @@ const statusColors: Record<string, string> = {
 };
 
 const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
+
+  const handleStatus = async (e: React.ChangeEvent<HTMLSelectElement>, _id: string | ObjectId) => {
+    // console.log(e.target.value);
+    const updateStatus = e.target.value;
+    // console.log(updateStatus)
+    // console.log(updateData);
+    const result = await restaurantOrderHistoryStatus(updateStatus, _id);
+    if ((result?.modifiedCount ?? 0) > 0) {
+      toast.success(`Food is ${updateStatus}`);
+    } 
+  };
+
+
+
+
   return (
     <div className="overflow-auto w-full">
       <table className="table w-full border-collapse border border-gray-300">
@@ -71,6 +88,8 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
                     </p>)
                     :
                     <select
+                      disabled={order.status === 'preparing'}
+                      onChange={(e) => handleStatus(e, order._id as string | ObjectId)}
                       defaultValue={order.status}
                       className={`px-2 py-1 w-24 rounded-full text-sm font-medium ${statusColors[order?.status ?? "Pending"]}`}
                     >

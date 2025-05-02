@@ -4,6 +4,8 @@ import dbConnect from "@/lib/dbConnect";
 import { Collection } from "mongodb";
 // import bcrypt, { decodeBase64 } from "bcryptjs";
 import bcrypt from "bcryptjs";
+import { CravingRevenueDataTypes, CravingTopFoodCategoryDataTypes, UserCountTypes } from "@/app/(dashboardLayout)/dashboard/admin/statistics/page";
+
 
 export interface CommonPayload {
   name?: string;
@@ -59,6 +61,7 @@ export interface CommonPayload {
   restaurantTotalOrder?: number;
   restaurantCompleteOrder?: number;
   restaurantPendingOrder?: number;
+  restaurantStatus?: string;
   // food available or not
   isAvailable?: boolean;
   // restaurant information
@@ -83,7 +86,7 @@ export interface CommonPayload {
   }[];
   userName?: string
 
-  
+
 };
 
 // FoodDetails interface use in getAllFood(), getFeaturedFood() - added by Jakaria
@@ -592,6 +595,7 @@ export const createRestaurant = async (
     restaurantTotalOrder: payload.restaurantTotalOrder,
     restaurantCompleteOrder: payload.restaurantCompleteOrder,
     restaurantPendingOrder: payload.restaurantPendingOrder,
+    restaurantStatus: payload.restaurantStatus
   });
 };
 /* Get all Restaurant Data */
@@ -623,6 +627,7 @@ export const getRestaurant = async (): Promise<CommonPayload[]> => {
         restaurantTotalOrder: resturant.restaurantTotalOrder || 0,
         restaurantCompleteOrder: resturant.restaurantCompleteOrder || 0,
         restaurantPendingOrder: resturant.restaurantPendingOrder || 0,
+        restaurantStatus: resturant.restaurantStatus
       })
     );
     return formattedResturantData;
@@ -638,6 +643,23 @@ export const deleteRestaurant = async (id: string): Promise<void> => {
     db.collection("restaurant");
   await restaurantCollection.deleteOne({ _id: new ObjectId(id).toString() });
 };
+
+// update restaurent status - added by jakaria
+export const updateRestaurantStatus = async (id: string, status: string) => {
+  const db = await dbConnect();
+  const riderCollection = db.collection("restaurant");
+
+  const result = await riderCollection.updateOne(
+    { _id: new ObjectId(id) },
+    {
+      $set: {
+        restaurantStatus: status
+      }
+    }
+  );
+
+  return result;
+}
 
 // get restaurant specific owner
 export const getRestaurantByEmail = async (
@@ -713,7 +735,7 @@ export const updateRiderStatus = async (id: string, status: string) => {
   const db = await dbConnect();
   const riderCollection = db.collection("rider");
   const result = await riderCollection.updateOne(
-    {_id: new ObjectId(id)},
+    { _id: new ObjectId(id) },
     {
       $set: {
         riderStatus: status
@@ -920,7 +942,7 @@ export const deleteCartItem = async (
   try {
     const db = await dbConnect();
     const cartCollection = db.collection("cart");
-    console.log(payload);
+    // console.log(payload);
     const result = await cartCollection.deleteOne({
       _id: new ObjectId(payload.id),
     });
@@ -1199,3 +1221,175 @@ export const getSingleFoodDetails = async (
     })),
   };
 };
+
+// for top catagory pie chart in dashboard - added by jakaria
+export const getTopCategory = async (): Promise<CravingTopFoodCategoryDataTypes[]> => {
+  const db = await dbConnect();
+  const reviewCollection = db.collection("reviews");
+
+  const result = await reviewCollection.aggregate([
+    {
+      $addFields: {
+        foodObjectId: { $toObjectId: "$food_id" }
+      }
+    },
+    {
+      $lookup: {
+        from: "food",
+        localField: "foodObjectId",
+        foreignField: "_id",
+        as: "foodDetails"
+      }
+    },
+    { $unwind: "$foodDetails" },
+    {
+      $group: {
+        _id: "$foodDetails.category",
+        value: { $sum: 1 }
+      }
+    },
+    { $sort: { value: -1 } },
+    { $limit: 4 },
+    {
+      $project: {
+        _id: 0,
+        category: "$_id",
+        value: 1
+      }
+    }
+  ]).toArray();
+
+  return result as CravingTopFoodCategoryDataTypes[];
+};
+
+// get revenue expense data - added by jakaria
+export const getRevenueExpenseData = async (): Promise<CravingRevenueDataTypes[]> => {
+  const db = await dbConnect();  
+  const revenues = db.collection("revenues");
+
+  const result = await revenues.aggregate([
+    {
+      $addFields: {
+        createdAtDate: { $toDate: "$created_at" }
+      }
+    },
+    {
+      $project: {
+        monthNum: { $month: "$createdAtDate" },
+        monthName: { $dateToString: { format: "%B", date: "$createdAtDate" } },
+        revenue: 1,
+        expense: 1
+      }
+    },
+    {
+      $group: {
+        _id: "$monthNum",
+        month: { $first: "$monthName" },
+        revenue: { $sum: "$revenue" },
+        expense: { $sum: "$expense" }
+      }
+    },
+    {
+      $sort: {
+        _id: 1 // Sort by numeric month
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        month: 1,
+        revenue: 1,
+        expense: 1
+      }
+    }
+  ]).toArray();
+
+  return result.map(item => ({
+    month: item.month,
+    revenue: item.revenue,
+    expense: item.expense
+  }));
+};
+
+// total user count get base on role - added by jakaria
+export const getUserCounts = async (): Promise<UserCountTypes> => {
+  const db = await dbConnect();
+  const users = db.collection("users");
+
+  const result = await users.aggregate([
+    {
+      $group: {
+        _id: "$role",
+        count: { $sum: 1 }
+      }
+    }
+  ]).toArray();
+
+  let total_customer = 0;
+  let total_rider = 0;
+  let total_owner = 0;
+
+  result.forEach(item => {
+    if (item._id === "User") total_customer = item.count;
+    else if (item._id === "Owner") total_owner = item.count;
+    else if (item._id === "Rider") total_rider = item.count;
+  });
+
+  return { total_customer, total_owner, total_rider };
+};
+
+// reusable function for total balance - added by jakarai
+export const getTotalBalanceByField = async (collectionName: string, sumField: string): Promise<number> => {
+  const db = await dbConnect();
+  const collection = db.collection(collectionName);
+
+  const result = await collection.aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: `$${sumField}` }
+      }
+    }
+  ]).toArray();
+
+  return result[0]?.total || 0;
+};
+// Update Restaurant Order History Status and insert order in availableOrders collection
+export const restaurantOrderHistoryStatus = async (updateStatus: string, orderId: string | ObjectId) => {
+  const db = await dbConnect();
+  const orderCollection = db.collection("order");
+  const availableOrderCollection = db.collection("availableOrders");
+  const result = await orderCollection.updateOne(
+    { _id: new ObjectId(orderId) },
+    { $set: { status: updateStatus } }
+  );
+
+  if (result.modifiedCount > 0) {
+    const findOrder = await orderCollection.findOne({ _id: new ObjectId(orderId) });
+    if (findOrder) {
+      const orderData = {
+        orderId: findOrder._id.toString(),
+        restaurant_id: findOrder.restaurant_id,
+        userEmail: findOrder.userEmail,
+        totalAmount: findOrder.totalAmount,
+        restaurantEmail: findOrder.restaurantEmail,
+        status: findOrder.status,
+        orderDate: findOrder.date,
+        paymentStatus: findOrder.paymentStatus,
+        deliveryAddress: findOrder.deliveryAddress,
+        orderItems: findOrder.orderItems,
+        userName: findOrder.userName,
+        userImage: findOrder.userImage,
+      }
+
+      const insertData = await availableOrderCollection.insertOne(orderData);
+      console.log("Order inserted into availableOrders:", insertData);
+
+    }
+      
+
+    return result;
+    // console.log(updateStatus, orderId);
+  }
+}
+
