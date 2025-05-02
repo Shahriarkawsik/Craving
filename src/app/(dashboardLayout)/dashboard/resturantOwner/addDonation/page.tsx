@@ -38,8 +38,8 @@ const AddFood = () => {
     fetchDonationsRestaurant();
   }, [session]);
 
-  console.log(getRestaurant[0]?.restaurantName);
-  console.log(getRestaurant[0]?.restaurantOwnerEmail);
+  // console.log(getRestaurant[0]?.restaurantName);
+  // console.log(getRestaurant[0]?.restaurantOwnerEmail);
 
   type Inputs = {
     id: string;

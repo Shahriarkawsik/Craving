@@ -98,4 +98,4 @@ CRAVING </h1>
   <p>The dashboard provides an overview of platform activity based on user roles. Restaurant owners can manage their menu and track sales. Riders can view assigned deliveries. Admins have full control to manage users, food listings, orders, and campaigns.</p>
 </div>
 
-
+</div>
