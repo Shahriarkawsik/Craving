@@ -35,7 +35,7 @@ const OrderHistoryTable: React.FC<OrderHistory> = ({ orderHistory }) => {
   const handleStatus = async (e: React.ChangeEvent<HTMLSelectElement>, _id: string | ObjectId) => {
     // console.log(e.target.value);
     const updateStatus = e.target.value;
-    console.log(updateStatus)
+    // console.log(updateStatus)
     // console.log(updateData);
     const result = await restaurantOrderHistoryStatus(updateStatus, _id);
     if ((result?.modifiedCount ?? 0) > 0) {

@@ -20,7 +20,7 @@ interface FormData {
 const ContactUs = () => {
 
   const {data : session }=useSession();
-  console.log(session,"this is a session form")
+  // console.log(session,"this is a session form")
 
    const [formData, setFormData] = useState<FormData>({
     name: "",

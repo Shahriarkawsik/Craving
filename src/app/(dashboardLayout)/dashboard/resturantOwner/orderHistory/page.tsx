@@ -21,7 +21,7 @@ const OrderHistory: React.FC = () => {
     fetchData();
   }, [session]);
 
-  console.log(session?.user?.email);
+  // console.log(session?.user?.email);
 
   // separate based on status
   const pendingOrders = orderData.filter((order) => order.status === "Pending");

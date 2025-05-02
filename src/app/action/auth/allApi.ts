@@ -942,7 +942,7 @@ export const deleteCartItem = async (
   try {
     const db = await dbConnect();
     const cartCollection = db.collection("cart");
-    console.log(payload);
+    // console.log(payload);
     const result = await cartCollection.deleteOne({
       _id: new ObjectId(payload.id),
     });
