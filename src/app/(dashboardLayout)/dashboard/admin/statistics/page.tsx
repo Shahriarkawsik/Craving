@@ -54,7 +54,7 @@ const AdminStatics = () => {
                 setIsLoading(true);
                 const data = await getRevenueExpenseData();
                 setCravingRevenueData(data);
-                console.log(data);
+                // console.log(data);
             } catch (e) {
                 console.log('Something went wrong', e);
             } finally {

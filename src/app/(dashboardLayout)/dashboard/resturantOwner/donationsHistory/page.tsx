@@ -26,7 +26,7 @@ const DonationsHistory = () => {
     };
     fetchDonationsAllData();
   }, [session?.user?.email]);
-  console.log(allDonationData);
+  // console.log(allDonationData);
   return (
     <div className="overflow-auto w-full">
       <table className="table w-full border-collapse border border-gray-300">

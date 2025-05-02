@@ -35,7 +35,7 @@ const ShowDonationCard = () => {
 
     fetchDonations();
   }, []);
-  console.log(donations);
+  // console.log(donations);
 
   if (loading) {
     return <div className="flex items-center justify-center"><Spinner /></div>
