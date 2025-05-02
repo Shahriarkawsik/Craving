@@ -174,7 +174,7 @@ http://localhost:3000
 ---
 ## 📸 Screenshots
 
-![https://i.ibb.co.com/B2JCsRm7/craving-SS.jpg)
+![Home page of Craving](https://i.ibb.co.com/B2JCsRm7/craving-SS.jpg)
 
 
 
