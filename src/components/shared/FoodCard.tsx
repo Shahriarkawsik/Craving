@@ -22,6 +22,8 @@ const FoodCard = ({ food }: Props) => {
     const { data } = useSession();
     const router = useRouter();
 
+    console.log(food);
+
     const cartFood: CartFood = { ...food, user_email: data?.user?.email, created_at: new Date() };
 
     // handle add to cart 

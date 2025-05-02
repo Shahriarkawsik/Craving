@@ -88,6 +88,7 @@ export default function CartPage() {
   };
 
   const totalAmount = cartItems.reduce((total, item) => total + item.price, 0);
+  console.log(cartItems);
 
   // order collection data for payment
   const placedOrder: object = {
