@@ -50,7 +50,7 @@ const Profile = () => {
   return (
     <div>
       {/* Banner section */}
-      <Banner image={bannerImage.src} title="Your Profile" subtitle="" />
+      <Banner image={bannerImage.src} title=""  subtitle="" />
 
       {status === 'loading' ? <p className="text-center my-10">Profile is Loading...</p> : (
         <>
@@ -62,10 +62,11 @@ const Profile = () => {
                 alt={session.user.name || "Profile Image"}
                 width={200}
                 height={200}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-md ring-4 ring-white p-2 bg-white"
+                className="absolute left-1/5 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-md ring-4 ring-white p-2 bg-white"
               />
             )}
           </div>
+        
 
           {/* form data */}
           <div className="relative w-full mx-auto mt-28 mb-8 border-2 border-slate-200 max-w-lg p-8 space-y-6 bg-white shadow-lg rounded-2xl">
