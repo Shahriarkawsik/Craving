@@ -32,9 +32,9 @@ export default function AllFoodsPage() {
   const [foodCategory, setFoodCategory] = useState<string>(queryCategory)
   const [foodSort, setFoodSort] = useState<string>('')
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
   const fetchData = async (query = "", category = queryCategory, sort = ""): Promise<void> => {
     try {
