@@ -107,17 +107,17 @@ export default function Home() {
 
       {/* Category Section */}
       <Category />
-      
-    
+
+
       {/* Featured Food */}
       <FeaturedFood />
       {/* top restaurant */}
       <TopRestaurant restaurants={restaurants} />
-  
+
       {/* food donation  */}
       <ShowDonationCard></ShowDonationCard>
-          {/* Cities We Serve Section */}
-          <CitiesWeServe></CitiesWeServe>
+      {/* Cities We Serve Section */}
+      <CitiesWeServe></CitiesWeServe>
       {/* faq section */}
       <FAQ></FAQ>
       {/* Support */}
