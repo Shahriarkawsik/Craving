@@ -13,7 +13,7 @@ const Banner = () => {
       <video
         src="/foodBanner.mp4" // Put the video inside the public folder
         autoPlay
-        loop
+        // loop
         muted
         playsInline
         className="absolute top-0 left-0 w-full h-full object-cover"
