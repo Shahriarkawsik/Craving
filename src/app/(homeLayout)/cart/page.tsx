@@ -1,7 +1,11 @@
 "use client";
 import { TiDelete } from "react-icons/ti";
-import React, { useEffect, useState } from "react";
-import { addToOrder, deleteCartItem, deleteOrderCartByEmail, getOrderCartByEmail } from "@/app/action/auth/allApi";
+import React, { useState } from "react";
+import {
+  addToOrder,
+  deleteCartItem,
+  deleteOrderCartByEmail,
+} from "@/app/action/auth/allApi";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import {
@@ -29,7 +33,7 @@ interface CartItem {
   created_at: Date | null;
   owner_email: string | null;
   user_email: string;
-  userImage?: string;  
+  userImage?: string;
 }
 interface DeleteResponse {
   deletedCount: number;
@@ -40,23 +44,23 @@ export default function CartPage() {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [address, setAddress] = useState<string>("");
-  //   const [loading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      if (session?.user?.email) {
-        try {
-          const items = await getOrderCartByEmail(session.user.email);
-          setCartItems(items);
-          //   setLoading(false);
-        } catch (error) {
-          console.error("🚨 Error fetching cart items:", error);
-        }
-      }
-    };
-    fetchCartItems();
-  }, [session]);
+    // const [loading, setLoading] = useState<boolean>(true);
+  // useEffect(() => {
+  //   const fetchCartItems = async () => {
+  //     if (session?.user?.email) {
+  //       try {
+  //         const items = await getOrderCartByEmail(session.user.email);
+  //         setCartItems(items);
+  //         //   setLoading(false);
+  //       } catch (error) {
+  //         console.error("🚨 Error fetching cart items:", error);
+  //       }
+  //     }
+  //   };
+  //   fetchCartItems();
+  // }, [session]);
   const handleDeleteCartItem = async (id: string): Promise<void> => {
-      Swal.fire({
+    Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -98,10 +102,8 @@ export default function CartPage() {
     paymentStatus: "Pending",
     deliveryAddress: address,
     userImage: session?.user?.image,
-    orderItems: cartItems
-  }
-
-
+    orderItems: cartItems,
+  };
 
   const initiatePayment = async () => {
     try {
@@ -128,7 +130,6 @@ export default function CartPage() {
         }
         // delete the cart items after payment
         await deleteOrderCartByEmail(session.user.email);
-
       } else {
         console.error("No URL received from payment gateway.");
       }
@@ -138,7 +139,11 @@ export default function CartPage() {
   };
   return (
     <div>
-      <Banner image={bannerImage.src} title={`Your Cart`} subtitle={`See your added items.`} />
+      <Banner
+        image={bannerImage.src}
+        title={`Your Cart`}
+        subtitle={`See your added items.`}
+      />
 
       {/* Responsive layout: mobile = column, desktop = grid */}
       <div className="w-11/12 max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-4 my-10">
@@ -191,7 +196,12 @@ export default function CartPage() {
         <div className="col-span-1 md:col-span-4 bg-gray-50 p-4 rounded-md shadow-sm flex flex-col justify-center">
           {/* delivery address */}
           <form>
-            <input placeholder="Enter your address" onChange={(e) => setAddress(e.target.value)} className="input input-bordered w-full max-w-sm p-2 border-2 rounded-md border-orange-300 mb-5" type="text" />
+            <input
+              placeholder="Enter your address"
+              onChange={(e) => setAddress(e.target.value)}
+              className="input input-bordered w-full max-w-sm p-2 border-2 rounded-md border-orange-300 mb-5"
+              type="text"
+            />
           </form>
 
           {/* total amount to pay */}
@@ -199,7 +209,7 @@ export default function CartPage() {
             Total Amount
           </h3>
           <p className="text-2xl font-bold text-green-600">
-            {totalAmount.toFixed(2)} BDT 
+            {totalAmount.toFixed(2)} BDT
           </p>
           <button
             onClick={initiatePayment}
@@ -212,4 +222,3 @@ export default function CartPage() {
     </div>
   );
 }
-

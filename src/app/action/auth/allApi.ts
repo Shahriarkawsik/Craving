@@ -896,26 +896,26 @@ export const getSingleFood = async (id: string) => {
 
 
 // showing cart item by email
-export const getOrderCartByEmail = async (email: string) => {
-  const db = await dbConnect();
-  const cartCollection = db.collection("cart");
+// export const getOrderCartByEmail = async (email: string) => {
+//   const db = await dbConnect();
+//   const cartCollection = db.collection("cart");
 
-  const cartItems = await cartCollection.find({ user_email: email }).toArray();
+//   const cartItems = await cartCollection.find({ user_email: email }).toArray();
 
-  return cartItems.map((item) => ({
-    _id: item._id.toString(),
-    restaurant_id: item.restaurant_id?.toString() || null,
-    foodName: item.foodName || "",
-    description: item.description || "",
-    price: item.price || 0,
-    category: item.category || "",
-    image: item.image || "",
-    is_available: item.is_available ?? true,
-    created_at: item.created_at ? new Date(item.created_at) : null,
-    owner_email: item.owner_email ?? null,
-    user_email: item.user_email || "",
-  }));
-};
+//   return cartItems.map((item) => ({
+//     _id: item._id.toString(),
+//     restaurant_id: item.restaurant_id?.toString() || null,
+//     foodName: item.foodName || "",
+//     description: item.description || "",
+//     price: item.price || 0,
+//     category: item.category || "",
+//     image: item.image || "",
+//     is_available: item.is_available ?? true,
+//     created_at: item.created_at ? new Date(item.created_at) : null,
+//     owner_email: item.owner_email ?? null,
+//     user_email: item.user_email || "",
+//   }));
+// };
 
 
 // delete cart item by email
