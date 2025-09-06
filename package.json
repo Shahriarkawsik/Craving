@@ -47,7 +47,7 @@
     "recharts": "^2.15.1",
     "sslcommerz": "^1.7.0",
     "sslcommerz-lts": "^1.1.0",
-    "sweetalert2": "^11.17.2",
+    "sweetalert2": "^11.22.4",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7"
   },
